@@ -7,6 +7,7 @@ package gimnasio.vista;
 
 
 import com.sun.jna.Native;
+import gimnasio.controlador.ControladorRele;
 import gimnasio.interfaces.GestorRele;
 import java.awt.Dimension;
 import java.util.logging.Level;
@@ -21,20 +22,14 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
-    jInternalLogueo panelLogin = new jInternalLogueo();
-    jInternalProductos panelProductos = new jInternalProductos();
-    jInternalInformes panelInformes = new jInternalInformes();
-    jInternalClases panelClases = new jInternalClases();
-    jTemporal panelTemporal = new jTemporal();
-    jInternalUsuarios panelUsuarios = new jInternalUsuarios();
+//    jInternalLogueo panelLogin = new jInternalLogueo();
+//    jInternalProductos panelProductos = new jInternalProductos();
+//    jInternalInformes panelInformes = new jInternalInformes();
+//    jInternalClases panelClases = new jInternalClases();
+//    jTemporal panelTemporal = new jTemporal();
+//    jInternalUsuarios panelUsuarios = new jInternalUsuarios();
     
-    boolean mostrar = false;
-
-    GestorRele gestorRele = (GestorRele)Native.load("usb_relay_device", GestorRele.class);
-    int res = gestorRele.usb_relay_init();
-    GestorRele.usb_relay_device_info.ByReference disp = gestorRele.usb_relay_device_enumerate();
-    int handle = gestorRele.usb_relay_device_open(disp);
-    
+    boolean mostrar = false;    
     
     public void actualizarTabla(){
     }
@@ -53,28 +48,25 @@ public class MainMenu extends javax.swing.JFrame {
         this.jBtnProductos.setEnabled(mostrar);
         this.jBtnSocios.setEnabled(mostrar);
         
-        jDesktopPane1.add(panelTemporal);
-        jDesktopPane1.add(panelLogin);
-        jDesktopPane1.add(panelInformes);
-        jDesktopPane1.add(panelProductos);
-        jDesktopPane1.add(panelClases);
-        jDesktopPane1.add(panelUsuarios);
+//        jDesktopPane1.add(panelTemporal);
+//        jDesktopPane1.add(panelLogin);
+//        jDesktopPane1.add(panelInformes);
+//        jDesktopPane1.add(panelProductos);
+//        jDesktopPane1.add(panelClases);
+//        jDesktopPane1.add(panelUsuarios);
         
         this.setBtnsVisibility(false);
         
         Dimension desktopSize = jDesktopPane1.getSize();
-        Dimension loginSize = panelLogin.getSize();
+//        Dimension loginSize = panelLogin.getSize();
        
-        panelLogin.setLocation((desktopSize.width - loginSize.width)/2, (desktopSize.height - loginSize.height)/2);
-        panelLogin.setVisible(true);
+//        panelLogin.setLocation((desktopSize.width - loginSize.width)/2, (desktopSize.height - loginSize.height)/2);
+//        panelLogin.setVisible(true);
     }
     
-    public javax.swing.JTable getTablaUsuarios(){
-       // return this.jTable1;
-    }
     
     public jInternalLogueo getjInternalLogueo(){
-        return this.panelLogin;
+//      return this.panelLogin;
     }
     
     /**
@@ -93,11 +85,13 @@ public class MainMenu extends javax.swing.JFrame {
         jBtnClases = new javax.swing.JButton();
         jBtnInformes = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtHabilitado = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -111,7 +105,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(2, 2));
 
-        jBtnSocios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/users(1).png"))); // NOI18N
         jBtnSocios.setText("Usuarios");
         jBtnSocios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,7 +113,6 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(jBtnSocios);
 
-        jBtnProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/layers.png"))); // NOI18N
         jBtnProductos.setText("Productos/Ventas");
         jBtnProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,7 +121,6 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(jBtnProductos);
 
-        jBtnClases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/notebook.png"))); // NOI18N
         jBtnClases.setText("Clases/Cupos");
         jBtnClases.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,7 +129,6 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(jBtnClases);
 
-        jBtnInformes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/calendar.png"))); // NOI18N
         jBtnInformes.setText("Informes/Economia");
         jBtnInformes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,14 +139,14 @@ public class MainMenu extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.EAST);
 
-        jButton1.setText("<html><center>ABRIR<br>PUERTA</center></html>");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Registro de Acceso"));
+        jPanel6.setMaximumSize(new java.awt.Dimension(500, 110));
+        jPanel6.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(400, 110));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(400, 110));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 110));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -171,44 +161,36 @@ public class MainMenu extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        jLabel1.setText("CARA DEL CHABON");
+        jPanel6.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel6, java.awt.BorderLayout.CENTER);
+
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setText("FOTOGRAFIA CLIENTE");
+        jPanel5.add(jLabel1, java.awt.BorderLayout.CENTER);
 
         txtHabilitado.setEditable(false);
+        jPanel5.add(txtHabilitado, java.awt.BorderLayout.SOUTH);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtHabilitado))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtHabilitado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
+        jButton1.setText("<HTML><CENTER>ABRIR<BR>PUERTA</CENTER></HTML>");
+        jButton1.setMaximumSize(new java.awt.Dimension(73, 20));
+        jButton1.setMinimumSize(new java.awt.Dimension(73, 20));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton1, java.awt.BorderLayout.EAST);
+
+        jPanel4.add(jPanel5, java.awt.BorderLayout.EAST);
 
         jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jDesktopPane1.setBackground(javax.swing.UIManager.getDefaults().getColor("ComboBox.selectionBackground"));
-        jDesktopPane1.setMinimumSize(new java.awt.Dimension(800, 400));
+        jDesktopPane1.setMinimumSize(new java.awt.Dimension(600, 400));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -218,12 +200,13 @@ public class MainMenu extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 652, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
-        jMenuArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/list.png"))); // NOI18N
         jMenuArchivo.setText("Archivo");
 
         jMiArchivo1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
@@ -250,37 +233,24 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMiArchivo1ActionPerformed
 
     private void jBtnInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnInformesActionPerformed
-        panelInformes.setVisible(true);
+//        panelInformes.setVisible(true);
     }//GEN-LAST:event_jBtnInformesActionPerformed
 
     private void jBtnClasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnClasesActionPerformed
-        panelTemporal.setVisible(true);
+//        panelTemporal.setVisible(true);
     }//GEN-LAST:event_jBtnClasesActionPerformed
 
     private void jBtnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnProductosActionPerformed
-        panelProductos.setVisible(true);
+//        panelProductos.setVisible(true);
     }//GEN-LAST:event_jBtnProductosActionPerformed
 
     private void jBtnSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSociosActionPerformed
-        panelUsuarios.setVisible(true);
+//        panelUsuarios.setVisible(true);
     }//GEN-LAST:event_jBtnSociosActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        res = gestorRele.usb_relay_device_open_one_relay_channel(handle,1);
-        System.out.println(res);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        res = gestorRele.usb_relay_device_close_one_relay_channel(handle,1);
-        System.out.println(res);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Thread t1 = new Thread(new ControladorRele());
+        t1.start();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -335,6 +305,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField txtHabilitado;
