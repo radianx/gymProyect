@@ -152,7 +152,7 @@ public class jEscaneoHuellas extends javax.swing.JFrame {
     public void setTemplate(DPFPTemplate template){
         DPFPTemplate old = this.planilla;
         this.planilla = template;
-        firePropertyChange(TEMPLATE_PROPERTY, old, template);
+        firePropertyChange(TEMPLATE_PROPERTY, old, template); 
     }
     
     public void ProcesarCaptura(DPFPSample sample){
