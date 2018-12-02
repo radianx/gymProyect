@@ -34,7 +34,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Family
  */
-public class ControladorHuella {
+public class ControladorHuella{
 
     //Varible que permite iniciar el dispositivo de lector de huella conectado
     // con sus distintos metodos.
@@ -170,7 +170,6 @@ public class ControladorHuella {
     public void EstadoHuellas(){
         EnviarTexto("Muestra de Huellas Necesarias para Guardar Template " + reclutador.getFeaturesNeeded());
     }
-    
     
     public void start(){
         lector.startCapture();

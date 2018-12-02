@@ -15,6 +15,7 @@ import com.digitalpersona.onetouch.processing.DPFPFeatureExtraction;
 import com.digitalpersona.onetouch.processing.DPFPImageQualityException;
 import com.digitalpersona.onetouch.verification.DPFPVerification;
 import com.digitalpersona.onetouch.verification.DPFPVerificationResult;
+import gimnasio.controlador.ControladorRele;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
@@ -24,6 +25,8 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -36,11 +39,12 @@ public class jDialogHuella extends javax.swing.JDialog {
     private DPFPFeatureSet featuresvertification;
     private DPFPTemplate planilla;
     private String nombre;
+    private ControladorRele controlRele = new ControladorRele();
    
     public jDialogHuella(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+        controlRele.start();
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e){
@@ -119,7 +123,7 @@ public class jDialogHuella extends javax.swing.JDialog {
             this.btnVerificar.grabFocus();
     }
     
-    public void verificarHuella(){
+    public void verificarHuella() throws InterruptedException{
      
             //Crea una nueva plantilla a partir de la guardada en la base de datos
             DPFPTemplate referenceTemplate = planilla;
@@ -132,6 +136,7 @@ public class jDialogHuella extends javax.swing.JDialog {
             
             if(result.isVerified()){
                 JOptionPane.showMessageDialog(null, "La huella capturada coincide con la de "+nombre, "Verificacion de huella", JOptionPane.INFORMATION_MESSAGE);           
+                controlRele.abrirPuerta();
             } else{
                 JOptionPane.showMessageDialog(null, "No corresponde la huella con "+ nombre, "Verificacion de huella", JOptionPane.ERROR_MESSAGE);
             } 
@@ -262,7 +267,11 @@ public class jDialogHuella extends javax.swing.JDialog {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnVerificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerificarActionPerformed
-        verificarHuella();
+        try {
+            verificarHuella();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(jDialogHuella.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnVerificarActionPerformed
 
     /**
