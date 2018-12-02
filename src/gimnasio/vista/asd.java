@@ -40,7 +40,7 @@ public class asd extends javax.swing.JFrame {
         
         System.out.println(image.getWidth() + " x " + image.getHeight());
         
-        BufferedImage resizeImage = resizeImage(image, type, 180,180);
+        BufferedImage resizeImage = resizeImage(image, type, 170,125);
         
         System.out.println(resizeImage.getWidth() + " x " + resizeImage.getHeight());
         
@@ -50,7 +50,11 @@ public class asd extends javax.swing.JFrame {
         panel.setImageSizeDisplayed(true);
         panel.setMirrored(true);
         
-        WebcamUtils.capture(webcam, "TEST1ADRIAN", ImageUtils.FORMAT_PNG);
+        try {
+            ImageIO.write(resizeImage, "png", new File("C:\\Users\\Family\\Desktop\\test.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(asd.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         this.add(panel);
         this.pack();
