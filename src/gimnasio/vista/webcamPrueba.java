@@ -8,11 +8,7 @@ package gimnasio.vista;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
-import com.github.sarxos.webcam.WebcamUtils;
-import com.github.sarxos.webcam.util.ImageUtils;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,37 +20,21 @@ import javax.imageio.ImageIO;
  *
  * @author Family
  */
-public class asd extends javax.swing.JFrame {
-
+public class webcamPrueba extends javax.swing.JFrame {
         
-    public asd() {
+        
+    Webcam webcam = Webcam.getDefault();
+        
+    public webcamPrueba() {
         initComponents();
-        
-        
-        Webcam webcam = Webcam.getDefault();
         webcam.setViewSize(WebcamResolution.VGA.getSize());
         webcam.open();
-        
-        BufferedImage image = webcam.getImage();
-        int type = image.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : image.getType();
-        
-        System.out.println(image.getWidth() + " x " + image.getHeight());
-        
-        BufferedImage resizeImage = resizeImage(image, type, 170,125);
-        
-        System.out.println(resizeImage.getWidth() + " x " + resizeImage.getHeight());
         
         WebcamPanel panel = new WebcamPanel(webcam);
         panel.setFPSDisplayed(true);
         panel.setDisplayDebugInfo(true);
         panel.setImageSizeDisplayed(true);
         panel.setMirrored(true);
-        
-        try {
-            ImageIO.write(resizeImage, "png", new File("C:\\Users\\Family\\Desktop\\test.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(asd.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
         this.add(panel);
         this.pack();
@@ -78,10 +58,32 @@ public class asd extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGuardar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnGuardar.setText("Guardar Imagen");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnGuardar, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        BufferedImage image = webcam.getImage();
+        int type = image.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : image.getType();
+  
+        BufferedImage resizeImage = resizeImage(image, type, 170,125);
+        try {
+            ImageIO.write(resizeImage, "png", new File("C:\\Users\\Family\\Desktop\\test.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(webcamPrueba.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -100,24 +102,26 @@ public class asd extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(asd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(webcamPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(asd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(webcamPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(asd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(webcamPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(asd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(webcamPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new asd().setVisible(true);
+                new webcamPrueba().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardar;
     // End of variables declaration//GEN-END:variables
 }

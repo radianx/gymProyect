@@ -5,6 +5,7 @@
  */
 package gimnasio.controlador;
 
+import herramientas.excepciones.Notificaciones;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
