@@ -40,6 +40,31 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-reverse-engineering>
-  <schema-selection match-catalog="test"/>
+  <schema-selection match-catalog="gimnasio" match-schema="public"/>
+  <table-filter match-name="alumno"/>
+  <table-filter match-name="cargo"/>
+  <table-filter match-name="usuario"/>
+  <table-filter match-name="cajadiaria"/>
+  <table-filter match-name="cuota"/>
+  <table-filter match-name="asistencia_alumno"/>
   <table-filter match-name="profesor"/>
+  <table-filter match-name="profesormodalidad"/>
+  <table-filter match-name="clase"/>
+  <table-filter match-name="clase_alumno"/>
+  <table-filter match-name="asistencia_profesor"/>
+  <table-filter match-name="obrasocial"/>
+  <table-filter match-name="lectorhuella"/>
+  <table-filter match-name="pago_profesor"/>
+  <table-filter match-name="sector"/>
+  <table-filter match-name="modalidad"/>
+  <table-filter match-name="documentacion"/>
+  <table-filter match-name="saldo_cuota"/>
+  <table-filter match-name="modulo"/>
+  <table-filter match-name="contacto"/>
+  <table-filter match-name="cobro_cuota"/>
+  <table-filter match-name="sistema"/>
+  <table-filter match-name="saldo_pago_profesor"/>
+  <table-filter match-name="inscripcion"/>
+  <table-filter match-name="usuario_modulo"/>
+  <table-filter match-name="personal"/>
 </hibernate-reverse-engineering>

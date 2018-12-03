@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="gimnasio.modelo.Obrasocial" table="obrasocial" schema="public" optimistic-lock="version">
+        <id name="idobrasocial" type="int">
+            <column name="idobrasocial" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="contacto" class="gimnasio.modelo.Contacto" fetch="select">
+            <column name="idcontacto" />
+        </many-to-one>
+        <property name="nombreobrasocial" type="string">
+            <column name="nombreobrasocial" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

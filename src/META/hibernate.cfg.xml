@@ -41,11 +41,34 @@ Contributor(s):
 -->
 <hibernate-configuration>
   <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/test</property>
-    <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">admin</property>
-    <mapping resource="/Profesor.hbm.xml"/>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/gimnasio</property>
+    <property name="hibernate.connection.username">postgres</property>
+    <property name="hibernate.connection.password">C-bu464401</property>
+    <mapping resource="gimnasio/modelo/AsistenciaAlumno.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Documentacion.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/ClaseAlumno.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/SaldoCuota.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Modulo.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/SaldoPagoProfesor.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Sistema.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Cargo.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Cajadiaria.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Usuario.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Inscripcion.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Contacto.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Modalidad.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Sector.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Alumno.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Obrasocial.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/PagoProfesor.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Profesor.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Clase.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Cuota.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/AsistenciaProfesor.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Profesormodalidad.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/CobroCuota.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Lectorhuella.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

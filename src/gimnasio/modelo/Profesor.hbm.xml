@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="gimnasio.modelo.Profesor" table="profesor" schema="public" optimistic-lock="version">
+        <id name="idprofesor" type="int">
+            <column name="idprofesor" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="usuario" class="gimnasio.modelo.Usuario" fetch="select">
+            <column name="idusuario" not-null="true" />
+        </many-to-one>
+        <property name="idcontacto" type="int">
+            <column name="idcontacto" not-null="true" />
+        </property>
+        <property name="idobrasocial" type="java.lang.Integer">
+            <column name="idobrasocial" />
+        </property>
+        <property name="nombreprofesor" type="string">
+            <column name="nombreprofesor" not-null="true" />
+        </property>
+        <property name="apellidoprofesor" type="string">
+            <column name="apellidoprofesor" not-null="true" />
+        </property>
+        <property name="edad" type="java.lang.Integer">
+            <column name="edad" />
+        </property>
+        <property name="peso" type="java.lang.Double">
+            <column name="peso" precision="17" scale="17" />
+        </property>
+        <property name="altura" type="java.lang.Double">
+            <column name="altura" precision="17" scale="17" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" />
+        </property>
+        <property name="fechacumpleanios" type="date">
+            <column name="fechacumpleanios" length="13" />
+        </property>
+        <set name="pagoProfesors" table="pago_profesor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idprofesor" not-null="true" />
+            </key>
+            <one-to-many class="gimnasio.modelo.PagoProfesor" />
+        </set>
+        <set name="profesormodalidads" table="profesormodalidad" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idprofesor" not-null="true" />
+            </key>
+            <one-to-many class="gimnasio.modelo.Profesormodalidad" />
+        </set>
+    </class>
+</hibernate-mapping>

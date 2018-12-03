@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="gimnasio.modelo.Documentacion" table="documentacion" schema="public" optimistic-lock="version">
+        <id name="iddocumentacion" type="int">
+            <column name="iddocumentacion" />
+            <generator class="assigned" />
+        </id>
+        <property name="documento" type="binary">
+            <column name="documento" />
+        </property>
+    </class>
+</hibernate-mapping>
