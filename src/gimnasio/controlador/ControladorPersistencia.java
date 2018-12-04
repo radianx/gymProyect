@@ -248,7 +248,7 @@ public class ControladorPersistencia {
         }
         return asistAlumnos;
     }
-    
+
     public Set<AsistenciaProfesor> getAsistenciaProfesor() throws Notificaciones {
         Set<AsistenciaProfesor> asistProfe = new HashSet<>();
 
@@ -271,8 +271,8 @@ public class ControladorPersistencia {
         }
         return asistProfe;
     }
-    
-        public Set<Cargo> getCargos() throws Notificaciones {
+
+    public Set<Cargo> getCargos() throws Notificaciones {
         Set<Cargo> cargos = new HashSet<>();
 
         String textoConsulta = "FROM cargo";
@@ -294,8 +294,8 @@ public class ControladorPersistencia {
         }
         return cargos;
     }
-        
-        public Set<Clase> getClases() throws Notificaciones {
+
+    public Set<Clase> getClases() throws Notificaciones {
         Set<Clase> clases = new HashSet<>();
 
         String textoConsulta = "FROM clase";
@@ -317,7 +317,7 @@ public class ControladorPersistencia {
         }
         return clases;
     }
-        
+
     public Set<Cuota> getCuotas() throws Notificaciones {
         Set<Cuota> cuotas = new HashSet<>();
 
@@ -340,8 +340,8 @@ public class ControladorPersistencia {
         }
         return cuotas;
     }
-    
-        public Set<CobroCuota> getCobroCuota() throws Notificaciones {
+
+    public Set<CobroCuota> getCobroCuota() throws Notificaciones {
         Set<CobroCuota> cobroCuotas = new HashSet<>();
 
         String textoConsulta = "FROM cobro_cuota";
@@ -364,7 +364,7 @@ public class ControladorPersistencia {
         return cobroCuotas;
     }
 
-        public Set<Modalidad> getModalidades() throws Notificaciones {
+    public Set<Modalidad> getModalidades() throws Notificaciones {
         Set<Modalidad> modalidades = new HashSet<>();
 
         String textoConsulta = "FROM modalidad";
@@ -386,7 +386,7 @@ public class ControladorPersistencia {
         }
         return modalidades;
     }
-    
+
     public Set<Modulo> getModulos() throws Notificaciones {
         Set<Modulo> modulos = new HashSet<>();
 
@@ -409,8 +409,8 @@ public class ControladorPersistencia {
         }
         return modulos;
     }
-    
-        public Set<PagoProfesor> getPagoProfesores() throws Notificaciones {
+
+    public Set<PagoProfesor> getPagoProfesores() throws Notificaciones {
         Set<PagoProfesor> pagoProfesores = new HashSet<>();
 
         String textoConsulta = "FROM pago_profesor";
@@ -432,7 +432,7 @@ public class ControladorPersistencia {
         }
         return pagoProfesores;
     }
-        
+
     public Set<Profesor> getProfesores() throws Notificaciones {
         Set<Profesor> profesores = new HashSet<>();
 
@@ -455,8 +455,8 @@ public class ControladorPersistencia {
         }
         return profesores;
     }
-    
-        public Set<Profesormodalidad> getProfesorModalidad() throws Notificaciones {
+
+    public Set<Profesormodalidad> getProfesorModalidad() throws Notificaciones {
         Set<Profesormodalidad> profesorModalidades = new HashSet<>();
 
         String textoConsulta = "FROM profesormodalidad";
@@ -478,8 +478,7 @@ public class ControladorPersistencia {
         }
         return profesorModalidades;
     }
-        
-        
+
     public Set<SaldoCuota> getSaldoCuota() throws Notificaciones {
         Set<SaldoCuota> saldoCuotas = new HashSet<>();
 
@@ -502,7 +501,7 @@ public class ControladorPersistencia {
         }
         return saldoCuotas;
     }
-    
+
     public Set<SaldoPagoProfesor> getSaldoPagoProfesores() throws Notificaciones {
         Set<SaldoPagoProfesor> saldoPagoProfesores = new HashSet<>();
 
@@ -525,8 +524,8 @@ public class ControladorPersistencia {
         }
         return saldoPagoProfesores;
     }
-    
-        public Set<Sector> getSectores() throws Notificaciones {
+
+    public Set<Sector> getSectores() throws Notificaciones {
         Set<Sector> sectores = new HashSet<>();
 
         String textoConsulta = "FROM sector";
@@ -548,8 +547,8 @@ public class ControladorPersistencia {
         }
         return sectores;
     }
-        
-     public Set<Usuario> getUsuarios() throws Notificaciones {
+
+    public Set<Usuario> getUsuarios() throws Notificaciones {
         Set<Usuario> usuarios = new HashSet<>();
 
         String textoConsulta = "FROM usuario";

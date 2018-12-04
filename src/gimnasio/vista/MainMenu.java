@@ -7,6 +7,7 @@ package gimnasio.vista;
 
 
 import com.sun.jna.Native;
+import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.controlador.ControladorRele;
 import gimnasio.interfaces.GestorRele;
 import java.awt.Dimension;
@@ -27,7 +28,6 @@ public class MainMenu extends javax.swing.JFrame {
 //    jInternalInformes panelInformes = new jInternalInformes();
 //    jInternalClases panelClases = new jInternalClases();
 //    jTemporal panelTemporal = new jTemporal();
-//    jInternalUsuarios panelUsuarios = new jInternalUsuarios();
     
     boolean mostrar = false;    
     
@@ -41,19 +41,22 @@ public class MainMenu extends javax.swing.JFrame {
         this.btnUsuarios.setEnabled(false);
     }
     
-    public MainMenu() {
+    ControladorPrincipal miControlador;
+    
+    public MainMenu(ControladorPrincipal controlador) {
+        this.miControlador = controlador;
         initComponents();
         this.btnAsistencia.setEnabled(mostrar);
         this.btnCobros.setEnabled(mostrar);
         this.btnVentas.setEnabled(mostrar);
         this.btnUsuarios.setEnabled(mostrar);
-        
+        jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
 //        jDesktopPane1.add(panelTemporal);
 //        jDesktopPane1.add(panelLogin);
 //        jDesktopPane1.add(panelInformes);
 //        jDesktopPane1.add(panelProductos);
 //        jDesktopPane1.add(panelClases);
-//        jDesktopPane1.add(panelUsuarios);
+        jDesktopPane1.add(panelUsuarios);
         
         this.setBtnsVisibility(false);
         
@@ -65,9 +68,9 @@ public class MainMenu extends javax.swing.JFrame {
     }
     
     
-    public jInternalLogueo getjInternalLogueo(){
-//      return this.panelLogin;
-    }
+//    public jInternalLogueo getjInternalLogueo(){
+//     return this.panelLogin;
+//    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -100,7 +103,7 @@ public class MainMenu extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuArchivo = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
+        menuUsuarios = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -146,10 +149,10 @@ public class MainMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
-        setMinimumSize(new java.awt.Dimension(800, 600));
+        setMinimumSize(new java.awt.Dimension(920, 600));
         setName("Sistema Country GYM"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 600));
-        setSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(920, 600));
+        setSize(new java.awt.Dimension(920, 600));
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -271,10 +274,20 @@ public class MainMenu extends javax.swing.JFrame {
 
         jMenuArchivo.setText("Archivo");
 
-        jMenu1.setText("Usuarios");
+        menuUsuarios.setText("Usuarios");
+        menuUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuUsuariosMouseClicked(evt);
+            }
+        });
+        menuUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuUsuariosActionPerformed(evt);
+            }
+        });
 
         jMenuItem3.setText("Listar Usuarios");
-        jMenu1.add(jMenuItem3);
+        menuUsuarios.add(jMenuItem3);
 
         jMenuItem1.setText("Nuevo Usuario");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -282,12 +295,12 @@ public class MainMenu extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        menuUsuarios.add(jMenuItem1);
 
         jMenuItem2.setText("Eliminar Usuario");
-        jMenu1.add(jMenuItem2);
+        menuUsuarios.add(jMenuItem2);
 
-        jMenuArchivo.add(jMenu1);
+        jMenuArchivo.add(menuUsuarios);
 
         jMenu2.setText("Alumnos");
 
@@ -455,7 +468,9 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVentasActionPerformed
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
-//        panelUsuarios.setVisible(true);
+        jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
+        this.jDesktopPane1.add(panelUsuarios);
+        panelUsuarios.setVisible(true);
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     private void btnAbrirPuertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirPuertaActionPerformed
@@ -476,41 +491,21 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
+    private void menuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUsuariosActionPerformed
+        jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
+        this.jDesktopPane1.add(panelUsuarios);
+        panelUsuarios.setVisible(true);
+    }//GEN-LAST:event_menuUsuariosActionPerformed
+
+    private void menuUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuUsuariosMouseClicked
+        jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
+        this.jDesktopPane1.add(panelUsuarios);
+        panelUsuarios.setVisible(true);
+    }//GEN-LAST:event_menuUsuariosMouseClicked
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("GTK".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-       
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainMenu().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrirPuerta;
@@ -524,7 +519,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnVentas;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu2;
@@ -577,6 +571,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JMenu menuUsuarios;
     private javax.swing.JTextField txtHabilitado;
     // End of variables declaration//GEN-END:variables
 
