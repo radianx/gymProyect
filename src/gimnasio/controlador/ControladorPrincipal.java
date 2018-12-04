@@ -20,8 +20,11 @@ import gimnasio.modelo.SaldoCuota;
 import gimnasio.modelo.SaldoPagoProfesor;
 import gimnasio.modelo.Sector;
 import gimnasio.modelo.Usuario;
+import herramientas.excepciones.Notificaciones;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -52,12 +55,52 @@ public class ControladorPrincipal {
     
 //  <-----------------CONSTRUCTOR DEL CONTROLADOR PRINCIPAL------------------->
 
-    private ControladorPrincipal(){
-        this.listaAlumnos(miPersistencia.getAlumnos());
-        this.listaAsistenciaAlumno(miPersistencia.getListaAsistenciaAlumno());
-        this.listaAsistenciaProfesor(miPersistencia.getListaAsistenciaProfesor());
+    public ControladorPrincipal(){
+        try {
+            this.listaAlumnos = miPersistencia.getAlumnos();
+            this.listaAsistenciaAlumno(miPersistencia.getListaAsistenciaAlumno());
+            this.listaAsistenciaProfesor(miPersistencia.getListaAsistenciaProfesor());
+        } catch (Notificaciones ex) {
+            Logger.getLogger(ControladorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
+//  <-----------------BUSQUEDAS-------------------> 
+    
+    public Alumno buscarAlumno(String nombrealu, String apellido){
+        Alumno unAlumno = null;
+        for(Alumno miAlumno:this.listaAlumnos){
+            if(miAlumno.getNombrealumno().equalsIgnoreCase(nombrealu) && miAlumno.getApellidoalumno().equalsIgnoreCase(apellido)){
+                unAlumno = miAlumno;
+                break;
+            }
+        }
+        return unAlumno;
+    }
+    
+//  <-----------------ABMS-------------------> 
+    public void bajaAlumno(String nombreAlu, String apellido) throws Notificaciones{
+        Alumno miAlumno = buscarAlumno(nombreAlu,apellido);
+        if(miAlumno!=null){
+            try {
+                this.listaAlumnos.remove(miAlumno);
+                miAlumno.setEstado("BAJA");
+                this.miPersistencia.persistirInstancia(miAlumno);
+            } catch (Notificaciones ex) {
+                throw new Notificaciones(ex.getMessage()); 
+            }
+        }
+    }
+    
+    public void agregarAlumno(String nombreAlu, String apellido) throws Notificaciones{
+        if(buscarAlumno(nombreAlu,apellido)!=null){//FALTA VERIFICAR SI EL ESTADO ESTA EN BAJA
+            throw new Notificaciones("El Alumno ya existe");
+        }else{
+            Alumno unAlumno = new Alumno(nombreAlu,apellido);
+            this.listaAlumnos.add(unAlumno);
+            this.miPersistencia.persistirInstancia(unAlumno);
+        }
+    }
+    
 //  <-----------------LISTA DE GETTERS Y SETTERS------------------->
 
     public ControladorRele getMiRele() {
@@ -195,6 +238,5 @@ public class ControladorPrincipal {
     public void setMiLector(ControladorHuella miLector) {
         this.miLector = miLector;
     }
-    
     
 }

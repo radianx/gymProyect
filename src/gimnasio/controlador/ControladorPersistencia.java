@@ -5,8 +5,13 @@
  */
 package gimnasio.controlador;
 
+import gimnasio.modelo.Alumno;
 import herramientas.excepciones.Notificaciones;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,6 +24,7 @@ import org.hibernate.service.ServiceRegistry;
  * @author wolix
  */
 public class ControladorPersistencia {
+
     private static final SessionFactory sessionFactory;
     private static final Session sesion;
 
@@ -57,7 +63,7 @@ public class ControladorPersistencia {
 
             try {
                 t.begin();
-                this.sesion.save(instancia);
+                this.sesion.saveOrUpdate(instancia);
                 t.commit();
 
                 /*
@@ -181,4 +187,28 @@ public class ControladorPersistencia {
         }
 
     }
+
+    public Set<Alumno> getAlumnos() throws Notificaciones {
+        Set<Alumno> alumnos = new HashSet<>();
+
+        String textoConsulta = "FROM Alumno";
+        List<Alumno> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Alumno unAlumno : lista) {
+                alumnos.add(unAlumno);
+            }
+        }
+        return alumnos;
+    }
+
 }

@@ -28,6 +28,10 @@ public class Alumno  implements java.io.Serializable {
     public Alumno() {
     }
 
+    public Alumno(String nombrealumno, String apellido){
+        this.apellidoalumno = apellido;
+        this.nombrealumno = nombrealumno;
+    }
 	
     public Alumno(int idalumno, Usuario usuario, String nombrealumno, String apellidoalumno) {
         this.idalumno = idalumno;
