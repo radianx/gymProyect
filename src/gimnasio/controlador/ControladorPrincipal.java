@@ -57,7 +57,7 @@ public class ControladorPrincipal {
 
     public ControladorPrincipal(){
         try {
-             this.listaAlumnos = miPersistencia.getAlumnos();
+            this.listaAlumnos = miPersistencia.getAlumnos();
             this.listaAsistenciaAlumno = miPersistencia.getAsistenciaAlumno();
             this.listaAsistenciaProfesor = miPersistencia.getAsistenciaProfesor();
             this.listaCargos = miPersistencia.getCargos();
