@@ -6,7 +6,22 @@
 package gimnasio.controlador;
 
 import gimnasio.modelo.Alumno;
-import herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.AsistenciaAlumno;
+import gimnasio.modelo.AsistenciaProfesor;
+import gimnasio.modelo.Cargo;
+import gimnasio.modelo.Clase;
+import gimnasio.modelo.CobroCuota;
+import gimnasio.modelo.Cuota;
+import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Modalidad;
+import gimnasio.modelo.Modulo;
+import gimnasio.modelo.PagoProfesor;
+import gimnasio.modelo.Profesor;
+import gimnasio.modelo.Profesormodalidad;
+import gimnasio.modelo.SaldoCuota;
+import gimnasio.modelo.SaldoPagoProfesor;
+import gimnasio.modelo.Sector;
+import gimnasio.modelo.Usuario;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -191,7 +206,7 @@ public class ControladorPersistencia {
     public Set<Alumno> getAlumnos() throws Notificaciones {
         Set<Alumno> alumnos = new HashSet<>();
 
-        String textoConsulta = "FROM Alumno";
+        String textoConsulta = "FROM alumno";
         List<Alumno> lista = null;
 
         synchronized (this.sesion) {
@@ -211,4 +226,349 @@ public class ControladorPersistencia {
         return alumnos;
     }
 
+    public Set<AsistenciaAlumno> getAsistenciaAlumno() throws Notificaciones {
+        Set<AsistenciaAlumno> asistAlumnos = new HashSet<>();
+
+        String textoConsulta = "FROM asistencia_alumno";
+        List<AsistenciaAlumno> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (AsistenciaAlumno unAsistAlumno : lista) {
+                asistAlumnos.add(unAsistAlumno);
+            }
+        }
+        return asistAlumnos;
+    }
+    
+    public Set<AsistenciaProfesor> getAsistenciaProfesor() throws Notificaciones {
+        Set<AsistenciaProfesor> asistProfe = new HashSet<>();
+
+        String textoConsulta = "FROM asistencia_profesor";
+        List<AsistenciaProfesor> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (AsistenciaProfesor unAsistProfe : lista) {
+                asistProfe.add(unAsistProfe);
+            }
+        }
+        return asistProfe;
+    }
+    
+        public Set<Cargo> getCargos() throws Notificaciones {
+        Set<Cargo> cargos = new HashSet<>();
+
+        String textoConsulta = "FROM cargo";
+        List<Cargo> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Cargo unCargo : lista) {
+                cargos.add(unCargo);
+            }
+        }
+        return cargos;
+    }
+        
+        public Set<Clase> getClases() throws Notificaciones {
+        Set<Clase> clases = new HashSet<>();
+
+        String textoConsulta = "FROM clase";
+        List<Clase> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Clase unaClase : lista) {
+                clases.add(unaClase);
+            }
+        }
+        return clases;
+    }
+        
+    public Set<Cuota> getCuotas() throws Notificaciones {
+        Set<Cuota> cuotas = new HashSet<>();
+
+        String textoConsulta = "FROM cuota";
+        List<Cuota> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Cuota unaCuota : lista) {
+                cuotas.add(unaCuota);
+            }
+        }
+        return cuotas;
+    }
+    
+        public Set<CobroCuota> getCobroCuota() throws Notificaciones {
+        Set<CobroCuota> cobroCuotas = new HashSet<>();
+
+        String textoConsulta = "FROM cobro_cuota";
+        List<CobroCuota> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (CobroCuota unCobroCuota : lista) {
+                cobroCuotas.add(unCobroCuota);
+            }
+        }
+        return cobroCuotas;
+    }
+
+        public Set<Modalidad> getModalidades() throws Notificaciones {
+        Set<Modalidad> modalidades = new HashSet<>();
+
+        String textoConsulta = "FROM modalidad";
+        List<Modalidad> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Modalidad unaModalidad : lista) {
+                modalidades.add(unaModalidad);
+            }
+        }
+        return modalidades;
+    }
+    
+    public Set<Modulo> getModulos() throws Notificaciones {
+        Set<Modulo> modulos = new HashSet<>();
+
+        String textoConsulta = "FROM modulo";
+        List<Modulo> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Modulo unModulo : lista) {
+                modulos.add(unModulo);
+            }
+        }
+        return modulos;
+    }
+    
+        public Set<PagoProfesor> getPagoProfesores() throws Notificaciones {
+        Set<PagoProfesor> pagoProfesores = new HashSet<>();
+
+        String textoConsulta = "FROM pago_profesor";
+        List<PagoProfesor> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (PagoProfesor unPagoProfesor : lista) {
+                pagoProfesores.add(unPagoProfesor);
+            }
+        }
+        return pagoProfesores;
+    }
+        
+    public Set<Profesor> getProfesores() throws Notificaciones {
+        Set<Profesor> profesores = new HashSet<>();
+
+        String textoConsulta = "FROM profesor";
+        List<Profesor> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Profesor unProfesor : lista) {
+                profesores.add(unProfesor);
+            }
+        }
+        return profesores;
+    }
+    
+        public Set<Profesormodalidad> getProfesorModalidad() throws Notificaciones {
+        Set<Profesormodalidad> profesorModalidades = new HashSet<>();
+
+        String textoConsulta = "FROM profesormodalidad";
+        List<Profesormodalidad> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Profesormodalidad unProfesorModalidad : lista) {
+                profesorModalidades.add(unProfesorModalidad);
+            }
+        }
+        return profesorModalidades;
+    }
+        
+        
+    public Set<SaldoCuota> getSaldoCuota() throws Notificaciones {
+        Set<SaldoCuota> saldoCuotas = new HashSet<>();
+
+        String textoConsulta = "FROM saldo_cuota";
+        List<SaldoCuota> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (SaldoCuota unSaldoCuota : lista) {
+                saldoCuotas.add(unSaldoCuota);
+            }
+        }
+        return saldoCuotas;
+    }
+    
+    public Set<SaldoPagoProfesor> getSaldoPagoProfesores() throws Notificaciones {
+        Set<SaldoPagoProfesor> saldoPagoProfesores = new HashSet<>();
+
+        String textoConsulta = "FROM saldo_pago_profesor";
+        List<SaldoPagoProfesor> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (SaldoPagoProfesor unSaldoPagoP : lista) {
+                saldoPagoProfesores.add(unSaldoPagoP);
+            }
+        }
+        return saldoPagoProfesores;
+    }
+    
+        public Set<Sector> getSectores() throws Notificaciones {
+        Set<Sector> sectores = new HashSet<>();
+
+        String textoConsulta = "FROM sector";
+        List<Sector> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Sector unSector : lista) {
+                sectores.add(unSector);
+            }
+        }
+        return sectores;
+    }
+        
+     public Set<Usuario> getUsuarios() throws Notificaciones {
+        Set<Usuario> usuarios = new HashSet<>();
+
+        String textoConsulta = "FROM usuario";
+        List<Usuario> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Usuario unUsuario : lista) {
+                usuarios.add(unUsuario);
+            }
+        }
+        return usuarios;
+    }
 }
