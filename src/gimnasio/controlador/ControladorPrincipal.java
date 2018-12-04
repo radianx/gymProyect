@@ -21,6 +21,7 @@ import herramientas.excepciones.Notificaciones;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -155,6 +156,17 @@ public class ControladorPrincipal {
         return unProfesor;
     }
     
+    public Profesor buscarProfesor(String nombreProfesor, String apellidoProfesor){
+        Profesor unProfesor = null;
+        for(Profesor miProfesor : this.listaProfesores){
+            if(miProfesor.getNombreprofesor().equalsIgnoreCase(nombreProfesor)){
+                unProfesor = miProfesor;
+            }
+            break;
+        }
+        return unProfesor;
+    }
+    
     
     public Sector buscarSector(String nombreSector){
         Sector unSector = null;
@@ -263,11 +275,12 @@ public class ControladorPrincipal {
    
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
     
-    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, int edad, float peso, float altura, Calendar fechaCumpleanios) throws Notificaciones{
+    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, int edad, Double peso, Double altura, Date fechaCumpleanios) throws Notificaciones{
         if(buscarAlumnoAlta(nombreAlu,apellido)!=null){//FALTA VERIFICAR SI EL ESTADO ESTA EN BAJA
             throw new Notificaciones("El Alumno ya existe");
         }else{
-            Alumno unAlumno = new Alumno(unUsuario, nombreAlu,apellido,edad,peso,altura,fechaCumpleanios);
+            String estado = "ACTIVO";
+            Alumno unAlumno = new Alumno(unUsuario, nombreAlu, apellido, edad, peso, altura,estado, fechaCumpleanios);
             this.listaAlumnos.add(unAlumno);
             this.miPersistencia.persistirInstancia(unAlumno);
         }
@@ -287,7 +300,15 @@ public class ControladorPrincipal {
     }
     
  //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
-public void agregarProfesor(String nombreProfesor, String apellidoProfesor)
+public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Integer edad, Double peso, Double altura, Date fechacumpleanios){
+    if(buscarProfesor(nombreProfesor,apellidoProfesor)!=null){
+        throw new Notificaciones("El profesor ya existe");
+    }else{
+        String estado = "ACTIVO";
+        Profesor unProfesor = new Profesor(usuario, idContacto, idObraSocial, nombreProfesor, apellidoProfesor, edad, peso, altura, estado, fechacumpleanios);
+        this.listaProfesores.add(unProfesor);
+    }
+}
     
     
     
