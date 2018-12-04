@@ -29,16 +29,17 @@ public class Usuario  implements java.io.Serializable {
         this.idusuario = idusuario;
         this.nombreusuario = nombreusuario;
     }
-    public Usuario(int idusuario, String nombreusuario, String contrasenia, byte[] planillahuellas, byte[] foto, Set modulos, Set cargos, Set profesors, Set alumnos) {
-       this.idusuario = idusuario;
+    
+    public Usuario(String nombreusuario, String contrasenia, byte[] planillahuellas, byte[] foto) {
        this.nombreusuario = nombreusuario;
        this.contrasenia = contrasenia;
        this.planillahuellas = planillahuellas;
        this.foto = foto;
-       this.modulos = modulos;
-       this.cargos = cargos;
-       this.profesors = profesors;
-       this.alumnos = alumnos;
+    }
+    
+    public Usuario(String nombreUsuario, String contrasenia){
+        this.nombreusuario= nombreUsuario;
+        this.contrasenia = contrasenia;
     }
    
     public int getIdusuario() {

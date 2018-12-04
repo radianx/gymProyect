@@ -266,12 +266,21 @@ public class ControladorPrincipal {
          if(buscarUsuarioAlta(nombreUsuario)!=null){
              throw new Notificaciones("El usuario ya existe");
          } else{
-             Usuario unUsuario = new Usuario(0, nombreUsuario, contrasenia, planillahuellas, foto, listaModulos, listaCargos, listaProfesores, listaAlumnos);
+             Usuario unUsuario = new Usuario(nombreUsuario, contrasenia, planillahuellas, foto);
              this.listaUsuarios.add(unUsuario);
              this.miPersistencia.persistirInstancia(unUsuario);
          }
      }
      
+     public void agregarUsuario(String nombreUsuario, String contrasenia) throws Notificaciones{
+         if(buscarUsuarioAlta(nombreUsuario)!=null){
+             throw new Notificaciones("El usuario ya existe");
+         } else{
+             Usuario unUsuario = new Usuario(nombreUsuario, contrasenia);
+             this.listaUsuarios.add(unUsuario);
+             this.miPersistencia.persistirInstancia(unUsuario);
+         }
+     }
    
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
     
