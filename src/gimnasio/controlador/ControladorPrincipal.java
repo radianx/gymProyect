@@ -57,9 +57,21 @@ public class ControladorPrincipal {
 
     public ControladorPrincipal(){
         try {
-            this.listaAlumnos = miPersistencia.getAlumnos();
-            this.listaAsistenciaAlumno(miPersistencia.getListaAsistenciaAlumno());
-            this.listaAsistenciaProfesor(miPersistencia.getListaAsistenciaProfesor());
+             this.listaAlumnos = miPersistencia.getAlumnos();
+            this.listaAsistenciaAlumno = miPersistencia.getAsistenciaAlumno();
+            this.listaAsistenciaProfesor = miPersistencia.getAsistenciaProfesor();
+            this.listaCargos = miPersistencia.getCargos();
+            this.listaClases = miPersistencia.getClases();
+            this.listaCobroCuota = miPersistencia.getCuota();
+            this.listaModalidades = miPersistencia.getModalidades();
+            this.listaModulos = miPersistencia.getModulos();
+            this.listaPagoProfesores = miPersistencia.getPagoProfesores();
+            this.listaProfesores = miPersistencia.getProfesores();
+            this.listaSaldoCuota = miPersistencia.getSaldoCuota();
+            this.listaSaldoPagoProfesores = miPersistencia.getSaldoPagoProfesores();
+            this.listaSectores = miPersistencia.getSectores();
+            this.listaUsuarios = miPersistencia.getUsuarios();
+            this.miLector = miPersistencia.getLector();
         } catch (Notificaciones ex) {
             Logger.getLogger(ControladorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
