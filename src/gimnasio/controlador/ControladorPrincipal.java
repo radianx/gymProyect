@@ -50,6 +50,14 @@ public class ControladorPrincipal {
     private ControladorPersistencia miPersistencia = new ControladorPersistencia();
 
     
+//  <-----------------CONSTRUCTOR DEL CONTROLADOR PRINCIPAL------------------->
+
+    private ControladorPrincipal(){
+        this.listaAlumnos(miPersistencia.getAlumnos());
+        this.listaAsistenciaAlumno(miPersistencia.getListaAsistenciaAlumno());
+        this.listaAsistenciaProfesor(miPersistencia.getListaAsistenciaProfesor());
+    }
+
 //  <-----------------LISTA DE GETTERS Y SETTERS------------------->
 
     public ControladorRele getMiRele() {
