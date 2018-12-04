@@ -20,6 +20,7 @@ import gimnasio.modelo.Usuario;
 import herramientas.excepciones.Notificaciones;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -262,11 +263,11 @@ public class ControladorPrincipal {
    
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
     
-    public void agregarAlumno(int idUsuario, String nombreAlu, String apellido, int edad, float peso, float altura, LocalDate fechaCumpleanios) throws Notificaciones{
+    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, int edad, float peso, float altura, Calendar fechaCumpleanios) throws Notificaciones{
         if(buscarAlumnoAlta(nombreAlu,apellido)!=null){//FALTA VERIFICAR SI EL ESTADO ESTA EN BAJA
             throw new Notificaciones("El Alumno ya existe");
         }else{
-            Alumno unAlumno = new Alumno(nombreAlu,apellido);
+            Alumno unAlumno = new Alumno(unUsuario, nombreAlu,apellido,edad,peso,altura,fechaCumpleanios);
             this.listaAlumnos.add(unAlumno);
             this.miPersistencia.persistirInstancia(unAlumno);
         }
