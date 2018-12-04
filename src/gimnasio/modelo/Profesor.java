@@ -29,13 +29,20 @@ public class Profesor  implements java.io.Serializable {
     public Profesor() {
     }
 
+    
+    public Profesor(Usuario usuario, String nombreProfesor, String apellidoProfesor, String esatado){
+        this.usuario = usuario;
+        this.nombreprofesor = nombreProfesor;
+        this.apellidoprofesor = apellidoProfesor;
+        this.estado = estado;
+    }
 	
-    public Profesor(Usuario usuario, int idcontacto, String nombreprofesor, String apellidoprofesor) {
-        this.idprofesor = idprofesor;
+    public Profesor(Usuario usuario, int idcontacto, String nombreprofesor, String apellidoprofesor, String estado) {
         this.usuario = usuario;
         this.idcontacto = idcontacto;
         this.nombreprofesor = nombreprofesor;
         this.apellidoprofesor = apellidoprofesor;
+        this.estado = estado;
     }
     public Profesor(Usuario usuario, int idcontacto, Integer idobrasocial, String nombreprofesor, String apellidoprofesor, Integer edad, Double peso, Double altura, String estado, Date fechacumpleanios) {
        this.usuario = usuario;

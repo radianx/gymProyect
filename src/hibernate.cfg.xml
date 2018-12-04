@@ -45,7 +45,7 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/gimnasio</property>
     <property name="hibernate.connection.username">postgres</property>
-    <property name="hibernate.connection.password">C-bu464401</property>
+    <property name="hibernate.connection.password">postgres</property>
     <mapping resource="gimnasio/modelo/AsistenciaAlumno.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Documentacion.hbm.xml"/>
     <mapping resource="gimnasio/modelo/ClaseAlumno.hbm.xml"/>

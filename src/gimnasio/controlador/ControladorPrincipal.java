@@ -17,7 +17,7 @@ import gimnasio.modelo.SaldoCuota;
 import gimnasio.modelo.SaldoPagoProfesor;
 import gimnasio.modelo.Sector;
 import gimnasio.modelo.Usuario;
-import herramientas.excepciones.Notificaciones;
+import gimnasio.herramientas.excepciones.Notificaciones;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -332,7 +332,7 @@ public class ControladorPrincipal {
     }
     
  //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
-public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Integer edad, Double peso, Double altura, Date fechacumpleanios)throws Notificaciones{
+public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Integer edad, Double peso, Double altura, Date fechacumpleanios) throws Notificaciones{
     if(buscarProfesor(nombreProfesor,apellidoProfesor)!=null){
         throw new Notificaciones("El profesor ya existe");
     }else{

@@ -20,15 +20,12 @@ public class Modalidad  implements java.io.Serializable {
     }
 
 	
-    public Modalidad(int idmodalidad, String nombremodalidad) {
-        this.idmodalidad = idmodalidad;
+    public Modalidad(String nombremodalidad) {
         this.nombremodalidad = nombremodalidad;
     }
-    public Modalidad(int idmodalidad, String nombremodalidad, String descripcionmodalidad, Set profesormodalidads) {
-       this.idmodalidad = idmodalidad;
+    public Modalidad(String nombremodalidad, String descripcionmodalidad) {
        this.nombremodalidad = nombremodalidad;
        this.descripcionmodalidad = descripcionmodalidad;
-       this.profesormodalidads = profesormodalidads;
     }
    
     public int getIdmodalidad() {

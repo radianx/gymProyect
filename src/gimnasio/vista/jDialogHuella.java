@@ -88,10 +88,10 @@ public class jDialogHuella extends javax.swing.JDialog {
         
         if(featuresinscripcion != null){
             try{
-                txtArea.append("\nSe ha detectado una huella.\n");
+                txtArea.append("\nHuella detectada.\n");
                 reclutador.addFeatures(featuresinscripcion);
             } catch(DPFPImageQualityException ex){
-                txtArea.append("\nSe produjo el siguiente error: " + ex.getMessage());
+                txtArea.append("\nError: " + ex.getMessage());
             } finally{
                 EstadoHuellas(); //comprueba si se creo la plantilla con exito
                 switch(reclutador.getTemplateStatus()){
@@ -103,7 +103,7 @@ public class jDialogHuella extends javax.swing.JDialog {
                         stop();
                         EstadoHuellas();
                         setTemplate(null);
-                        JOptionPane.showMessageDialog(this, "La plantilla sufrio una descompostura, intente nuevamente");
+                        JOptionPane.showMessageDialog(this, "Error, intente nuevamente.");
                         start();
                         break;
                 }
@@ -120,7 +120,6 @@ public class jDialogHuella extends javax.swing.JDialog {
             
         JOptionPane.showMessageDialog(null,"Huella Guardada Correctamente");
             this.btnGuardar.setEnabled(false);
-            this.btnVerificar.grabFocus();
     }
     
     public void verificarHuella() throws InterruptedException{
@@ -180,7 +179,7 @@ public class jDialogHuella extends javax.swing.JDialog {
     }
     
     public void EstadoHuellas(){
-        txtArea.append("\nCantidad de Huellas Necesarias para Guardar " + reclutador.getFeaturesNeeded());
+        txtArea.append("\nFalta verificar huella " + reclutador.getFeaturesNeeded() + " veces.");
     }
     
     public void setTemplate(DPFPTemplate template){
@@ -213,7 +212,6 @@ public class jDialogHuella extends javax.swing.JDialog {
         txtArea = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
-        btnVerificar = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -231,7 +229,8 @@ public class jDialogHuella extends javax.swing.JDialog {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        txtArea.setColumns(20);
+        txtArea.setColumns(15);
+        txtArea.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtArea.setRows(5);
         jScrollPane1.setViewportView(txtArea);
 
@@ -247,14 +246,6 @@ public class jDialogHuella extends javax.swing.JDialog {
         });
         jPanel3.add(btnGuardar);
 
-        btnVerificar.setText("Verificar");
-        btnVerificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerificarActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnVerificar);
-
         jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
@@ -265,14 +256,6 @@ public class jDialogHuella extends javax.swing.JDialog {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardarHuella();
     }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void btnVerificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerificarActionPerformed
-        try {
-            verificarHuella();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(jDialogHuella.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnVerificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -318,7 +301,6 @@ public class jDialogHuella extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnVerificar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
