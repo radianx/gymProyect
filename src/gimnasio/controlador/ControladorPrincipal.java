@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package gimnasio.controlador;
 
 import gimnasio.modelo.Alumno;
@@ -16,15 +12,20 @@ import gimnasio.modelo.Modalidad;
 import gimnasio.modelo.Modulo;
 import gimnasio.modelo.PagoProfesor;
 import gimnasio.modelo.Profesor;
+import gimnasio.modelo.Profesormodalidad;
 import gimnasio.modelo.SaldoCuota;
 import gimnasio.modelo.SaldoPagoProfesor;
 import gimnasio.modelo.Sector;
 import gimnasio.modelo.Usuario;
 import herramientas.excepciones.Notificaciones;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,6 +35,7 @@ public class ControladorPrincipal {
     private Set<Alumno> listaAlumnos = new HashSet<>();
     private Set<Profesor> listaProfesores = new HashSet<>();
     private Set<Modalidad> listaModalidades = new HashSet<>();
+    private Set<Profesormodalidad> listaProfesorModalidad = new HashSet<>();
     private Set<Sector> listaSectores = new HashSet<>();
     private Set<Clase> listaClases = new HashSet<>();
     private Set<AsistenciaAlumno> listaAsistenciaAlumno = new HashSet<>();
@@ -46,7 +48,10 @@ public class ControladorPrincipal {
     private Set<Usuario> listaUsuarios = new HashSet<>();
     private Set<Modulo> listaModulos = new HashSet<>();
     private Set<Cargo> listaCargos = new HashSet<>();
+    
 // private LectorHuella miLector = new LectorHuella();
+
+
 //  <-----------------CONTROLADORES EXTRA-------------------------->
     private ControladorHuella miLector = new ControladorHuella();
     private ControladorRele miRele = new ControladorRele();
@@ -62,11 +67,13 @@ public class ControladorPrincipal {
             this.listaAsistenciaProfesor = miPersistencia.getAsistenciaProfesor();
             this.listaCargos = miPersistencia.getCargos();
             this.listaClases = miPersistencia.getClases();
-            this.listaCobroCuota = miPersistencia.getCuota();
+            this.listaCuotas = miPersistencia.getCuotas();
+            this.listaCobroCuota = miPersistencia.getCobroCuota();
             this.listaModalidades = miPersistencia.getModalidades();
             this.listaModulos = miPersistencia.getModulos();
             this.listaPagoProfesores = miPersistencia.getPagoProfesores();
             this.listaProfesores = miPersistencia.getProfesores();
+            this.listaProfesorModalidad = miPersistencia.getProfesorModalidad();
             this.listaSaldoCuota = miPersistencia.getSaldoCuota();
             this.listaSaldoPagoProfesores = miPersistencia.getSaldoPagoProfesores();
             this.listaSectores = miPersistencia.getSectores();
@@ -76,12 +83,59 @@ public class ControladorPrincipal {
             Logger.getLogger(ControladorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    
 //  <-----------------BUSQUEDAS-------------------> 
     
-    public Alumno buscarAlumno(String nombrealu, String apellido){
+    public Usuario buscarUsuario(String nombreUsuario, String contrasenia){
+        Usuario unUsuario = null;
+        for(Usuario miUsuario : this.listaUsuarios){
+            if(miUsuario.getNombreusuario().equalsIgnoreCase(nombreUsuario) && miUsuario.getContrasenia().equals(contrasenia)){
+                unUsuario = miUsuario;
+                break;
+            }
+        }
+        return unUsuario;
+    }
+    
+    public Usuario buscarUsuarioAlta(String nombreUsuario){
+        Usuario unUsuario = null;
+        for(Usuario miUsuario : this.listaUsuarios){
+            if(miUsuario.getNombreusuario().equalsIgnoreCase(nombreUsuario)){
+                unUsuario = miUsuario;
+                break;
+            }
+        }
+        return unUsuario;
+    }
+    
+    public Usuario buscarUsuarioBaja(int idUsuario){
+        Usuario unUsuario = null;
+        for(Usuario miUsuario : this.listaUsuarios){
+            if(miUsuario.getIdusuario()==idUsuario){
+                unUsuario = miUsuario;
+                break;
+            }
+        }
+        return unUsuario;
+    }
+    
+    
+    public Alumno buscarAlumnoAlta(String nombrealu, String apellido) {
         Alumno unAlumno = null;
-        for(Alumno miAlumno:this.listaAlumnos){
-            if(miAlumno.getNombrealumno().equalsIgnoreCase(nombrealu) && miAlumno.getApellidoalumno().equalsIgnoreCase(apellido)){
+        for (Alumno miAlumno : this.listaAlumnos) {
+            if (miAlumno.getNombrealumno().equalsIgnoreCase(nombrealu) && miAlumno.getApellidoalumno().equalsIgnoreCase(apellido)) {
+                unAlumno = miAlumno;
+                break;
+            }
+        }
+        return unAlumno;
+    }
+    public Alumno buscarAlumnoBaja(int idAlumno) {
+        Alumno unAlumno = null;
+        for (Alumno miAlumno : this.listaAlumnos) {
+            if (miAlumno.getIdalumno() == idAlumno) {
                 unAlumno = miAlumno;
                 break;
             }
@@ -89,9 +143,137 @@ public class ControladorPrincipal {
         return unAlumno;
     }
     
-//  <-----------------ABMS-------------------> 
-    public void bajaAlumno(String nombreAlu, String apellido) throws Notificaciones{
-        Alumno miAlumno = buscarAlumno(nombreAlu,apellido);
+    public Profesor buscarProfesor(String nombreProfesor){
+        Profesor unProfesor = null;
+        for(Profesor miProfesor : this.listaProfesores){
+            if(miProfesor.getNombreprofesor().equalsIgnoreCase(nombreProfesor)){
+                unProfesor = miProfesor;
+            }
+            break;
+        }
+        return unProfesor;
+    }
+    
+    
+    public Sector buscarSector(String nombreSector){
+        Sector unSector = null;
+        for(Sector miSector : this.listaSectores){
+            if(miSector.getNombresector().equalsIgnoreCase(nombreSector)){
+                unSector = miSector;
+            }
+            break;
+        }
+        return unSector;
+    }
+    
+    public Cargo buscarCargo(String nombreCargo){
+        Cargo unCargo = null;
+        for(Cargo miCargo : this.listaCargos){
+            if(miCargo.getNombrecargo().equalsIgnoreCase(nombreCargo)){
+                unCargo = miCargo;
+                break;
+            }
+        }
+        return unCargo;
+    }
+    
+    public List<Clase> buscarClasesPorModalidad(int idModalidad){
+        List<Clase> clasesModalidad = new ArrayList<>();
+        for(Clase miClase : this.listaClases){
+            if(miClase.getProfesormodalidad().getModalidad().getIdmodalidad() == idModalidad){
+                clasesModalidad.add(miClase);
+            }
+        }
+        return clasesModalidad;
+    }
+    
+    public List<Clase> buscarClasesPorProfesor(int idProfesor){
+        List<Clase> clasesProfesor = new ArrayList<>();
+        for(Clase miClase: this.listaClases){
+            if(miClase.getProfesormodalidad().getProfesor().getIdprofesor() == idProfesor){
+                clasesProfesor.add(miClase);
+            }
+        }
+        return clasesProfesor;
+    }
+    
+    public List<Cuota> buscarCuotasImpagas(){
+        List<Cuota> cuotasImpagas = new ArrayList<>();
+        for(Cuota miCuota :this.listaCuotas){
+            if(miCuota.getEstado().equalsIgnoreCase("ADEUDA")){
+                cuotasImpagas.add(miCuota);
+            }
+        }
+        return cuotasImpagas;
+    }
+    
+    public List<Cuota> buscarCuotasConSaldo(){
+        List<Cuota> cuotasConSaldo = new ArrayList<>();
+        for(Cuota miCuota :this.listaCuotas){
+            if(miCuota.getEstado().equalsIgnoreCase("SALDO")){
+                cuotasConSaldo.add(miCuota);
+            }
+        }
+        return cuotasConSaldo;
+    }
+       
+    
+    public Modalidad buscarModalidad (String nombreModalidad){
+        Modalidad unaModalidad = null;
+        for(Modalidad miModalidad : this.listaModalidades){
+            if(miModalidad.getNombremodalidad().equalsIgnoreCase(nombreModalidad)){
+                unaModalidad = miModalidad;
+                break;
+            }
+        }
+        return unaModalidad;
+    }
+    
+    public List<Modalidad> buscarModalidadDeProfesor(int idProfesor){
+        List<Modalidad> modalidadesDelProfesor = new ArrayList<>();
+        for(Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad){
+            if(miProfesorModalidad.getProfesor().getIdprofesor() == idProfesor){
+                modalidadesDelProfesor.add(miProfesorModalidad.getModalidad());
+            }
+        }
+        return modalidadesDelProfesor;
+    }
+    
+     
+     
+     
+//  <-------------------------------------------------------------------------------------------------------------------------------------> 
+//          <---------------------------------------------------------------ABMs----------------------------------------------------> 
+//  <------------------------------------------------------------------------------------------------------------------------------------->
+     
+     
+     
+//  <----------------------------------------------------ABM USUARIOS----------------------------------------------------> 
+     public void agregarUsuario(String nombreUsuario, String contrasenia, byte[] planillahuellas, byte[] foto) throws Notificaciones{
+         if(buscarUsuarioAlta(nombreUsuario)!=null){
+             throw new Notificaciones("El usuario ya existe");
+         } else{
+             Usuario unUsuario = new Usuario(0, nombreUsuario, contrasenia, planillahuellas, foto, listaModulos, listaCargos, listaProfesores, listaAlumnos);
+             this.listaUsuarios.add(unUsuario);
+             this.miPersistencia.persistirInstancia(unUsuario);
+         }
+     }
+     
+   
+//  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
+    
+    public void agregarAlumno(int idUsuario, String nombreAlu, String apellido, int edad, float peso, float altura, LocalDate fechaCumpleanios) throws Notificaciones{
+        if(buscarAlumnoAlta(nombreAlu,apellido)!=null){//FALTA VERIFICAR SI EL ESTADO ESTA EN BAJA
+            throw new Notificaciones("El Alumno ya existe");
+        }else{
+            Alumno unAlumno = new Alumno(nombreAlu,apellido);
+            this.listaAlumnos.add(unAlumno);
+            this.miPersistencia.persistirInstancia(unAlumno);
+        }
+    }
+    
+    public void bajaAlumno(int idAlumno) throws Notificaciones{
+        Alumno miAlumno = buscarAlumnoBaja(idAlumno);
         if(miAlumno!=null){
             try {
                 this.listaAlumnos.remove(miAlumno);
@@ -103,15 +285,50 @@ public class ControladorPrincipal {
         }
     }
     
-    public void agregarAlumno(String nombreAlu, String apellido) throws Notificaciones{
-        if(buscarAlumno(nombreAlu,apellido)!=null){//FALTA VERIFICAR SI EL ESTADO ESTA EN BAJA
-            throw new Notificaciones("El Alumno ya existe");
-        }else{
-            Alumno unAlumno = new Alumno(nombreAlu,apellido);
-            this.listaAlumnos.add(unAlumno);
-            this.miPersistencia.persistirInstancia(unAlumno);
-        }
-    }
+ //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
+public void agregarProfesor(String nombreProfesor, String apellidoProfesor)
+    
+    
+    
+
+
+    
+
+//  <----------------------------------------------------ABM MODALIDADES----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM PROFESORES POR MODALIDADES----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM CLASES ----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM CUOTAS ----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM COBROS----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM PAGOS----------------------------------------------------> 
+
+
+//  <----------------------------------------------------ABM ASISTENCIAS----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM CARGOS----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM SECTORES----------------------------------------------------> 
+    
+
+//  <----------------------------------------------------ABM CONTACTO----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM ASISTENCIA PROFESOR----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM ASISTENCIA PERSONAL----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM CAJA DIARIA----------------------------------------------------> 
+    
+
+//  <----------------------------------------------------ABM----------------------------------------------------> 
+
+//  <----------------------------------------------------ABM----------------------------------------------------> 
+    
+    
+    
     
 //  <-----------------LISTA DE GETTERS Y SETTERS------------------->
 
