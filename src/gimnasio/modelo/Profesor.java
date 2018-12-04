@@ -30,15 +30,14 @@ public class Profesor  implements java.io.Serializable {
     }
 
 	
-    public Profesor(int idprofesor, Usuario usuario, int idcontacto, String nombreprofesor, String apellidoprofesor) {
+    public Profesor(Usuario usuario, int idcontacto, String nombreprofesor, String apellidoprofesor) {
         this.idprofesor = idprofesor;
         this.usuario = usuario;
         this.idcontacto = idcontacto;
         this.nombreprofesor = nombreprofesor;
         this.apellidoprofesor = apellidoprofesor;
     }
-    public Profesor(int idprofesor, Usuario usuario, int idcontacto, Integer idobrasocial, String nombreprofesor, String apellidoprofesor, Integer edad, Double peso, Double altura, String estado, Date fechacumpleanios, Set pagoProfesors, Set profesormodalidads) {
-       this.idprofesor = idprofesor;
+    public Profesor(Usuario usuario, int idcontacto, Integer idobrasocial, String nombreprofesor, String apellidoprofesor, Integer edad, Double peso, Double altura, String estado, Date fechacumpleanios) {
        this.usuario = usuario;
        this.idcontacto = idcontacto;
        this.idobrasocial = idobrasocial;
@@ -49,8 +48,7 @@ public class Profesor  implements java.io.Serializable {
        this.altura = altura;
        this.estado = estado;
        this.fechacumpleanios = fechacumpleanios;
-       this.pagoProfesors = pagoProfesors;
-       this.profesormodalidads = profesormodalidads;
+
     }
    
     public int getIdprofesor() {
