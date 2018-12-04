@@ -80,7 +80,6 @@ public class ControladorPrincipal {
             this.listaSaldoPagoProfesores = miPersistencia.getSaldoPagoProfesores();
             this.listaSectores = miPersistencia.getSectores();
             this.listaUsuarios = miPersistencia.getUsuarios();
-            this.miLector = miPersistencia.getLector();
         } catch (Notificaciones ex) {
             Logger.getLogger(ControladorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
