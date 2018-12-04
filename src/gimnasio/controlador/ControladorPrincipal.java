@@ -241,6 +241,17 @@ public class ControladorPrincipal {
         return unaModalidad;
     }
     
+    public Modalidad buscarModalidad(int idModalidad){
+        Modalidad unaModalidad = null;
+        for(Modalidad miModalidad: this.listaModalidades){
+            if(miModalidad.getIdmodalidad()== idModalidad){
+                unaModalidad = miModalidad;
+                break;
+            }
+        }
+        return unaModalidad;
+    }
+    
     public List<Modalidad> buscarModalidadDeProfesor(int idProfesor){
         List<Modalidad> modalidadesDelProfesor = new ArrayList<>();
         for(Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad){
@@ -295,13 +306,25 @@ public class ControladorPrincipal {
         }
     }
     
+    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido) throws Notificaciones{
+        if(buscarAlumnoAlta(nombreAlu,apellido)!=null){//FALTA VERIFICAR SI EL ESTADO ESTA EN BAJA
+            throw new Notificaciones("El Alumno ya existe");
+        }else{
+            String estado = "ACTIVO";
+            Alumno unAlumno = new Alumno(unUsuario, nombreAlu, apellido);
+            this.listaAlumnos.add(unAlumno);
+            this.miPersistencia.persistirInstancia(unAlumno);
+        }
+    }
+    
+    
     public void bajaAlumno(int idAlumno) throws Notificaciones{
         Alumno miAlumno = buscarAlumnoBaja(idAlumno);
         if(miAlumno!=null){
             try {
                 this.listaAlumnos.remove(miAlumno);
                 miAlumno.setEstado("BAJA");
-                this.miPersistencia.persistirInstancia(miAlumno);
+                this.miPersistencia.a.persistirInstancia(miAlumno);
             } catch (Notificaciones ex) {
                 throw new Notificaciones(ex.getMessage()); 
             }
@@ -309,7 +332,7 @@ public class ControladorPrincipal {
     }
     
  //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
-public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Integer edad, Double peso, Double altura, Date fechacumpleanios){
+public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Integer edad, Double peso, Double altura, Date fechacumpleanios)throws Notificaciones{
     if(buscarProfesor(nombreProfesor,apellidoProfesor)!=null){
         throw new Notificaciones("El profesor ya existe");
     }else{
@@ -318,14 +341,48 @@ public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocia
         this.listaProfesores.add(unProfesor);
     }
 }
-    
-    
-    
 
-
+public void agregarProfesor(Usuario unUsuario, String nombreProfesor, String apellidoProfesor) throws Notificaciones{
+    if(buscarProfesor(nombreProfesor, apellidoProfesor)!=null){
+        throw new Notificaciones("El profesor ya existe");
+    }else{
+        String estado = "ACTIVO";
+        Profesor unProfesor = new Profesor(unUsuario, nombreProfesor, apellidoProfesor, estado);
+        this.listaProfesores.add(unProfesor);
+        this.miPersistencia.persistirInstancia(unProfesor);
+    }
+}
     
 
 //  <----------------------------------------------------ABM MODALIDADES----------------------------------------------------> 
+
+public void agregarModalidad(String nombreModalidad) throws Notificaciones{
+    if(buscarModalidad(nombreModalidad)!=null){
+        throw new Notificaciones("La modalidad ya existe");
+    }else{
+        Modalidad unaModalidad = new Modalidad(nombreModalidad);
+        this.listaModalidades.add(unaModalidad);
+        this.miPersistencia.persistirInstancia(unaModalidad);
+    }
+}
+
+public void agregarModalidad(String nombreModalidad, String descripcionModalidad) throws Notificaciones{
+    if(buscarModalidad(nombreModalidad)!= null){
+        throw new Notificaciones("La modadlidad ya existe");
+    }else{
+        Modalidad unaModalidad = new Modalidad(nombreModalidad,descripcionModalidad);
+        this.listaModalidades.add(unaModalidad);
+        this.miPersistencia.persistirInstancia(unaModalidad);
+    }
+}
+
+public void bajaModalidad(int idModalidad) throws Notificaciones{
+    if(buscarModalidad(idModalidad)!=null){
+        throw new Notificaciones("La modalidad no existe");
+    }else{
+        
+    }
+}
 
 //  <----------------------------------------------------ABM PROFESORES POR MODALIDADES----------------------------------------------------> 
 
