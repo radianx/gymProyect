@@ -46,6 +46,7 @@ public class ControladorPersistencia {
     static {
         try {
             Configuration configuration = new Configuration();
+       //     configuration.addResource("gimnasio/modelo/Alumno.hbm.xml");
             configuration.configure("hibernate.cfg.xml");
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 
@@ -206,7 +207,7 @@ public class ControladorPersistencia {
     public Set<Alumno> getAlumnos() throws Notificaciones {
         Set<Alumno> alumnos = new HashSet<>();
 
-        String textoConsulta = "FROM alumno";
+        String textoConsulta = "FROM Alumno";
         List<Alumno> lista = null;
 
         synchronized (this.sesion) {
@@ -229,7 +230,7 @@ public class ControladorPersistencia {
     public Set<AsistenciaAlumno> getAsistenciaAlumno() throws Notificaciones {
         Set<AsistenciaAlumno> asistAlumnos = new HashSet<>();
 
-        String textoConsulta = "FROM asistencia_alumno";
+        String textoConsulta = "FROM AsistenciaAlumno";
         List<AsistenciaAlumno> lista = null;
 
         synchronized (this.sesion) {
@@ -252,7 +253,7 @@ public class ControladorPersistencia {
     public Set<AsistenciaProfesor> getAsistenciaProfesor() throws Notificaciones {
         Set<AsistenciaProfesor> asistProfe = new HashSet<>();
 
-        String textoConsulta = "FROM asistencia_profesor";
+        String textoConsulta = "FROM AsistenciaProfesor";
         List<AsistenciaProfesor> lista = null;
 
         synchronized (this.sesion) {
@@ -275,7 +276,7 @@ public class ControladorPersistencia {
     public Set<Cargo> getCargos() throws Notificaciones {
         Set<Cargo> cargos = new HashSet<>();
 
-        String textoConsulta = "FROM cargo";
+        String textoConsulta = "FROM Cargo";
         List<Cargo> lista = null;
 
         synchronized (this.sesion) {
@@ -298,7 +299,7 @@ public class ControladorPersistencia {
     public Set<Clase> getClases() throws Notificaciones {
         Set<Clase> clases = new HashSet<>();
 
-        String textoConsulta = "FROM clase";
+        String textoConsulta = "FROM Clase";
         List<Clase> lista = null;
 
         synchronized (this.sesion) {
@@ -321,7 +322,7 @@ public class ControladorPersistencia {
     public Set<Cuota> getCuotas() throws Notificaciones {
         Set<Cuota> cuotas = new HashSet<>();
 
-        String textoConsulta = "FROM cuota";
+        String textoConsulta = "FROM Cuota";
         List<Cuota> lista = null;
 
         synchronized (this.sesion) {
@@ -344,7 +345,7 @@ public class ControladorPersistencia {
     public Set<CobroCuota> getCobroCuota() throws Notificaciones {
         Set<CobroCuota> cobroCuotas = new HashSet<>();
 
-        String textoConsulta = "FROM cobro_cuota";
+        String textoConsulta = "FROM CobroCuota";
         List<CobroCuota> lista = null;
 
         synchronized (this.sesion) {
@@ -367,7 +368,7 @@ public class ControladorPersistencia {
     public Set<Modalidad> getModalidades() throws Notificaciones {
         Set<Modalidad> modalidades = new HashSet<>();
 
-        String textoConsulta = "FROM modalidad";
+        String textoConsulta = "FROM Modalidad";
         List<Modalidad> lista = null;
 
         synchronized (this.sesion) {
@@ -390,7 +391,7 @@ public class ControladorPersistencia {
     public Set<Modulo> getModulos() throws Notificaciones {
         Set<Modulo> modulos = new HashSet<>();
 
-        String textoConsulta = "FROM modulo";
+        String textoConsulta = "FROM Modulo";
         List<Modulo> lista = null;
 
         synchronized (this.sesion) {
@@ -413,7 +414,7 @@ public class ControladorPersistencia {
     public Set<PagoProfesor> getPagoProfesores() throws Notificaciones {
         Set<PagoProfesor> pagoProfesores = new HashSet<>();
 
-        String textoConsulta = "FROM pago_profesor";
+        String textoConsulta = "FROM PagoProfesor";
         List<PagoProfesor> lista = null;
 
         synchronized (this.sesion) {
@@ -436,7 +437,7 @@ public class ControladorPersistencia {
     public Set<Profesor> getProfesores() throws Notificaciones {
         Set<Profesor> profesores = new HashSet<>();
 
-        String textoConsulta = "FROM profesor";
+        String textoConsulta = "FROM Profesor";
         List<Profesor> lista = null;
 
         synchronized (this.sesion) {
@@ -459,7 +460,7 @@ public class ControladorPersistencia {
     public Set<Profesormodalidad> getProfesorModalidad() throws Notificaciones {
         Set<Profesormodalidad> profesorModalidades = new HashSet<>();
 
-        String textoConsulta = "FROM profesormodalidad";
+        String textoConsulta = "FROM Profesormodalidad";
         List<Profesormodalidad> lista = null;
 
         synchronized (this.sesion) {
@@ -482,7 +483,7 @@ public class ControladorPersistencia {
     public Set<SaldoCuota> getSaldoCuota() throws Notificaciones {
         Set<SaldoCuota> saldoCuotas = new HashSet<>();
 
-        String textoConsulta = "FROM saldo_cuota";
+        String textoConsulta = "FROM SaldoCuota";
         List<SaldoCuota> lista = null;
 
         synchronized (this.sesion) {
@@ -505,7 +506,7 @@ public class ControladorPersistencia {
     public Set<SaldoPagoProfesor> getSaldoPagoProfesores() throws Notificaciones {
         Set<SaldoPagoProfesor> saldoPagoProfesores = new HashSet<>();
 
-        String textoConsulta = "FROM saldo_pago_profesor";
+        String textoConsulta = "FROM SaldoPagoProfesor";
         List<SaldoPagoProfesor> lista = null;
 
         synchronized (this.sesion) {
@@ -528,7 +529,7 @@ public class ControladorPersistencia {
     public Set<Sector> getSectores() throws Notificaciones {
         Set<Sector> sectores = new HashSet<>();
 
-        String textoConsulta = "FROM sector";
+        String textoConsulta = "FROM Sector";
         List<Sector> lista = null;
 
         synchronized (this.sesion) {
@@ -551,7 +552,7 @@ public class ControladorPersistencia {
     public Set<Usuario> getUsuarios() throws Notificaciones {
         Set<Usuario> usuarios = new HashSet<>();
 
-        String textoConsulta = "FROM usuario";
+        String textoConsulta = "FROM Usuario";
         List<Usuario> lista = null;
 
         synchronized (this.sesion) {

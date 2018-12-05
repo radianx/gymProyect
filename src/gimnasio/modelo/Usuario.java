@@ -100,6 +100,11 @@ public class Usuario  implements java.io.Serializable {
         this.alumnos = alumnos;
     }
 
+    @Override
+    public String toString() {
+        return nombreusuario;
+    }
+
 
 
 

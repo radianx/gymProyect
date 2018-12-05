@@ -67,5 +67,4 @@ Contributor(s):
   <table-filter match-name="inscripcion"/>
   <table-filter match-name="usuario_modulo"/>
   <table-filter match-name="personal"/>
-  <table-filter match-name="cargopersonal"/>
 </hibernate-reverse-engineering>

@@ -25,10 +25,12 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
      */
     ControladorPrincipal miControlador;
     ByteArrayInputStream datosHuella = null;
+
     
     public panelNuevoUsuario(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
+
     }
 
     /**
@@ -54,9 +56,11 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         txtContrasena = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         txtHuella = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("DATOS DEL USUARIO"));
-        setMinimumSize(new java.awt.Dimension(400, 200));
+        setMinimumSize(new java.awt.Dimension(400, 400));
         setPreferredSize(new java.awt.Dimension(420, 300));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -92,6 +96,11 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         });
 
         btnCerrar.setText("CERRAR");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,7 +111,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                 .addComponent(btnOK)
                 .addGap(46, 46, 46)
                 .addComponent(btnLimpiar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCerrar)
                 .addContainerGap())
         );
@@ -171,6 +180,22 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Usuarios Inactivos"));
+
+        jTable1.setBorder(javax.swing.BorderFactory.createTitledBorder(null));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,7 +211,10 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnFoto, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -200,6 +228,8 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnFoto)
                     .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -209,10 +239,12 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         this.txtContrasena.setText("");
         this.txtNombre.setText("");
+        this.txtHuella.setText("SIN CARGAR");
+        this.datosHuella = null;
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jDialogHuella huellaDialog = new jDialogHuella(null,true);
+        jDialogHuella huellaDialog = new jDialogHuella(null, true);
         this.datosHuella = huellaDialog.showDialog();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -226,6 +258,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         if(!this.txtNombre.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
             try {
                 this.miControlador.agregarUsuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), null);
+                this.setVisible(false);
             } catch (IOException | Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 System.err.print(Arrays.toString(ex.getStackTrace()));
@@ -234,6 +267,10 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos. ");
         }
     }//GEN-LAST:event_btnOKActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -248,15 +285,21 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtHuella;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
     public byte[] convertir(ByteArrayInputStream bais) throws IOException{
-        byte[] array = new byte[bais.available()];
-        bais.read(array);
-        
+        byte[] array = null;
+        try{
+            array = new byte[bais.available()];
+            bais.read(array);
+        }catch (NullPointerException ex){
+            JOptionPane.showMessageDialog(null, "Advertencia: Cargando usuario Sin huella");
+        }
         return array;
     }
 

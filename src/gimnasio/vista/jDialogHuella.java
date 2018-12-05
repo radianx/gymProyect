@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import javax.swing.text.DefaultCaret;
 
 public class jDialogHuella extends javax.swing.JDialog {
@@ -50,6 +51,7 @@ public class jDialogHuella extends javax.swing.JDialog {
         DefaultCaret caret = (DefaultCaret)this.txtArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         controlRele.start();
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e){
@@ -118,7 +120,11 @@ public class jDialogHuella extends javax.swing.JDialog {
     }
     
     public void guardarHuella(){
-        this.datosRetorno = new ByteArrayInputStream(planilla.serialize());
+        try{
+            this.datosRetorno = new ByteArrayInputStream(planilla.serialize());
+        } catch (NullPointerException ex){
+            JOptionPane.showMessageDialog(null,"Debe escanear la huella");
+        }
         Integer tamanoHuella=planilla.serialize().length;
         //pregunta el nombre de la persona a la cual corresponde dicha huella
  //       nombre = JOptionPane.showInputDialog("Nombre: ");
@@ -217,6 +223,7 @@ public class jDialogHuella extends javax.swing.JDialog {
         txtArea = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -250,8 +257,6 @@ public class jDialogHuella extends javax.swing.JDialog {
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
-
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -259,6 +264,14 @@ public class jDialogHuella extends javax.swing.JDialog {
             }
         });
         jPanel3.add(btnGuardar);
+
+        jButton1.setText("X");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1);
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
@@ -270,12 +283,20 @@ public class jDialogHuella extends javax.swing.JDialog {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardarHuella();
         this.setVisible(false);
+        this.stop();
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        this.stop();
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
