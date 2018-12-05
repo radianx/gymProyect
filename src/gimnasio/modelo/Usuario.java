@@ -16,6 +16,7 @@ public class Usuario  implements java.io.Serializable {
      private String contrasenia;
      private byte[] planillahuellas;
      private byte[] foto;
+     private String estado;
      private Set modulos = new HashSet(0);
      private Set cargos = new HashSet(0);
      private Set profesors = new HashSet(0);
@@ -24,16 +25,18 @@ public class Usuario  implements java.io.Serializable {
     public Usuario() {
     }
     
-    public Usuario(String nombreusuario, String contrasenia, byte[] planillahuellas, byte[] foto) {
+    public Usuario(String nombreusuario, String contrasenia, byte[] planillahuellas, byte[] foto, String estado) {
        this.nombreusuario = nombreusuario;
        this.contrasenia = contrasenia;
        this.planillahuellas = planillahuellas;
        this.foto = foto;
+       this.estado = estado;
     }
     
-    public Usuario(String nombreUsuario, String contrasenia){
+    public Usuario(String nombreUsuario, String contrasenia, String estado){
         this.nombreusuario= nombreUsuario;
         this.contrasenia = contrasenia;
+        this.estado = estado;
     }
    
     public int getIdusuario() {

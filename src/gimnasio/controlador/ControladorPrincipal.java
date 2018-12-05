@@ -19,6 +19,8 @@ import gimnasio.modelo.Sector;
 import gimnasio.modelo.Usuario;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.ClaseAlumno;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,6 +94,15 @@ public class ControladorPrincipal {
     
     
     
+    public static Date parseDate (String date){
+        try {
+            return new SimpleDateFormat("dd-mm-yyyy").parse(date);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+    
+    
 //  <-----------------BUSQUEDAS-------------------> 
     
     public Usuario buscarUsuario(String nombreUsuario, String contrasenia){
@@ -109,6 +120,17 @@ public class ControladorPrincipal {
         Usuario unUsuario = null;
         for(Usuario miUsuario : this.listaUsuarios){
             if(miUsuario.getNombreusuario().equalsIgnoreCase(nombreUsuario)){
+                unUsuario = miUsuario;
+                break;
+            }
+        }
+        return unUsuario;
+    }
+    
+    public Usuario buscarUsuarioNuevoAlta(String nombreUsuario){
+        Usuario unUsuario = null;
+        for(Usuario miUsuario : this.listaUsuarios){
+            if(miUsuario.getNombreusuario().equalsIgnoreCase(nombreUsuario)&& miUsuario.){
                 unUsuario = miUsuario;
                 break;
             }
@@ -315,7 +337,7 @@ public class ControladorPrincipal {
      
 //  <----------------------------------------------------ABM USUARIOS----------------------------------------------------> 
      public void agregarUsuario(String nombreUsuario, String contrasenia, byte[] planillahuellas, byte[] foto) throws Notificaciones{
-         if(buscarUsuarioAlta(nombreUsuario)!=null){
+         if(buscarUsuarioAlta(nombreUsuario)!=null)&& buscarUsuarioNuevoAlta(nombreUsuario)==null){
              throw new Notificaciones("El usuario ya existe");
          } else{
              Usuario unUsuario = new Usuario(nombreUsuario, contrasenia, planillahuellas, foto);
@@ -473,7 +495,7 @@ public void agregarClase(Profesormodalidad unProfesorModalidad, Sector unSector)
 }
 
 public List<Alumno> quitarClase(Clase unaClase) throws Notificaciones{
-    List<Alumno> alumnosSinClase = null;
+    List<Alumno> alumnosSinClase = new ArrayList<>();
     try {
         for(ClaseAlumno miClaseAlumno : this.listaClaseAlumno){
             if(miClaseAlumno.getClase()==unaClase){
@@ -483,9 +505,12 @@ public List<Alumno> quitarClase(Clase unaClase) throws Notificaciones{
         }
         this.listaClases.remove(unaClase);
         this.miPersistencia.eliminarInstancia(unaClase);
-    } catch (Exception e) {
+    } catch (Notificaciones e) {
         throw new Notificaciones(e.getMessage());
     }finally{
+        if(alumnosSinClase.isEmpty()){
+            alumnosSinClase = null;
+        }
         return alumnosSinClase;
     }
 }
@@ -505,8 +530,10 @@ public void agregarAlumnoClase(Alumno unAlumno, Clase unaClase, int cantidadClas
 
 public void bajaClaseAlumno(ClaseAlumno unaClaseAlumno) throws Notificaciones{
     try {
+       unaClaseAlumno.setCantidadclases(0);
        this.listaClaseAlumno.remove(unaClaseAlumno);
-       this.miPersistencia.eliminarInstancia(unaClaseAlumno);
+       this.miPersistencia.persistirInstancia(unaClaseAlumno);
+        bajaCuota(unaClaseAlumno);
     } catch (Exception e) {
         throw new Notificaciones(e.getMessage());
     }
@@ -521,6 +548,8 @@ public List<Cuota> altaCuota(Alumno unAlumno, Clase unaClase, Double precio, Dat
             String estado = "GENERADA";
             Cuota nuevaCuota = new Cuota(unAlumno, unaClase, precio, estado, altaCuota, vencimientoCuota);
             this.listaCuotas.add(unaCuota);
+            this.miPersistencia.persistirInstancia(nuevaCuota);
+            break;
         }else{
             cuotasImpagas.add(unaCuota);
         }
@@ -532,11 +561,23 @@ public List<Cuota> altaCuota(Alumno unAlumno, Clase unaClase, Double precio, Dat
 }
 
 
-public Cuota altaCuotaConDeuda(Alumno unAlumno, Clase unaClase, Double precio, Date altaCuota, Date vencimientoCuota) throws Notificaciones{
+public void altaCuotaConDeuda(Alumno unAlumno, Clase unaClase, Double precio, Date altaCuota, Date vencimientoCuota) throws Notificaciones{
     String estado = "GENERADA";
     Cuota nuevaCuota = new Cuota(unAlumno, unaClase, precio, estado, altaCuota, vencimientoCuota);
-    this.listaCuotas.add(unaCuota);
+    this.listaCuotas.add(nuevaCuota);
+    this.miPersistencia.persistirInstancia(nuevaCuota);
 }
+
+public void bajaCuota(ClaseAlumno unaClaseAlumno, Date altaCuota){
+    String estado = "BAJA";
+    Date vencimiento = parseDate("11/09/2001");
+    Cuota unaBajaCuota = new Cuota(unaClaseAlumno.getAlumno(), unaClaseAlumno.getClase(), altaCuota, vencimiento);
+    this.listaAsistenciaAlumno.clear(unaClaseAlumno);
+    this.miPersistencia.persistirInstancia(estado)
+}
+
+
+
 
 //  <----------------------------------------------------ABM COBROS----------------------------------------------------> 
 
@@ -549,7 +590,7 @@ public Cuota altaCuotaConDeuda(Alumno unAlumno, Clase unaClase, Double precio, D
 
 public void altaCargo(String nombreCargo) throws Notificaciones{
     if(buscarCargo(nombreCargo)!=null){
-        throw new Notificaciones("el cargo ya existe");
+        throw new Notificaciones("El cargo ya existe");
     }else{
         Cargo unCargo = new Cargo(nombreCargo);
         this.listaCargos.add(unCargo);
@@ -594,7 +635,8 @@ public void bajaPersonal(){
         this.miRele = miRele;
     }
 
-    public Set<Alumno> getListaAlumnos() {
+    public Set<Alumno> getListaAlumnos() throws Notificaciones {
+        this.listaAlumnos = miPersistencia.getAlumnos();
         return listaAlumnos;
     }
 
