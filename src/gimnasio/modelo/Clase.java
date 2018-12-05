@@ -25,20 +25,16 @@ public class Clase  implements java.io.Serializable {
     }
 
 	
-    public Clase(int idclase, Profesormodalidad profesormodalidad, Sector sector) {
-        this.idclase = idclase;
+    public Clase(Profesormodalidad profesormodalidad, Sector sector) {
         this.profesormodalidad = profesormodalidad;
         this.sector = sector;
     }
-    public Clase(int idclase, Profesormodalidad profesormodalidad, Sector sector, Date horainicio, Date horafin, Set asistenciaProfesors, Set cuotas, Set claseAlumnos) {
-       this.idclase = idclase;
+    
+    public Clase(Profesormodalidad profesormodalidad, Sector sector, Date horainicio, Date horafin) {
        this.profesormodalidad = profesormodalidad;
        this.sector = sector;
        this.horainicio = horainicio;
        this.horafin = horafin;
-       this.asistenciaProfesors = asistenciaProfesors;
-       this.cuotas = cuotas;
-       this.claseAlumnos = claseAlumnos;
     }
    
     public int getIdclase() {

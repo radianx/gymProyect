@@ -189,6 +189,7 @@ public class ControladorPrincipal {
         return unCargo;
     }
     
+    
     public List<Clase> buscarClasesPorModalidad(int idModalidad){
         List<Clase> clasesModalidad = new ArrayList<>();
         for(Clase miClase : this.listaClases){
@@ -324,7 +325,7 @@ public class ControladorPrincipal {
             try {
                 this.listaAlumnos.remove(miAlumno);
                 miAlumno.setEstado("BAJA");
-                this.miPersistencia.a.persistirInstancia(miAlumno);
+                this.miPersistencia.persistirInstancia(miAlumno);
             } catch (Notificaciones ex) {
                 throw new Notificaciones(ex.getMessage()); 
             }
@@ -377,17 +378,59 @@ public void agregarModalidad(String nombreModalidad, String descripcionModalidad
 }
 
 public void bajaModalidad(int idModalidad) throws Notificaciones{
-    if(buscarModalidad(idModalidad)!=null){
+    Modalidad miModalidad = buscarModalidad(idModalidad);
+    if(miModalidad==null){
         throw new Notificaciones("La modalidad no existe");
     }else{
-        
+        try {
+            this.miPersistencia.eliminarInstancia(miModalidad);
+        } catch (Exception ex) {
+            throw new Notificaciones(ex.getMessage()); 
+        }
     }
-}
+} 
 
 //  <----------------------------------------------------ABM PROFESORES POR MODALIDADES----------------------------------------------------> 
 
+public void agregarProfesorPorModalidad(Modalidad unModalidad, Profesor unProfesor) throws Notificaciones{
+    List<Modalidad> modalidadesDelProfesor = buscarModalidadDeProfesor(unProfesor.getIdprofesor());
+    for(Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad){
+        if (miProfesorModalidad.getModalidad()==unModalidad){
+            throw new Notificaciones("El profesor ya tiene asignada la modalidad");
+        }else{
+            Profesormodalidad unProfesorModalidad = new Profesormodalidad(unModalidad, unProfesor);
+            this.listaProfesorModalidad.add(unProfesorModalidad);
+            this.miPersistencia.persistirInstancia(unProfesorModalidad);
+        }
+    }
+}
+
+public void quitarProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throws Notificaciones{
+    for (Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad) {
+        if (miProfesorModalidad == unProfesorModalidad) {
+            try {
+                this.miPersistencia.eliminarInstancia(miProfesorModalidad);
+            } catch (Exception e) {
+                    throw new Notificaciones(e.getMessage());
+            }
+        }
+    }
+}
+
+
 //  <----------------------------------------------------ABM CLASES ----------------------------------------------------> 
 
+public void agregarClase(Profesormodalidad unProfesorModalidad, Sector unSector) throws Notificaciones{
+    for(Clase miClase : this.listaClases){
+        if(miClase.getProfesormodalidad()==unProfesorModalidad && miClase.getSector()== unSector){
+            throw new Notificaciones("La clase ya existe");
+        }else{
+            Clase unaClase = new Clase(unProfesorModalidad, unSector);
+            this.listaClases.add(miClase);
+            this.miPersistencia.persistirInstancia(unaClase);
+        }
+    }
+}
 //  <----------------------------------------------------ABM CUOTAS ----------------------------------------------------> 
 
 //  <----------------------------------------------------ABM COBROS----------------------------------------------------> 

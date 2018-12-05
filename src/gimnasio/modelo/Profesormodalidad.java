@@ -21,13 +21,11 @@ public class Profesormodalidad  implements java.io.Serializable {
     }
 
 	
-    public Profesormodalidad(int idprofesormodalidad, Modalidad modalidad, Profesor profesor) {
-        this.idprofesormodalidad = idprofesormodalidad;
+    public Profesormodalidad(Modalidad modalidad, Profesor profesor) {
         this.modalidad = modalidad;
         this.profesor = profesor;
     }
-    public Profesormodalidad(int idprofesormodalidad, Modalidad modalidad, Profesor profesor, Double preciohora, Set clases) {
-       this.idprofesormodalidad = idprofesormodalidad;
+    public Profesormodalidad(Modalidad modalidad, Profesor profesor, Double preciohora, Set clases) {
        this.modalidad = modalidad;
        this.profesor = profesor;
        this.preciohora = preciohora;

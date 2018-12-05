@@ -78,7 +78,7 @@ public class ControladorPersistencia {
 
             try {
                 t.begin();
-                this.sesion.save(instancia);
+                this.sesion.saveOrUpdate(instancia);
                 t.commit();
 
                 /*
