@@ -20,12 +20,10 @@ public class Cargo  implements java.io.Serializable {
     }
 
 	
-    public Cargo(int idcargo, String nombrecargo) {
-        this.idcargo = idcargo;
+    public Cargo(String nombrecargo) {
         this.nombrecargo = nombrecargo;
     }
-    public Cargo(int idcargo, String nombrecargo, String descripcioncargo, Set usuarios) {
-       this.idcargo = idcargo;
+    public Cargo(String nombrecargo, String descripcioncargo, Set usuarios) {
        this.nombrecargo = nombrecargo;
        this.descripcioncargo = descripcioncargo;
        this.usuarios = usuarios;

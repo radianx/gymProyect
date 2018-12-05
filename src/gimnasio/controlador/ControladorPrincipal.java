@@ -18,6 +18,7 @@ import gimnasio.modelo.SaldoPagoProfesor;
 import gimnasio.modelo.Sector;
 import gimnasio.modelo.Usuario;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.ClaseAlumno;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +36,7 @@ import javax.swing.JOptionPane;
  */
 public class ControladorPrincipal {
     private Set<Alumno> listaAlumnos = new HashSet<>();
+    private Set<ClaseAlumno> listaClaseAlumno = new HashSet<>();
     private Set<Profesor> listaProfesores = new HashSet<>();
     private Set<Modalidad> listaModalidades = new HashSet<>();
     private Set<Profesormodalidad> listaProfesorModalidad = new HashSet<>();
@@ -69,6 +71,7 @@ public class ControladorPrincipal {
             this.listaAsistenciaProfesor = miPersistencia.getAsistenciaProfesor();
             this.listaCargos = miPersistencia.getCargos();
             this.listaClases = miPersistencia.getClases();
+            this.listaClaseAlumno = miPersistencia.getClaseAlumno();
             this.listaCuotas = miPersistencia.getCuotas();
             this.listaCobroCuota = miPersistencia.getCobroCuota();
             this.listaModalidades = miPersistencia.getModalidades();
@@ -144,6 +147,17 @@ public class ControladorPrincipal {
         return unAlumno;
     }
     
+    public Alumno buscarAlumnoClase(Alumno elAlumno){
+        Alumno unAlumno = null;
+        for(Alumno miAlumno : this.listaAlumnos){
+            if (miAlumno.getIdalumno() == elAlumno.getIdalumno()){
+                unAlumno = miAlumno;
+                break;
+            }
+        }
+        return unAlumno;
+    }
+    
     public Profesor buscarProfesor(String nombreProfesor){
         Profesor unProfesor = null;
         for(Profesor miProfesor : this.listaProfesores){
@@ -199,6 +213,7 @@ public class ControladorPrincipal {
         }
         return clasesModalidad;
     }
+    
     
     public List<Clase> buscarClasesPorProfesor(int idProfesor){
         List<Clase> clasesProfesor = new ArrayList<>();
@@ -263,9 +278,7 @@ public class ControladorPrincipal {
         return modalidadesDelProfesor;
     }
     
-     
-     
-     
+    
 //  <-------------------------------------------------------------------------------------------------------------------------------------> 
 //          <---------------------------------------------------------------ABMs----------------------------------------------------> 
 //  <------------------------------------------------------------------------------------------------------------------------------------->
@@ -431,7 +444,42 @@ public void agregarClase(Profesormodalidad unProfesorModalidad, Sector unSector)
         }
     }
 }
+
+public void quitarClase(Clase unaClase) throws Notificaciones{
+    try {
+        this.listaClases.remove(unaClase);
+        this.miPersistencia.eliminarInstancia(unaClase);
+    } catch (Exception e) {
+        throw new Notificaciones(e.getMessage());
+    }
+}
+
+
+
+//  <------------------------------------------------ABM CLASES ALUMNO------------------------------------------------> 
+
+
+public void agregarAlumnoClase(Alumno unAlumno, Clase unaClase, int cantidadClases) throws Notificaciones{
+    if(buscarAlumnoClase(unAlumno)!=null){
+        throw new Notificaciones("El alumno ya se encuentra inscripto en la clase");
+    }else{
+        ClaseAlumno unaClaseAlumno = new ClaseAlumno(unAlumno, unaClase, cantidadClases);
+    }
+}
+
+public void bajaClaseAlumno(ClaseAlumno unaClaseAlumno) throws Notificaciones{
+    try {
+       this.listaClaseAlumno.remove(unaClaseAlumno);
+       this.miPersistencia.eliminarInstancia(unaClaseAlumno);
+    } catch (Exception e) {
+        throw new Notificaciones(e.getMessage());
+    }
+}
+
+
 //  <----------------------------------------------------ABM CUOTAS ----------------------------------------------------> 
+
+
 
 //  <----------------------------------------------------ABM COBROS----------------------------------------------------> 
 
@@ -442,6 +490,20 @@ public void agregarClase(Profesormodalidad unProfesorModalidad, Sector unSector)
 
 //  <----------------------------------------------------ABM CARGOS----------------------------------------------------> 
 
+public void altaCargo(String nombreCargo) throws Notificaciones{
+    if(buscarCargo(nombreCargo)!=null){
+        throw new Notificaciones("el cargo ya existe");
+    }else{
+        Cargo unCargo = new Cargo(nombreCargo);
+        this.listaCargos.add(unCargo);
+        this.miPersistencia.persistirInstancia(unCargo);
+    }
+}
+
+
+public void bajaCargo(){
+    
+}
 //  <----------------------------------------------------ABM SECTORES----------------------------------------------------> 
     
 
