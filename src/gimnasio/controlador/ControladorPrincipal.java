@@ -83,6 +83,8 @@ public class ControladorPrincipal {
             this.listaSaldoPagoProfesores = miPersistencia.getSaldoPagoProfesores();
             this.listaSectores = miPersistencia.getSectores();
             this.listaUsuarios = miPersistencia.getUsuarios();
+            
+            
         } catch (Notificaciones ex) {
             Logger.getLogger(ControladorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -235,6 +237,17 @@ public class ControladorPrincipal {
         return cuotasImpagas;
     }
     
+    public List<Cuota> buscarCuotasImpagas(Alumno unAlumno){
+        List<Cuota> cuotasImpagas = new ArrayList<>();
+        for(Cuota miCuota :this.listaCuotas){
+            if(miCuota.getEstado().equalsIgnoreCase("GENERADA")&&miCuota.getAlumno().getIdalumno()==unAlumno.getIdalumno()){
+                cuotasImpagas.add(miCuota);
+            }
+        }
+        return cuotasImpagas;
+    }
+    
+    
     public List<Cuota> buscarCuotasConSaldo(){
         List<Cuota> cuotasConSaldo = new ArrayList<>();
         for(Cuota miCuota :this.listaCuotas){
@@ -244,7 +257,18 @@ public class ControladorPrincipal {
         }
         return cuotasConSaldo;
     }
-       
+    
+    public List<Cuota> buscarCuotasConSaldo(Alumno unAlumno){
+        List<Cuota> cuotasConSaldo = new ArrayList<>();
+        for(Cuota miCuota :this.listaCuotas){
+            if(miCuota.getEstado().equalsIgnoreCase("SALDO")&& miCuota.getAlumno().getIdalumno()== unAlumno.getIdalumno()){
+                cuotasConSaldo.add(miCuota);
+            }
+        }
+        return cuotasConSaldo;
+    }
+    
+    
     
     public Modalidad buscarModalidad (String nombreModalidad){
         Modalidad unaModalidad = null;
@@ -277,6 +301,9 @@ public class ControladorPrincipal {
         }
         return modalidadesDelProfesor;
     }
+    
+    
+    
     
     
 //  <-------------------------------------------------------------------------------------------------------------------------------------> 
@@ -445,12 +472,21 @@ public void agregarClase(Profesormodalidad unProfesorModalidad, Sector unSector)
     }
 }
 
-public void quitarClase(Clase unaClase) throws Notificaciones{
+public List<Alumno> quitarClase(Clase unaClase) throws Notificaciones{
+    List<Alumno> alumnosSinClase = null;
     try {
+        for(ClaseAlumno miClaseAlumno : this.listaClaseAlumno){
+            if(miClaseAlumno.getClase()==unaClase){
+                alumnosSinClase.add(miClaseAlumno.getAlumno());
+                bajaClaseAlumno(miClaseAlumno);
+            }
+        }
         this.listaClases.remove(unaClase);
         this.miPersistencia.eliminarInstancia(unaClase);
     } catch (Exception e) {
         throw new Notificaciones(e.getMessage());
+    }finally{
+        return alumnosSinClase;
     }
 }
 
@@ -478,8 +514,29 @@ public void bajaClaseAlumno(ClaseAlumno unaClaseAlumno) throws Notificaciones{
 
 
 //  <----------------------------------------------------ABM CUOTAS ----------------------------------------------------> 
+public List<Cuota> altaCuota(Alumno unAlumno, Clase unaClase, Double precio, Date altaCuota, Date vencimientoCuota) throws Notificaciones{
+    List<Cuota> cuotasImpagas = new ArrayList<>();
+    for(Cuota unaCuota : this.listaCuotas){
+        if(buscarCuotasImpagas(unAlumno)!=null && buscarCuotasConSaldo(unAlumno)!=null){
+            String estado = "GENERADA";
+            Cuota nuevaCuota = new Cuota(unAlumno, unaClase, precio, estado, altaCuota, vencimientoCuota);
+            this.listaCuotas.add(unaCuota);
+        }else{
+            cuotasImpagas.add(unaCuota);
+        }
+    }
+    if(cuotasImpagas.isEmpty()){
+        cuotasImpagas = null;
+    }
+    return cuotasImpagas;
+}
 
 
+public Cuota altaCuotaConDeuda(Alumno unAlumno, Clase unaClase, Double precio, Date altaCuota, Date vencimientoCuota) throws Notificaciones{
+    String estado = "GENERADA";
+    Cuota nuevaCuota = new Cuota(unAlumno, unaClase, precio, estado, altaCuota, vencimientoCuota);
+    this.listaCuotas.add(unaCuota);
+}
 
 //  <----------------------------------------------------ABM COBROS----------------------------------------------------> 
 
@@ -501,7 +558,7 @@ public void altaCargo(String nombreCargo) throws Notificaciones{
 }
 
 
-public void bajaCargo(){
+public void bajaCargo(Cargo unCargo){
     
 }
 //  <----------------------------------------------------ABM SECTORES----------------------------------------------------> 
@@ -516,13 +573,17 @@ public void bajaCargo(){
 //  <----------------------------------------------------ABM CAJA DIARIA----------------------------------------------------> 
     
 
+//  <----------------------------------------------------ABM PERSONAL----------------------------------------------------> 
+public void bajaPersonal(){
+    
+}
 //  <----------------------------------------------------ABM----------------------------------------------------> 
+    
+    
+    
+    
 
-//  <----------------------------------------------------ABM----------------------------------------------------> 
-    
-    
-    
-    
+
 //  <-----------------LISTA DE GETTERS Y SETTERS------------------->
 
     public ControladorRele getMiRele() {
@@ -629,7 +690,8 @@ public void bajaCargo(){
         this.listaSaldoPagoProfesores = listaSaldoPagoProfesores;
     }
 
-    public Set<Usuario> getListaUsuarios() {
+    public Set<Usuario> getListaUsuarios() throws Notificaciones {
+        this.listaUsuarios = miPersistencia.getUsuarios();
         return listaUsuarios;
     }
 

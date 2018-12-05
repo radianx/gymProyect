@@ -25,22 +25,18 @@ public class Cuota  implements java.io.Serializable {
     }
 
 	
-    public Cuota(int idcuota, Alumno alumno, Clase clase, Date altacuota, Date vencimiento) {
-        this.idcuota = idcuota;
+    public Cuota(Alumno alumno, Clase clase, Date altacuota, Date vencimiento) {
         this.alumno = alumno;
         this.clase = clase;
         this.altacuota = altacuota;
         this.vencimiento = vencimiento;
     }
-    public Cuota(int idcuota, Alumno alumno, Clase clase, Double monto, String estado, Date altacuota, Date vencimiento, Set cobroCuotas) {
-       this.idcuota = idcuota;
+    public Cuota(Alumno alumno, Clase clase, Double monto, String estado, Date altacuota, Date vencimiento) {
        this.alumno = alumno;
        this.clase = clase;
        this.monto = monto;
        this.estado = estado;
        this.altacuota = altacuota;
-       this.vencimiento = vencimiento;
-       this.cobroCuotas = cobroCuotas;
     }
    
     public int getIdcuota() {
