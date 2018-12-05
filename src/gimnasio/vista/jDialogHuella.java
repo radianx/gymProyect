@@ -18,6 +18,8 @@ import com.digitalpersona.onetouch.verification.DPFPVerificationResult;
 import gimnasio.controlador.ControladorRele;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -29,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.text.DefaultCaret;
 
 public class jDialogHuella extends javax.swing.JDialog {
 
@@ -38,12 +41,14 @@ public class jDialogHuella extends javax.swing.JDialog {
     private DPFPFeatureSet featuresinscripcion;
     private DPFPFeatureSet featuresvertification;
     private DPFPTemplate planilla;
-    private String nombre;
     private ControladorRele controlRele = new ControladorRele();
+    private ByteArrayInputStream datosRetorno;
    
     public jDialogHuella(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        DefaultCaret caret = (DefaultCaret)this.txtArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         controlRele.start();
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -113,13 +118,13 @@ public class jDialogHuella extends javax.swing.JDialog {
     }
     
     public void guardarHuella(){
-        ByteArrayInputStream datosHuella = new ByteArrayInputStream(planilla.serialize());
+        this.datosRetorno = new ByteArrayInputStream(planilla.serialize());
         Integer tamanoHuella=planilla.serialize().length;
         //pregunta el nombre de la persona a la cual corresponde dicha huella
-        nombre = JOptionPane.showInputDialog("Nombre: ");
+ //       nombre = JOptionPane.showInputDialog("Nombre: ");
             
         JOptionPane.showMessageDialog(null,"Huella Guardada Correctamente");
-            this.btnGuardar.setEnabled(false);
+            this.dispose();
     }
     
     public void verificarHuella() throws InterruptedException{
@@ -134,10 +139,10 @@ public class jDialogHuella extends javax.swing.JDialog {
             DPFPVerificationResult result = verificador.verify(this.featuresvertification, getTemplate());
             
             if(result.isVerified()){
-                JOptionPane.showMessageDialog(null, "La huella capturada coincide con la de "+nombre, "Verificacion de huella", JOptionPane.INFORMATION_MESSAGE);           
+                JOptionPane.showMessageDialog(null, "La huella capturada coincide con la de ", "Verificacion de huella", JOptionPane.INFORMATION_MESSAGE);           
                 controlRele.abrirPuerta();
             } else{
-                JOptionPane.showMessageDialog(null, "No corresponde la huella con "+ nombre, "Verificacion de huella", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No corresponde la huella con ", "Verificacion de huella", JOptionPane.ERROR_MESSAGE);
             } 
           
     }
@@ -225,13 +230,22 @@ public class jDialogHuella extends javax.swing.JDialog {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocation(new java.awt.Point(500, 300));
+        setMinimumSize(new java.awt.Dimension(200, 300));
+        setPreferredSize(new java.awt.Dimension(200, 300));
+        setSize(new java.awt.Dimension(200, 300));
         getContentPane().add(lblHuella, java.awt.BorderLayout.CENTER);
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        txtArea.setEditable(false);
         txtArea.setColumns(15);
         txtArea.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtArea.setRows(5);
+        txtArea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(txtArea);
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -255,49 +269,10 @@ public class jDialogHuella extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardarHuella();
+        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jDialogHuella.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jDialogHuella.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jDialogHuella.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jDialogHuella.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                jDialogHuella dialog = new jDialogHuella(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
@@ -308,4 +283,9 @@ public class jDialogHuella extends javax.swing.JDialog {
     private javax.swing.JLabel lblHuella;
     private javax.swing.JTextArea txtArea;
     // End of variables declaration//GEN-END:variables
+
+    public ByteArrayInputStream showDialog(){
+        this.setVisible(true);
+        return this.datosRetorno;
+    }
 }

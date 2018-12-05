@@ -76,6 +76,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
 		this.paintAll(getGraphics());
 		// this.pack();
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -100,9 +101,9 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("GESTION DE USUARIOS");
-        setMaximumSize(new java.awt.Dimension(420, 300));
-        setMinimumSize(new java.awt.Dimension(420, 300));
-        setPreferredSize(new java.awt.Dimension(420, 300));
+        setMaximumSize(new java.awt.Dimension(430, 300));
+        setMinimumSize(new java.awt.Dimension(430, 300));
+        setPreferredSize(new java.awt.Dimension(430, 300));
 
         panelPrincipal.setMinimumSize(new java.awt.Dimension(400, 200));
         panelPrincipal.setPreferredSize(new java.awt.Dimension(420, 300));
@@ -148,11 +149,14 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         jLabel2.setText("FOTOGRAFIA");
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        java.awt.GridBagLayout jPanel5Layout = new java.awt.GridBagLayout();
-        jPanel5Layout.columnWidths = new int[] {0, 150, 0};
-        jPanel5.setLayout(jPanel5Layout);
+        jPanel5.setLayout(new java.awt.GridBagLayout());
 
         btnNuevo.setText("NUEVO USUARIO");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnNuevo, new java.awt.GridBagConstraints());
 
         btnModificar.setText("MODIFICAR USUARIO");
@@ -192,11 +196,11 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
             .addGroup(panelPrinCentroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         panelPrincipal.add(panelPrinCentro, java.awt.BorderLayout.CENTER);
@@ -231,6 +235,10 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     private void listaUsuariosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_listaUsuariosKeyReleased
         buscarFiltro(this.txtBuscar.getText());
     }//GEN-LAST:event_listaUsuariosKeyReleased
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        cambiarPanel(new panelNuevoUsuario(miControlador));
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
