@@ -20,6 +20,9 @@
         <property name="foto" type="binary">
             <column name="foto" />
         </property>
+        <property name="estado" type="string">
+            <column name="estado" />
+        </property>
         <set name="modulos" table="usuario_modulo" inverse="false" lazy="true" fetch="select">
             <key>
                 <column name="idusuario" not-null="true" />

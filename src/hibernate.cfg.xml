@@ -70,6 +70,5 @@ Contributor(s):
     <mapping resource="gimnasio/modelo/Profesormodalidad.hbm.xml"/>
     <mapping resource="gimnasio/modelo/CobroCuota.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Lectorhuella.hbm.xml"/>
-    <mapping resource="gimnasio/modelo/CargoPersonal.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
