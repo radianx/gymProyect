@@ -127,16 +127,6 @@ public class ControladorPrincipal {
         return unUsuario;
     }
     
-    public Usuario buscarUsuarioNuevoAlta(String nombreUsuario){
-        Usuario unUsuario = null;
-        for(Usuario miUsuario : this.listaUsuarios){
-            if(miUsuario.getNombreusuario().equalsIgnoreCase(nombreUsuario)&& miUsuario.){
-                unUsuario = miUsuario;
-                break;
-            }
-        }
-        return unUsuario;
-    }
     
     public Usuario buscarUsuarioBaja(int idUsuario){
         Usuario unUsuario = null;
@@ -337,12 +327,14 @@ public class ControladorPrincipal {
      
 //  <----------------------------------------------------ABM USUARIOS----------------------------------------------------> 
      public void agregarUsuario(String nombreUsuario, String contrasenia, byte[] planillahuellas, byte[] foto) throws Notificaciones{
-         if(buscarUsuarioAlta(nombreUsuario)!=null)&& buscarUsuarioNuevoAlta(nombreUsuario)==null){
+         Usuario unUsuario = buscarUsuarioAlta(nombreUsuario);
+         if(unUsuario !=null  && unUsuario.getEstado().equalsIgnoreCase("INACTIVO")){
              throw new Notificaciones("El usuario ya existe");
          } else{
-             Usuario unUsuario = new Usuario(nombreUsuario, contrasenia, planillahuellas, foto);
-             this.listaUsuarios.add(unUsuario);
-             this.miPersistencia.persistirInstancia(unUsuario);
+             String estado = "ACTIVO";
+             Usuario miUsuario = new Usuario(nombreUsuario, contrasenia, planillahuellas, foto, estado);
+             this.listaUsuarios.add(miUsuario);
+             this.miPersistencia.persistirInstancia(miUsuario);
          }
      }
      
@@ -350,7 +342,8 @@ public class ControladorPrincipal {
          if(buscarUsuarioAlta(nombreUsuario)!=null){
              throw new Notificaciones("El usuario ya existe");
          } else{
-             Usuario unUsuario = new Usuario(nombreUsuario, contrasenia);
+             String estado = "ACTIVO";
+             Usuario unUsuario = new Usuario(nombreUsuario, contrasenia, estado);
              this.listaUsuarios.add(unUsuario);
              this.miPersistencia.persistirInstancia(unUsuario);
          }
