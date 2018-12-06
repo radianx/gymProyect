@@ -78,6 +78,14 @@ public class Usuario  implements java.io.Serializable {
         return this.modulos;
     }
     
+    public void setEstado(String estado){
+        this.estado= estado;
+    }
+    
+    public String getEstado(){
+        return this.estado;
+    }
+    
     public void setModulos(Set modulos) {
         this.modulos = modulos;
     }
