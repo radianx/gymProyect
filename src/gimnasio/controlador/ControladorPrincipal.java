@@ -1,6 +1,7 @@
 
 package gimnasio.controlador;
 
+import com.sun.org.apache.xpath.internal.operations.Minus;
 import gimnasio.modelo.Alumno;
 import gimnasio.modelo.AsistenciaAlumno;
 import gimnasio.modelo.AsistenciaProfesor;
@@ -328,46 +329,94 @@ public class ControladorPrincipal {
 //  <----------------------------------------------------ABM USUARIOS----------------------------------------------------> 
      public void agregarUsuario(String nombreUsuario, String contrasenia, byte[] planillahuellas, byte[] foto) throws Notificaciones{
          Usuario unUsuario = buscarUsuarioAlta(nombreUsuario);
-         if(unUsuario !=null  && unUsuario.getEstado().equalsIgnoreCase("INACTIVO")){
-             throw new Notificaciones("El usuario ya existe");
+         String estado = "ACTIVO";
+         if(unUsuario !=null){
+             if(unUsuario.getEstado().equalsIgnoreCase("ACTIVO")){
+                throw new Notificaciones("El usuario ya existe");
+             }else{
+                 unUsuario.setEstado(estado);
+                 unUsuario.setContrasenia(contrasenia);
+                 unUsuario.setPlanillahuellas(planillahuellas);
+                 unUsuario.setFoto(foto);
+                 this.listaUsuarios.add(unUsuario);
+                 this.miPersistencia.persistirInstancia(unUsuario);
+             }
          } else{
-             String estado = "ACTIVO";
-             Usuario miUsuario = new Usuario(nombreUsuario, contrasenia, planillahuellas, foto, estado);
-             this.listaUsuarios.add(miUsuario);
-             this.miPersistencia.persistirInstancia(miUsuario);
-         }
-     }
-     
-     public void agregarUsuario(String nombreUsuario, String contrasenia) throws Notificaciones{
-         if(buscarUsuarioAlta(nombreUsuario)!=null){
-             throw new Notificaciones("El usuario ya existe");
-         } else{
-             String estado = "ACTIVO";
-             Usuario unUsuario = new Usuario(nombreUsuario, contrasenia, estado);
+             unUsuario = new Usuario(nombreUsuario, contrasenia, planillahuellas, foto, estado);
              this.listaUsuarios.add(unUsuario);
              this.miPersistencia.persistirInstancia(unUsuario);
          }
+     }
+     
+     
+    public void agregarUsuario(String nombreUsuario, String contrasenia) throws Notificaciones {
+        String estado = "ACTIVO";
+        Usuario unUsuario = buscarUsuarioAlta(nombreUsuario);
+        if (unUsuario != null) {
+            if (unUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
+                throw new Notificaciones("El usuario ya existe");
+            } else {
+                unUsuario.setEstado(estado);
+                unUsuario.setContrasenia(contrasenia);
+                this.listaUsuarios.add(unUsuario);
+                this.miPersistencia.persistirInstancia(unUsuario);
+            }
+        } else {
+            unUsuario = new Usuario(nombreUsuario, contrasenia, estado);
+            this.listaUsuarios.add(unUsuario);
+            this.miPersistencia.persistirInstancia(unUsuario);
+        }
+    }
+     
+     
+     public void bajaUsuario(int idUsuario) throws Notificaciones{
+         Usuario unUsuario = buscarUsuarioBaja(idUsuario);
+         String estado = "INACTIVO";
+         unUsuario.setEstado(estado);
+         this.miPersistencia.persistirInstancia(unUsuario);
      }
    
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
     
     public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, int edad, Double peso, Double altura, Date fechaCumpleanios) throws Notificaciones{
-        if(buscarAlumnoAlta(nombreAlu,apellido)!=null){//FALTA VERIFICAR SI EL ESTADO ESTA EN BAJA
-            throw new Notificaciones("El Alumno ya existe");
+        Alumno unAlumno = buscarAlumnoAlta(nombreAlu,apellido);
+        String estado = "ACTIVO";
+        if(unAlumno != null){
+            if(unAlumno.getEstado().equalsIgnoreCase(estado)){
+                throw new Notificaciones("El Alumno ya existe");
+            }else{
+                unAlumno.setEstado(estado);
+                unAlumno.setNombrealumno(nombreAlu);
+                unAlumno.setApellidoalumno(apellido);
+                unAlumno.setEdad(edad);
+                unAlumno.setPeso(peso);
+                unAlumno.setAltura(altura);
+                unAlumno.setFechacumpleanios(fechaCumpleanios);
+                this.listaAlumnos.add(unAlumno);
+                this.miPersistencia.persistirInstancia(unAlumno);
+            }
         }else{
-            String estado = "ACTIVO";
-            Alumno unAlumno = new Alumno(unUsuario, nombreAlu, apellido, edad, peso, altura,estado, fechaCumpleanios);
+            unAlumno = new Alumno(unUsuario, nombreAlu, apellido, edad, peso, altura,estado, fechaCumpleanios);
             this.listaAlumnos.add(unAlumno);
             this.miPersistencia.persistirInstancia(unAlumno);
         }
     }
     
     public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido) throws Notificaciones{
-        if(buscarAlumnoAlta(nombreAlu,apellido)!=null){//FALTA VERIFICAR SI EL ESTADO ESTA EN BAJA
-            throw new Notificaciones("El Alumno ya existe");
+        Alumno unAlumno = buscarAlumnoAlta(nombreAlu,apellido);
+        String estado = "ACTIVO";
+        if(unAlumno == null){
+            if(unAlumno.getEstado().equalsIgnoreCase(estado)){
+                throw new Notificaciones("El Alumno ya existe");
+            }else{
+                unAlumno.setEstado(estado);
+                unAlumno.setNombrealumno(nombreAlu);
+                unAlumno.setApellidoalumno(apellido);
+                this.listaAlumnos.add(unAlumno);
+                this.miPersistencia.persistirInstancia(unAlumno);
+            }
         }else{
-            String estado = "ACTIVO";
-            Alumno unAlumno = new Alumno(unUsuario, nombreAlu, apellido);
+            unAlumno = new Alumno(unUsuario, nombreAlu, apellido);
             this.listaAlumnos.add(unAlumno);
             this.miPersistencia.persistirInstancia(unAlumno);
         }
@@ -376,38 +425,58 @@ public class ControladorPrincipal {
     
     public void bajaAlumno(int idAlumno) throws Notificaciones{
         Alumno miAlumno = buscarAlumnoBaja(idAlumno);
-        if(miAlumno!=null){
-            try {
-                this.listaAlumnos.remove(miAlumno);
-                miAlumno.setEstado("BAJA");
-                this.miPersistencia.persistirInstancia(miAlumno);
-            } catch (Notificaciones ex) {
-                throw new Notificaciones(ex.getMessage()); 
-            }
-        }
+        String estado = "INACTIVO";
+        miAlumno.setEstado(estado);
+        miPersistencia.persistirInstancia(miAlumno);
     }
     
+    
+    
+    
  //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
-public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Integer edad, Double peso, Double altura, Date fechacumpleanios) throws Notificaciones{
-    if(buscarProfesor(nombreProfesor,apellidoProfesor)!=null){
-        throw new Notificaciones("El profesor ya existe");
-    }else{
+public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Integer edad, Double peso, Double altura, Date fechacumpleanios) throws Notificaciones {
         String estado = "ACTIVO";
-        Profesor unProfesor = new Profesor(usuario, idContacto, idObraSocial, nombreProfesor, apellidoProfesor, edad, peso, altura, estado, fechacumpleanios);
-        this.listaProfesores.add(unProfesor);
+        Profesor unProfesor = buscarProfesor(nombreProfesor, apellidoProfesor);
+        if (unProfesor != null) {
+            if (unProfesor.getEstado().equalsIgnoreCase(estado)) {
+                throw new Notificaciones("El profesor ya existe");
+            } else {
+                unProfesor.setNombreprofesor(nombreProfesor);
+                unProfesor.setIdcontacto(idContacto);
+                unProfesor.setIdobrasocial(idObraSocial);
+                unProfesor.setApellidoprofesor(apellidoProfesor);
+                unProfesor.setEdad(edad);
+                unProfesor.setPeso(peso);
+                unProfesor.setAltura(altura);
+                unProfesor.setFechacumpleanios(fechacumpleanios);
+                this.listaProfesores.add(unProfesor);
+                this.miPersistencia.persistirInstancia(unProfesor);
+            }
+        } else {
+            unProfesor = new Profesor(usuario, idContacto, idObraSocial, nombreProfesor, apellidoProfesor, edad, peso, altura, estado, fechacumpleanios);
+            this.listaProfesores.add(unProfesor);
+            this.miPersistencia.persistirInstancia(unProfesor);
+        }
     }
-}
 
 public void agregarProfesor(Usuario unUsuario, String nombreProfesor, String apellidoProfesor) throws Notificaciones{
-    if(buscarProfesor(nombreProfesor, apellidoProfesor)!=null){
-        throw new Notificaciones("El profesor ya existe");
-    }else{
         String estado = "ACTIVO";
-        Profesor unProfesor = new Profesor(unUsuario, nombreProfesor, apellidoProfesor, estado);
-        this.listaProfesores.add(unProfesor);
-        this.miPersistencia.persistirInstancia(unProfesor);
+        Profesor unProfesor = buscarProfesor(nombreProfesor, apellidoProfesor);
+        if (unProfesor != null) {
+            if (unProfesor.getEstado().equalsIgnoreCase(estado)) {
+                throw new Notificaciones("El profesor ya existe");
+            } else {
+                unProfesor.setNombreprofesor(nombreProfesor);
+                unProfesor.setApellidoprofesor(apellidoProfesor);
+                this.listaProfesores.add(unProfesor);
+                this.miPersistencia.persistirInstancia(unProfesor);
+            }
+        } else {
+            unProfesor = new Profesor(unUsuario, nombreProfesor, apellidoProfesor, estado);
+            this.listaProfesores.add(unProfesor);
+            this.miPersistencia.persistirInstancia(unProfesor);
+        }
     }
-}
     
 
 //  <----------------------------------------------------ABM MODALIDADES----------------------------------------------------> 
