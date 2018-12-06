@@ -338,32 +338,36 @@ public class ControladorPrincipal {
      
      
 //  <----------------------------------------------------ABM USUARIOS----------------------------------------------------> 
-     public void agregarUsuario(String nombreUsuario, String contrasenia, byte[] planillahuellas, byte[] foto) throws Notificaciones{
-         Usuario unUsuario = buscarUsuarioAlta(nombreUsuario);
-         String estado = "ACTIVO";
-         if(unUsuario !=null){
-             if(unUsuario.getEstado().equalsIgnoreCase("ACTIVO")){
+    public void agregarUsuario(String nombreUsuario, String contrasenia, byte[] planillahuellas, byte[] foto) throws Notificaciones {
+        Usuario unUsuario = buscarUsuarioAlta(nombreUsuario);
+        String estado = "ACTIVO";
+        if (unUsuario == null) {
+            unUsuario = new Usuario(nombreUsuario, contrasenia, planillahuellas, foto, estado);
+            this.listaUsuarios.add(unUsuario);
+            this.miPersistencia.persistirInstancia(unUsuario);
+        } else {
+            if (unUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
                 throw new Notificaciones("El usuario ya existe");
-             }else{
-                 unUsuario.setEstado(estado);
-                 unUsuario.setContrasenia(contrasenia);
-                 unUsuario.setPlanillahuellas(planillahuellas);
-                 unUsuario.setFoto(foto);
-                 this.listaUsuarios.add(unUsuario);
-                 this.miPersistencia.persistirInstancia(unUsuario);
-             }
-         } else{
-             unUsuario = new Usuario(nombreUsuario, contrasenia, planillahuellas, foto, estado);
-             this.listaUsuarios.add(unUsuario);
-             this.miPersistencia.persistirInstancia(unUsuario);
-         }
-     }
+            } else {
+                unUsuario.setEstado(estado);
+                unUsuario.setContrasenia(contrasenia);
+                unUsuario.setPlanillahuellas(planillahuellas);
+                unUsuario.setFoto(foto);
+                this.listaUsuarios.add(unUsuario);
+                this.miPersistencia.persistirInstancia(unUsuario);
+            }
+        }
+    }
      
      
     public void agregarUsuario(String nombreUsuario, String contrasenia) throws Notificaciones {
         String estado = "ACTIVO";
         Usuario unUsuario = buscarUsuarioAlta(nombreUsuario);
-        if (unUsuario != null) {
+        if (unUsuario == null) {
+            unUsuario = new Usuario(nombreUsuario, contrasenia, estado);
+            this.listaUsuarios.add(unUsuario);
+            this.miPersistencia.persistirInstancia(unUsuario);
+        }else{
             if (unUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
                 throw new Notificaciones("El usuario ya existe");
             } else {
@@ -372,10 +376,6 @@ public class ControladorPrincipal {
                 this.listaUsuarios.add(unUsuario);
                 this.miPersistencia.persistirInstancia(unUsuario);
             }
-        } else {
-            unUsuario = new Usuario(nombreUsuario, contrasenia, estado);
-            this.listaUsuarios.add(unUsuario);
-            this.miPersistencia.persistirInstancia(unUsuario);
         }
     }
      
@@ -444,7 +444,7 @@ public class ControladorPrincipal {
     
     
  //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
-public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Integer edad, Double peso, Double altura, Date fechacumpleanios) throws Notificaciones {
+public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Integer edad, Double peso, Double altura, Date fechaNacimiento) throws Notificaciones {
         String estado = "ACTIVO";
         Profesor unProfesor = buscarProfesor(nombreProfesor, apellidoProfesor);
         if (unProfesor != null) {
@@ -457,12 +457,12 @@ public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocia
                 unProfesor.setApellidoprofesor(apellidoProfesor);
                 unProfesor.setPeso(peso);
                 unProfesor.setAltura(altura);
-                unProfesor.setFechacumpleanios(fechacumpleanios);
+                unProfesor.setFechanacimiento(fechaNacimiento);
                 this.listaProfesores.add(unProfesor);
                 this.miPersistencia.persistirInstancia(unProfesor);
             }
         } else {
-            unProfesor = new Profesor(usuario, idContacto, idObraSocial, nombreProfesor, apellidoProfesor, edad, peso, altura, estado, fechacumpleanios);
+            unProfesor = new Profesor(usuario, idContacto, idObraSocial, nombreProfesor, apellidoProfesor, edad, peso, altura, estado, fechaNacimiento);
             this.listaProfesores.add(unProfesor);
             this.miPersistencia.persistirInstancia(unProfesor);
         }
