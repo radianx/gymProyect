@@ -49,6 +49,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     TableRowSorter<TableModel> rowSorter;
     static JPanel panelOriginal;
     panelNuevoUsuario panelNewUser;
+    String text = "";
     
     public jInternalUsuarios(ControladorPrincipal controlador) {
         miControlador = controlador;
@@ -141,9 +142,17 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscar2KeyTyped(evt);
+            }
         });
 
         btnBuscar2.setText("Buscar");
+        btnBuscar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar2ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Nombre:");
 
@@ -318,7 +327,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        String text = this.txtBuscar.getText();
+        text = this.txtBuscar2.getText();
         if(text.trim().length() == 0){
             rowSorter.setRowFilter(null);
         } else{
@@ -347,6 +356,19 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtBuscar2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscar2KeyTyped
+
+    }//GEN-LAST:event_txtBuscar2KeyTyped
+
+    private void btnBuscar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar2ActionPerformed
+        text = this.txtBuscar2.getText();
+        if(text.trim().length() == 0){
+            rowSorter.setRowFilter(null);
+        } else{
+            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        }
+    }//GEN-LAST:event_btnBuscar2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
