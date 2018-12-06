@@ -75,13 +75,7 @@ public class Alumno  implements java.io.Serializable {
     public void setApellidoalumno(String apellidoalumno) {
         this.apellidoalumno = apellidoalumno;
     }
-    public Integer getEdad() {
-        return this.edad;
-    }
-    
-    public void setEdad(Integer edad) {
-        this.edad = edad;
-    }
+
     public Double getPeso() {
         return this.peso;
     }
