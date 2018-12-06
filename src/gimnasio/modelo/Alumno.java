@@ -126,6 +126,7 @@ public class Alumno  implements java.io.Serializable {
         this.inscripcions = inscripcions;
     }
 
+    
     @Override
     public String toString() {
         return nombrealumno;

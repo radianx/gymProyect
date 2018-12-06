@@ -14,18 +14,21 @@ public class Modalidad  implements java.io.Serializable {
      private int idmodalidad;
      private String nombremodalidad;
      private String descripcionmodalidad;
+     private String estado;
      private Set profesormodalidads = new HashSet(0);
 
     public Modalidad() {
     }
 
 	
-    public Modalidad(String nombremodalidad) {
+    public Modalidad(String nombremodalidad, String estado) {
         this.nombremodalidad = nombremodalidad;
+        this.estado= estado;
     }
-    public Modalidad(String nombremodalidad, String descripcionmodalidad) {
+    public Modalidad(String nombremodalidad, String descripcionmodalidad, String estado) {
        this.nombremodalidad = nombremodalidad;
        this.descripcionmodalidad = descripcionmodalidad;
+       this.estado = estado;
     }
    
     public int getIdmodalidad() {
@@ -57,8 +60,13 @@ public class Modalidad  implements java.io.Serializable {
         this.profesormodalidads = profesormodalidads;
     }
 
+    public String getEstado() {
+        return estado;
+    }
 
-
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
 }
 

@@ -14,6 +14,9 @@
         <property name="descripcionmodalidad" type="string">
             <column name="descripcionmodalidad" />
         </property>
+        <property name="estado" type="string">
+            <column name="estado" />
+        </property>
         <set name="profesormodalidads" table="profesormodalidad" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idmodalidad" not-null="true" />

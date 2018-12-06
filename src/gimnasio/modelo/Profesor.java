@@ -18,11 +18,10 @@ public class Profesor  implements java.io.Serializable {
      private Integer idobrasocial;
      private String nombreprofesor;
      private String apellidoprofesor;
-     private Integer edad;
      private Double peso;
      private Double altura;
      private String estado;
-     private Date fechacumpleanios;
+     private Date fechanacimiento;
      private Set pagoProfesors = new HashSet(0);
      private Set profesormodalidads = new HashSet(0);
 
@@ -44,17 +43,16 @@ public class Profesor  implements java.io.Serializable {
         this.apellidoprofesor = apellidoprofesor;
         this.estado = estado;
     }
-    public Profesor(Usuario usuario, int idcontacto, Integer idobrasocial, String nombreprofesor, String apellidoprofesor, Integer edad, Double peso, Double altura, String estado, Date fechacumpleanios) {
+    public Profesor(Usuario usuario, int idcontacto, Integer idobrasocial, String nombreprofesor, String apellidoprofesor, Integer edad, Double peso, Double altura, String estado, Date fechanacimiento) {
        this.usuario = usuario;
        this.idcontacto = idcontacto;
        this.idobrasocial = idobrasocial;
        this.nombreprofesor = nombreprofesor;
        this.apellidoprofesor = apellidoprofesor;
-       this.edad = edad;
        this.peso = peso;
        this.altura = altura;
        this.estado = estado;
-       this.fechacumpleanios = fechacumpleanios;
+       this.fechanacimiento = fechanacimiento;
 
     }
    
@@ -100,13 +98,7 @@ public class Profesor  implements java.io.Serializable {
     public void setApellidoprofesor(String apellidoprofesor) {
         this.apellidoprofesor = apellidoprofesor;
     }
-    public Integer getEdad() {
-        return this.edad;
-    }
-    
-    public void setEdad(Integer edad) {
-        this.edad = edad;
-    }
+
     public Double getPeso() {
         return this.peso;
     }
@@ -128,12 +120,12 @@ public class Profesor  implements java.io.Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    public Date getFechacumpleanios() {
-        return this.fechacumpleanios;
+    public Date getFechanacimiento() {
+        return this.fechanacimiento;
     }
     
     public void setFechacumpleanios(Date fechacumpleanios) {
-        this.fechacumpleanios = fechacumpleanios;
+        this.fechanacimiento = fechanacimiento;
     }
     public Set getPagoProfesors() {
         return this.pagoProfesors;
