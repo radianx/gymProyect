@@ -7,12 +7,17 @@ package gimnasio.vista;
 
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Usuario;
 import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,15 +29,23 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
      * Creates new form panelNuevoUsuario
      */
     ControladorPrincipal miControlador;
+    DefaultTableModel modeloTabla;
     ByteArrayInputStream datosHuella = null;
 
     
     public panelNuevoUsuario(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
+        this.btnActivar.setEnabled(false);
+        cargarTabla();
 
     }
 
+    public void recibirDatos(Usuario unUsuario) throws IOException{
+        this.txtNombre.setText(unUsuario.getNombreusuario());
+        this.txtContrasena.setText(unUsuario.getContrasenia());
+        this.datosHuella = new ByteArrayInputStream(unUsuario.getPlanillahuellas());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,6 +62,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         btnOK = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
+        btnActivar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -103,6 +117,13 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
             }
         });
 
+        btnActivar.setText("ACTIVAR");
+        btnActivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActivarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -110,8 +131,10 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnOK)
-                .addGap(46, 46, 46)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLimpiar)
+                .addGap(42, 42, 42)
+                .addComponent(btnActivar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCerrar)
                 .addContainerGap())
@@ -123,7 +146,8 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOK)
                     .addComponent(btnLimpiar)
-                    .addComponent(btnCerrar))
+                    .addComponent(btnCerrar)
+                    .addComponent(btnActivar))
                 .addContainerGap())
         );
 
@@ -194,6 +218,11 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaUsuariosInactivos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaUsuariosInactivosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaUsuariosInactivos);
 
         jLabel5.setText("Usuarios Inactivos:");
@@ -247,6 +276,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         this.txtNombre.setText("");
         this.txtHuella.setText("SIN CARGAR");
         this.datosHuella = null;
+        this.btnActivar.setEnabled(false);
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -278,8 +308,26 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         this.setVisible(false);
     }//GEN-LAST:event_btnCerrarActionPerformed
 
+    private void tablaUsuariosInactivosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosInactivosMouseClicked
+        Usuario unUsuario = (Usuario) this.tablaUsuariosInactivos.getValueAt(this.tablaUsuariosInactivos.getSelectedRow(), 0);
+        this.txtNombre.setText(unUsuario.getNombreusuario());
+        this.txtContrasena.setText(unUsuario.getContrasenia());
+        this.datosHuella = new ByteArrayInputStream(unUsuario.getPlanillahuellas());
+        this.btnActivar.setEnabled(true);
+    }//GEN-LAST:event_tablaUsuariosInactivosMouseClicked
+
+    private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
+        try {
+            Usuario unUsuario = (Usuario) this.tablaUsuariosInactivos.getValueAt(this.tablaUsuariosInactivos.getSelectedRow(), 0);
+            miControlador.agregarUsuario(this.txtNombre.getText(), Arrays.toString(this.txtContrasena.getPassword()), convertir(this.datosHuella),unUsuario.getFoto());
+        } catch (IOException | Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el usuario: "+ex.getMessage());
+        }
+    }//GEN-LAST:event_btnActivarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActivar;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnFoto;
     private javax.swing.JButton btnLimpiar;
@@ -299,6 +347,24 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
+    public void cargarTabla(){
+        try {
+            modeloTabla = new DefaultTableModel();
+            modeloTabla.addColumn("Nombre");
+            Object[] fila = new Object[1];
+
+            for (Usuario miUsuario : miControlador.getListaUsuarios()) {
+                if (miUsuario.getEstado().equalsIgnoreCase("INACTIVO")) {
+                    fila[0] = miUsuario;
+                    modeloTabla.addRow(fila);
+                }
+            }
+            this.tablaUsuariosInactivos.setModel(modeloTabla);
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar usuarios desde la base de datos.");
+        }
+    }
+    
     public byte[] convertir(ByteArrayInputStream bais) throws IOException{
         byte[] array = null;
         try{

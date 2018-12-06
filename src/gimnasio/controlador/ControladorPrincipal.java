@@ -73,7 +73,7 @@ public class ControladorPrincipal {
             this.listaAsistenciaProfesor = miPersistencia.getAsistenciaProfesor();
             this.listaCargos = miPersistencia.getCargos();
             this.listaClases = miPersistencia.getClases();
-            this.listaClaseAlumno = miPersistencia.getClaseAlumno();
+//            this.listaClaseAlumno = miPersistencia.getClaseAlumno();
             this.listaCuotas = miPersistencia.getCuotas();
             this.listaCobroCuota = miPersistencia.getCobroCuota();
             this.listaModalidades = miPersistencia.getModalidades();

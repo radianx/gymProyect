@@ -20,6 +20,7 @@ import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Usuario;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -77,9 +78,11 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
             modeloTabla.addColumn("Nombre");
             Object[] fila = new Object[1];
             
-            for(Usuario miUsuario: miControlador.getListaUsuarios()){
-                fila[0] = miUsuario;
-                modeloTabla.addRow(fila);
+            for(Usuario miUsuario: miControlador.getListaUsuarios()) {
+                if (miUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    fila[0] = miUsuario;
+                    modeloTabla.addRow(fila);
+                }
             }
             this.tablaUsuarios.setModel(modeloTabla);
         } catch (Notificaciones ex) {
@@ -195,6 +198,11 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         jPanel5.add(btnNuevo, new java.awt.GridBagConstraints());
 
         btnModificar.setText("MODIFICAR USUARIO");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnModificar, new java.awt.GridBagConstraints());
 
         btnEliminar.setText("ELIMINAR USUARIO");
@@ -354,7 +362,9 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formMouseEntered
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
+        Usuario unUsuario = (Usuario)this.tablaUsuarios1.getValueAt(tablaUsuarios1.getSelectedRow(), 0);
+        this.miControlador.bajaUsuario(unUsuario.getIdusuario());
+        this.modeloTabla.removeRow(tablaUsuarios1.getSelectedRow());
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtBuscar2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscar2KeyTyped
@@ -370,36 +380,35 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnBuscar2ActionPerformed
 
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        try {
+            panelNewUser.recibirDatos((Usuario) this.tablaUsuarios1.getValueAt(tablaUsuarios1.getSelectedRow(), 0));
+            cambiarPanel(panelPrincipal2, panelNewUser);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null,"Error al seleccionar Usuario: "+ex.getMessage());
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnBuscar2;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnNuevo1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelPrinCentro;
-    private javax.swing.JPanel panelPrincNorte;
-    private javax.swing.JPanel panelPrincNorte1;
     private javax.swing.JPanel panelPrincNorte2;
     private javax.swing.JPanel panelPrincSur;
-    private javax.swing.JPanel panelPrincipal;
-    private javax.swing.JPanel panelPrincipal1;
     private javax.swing.JPanel panelPrincipal2;
     private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTable tablaUsuarios1;
-    private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtBuscar1;
     private javax.swing.JTextField txtBuscar2;
     // End of variables declaration//GEN-END:variables
 }
