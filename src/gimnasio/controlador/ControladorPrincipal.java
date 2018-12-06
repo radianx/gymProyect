@@ -184,6 +184,17 @@ public class ControladorPrincipal {
         return unProfesor;
     }
     
+    public Profesor buscarProfesor(int idProfesor){
+        Profesor unProfesor = null;
+        for(Profesor miProfesor : this.listaProfesores){
+            if(miProfesor.getIdprofesor()==idProfesor){
+                unProfesor = miProfesor;
+            }
+            break;
+        }
+        return unProfesor;
+    }
+    
     public Profesor buscarProfesor(String nombreProfesor, String apellidoProfesor){
         Profesor unProfesor = null;
         for(Profesor miProfesor : this.listaProfesores){
@@ -478,6 +489,12 @@ public void agregarProfesor(Usuario unUsuario, String nombreProfesor, String ape
         }
     }
     
+public void bajaProfesor(int idProfesor) throws Notificaciones{
+    String estado = "INACTIVO";
+    Profesor unProfesor = buscarProfesor(idProfesor);
+    unProfesor.setEstado(estado);
+    miPersistencia.persistirInstancia(unProfesor);
+}
 
 //  <----------------------------------------------------ABM MODALIDADES----------------------------------------------------> 
 

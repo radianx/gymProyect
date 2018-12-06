@@ -16,11 +16,10 @@ public class Alumno  implements java.io.Serializable {
      private Usuario usuario;
      private String nombrealumno;
      private String apellidoalumno;
-     private Integer edad;
      private Double peso;
      private Double altura;
      private String estado;
-     private Date fechacumpleanios;
+     private Date fechanacimiento;
      private Set claseAlumnos = new HashSet(0);
      private Set cuotas = new HashSet(0);
      private Set inscripcions = new HashSet(0);
@@ -38,15 +37,14 @@ public class Alumno  implements java.io.Serializable {
         this.nombrealumno = nombrealumno;
         this.apellidoalumno = apellidoalumno;
     }
-    public Alumno(Usuario usuario, String nombrealumno, String apellidoalumno, Integer edad, Double peso, Double altura, String estado, Date fechacumpleanios) {
+    public Alumno(Usuario usuario, String nombrealumno, String apellidoalumno, Integer edad, Double peso, Double altura, String estado, Date fechanacimiento) {
        this.usuario = usuario;
        this.nombrealumno = nombrealumno;
        this.apellidoalumno = apellidoalumno;
-       this.edad = edad;
        this.peso = peso;
        this.altura = altura;
        this.estado = estado;
-       this.fechacumpleanios = fechacumpleanios;
+       this.fechanacimiento = fechanacimiento;
     }
    
     public int getIdalumno() {
@@ -105,12 +103,12 @@ public class Alumno  implements java.io.Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    public Date getFechacumpleanios() {
-        return this.fechacumpleanios;
+    public Date getFechanacimiento() {
+        return this.fechanacimiento;
     }
     
-    public void setFechacumpleanios(Date fechacumpleanios) {
-        this.fechacumpleanios = fechacumpleanios;
+    public void setFechanacimiento(Date fechanacimiento) {
+        this.fechanacimiento = fechanacimiento;
     }
     public Set getClaseAlumnos() {
         return this.claseAlumnos;

@@ -17,9 +17,6 @@
         <property name="apellidoalumno" type="string">
             <column name="apellidoalumno" not-null="true" />
         </property>
-        <property name="edad" type="java.lang.Integer">
-            <column name="edad" />
-        </property>
         <property name="peso" type="java.lang.Double">
             <column name="peso" precision="17" scale="17" />
         </property>
@@ -29,8 +26,8 @@
         <property name="estado" type="string">
             <column name="estado" />
         </property>
-        <property name="fechacumpleanios" type="date">
-            <column name="fechacumpleanios" length="13" />
+        <property name="fechanacimiento" type="date">
+            <column name="fechanacimiento" length="13" />
         </property>
         <set name="claseAlumnos" table="clase_alumno" inverse="true" lazy="true" fetch="select">
             <key>
