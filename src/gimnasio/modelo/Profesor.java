@@ -29,7 +29,7 @@ public class Profesor  implements java.io.Serializable {
     }
 
     
-    public Profesor(Usuario usuario, String nombreProfesor, String apellidoProfesor, String esatado){
+    public Profesor(Usuario usuario, String nombreProfesor, String apellidoProfesor, String estado){
         this.usuario = usuario;
         this.nombreprofesor = nombreProfesor;
         this.apellidoprofesor = apellidoProfesor;
