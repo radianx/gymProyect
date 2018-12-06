@@ -120,13 +120,17 @@ public class Profesor  implements java.io.Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
     public Date getFechanacimiento() {
-        return this.fechanacimiento;
+        return fechanacimiento;
     }
-    
-    public void setFechacumpleanios(Date fechacumpleanios) {
+
+    public void setFechanacimiento(Date fechanacimiento) {
         this.fechanacimiento = fechanacimiento;
     }
+
+    
+    
     public Set getPagoProfesors() {
         return this.pagoProfesors;
     }

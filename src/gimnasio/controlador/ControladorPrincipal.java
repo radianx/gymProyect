@@ -389,7 +389,7 @@ public class ControladorPrincipal {
    
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
     
-    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, int edad, Double peso, Double altura, Date fechaCumpleanios) throws Notificaciones{
+    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, int edad, Double peso, Double altura, Date fechaNacimiento) throws Notificaciones{
         Alumno unAlumno = buscarAlumnoAlta(nombreAlu,apellido);
         String estado = "ACTIVO";
         if(unAlumno != null){
@@ -399,15 +399,14 @@ public class ControladorPrincipal {
                 unAlumno.setEstado(estado);
                 unAlumno.setNombrealumno(nombreAlu);
                 unAlumno.setApellidoalumno(apellido);
-                unAlumno.setEdad(edad);
                 unAlumno.setPeso(peso);
                 unAlumno.setAltura(altura);
-                unAlumno.setFechacumpleanios(fechaCumpleanios);
+                unAlumno.setFechanacimiento(fechaNacimiento);
                 this.listaAlumnos.add(unAlumno);
                 this.miPersistencia.persistirInstancia(unAlumno);
             }
         }else{
-            unAlumno = new Alumno(unUsuario, nombreAlu, apellido, edad, peso, altura,estado, fechaCumpleanios);
+            unAlumno = new Alumno(unUsuario, nombreAlu, apellido, edad, peso, altura,estado, fechaNacimiento);
             this.listaAlumnos.add(unAlumno);
             this.miPersistencia.persistirInstancia(unAlumno);
         }
@@ -456,7 +455,6 @@ public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocia
                 unProfesor.setIdcontacto(idContacto);
                 unProfesor.setIdobrasocial(idObraSocial);
                 unProfesor.setApellidoprofesor(apellidoProfesor);
-                unProfesor.setEdad(edad);
                 unProfesor.setPeso(peso);
                 unProfesor.setAltura(altura);
                 unProfesor.setFechacumpleanios(fechacumpleanios);
