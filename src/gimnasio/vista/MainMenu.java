@@ -159,6 +159,11 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridLayout(2, 2));
 
         btnAlumnos.setText("Alumnos");
+        btnAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlumnosActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnAlumnos);
 
         btnAsistencia.setText("Asistencia");
@@ -170,6 +175,11 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel2.add(btnAsistencia);
 
         btnProfesores.setText("Profesores");
+        btnProfesores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProfesoresActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnProfesores);
 
         btnHorarios.setText("Horarios");
@@ -502,6 +512,18 @@ public class MainMenu extends javax.swing.JFrame {
         this.jDesktopPane1.add(panelUsuarios);
         panelUsuarios.setVisible(true);
     }//GEN-LAST:event_menuUsuariosMouseClicked
+
+    private void btnAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlumnosActionPerformed
+        jInternalAlumno panelAlumnos = new jInternalAlumno(miControlador);
+        this.jDesktopPane1.add(panelAlumnos);
+        panelAlumnos.setVisible(true);
+    }//GEN-LAST:event_btnAlumnosActionPerformed
+
+    private void btnProfesoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfesoresActionPerformed
+        jInternalProfesores panelProfesores = new jInternalProfesores(miControlador);
+        this.jDesktopPane1.add(panelProfesores);
+        panelProfesores.setVisible(true);
+    }//GEN-LAST:event_btnProfesoresActionPerformed
 
     /**
      * @param args the command line arguments
