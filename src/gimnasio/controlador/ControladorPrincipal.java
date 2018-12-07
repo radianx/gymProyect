@@ -391,7 +391,7 @@ public class ControladorPrincipal {
    
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
     
-    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, int edad, Double peso, Double altura, Date fechaNacimiento, Contacto contacto) throws Notificaciones{
+    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, Double peso, Double altura, Date fechaNacimiento, Contacto contacto) throws Notificaciones{
         Alumno unAlumno = buscarAlumnoAlta(nombreAlu,apellido);
         String estado = "ACTIVO";
         if(unAlumno != null){
@@ -417,7 +417,7 @@ public class ControladorPrincipal {
     public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, Contacto contacto) throws Notificaciones{
         Alumno unAlumno = buscarAlumnoAlta(nombreAlu,apellido);
         String estado = "ACTIVO";
-        if(unAlumno == null){
+        if(unAlumno != null){
             if(unAlumno.getEstado().equalsIgnoreCase(estado)){
                 throw new Notificaciones("El Alumno ya existe");
             }else{
@@ -707,6 +707,10 @@ public void bajaCargo(Cargo unCargo){
 
 //  <----------------------------------------------------ABM CONTACTO----------------------------------------------------> 
 
+public void altaContacto (Contacto unContacto){
+    this.miPersistencia.persistirInstancia(unContacto);
+    this.listaContacto()
+}
 //  <----------------------------------------------------ABM ASISTENCIA PROFESOR----------------------------------------------------> 
 
 //  <----------------------------------------------------ABM ASISTENCIA PERSONAL----------------------------------------------------> 

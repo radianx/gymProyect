@@ -17,11 +17,11 @@ public class Obrasocial  implements java.io.Serializable {
     }
 
 	
-    public Obrasocial(int idobrasocial, String nombreobrasocial) {
+    public Obrasocial(String nombreobrasocial) {
         this.idobrasocial = idobrasocial;
         this.nombreobrasocial = nombreobrasocial;
     }
-    public Obrasocial(int idobrasocial, Contacto contacto, String nombreobrasocial) {
+    public Obrasocial(Contacto contacto, String nombreobrasocial) {
        this.idobrasocial = idobrasocial;
        this.contacto = contacto;
        this.nombreobrasocial = nombreobrasocial;

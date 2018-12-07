@@ -23,18 +23,15 @@ public class Contacto  implements java.io.Serializable {
     }
 
 	
-    public Contacto(int idcontacto, String direccion) {
-        this.idcontacto = idcontacto;
+    public Contacto(String direccion) {
         this.direccion = direccion;
     }
-    public Contacto(int idcontacto, String direccion, String telefono1, String telefono2, String email1, String telefonoemergencia, Set obrasocials) {
-       this.idcontacto = idcontacto;
+    public Contacto(String direccion, String telefono1, String telefono2, String email1, String telefonoemergencia) {
        this.direccion = direccion;
        this.telefono1 = telefono1;
        this.telefono2 = telefono2;
        this.email1 = email1;
        this.telefonoemergencia = telefonoemergencia;
-       this.obrasocials = obrasocials;
     }
    
     public int getIdcontacto() {
