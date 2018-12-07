@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,47 +13,46 @@ public class Profesor  implements java.io.Serializable {
 
 
      private int idprofesor;
+     private Contacto contacto;
+     private Obrasocial obrasocial;
      private Usuario usuario;
-     private int idcontacto;
-     private Integer idobrasocial;
      private String nombreprofesor;
      private String apellidoprofesor;
      private Double peso;
      private Double altura;
-     private String estado;
      private Date fechanacimiento;
+     private String estado;
      private Set pagoProfesors = new HashSet(0);
-     private Set profesormodalidads = new HashSet(0);
+     private Set claseProfesors = new HashSet(0);
+     private Set profesorModalidads = new HashSet(0);
 
     public Profesor() {
     }
 
-    
-    public Profesor(Usuario usuario, String nombreProfesor, String apellidoProfesor, String estado){
-        this.usuario = usuario;
-        this.nombreprofesor = nombreProfesor;
-        this.apellidoprofesor = apellidoProfesor;
-        this.estado = estado;
-    }
 	
-    public Profesor(Usuario usuario, int idcontacto, String nombreprofesor, String apellidoprofesor, String estado) {
+    public Profesor(int idprofesor, Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombreprofesor, String apellidoprofesor, String estado) {
+        this.idprofesor = idprofesor;
+        this.contacto = contacto;
+        this.obrasocial = obrasocial;
         this.usuario = usuario;
-        this.idcontacto = idcontacto;
         this.nombreprofesor = nombreprofesor;
         this.apellidoprofesor = apellidoprofesor;
         this.estado = estado;
     }
-    public Profesor(Usuario usuario, int idcontacto, Integer idobrasocial, String nombreprofesor, String apellidoprofesor, Double peso, Double altura, String estado, Date fechanacimiento) {
+    public Profesor(int idprofesor, Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombreprofesor, String apellidoprofesor, Double peso, Double altura, Date fechanacimiento, String estado, Set pagoProfesors, Set claseProfesors, Set profesorModalidads) {
+       this.idprofesor = idprofesor;
+       this.contacto = contacto;
+       this.obrasocial = obrasocial;
        this.usuario = usuario;
-       this.idcontacto = idcontacto;
-       this.idobrasocial = idobrasocial;
        this.nombreprofesor = nombreprofesor;
        this.apellidoprofesor = apellidoprofesor;
        this.peso = peso;
        this.altura = altura;
-       this.estado = estado;
        this.fechanacimiento = fechanacimiento;
-
+       this.estado = estado;
+       this.pagoProfesors = pagoProfesors;
+       this.claseProfesors = claseProfesors;
+       this.profesorModalidads = profesorModalidads;
     }
    
     public int getIdprofesor() {
@@ -63,26 +62,26 @@ public class Profesor  implements java.io.Serializable {
     public void setIdprofesor(int idprofesor) {
         this.idprofesor = idprofesor;
     }
+    public Contacto getContacto() {
+        return this.contacto;
+    }
+    
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
+    }
+    public Obrasocial getObrasocial() {
+        return this.obrasocial;
+    }
+    
+    public void setObrasocial(Obrasocial obrasocial) {
+        this.obrasocial = obrasocial;
+    }
     public Usuario getUsuario() {
         return this.usuario;
     }
     
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-    public int getIdcontacto() {
-        return this.idcontacto;
-    }
-    
-    public void setIdcontacto(int idcontacto) {
-        this.idcontacto = idcontacto;
-    }
-    public Integer getIdobrasocial() {
-        return this.idobrasocial;
-    }
-    
-    public void setIdobrasocial(Integer idobrasocial) {
-        this.idobrasocial = idobrasocial;
     }
     public String getNombreprofesor() {
         return this.nombreprofesor;
@@ -98,7 +97,6 @@ public class Profesor  implements java.io.Serializable {
     public void setApellidoprofesor(String apellidoprofesor) {
         this.apellidoprofesor = apellidoprofesor;
     }
-
     public Double getPeso() {
         return this.peso;
     }
@@ -113,6 +111,13 @@ public class Profesor  implements java.io.Serializable {
     public void setAltura(Double altura) {
         this.altura = altura;
     }
+    public Date getFechanacimiento() {
+        return this.fechanacimiento;
+    }
+    
+    public void setFechanacimiento(Date fechanacimiento) {
+        this.fechanacimiento = fechanacimiento;
+    }
     public String getEstado() {
         return this.estado;
     }
@@ -120,17 +125,6 @@ public class Profesor  implements java.io.Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-
-    public Date getFechanacimiento() {
-        return fechanacimiento;
-    }
-
-    public void setFechanacimiento(Date fechanacimiento) {
-        this.fechanacimiento = fechanacimiento;
-    }
-
-    
-    
     public Set getPagoProfesors() {
         return this.pagoProfesors;
     }
@@ -138,12 +132,19 @@ public class Profesor  implements java.io.Serializable {
     public void setPagoProfesors(Set pagoProfesors) {
         this.pagoProfesors = pagoProfesors;
     }
-    public Set getProfesormodalidads() {
-        return this.profesormodalidads;
+    public Set getClaseProfesors() {
+        return this.claseProfesors;
     }
     
-    public void setProfesormodalidads(Set profesormodalidads) {
-        this.profesormodalidads = profesormodalidads;
+    public void setClaseProfesors(Set claseProfesors) {
+        this.claseProfesors = claseProfesors;
+    }
+    public Set getProfesorModalidads() {
+        return this.profesorModalidads;
+    }
+    
+    public void setProfesorModalidads(Set profesorModalidads) {
+        this.profesorModalidads = profesorModalidads;
     }
 
 

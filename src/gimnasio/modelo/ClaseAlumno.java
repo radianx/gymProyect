@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -13,8 +13,7 @@ public class ClaseAlumno  implements java.io.Serializable {
 
      private int idclasealumno;
      private Alumno alumno;
-     private Clase clase;
-     private int cantidadclases;
+     private ClaseProfesor claseProfesor;
      private String estado;
      private Set asistenciaAlumnos = new HashSet(0);
 
@@ -22,11 +21,18 @@ public class ClaseAlumno  implements java.io.Serializable {
     }
 
 	
-    public ClaseAlumno(Alumno alumno, Clase clase, int cantidadclases, String estado) {
+    public ClaseAlumno(int idclasealumno, Alumno alumno, ClaseProfesor claseProfesor, String estado) {
+        this.idclasealumno = idclasealumno;
         this.alumno = alumno;
-        this.clase = clase;
-        this.cantidadclases = cantidadclases;
+        this.claseProfesor = claseProfesor;
         this.estado = estado;
+    }
+    public ClaseAlumno(int idclasealumno, Alumno alumno, ClaseProfesor claseProfesor, String estado, Set asistenciaAlumnos) {
+       this.idclasealumno = idclasealumno;
+       this.alumno = alumno;
+       this.claseProfesor = claseProfesor;
+       this.estado = estado;
+       this.asistenciaAlumnos = asistenciaAlumnos;
     }
    
     public int getIdclasealumno() {
@@ -43,31 +49,20 @@ public class ClaseAlumno  implements java.io.Serializable {
     public void setAlumno(Alumno alumno) {
         this.alumno = alumno;
     }
-    public Clase getClase() {
-        return this.clase;
+    public ClaseProfesor getClaseProfesor() {
+        return this.claseProfesor;
     }
     
-    public void setClase(Clase clase) {
-        this.clase = clase;
+    public void setClaseProfesor(ClaseProfesor claseProfesor) {
+        this.claseProfesor = claseProfesor;
     }
-    public int getCantidadclases() {
-        return this.cantidadclases;
-    }
-    
-    public void setCantidadclases(int cantidadclases) {
-        this.cantidadclases = cantidadclases;
-    }
-
     public String getEstado() {
-        return estado;
+        return this.estado;
     }
-
+    
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
-    
     public Set getAsistenciaAlumnos() {
         return this.asistenciaAlumnos;
     }

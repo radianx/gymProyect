@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.CargoPersonal" table="cargo_personal" schema="public" optimistic-lock="version">
+    <class name="modelonuevo.CargoPersonal" table="cargo_personal" schema="public" optimistic-lock="version">
         <id name="idcargopersonal" type="int">
             <column name="idcargopersonal" />
             <generator class="assigned" />
         </id>
-        
-        <many-to-one name="cargo" class="gimnasio.modelo.Cargo" fetch="select">
+        <many-to-one name="cargo" class="modelonuevo.Cargo" fetch="select">
             <column name="idcargo" not-null="true" />
         </many-to-one>
-        
-        <many-to-one name="personal" class="gimnasio.modelo.Personal" fetch="select">
+        <many-to-one name="personal" class="modelonuevo.Personal" fetch="select">
             <column name="idpersonal" not-null="true" />
         </many-to-one>
-
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 
@@ -12,16 +12,16 @@ public class SaldoCuota  implements java.io.Serializable {
      private int idsaldocuota;
      private CobroCuota cobroCuota;
      private double montosaldo;
-     private boolean saldado;
+     private String estado;
 
     public SaldoCuota() {
     }
 
-    public SaldoCuota(int idsaldocuota, CobroCuota cobroCuota, double montosaldo, boolean saldado) {
+    public SaldoCuota(int idsaldocuota, CobroCuota cobroCuota, double montosaldo, String estado) {
        this.idsaldocuota = idsaldocuota;
        this.cobroCuota = cobroCuota;
        this.montosaldo = montosaldo;
-       this.saldado = saldado;
+       this.estado = estado;
     }
    
     public int getIdsaldocuota() {
@@ -45,12 +45,12 @@ public class SaldoCuota  implements java.io.Serializable {
     public void setMontosaldo(double montosaldo) {
         this.montosaldo = montosaldo;
     }
-    public boolean isSaldado() {
-        return this.saldado;
+    public String getEstado() {
+        return this.estado;
     }
     
-    public void setSaldado(boolean saldado) {
-        this.saldado = saldado;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
 

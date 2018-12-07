@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -10,23 +10,23 @@ import java.util.Date;
 public class AsistenciaProfesorId  implements java.io.Serializable {
 
 
-     private int idclase;
+     private int idclaseprofesor;
      private Date ingreso;
 
     public AsistenciaProfesorId() {
     }
 
-    public AsistenciaProfesorId(int idclase, Date ingreso) {
-       this.idclase = idclase;
+    public AsistenciaProfesorId(int idclaseprofesor, Date ingreso) {
+       this.idclaseprofesor = idclaseprofesor;
        this.ingreso = ingreso;
     }
    
-    public int getIdclase() {
-        return this.idclase;
+    public int getIdclaseprofesor() {
+        return this.idclaseprofesor;
     }
     
-    public void setIdclase(int idclase) {
-        this.idclase = idclase;
+    public void setIdclaseprofesor(int idclaseprofesor) {
+        this.idclaseprofesor = idclaseprofesor;
     }
     public Date getIngreso() {
         return this.ingreso;
@@ -43,14 +43,14 @@ public class AsistenciaProfesorId  implements java.io.Serializable {
 		 if ( !(other instanceof AsistenciaProfesorId) ) return false;
 		 AsistenciaProfesorId castOther = ( AsistenciaProfesorId ) other; 
          
-		 return (this.getIdclase()==castOther.getIdclase())
+		 return (this.getIdclaseprofesor()==castOther.getIdclaseprofesor())
  && ( (this.getIngreso()==castOther.getIngreso()) || ( this.getIngreso()!=null && castOther.getIngreso()!=null && this.getIngreso().equals(castOther.getIngreso()) ) );
    }
    
    public int hashCode() {
          int result = 17;
          
-         result = 37 * result + this.getIdclase();
+         result = 37 * result + this.getIdclaseprofesor();
          result = 37 * result + ( getIngreso() == null ? 0 : this.getIngreso().hashCode() );
          return result;
    }   

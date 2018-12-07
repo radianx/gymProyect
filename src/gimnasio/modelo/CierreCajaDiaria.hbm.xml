@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelonuevo.CierreCajaDiaria" table="cierre_caja_diaria" schema="public" optimistic-lock="version">
+        <id name="idcierre" type="int">
+            <column name="idcierre" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="personal" class="modelonuevo.Personal" fetch="select">
+            <column name="idpersonalcierre" not-null="true" />
+        </many-to-one>
+        <property name="idcaja" type="int">
+            <column name="idcaja" not-null="true" />
+        </property>
+        <property name="cierre" type="date">
+            <column name="cierre" length="13" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

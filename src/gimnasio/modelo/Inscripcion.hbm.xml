@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Inscripcion" table="inscripcion" schema="public" optimistic-lock="version">
+    <class name="modelonuevo.Inscripcion" table="inscripcion" schema="public" optimistic-lock="version">
         <id name="idincripcion" type="int">
             <column name="idincripcion" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="alumno" class="gimnasio.modelo.Alumno" fetch="select">
+        <many-to-one name="alumno" class="modelonuevo.Alumno" fetch="select">
             <column name="idalumno" not-null="true" />
         </many-to-one>
         <property name="fechainscripcion" type="date">
@@ -16,6 +16,9 @@
         </property>
         <property name="cuotainicial" type="java.lang.Double">
             <column name="cuotainicial" precision="17" scale="17" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

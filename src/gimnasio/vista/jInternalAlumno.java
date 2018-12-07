@@ -8,9 +8,11 @@ package gimnasio.vista;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -143,7 +145,6 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tablaAlumnos);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel5.setLayout(new java.awt.GridLayout(1, 3, 5, 0));
 
         btnNuevo.setText("<html><center>NUEVO<br>ALUMNO</center></html>");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +155,11 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         jPanel5.add(btnNuevo);
 
         btnModificar.setText("<html><center>MODIFICAR<br>ALUMNO</center><html>");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnModificar);
 
         btnEliminar.setText("<html><center>ELIMINAR<br>ALUMNO</center></html>");
@@ -169,7 +175,7 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE))
@@ -179,10 +185,10 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6))
         );
 
         panelPrincipal.add(jPanel4, java.awt.BorderLayout.CENTER);
@@ -203,7 +209,17 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try {
+            Alumno unAlumno = (Alumno)this.tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+            tablaAlumnos.clearSelection();
+            this.miControlador.bajaAlumno(unAlumno.getIdalumno());
+            SwingUtilities.invokeLater(new Runnable(){public void run(){
+                           cargarTabla(); 
+            }});
 
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, "Error: "+ex.getMessage());
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
@@ -223,6 +239,15 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
             this.txtBuscar.grabFocus();
         }
     }//GEN-LAST:event_panelPadreMouseEntered
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        try {
+            panelNewAlumno.recibirDatos((Alumno) this.tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0));
+            cambiarPanel(panelPrincipal, panelNewAlumno);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null,"Error al seleccionar Alumno: "+ex.getMessage());
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

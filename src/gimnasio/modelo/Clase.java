@@ -1,8 +1,7 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,29 +12,30 @@ public class Clase  implements java.io.Serializable {
 
 
      private int idclase;
-     private Profesormodalidad profesormodalidad;
-     private Sector sector;
-     private Date horainicio;
-     private Date horafin;
+     private String tipoclase;
+     private Integer alumnosmaximo;
+     private String descripcionclase;
      private String estado;
-     private Set asistenciaProfesors = new HashSet(0);
      private Set cuotas = new HashSet(0);
-     private Set claseAlumnos = new HashSet(0);
+     private Set claseProfesors = new HashSet(0);
 
     public Clase() {
     }
 
 	
-    public Clase(Profesormodalidad profesormodalidad, Sector sector) {
-        this.profesormodalidad = profesormodalidad;
-        this.sector = sector;
+    public Clase(int idclase, String tipoclase, String estado) {
+        this.idclase = idclase;
+        this.tipoclase = tipoclase;
+        this.estado = estado;
     }
-    
-    public Clase(Profesormodalidad profesormodalidad, Sector sector, Date horainicio, Date horafin) {
-       this.profesormodalidad = profesormodalidad;
-       this.sector = sector;
-       this.horainicio = horainicio;
-       this.horafin = horafin;
+    public Clase(int idclase, String tipoclase, Integer alumnosmaximo, String descripcionclase, String estado, Set cuotas, Set claseProfesors) {
+       this.idclase = idclase;
+       this.tipoclase = tipoclase;
+       this.alumnosmaximo = alumnosmaximo;
+       this.descripcionclase = descripcionclase;
+       this.estado = estado;
+       this.cuotas = cuotas;
+       this.claseProfesors = claseProfesors;
     }
    
     public int getIdclase() {
@@ -45,50 +45,33 @@ public class Clase  implements java.io.Serializable {
     public void setIdclase(int idclase) {
         this.idclase = idclase;
     }
-    public Profesormodalidad getProfesormodalidad() {
-        return this.profesormodalidad;
+    public String getTipoclase() {
+        return this.tipoclase;
     }
     
-    public void setProfesormodalidad(Profesormodalidad profesormodalidad) {
-        this.profesormodalidad = profesormodalidad;
+    public void setTipoclase(String tipoclase) {
+        this.tipoclase = tipoclase;
     }
-    public Sector getSector() {
-        return this.sector;
-    }
-    
-    public void setSector(Sector sector) {
-        this.sector = sector;
-    }
-    public Date getHorainicio() {
-        return this.horainicio;
+    public Integer getAlumnosmaximo() {
+        return this.alumnosmaximo;
     }
     
-    public void setHorainicio(Date horainicio) {
-        this.horainicio = horainicio;
+    public void setAlumnosmaximo(Integer alumnosmaximo) {
+        this.alumnosmaximo = alumnosmaximo;
     }
-    public Date getHorafin() {
-        return this.horafin;
+    public String getDescripcionclase() {
+        return this.descripcionclase;
     }
     
-    public void setHorafin(Date horafin) {
-        this.horafin = horafin;
+    public void setDescripcionclase(String descripcionclase) {
+        this.descripcionclase = descripcionclase;
     }
-
     public String getEstado() {
-        return estado;
+        return this.estado;
     }
-
+    
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-     
-    
-    public Set getAsistenciaProfesors() {
-        return this.asistenciaProfesors;
-    }
-    
-    public void setAsistenciaProfesors(Set asistenciaProfesors) {
-        this.asistenciaProfesors = asistenciaProfesors;
     }
     public Set getCuotas() {
         return this.cuotas;
@@ -97,12 +80,12 @@ public class Clase  implements java.io.Serializable {
     public void setCuotas(Set cuotas) {
         this.cuotas = cuotas;
     }
-    public Set getClaseAlumnos() {
-        return this.claseAlumnos;
+    public Set getClaseProfesors() {
+        return this.claseProfesors;
     }
     
-    public void setClaseAlumnos(Set claseAlumnos) {
-        this.claseAlumnos = claseAlumnos;
+    public void setClaseProfesors(Set claseProfesors) {
+        this.claseProfesors = claseProfesors;
     }
 
 

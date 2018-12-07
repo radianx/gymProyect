@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="gimnasio.modelo.Modalidad" table="modalidad" schema="public">
+        <id name="idmodalidad" type="int">
+            <column name="idmodalidad" />
+            <generator class="assigned"></generator>
+        </id>
+        <property name="nombremodalidad" type="string">
+            <column name="nombremodalidad" not-null="true" />
+        </property>
+        <property name="descripcionmodalidad" type="string">
+            <column name="descripcionmodalidad" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" />
+        </property>
+        <set name="profesormodalidads" table="profesormodalidad" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idmodalidad" not-null="true" />
+            </key>
+            <one-to-many class="gimnasio.modelo.Profesormodalidad" />
+        </set>
+    </class>
+</hibernate-mapping>

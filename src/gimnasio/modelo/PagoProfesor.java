@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,15 +14,17 @@ public class PagoProfesor  implements java.io.Serializable {
      private Profesor profesor;
      private double montopago;
      private Date fechapago;
+     private String estado;
 
     public PagoProfesor() {
     }
 
-    public PagoProfesor(int idpagoprofesor, Profesor profesor, double montopago, Date fechapago) {
+    public PagoProfesor(int idpagoprofesor, Profesor profesor, double montopago, Date fechapago, String estado) {
        this.idpagoprofesor = idpagoprofesor;
        this.profesor = profesor;
        this.montopago = montopago;
        this.fechapago = fechapago;
+       this.estado = estado;
     }
    
     public int getIdpagoprofesor() {
@@ -52,6 +54,13 @@ public class PagoProfesor  implements java.io.Serializable {
     
     public void setFechapago(Date fechapago) {
         this.fechapago = fechapago;
+    }
+    public String getEstado() {
+        return this.estado;
+    }
+    
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
 

@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,24 +17,27 @@ public class Sistema  implements java.io.Serializable {
      private String codigosistema;
      private Date fechacaducidad;
      private String contraseniasistema;
+     private String estado;
      private Set modulos = new HashSet(0);
 
     public Sistema() {
     }
 
 	
-    public Sistema(String idsistema, String propietario, String codigosistema, String contraseniasistema) {
+    public Sistema(String idsistema, String propietario, String codigosistema, String contraseniasistema, String estado) {
         this.idsistema = idsistema;
         this.propietario = propietario;
         this.codigosistema = codigosistema;
         this.contraseniasistema = contraseniasistema;
+        this.estado = estado;
     }
-    public Sistema(String idsistema, String propietario, String codigosistema, Date fechacaducidad, String contraseniasistema, Set modulos) {
+    public Sistema(String idsistema, String propietario, String codigosistema, Date fechacaducidad, String contraseniasistema, String estado, Set modulos) {
        this.idsistema = idsistema;
        this.propietario = propietario;
        this.codigosistema = codigosistema;
        this.fechacaducidad = fechacaducidad;
        this.contraseniasistema = contraseniasistema;
+       this.estado = estado;
        this.modulos = modulos;
     }
    
@@ -72,6 +75,13 @@ public class Sistema  implements java.io.Serializable {
     
     public void setContraseniasistema(String contraseniasistema) {
         this.contraseniasistema = contraseniasistema;
+    }
+    public String getEstado() {
+        return this.estado;
+    }
+    
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     public Set getModulos() {
         return this.modulos;

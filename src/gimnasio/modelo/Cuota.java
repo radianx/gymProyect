@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,27 +16,32 @@ public class Cuota  implements java.io.Serializable {
      private Alumno alumno;
      private Clase clase;
      private Double monto;
-     private String estado;
      private Date altacuota;
      private Date vencimiento;
+     private String estado;
      private Set cobroCuotas = new HashSet(0);
 
     public Cuota() {
     }
 
 	
-    public Cuota(Alumno alumno, Clase clase, Date altacuota, Date vencimiento) {
+    public Cuota(int idcuota, Alumno alumno, Clase clase, Date altacuota, Date vencimiento, String estado) {
+        this.idcuota = idcuota;
         this.alumno = alumno;
         this.clase = clase;
         this.altacuota = altacuota;
         this.vencimiento = vencimiento;
+        this.estado = estado;
     }
-    public Cuota(Alumno alumno, Clase clase, Double monto, String estado, Date altacuota, Date vencimiento) {
+    public Cuota(int idcuota, Alumno alumno, Clase clase, Double monto, Date altacuota, Date vencimiento, String estado, Set cobroCuotas) {
+       this.idcuota = idcuota;
        this.alumno = alumno;
        this.clase = clase;
        this.monto = monto;
-       this.estado = estado;
        this.altacuota = altacuota;
+       this.vencimiento = vencimiento;
+       this.estado = estado;
+       this.cobroCuotas = cobroCuotas;
     }
    
     public int getIdcuota() {
@@ -67,13 +72,6 @@ public class Cuota  implements java.io.Serializable {
     public void setMonto(Double monto) {
         this.monto = monto;
     }
-    public String getEstado() {
-        return this.estado;
-    }
-    
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
     public Date getAltacuota() {
         return this.altacuota;
     }
@@ -87,6 +85,13 @@ public class Cuota  implements java.io.Serializable {
     
     public void setVencimiento(Date vencimiento) {
         this.vencimiento = vencimiento;
+    }
+    public String getEstado() {
+        return this.estado;
+    }
+    
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     public Set getCobroCuotas() {
         return this.cobroCuotas;

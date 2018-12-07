@@ -46,6 +46,7 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/gimnasio</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">postgres</property>
+    <property name="show_sql">true</property>
     <mapping resource="gimnasio/modelo/AsistenciaAlumno.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Documentacion.hbm.xml"/>
     <mapping resource="gimnasio/modelo/ClaseAlumno.hbm.xml"/>
@@ -70,5 +71,35 @@ Contributor(s):
     <mapping resource="gimnasio/modelo/Profesormodalidad.hbm.xml"/>
     <mapping resource="gimnasio/modelo/CobroCuota.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Lectorhuella.hbm.xml"/>
+    <mapping resource="modelonuevo/PagoProfesor.hbm.xml"/>
+    <mapping resource="modelonuevo/CajaDiaria.hbm.xml"/>
+    <mapping resource="modelonuevo/Inscripcion.hbm.xml"/>
+    <mapping resource="modelonuevo/ProfesorModalidad.hbm.xml"/>
+    <mapping resource="modelonuevo/Alumno.hbm.xml"/>
+    <mapping resource="modelonuevo/Sector.hbm.xml"/>
+    <mapping resource="modelonuevo/AperturaCajaDiaria.hbm.xml"/>
+    <mapping resource="modelonuevo/UsuarioModulo.hbm.xml"/>
+    <mapping resource="modelonuevo/Contacto.hbm.xml"/>
+    <mapping resource="modelonuevo/Cargo.hbm.xml"/>
+    <mapping resource="modelonuevo/Cuota.hbm.xml"/>
+    <mapping resource="modelonuevo/AsistenciaAlumno.hbm.xml"/>
+    <mapping resource="modelonuevo/Sistema.hbm.xml"/>
+    <mapping resource="modelonuevo/CargoPersonal.hbm.xml"/>
+    <mapping resource="modelonuevo/Clase.hbm.xml"/>
+    <mapping resource="modelonuevo/Personal.hbm.xml"/>
+    <mapping resource="modelonuevo/Usuario.hbm.xml"/>
+    <mapping resource="modelonuevo/Saldopagoprofesor.hbm.xml"/>
+    <mapping resource="modelonuevo/Modalidad.hbm.xml"/>
+    <mapping resource="modelonuevo/Obrasocial.hbm.xml"/>
+    <mapping resource="modelonuevo/SaldoCuota.hbm.xml"/>
+    <mapping resource="modelonuevo/SectorClase.hbm.xml"/>
+    <mapping resource="modelonuevo/ClaseAlumno.hbm.xml"/>
+    <mapping resource="modelonuevo/Profesor.hbm.xml"/>
+    <mapping resource="modelonuevo/CobroCuota.hbm.xml"/>
+    <mapping resource="modelonuevo/AsistenciaProfesor.hbm.xml"/>
+    <mapping resource="modelonuevo/CierreCajaDiaria.hbm.xml"/>
+    <mapping resource="modelonuevo/ClaseProfesor.hbm.xml"/>
+    <mapping resource="modelonuevo/Modulo.hbm.xml"/>
+    <mapping resource="modelonuevo/Documentacion.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

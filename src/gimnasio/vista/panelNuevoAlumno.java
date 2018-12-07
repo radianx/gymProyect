@@ -9,13 +9,20 @@ import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Alumno;
 import gimnasio.modelo.Contacto;
 import gimnasio.modelo.Usuario;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -30,6 +37,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     TableRowSorter<TableModel> rowSorter;
     ControladorPrincipal miControlador;
     String text = "";
+    Usuario usuarioSeleccionado;
     
     public panelNuevoAlumno(ControladorPrincipal controlador) {
         this.miControlador =controlador;
@@ -41,28 +49,45 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         datePicker1.setDateToToday();
         
         initComponents();
+        this.btnActivar.setEnabled(false);
         cargarTabla();
-        rowSorter = new TableRowSorter<>(this.tablaUsuarios.getModel());
-        tablaUsuarios.setRowSorter(rowSorter);
+        rowSorter = new TableRowSorter<>(this.tablaAlumnosInactivos.getModel());
+        tablaAlumnosInactivos.setRowSorter(rowSorter);
     }
 
+    public void recibirDatos(Alumno unAlumno) throws IOException{
+        this.txtNombre.setText(unAlumno.getNombrealumno());
+        this.txtApellido.setText(unAlumno.getApellidoalumno());
+        this.txtAltura.setText(unAlumno.getAltura().toString());
+        this.txtDireccion.setText(unAlumno.getContacto().getDireccion());
+        this.txtEmail.setText(unAlumno.getContacto().getEmail1());
+        this.txtPeso.setText(unAlumno.getPeso().toString());
+        this.txtTelefono1.setText(unAlumno.getContacto().getTelefono1());
+        this.txtTelefono2.setText(unAlumno.getContacto().getTelefono1());
+        this.txtTelefonoEmergencia.setText(unAlumno.getContacto().getTelefonoemergencia());
+    }
+    
     public void cargarTabla() {
         try {
             modeloTabla = new DefaultTableModel();
             modeloTabla.addColumn("Nombre");
-            Object[] fila = new Object[1];
+            modeloTabla.addColumn("Apellido");
+            modeloTabla.addColumn("Usuario");
+            Object[] fila = new Object[3];
             
             try{
-            for (Usuario miUsuario : miControlador.getListaUsuarios()) {
-                if (miUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
-                    fila[0] = miUsuario;
+            for (Alumno miAlumno : miControlador.getListaAlumnos()) {
+                if (miAlumno.getEstado().equalsIgnoreCase("INACTIVO")) {
+                    fila[0] = miAlumno;
+                    fila[1] = miAlumno.getApellidoalumno();
+                    fila[2] = miAlumno.getUsuario();
                     modeloTabla.addRow(fila);
                 }
             }
             } catch(NullPointerException ex){
-                System.err.println("Cargar usuarios en la tabla retorna: "+ex.getMessage()+", lo que probablemente significa que no hay usuarios cargados en la base de datos");
+                System.err.println("Cargar Alumnos en la tabla retorna: "+ex.getMessage()+", lo que probablemente significa que no hay usuarios cargados en la base de datos");
             }
-            this.tablaUsuarios.setModel(modeloTabla);
+            this.tablaAlumnosInactivos.setModel(modeloTabla);
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar usuarios desde la base de datos.");
         }
@@ -80,7 +105,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         txtAltura = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaUsuarios = new javax.swing.JTable();
+        tablaAlumnosInactivos = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -96,20 +121,29 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtDireccion = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        btnGuardar = new javax.swing.JButton();
+        btnUsuario = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        txtUsuario = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
+        btnGuardar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnActivar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel1MouseEntered(evt);
+            }
+        });
 
         jLabel2.setText("Apellido:");
 
         jLabel5.setText("Altura:");
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Usuarios"));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Alumnos Inactivos"));
 
-        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+        tablaAlumnosInactivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -120,7 +154,12 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tablaUsuarios);
+        tablaAlumnosInactivos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaAlumnosInactivosMouseReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaAlumnosInactivos);
 
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -128,7 +167,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             }
         });
 
-        btnBuscar.setText("Buscar");
+        btnBuscar.setText("Buscar Inactivo");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -151,50 +190,59 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
 
         jLabel10.setText("Dirección:");
 
+        btnUsuario.setText("SELECCIONAR USUARIO");
+        btnUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuarioActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText(":");
+
+        txtUsuario.setEditable(false);
+        txtUsuario.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnBuscar)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel1)
-                                .addGap(7, 7, 7)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jLabel2))
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 8, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(8, 8, 8)
+                                    .addComponent(jLabel1)
+                                    .addGap(7, 7, 7)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel2))
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtTelefono1)
                                         .addComponent(txtApellido)
                                         .addComponent(txtTelefono2, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                                        .addComponent(txtEmail))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtDireccion)
-                                        .addGap(2, 2, 2)))))
+                                        .addComponent(txtEmail)
+                                        .addComponent(txtDireccion)))))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtTelefonoEmergencia)
-                                        .addContainerGap())
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtBuscar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnBuscar)
-                                        .addGap(9, 9, 9))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,10 +258,15 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                                             .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel9))
-                                .addGap(0, 6, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel11)
+                                .addGap(8, 8, 8)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtUsuario)
+                                    .addComponent(txtTelefonoEmergencia))
+                                .addContainerGap())))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,28 +302,49 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar)
                     .addComponent(jLabel10)
                     .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUsuario)
+                    .addComponent(jLabel11)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar))
+                .addGap(2, 2, 2)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnGuardar.setText("<HTML><CENTER>GUARDAR<BR>ALUMNO</CENTER></HTML>");
+        btnGuardar.setText("GUARDAR");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
             }
         });
-        jPanel2.add(btnGuardar);
+        jPanel3.add(btnGuardar);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnLimpiar);
 
-        btnCerrar.setText("Cerrar");
+        btnActivar.setText("ACTIVAR");
+        btnActivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActivarActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnActivar);
+
+        btnCerrar.setText("CERRAR");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarActionPerformed(evt);
@@ -285,20 +359,18 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -325,21 +397,91 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        Usuario unUsuario = (Usuario) this.modeloTabla.getValueAt(tablaUsuarios.getSelectedRow(),0);
-        Date fecha = Date.from(this.datePicker1.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Contacto unContacto = new Contacto(txtDireccion.getText(),txtTelefono1.getText(),txtTelefono2.getText(),txtEmail.getText(),txtTelefonoEmergencia.getText());
-        miControlador.altaContacto(unContacto);
-        miControlador.agregarAlumno(unUsuario, this.txtNombre.getText(), this.txtApellido.getText(),Integer.valueOf(this.txtPeso.getText()),Integer.valueOf(this.txtAltura.getText()),fecha,unContacto);
+        try {
+            if (!tablaAlumnosInactivos.getSelectionModel().isSelectionEmpty() && usuarioSeleccionado != null) {
+                Date fecha = Date.from(this.datePicker1.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Contacto unContacto = new Contacto(txtDireccion.getText(), txtTelefono1.getText(), txtTelefono2.getText(), txtEmail.getText(), txtTelefonoEmergencia.getText());
+                miControlador.altaContacto(unContacto);
+                miControlador.agregarAlumno(usuarioSeleccionado, this.txtNombre.getText(), this.txtApellido.getText(), Double.valueOf(this.txtPeso.getText()), Double.valueOf(this.txtAltura.getText()), fecha, unContacto);
+                
+                String[] opciones ={"SI","NO","CANCELAR"};
+                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea generar una cuota?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+                switch (seleccion){
+                    case 0: abrir coso de cuotas;
+                        this.setVisible(false);
+                        break;
+                    case 1: //salio por el no
+                        this.setVisible(false);
+                        break;
+                    case 3: //no hacer nada --> hacer algo?
+                        break;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario.");
+            }
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, "Error al guardar alumno: " + ex.getMessage());
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        this.txtNombre.setText("");
+        this.txtApellido.setText("");
+        this.txtAltura.setText("");
+        this.txtDireccion.setText("");
+        this.txtEmail.setText("");
+        this.txtPeso.setText("");
+        this.txtTelefono1.setText("");
+        this.txtTelefono2.setText("");
+        this.txtTelefonoEmergencia.setText("");
+        this.txtBuscar.setText("");
+        this.datePicker1.setText("");
+        this.btnActivar.setEnabled(false);
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void tablaAlumnosInactivosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosInactivosMouseReleased
+        this.btnActivar.setEnabled(true);
+    }//GEN-LAST:event_tablaAlumnosInactivosMouseReleased
+
+    private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
+        try {
+            Alumno unAlumno = (Alumno) this.tablaAlumnosInactivos.getValueAt(this.tablaAlumnosInactivos.getSelectedRow(), 0);
+            unAlumno.setEstado("ACTIVO");
+            miControlador.agregarAlumno(unAlumno.getUsuario(),unAlumno.getNombrealumno(),unAlumno.getApellidoalumno(),unAlumno.getPeso(),unAlumno.getAltura(),unAlumno.getFechanacimiento(),unAlumno.getContacto());
+            SwingUtilities.invokeLater(new Runnable(){public void run(){
+                           cargarTabla(); 
+            }});
+            this.btnActivar.setEnabled(false);
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el Alumno: "+ex.getMessage());
+        }
+    }//GEN-LAST:event_btnActivarActionPerformed
+
+    private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
+        jDialogSeleccionarUsuario seleccion = new jDialogSeleccionarUsuario(null, true,miControlador);
+        this.usuarioSeleccionado = seleccion.showDialog();
+    }//GEN-LAST:event_btnUsuarioActionPerformed
+
+    private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered
+        if(usuarioSeleccionado == null){
+            this.txtUsuario.setText("SIN CARGAR");
+        }else{
+            this.txtUsuario.setText(usuarioSeleccionado.getNombreusuario());
+        }
+    }//GEN-LAST:event_jPanel1MouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActivar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnUsuario;
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -349,10 +491,9 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaUsuarios;
+    private javax.swing.JTable tablaAlumnosInactivos;
     private javax.swing.JTextField txtAltura;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtBuscar;
@@ -363,5 +504,6 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     private javax.swing.JTextField txtTelefono1;
     private javax.swing.JTextField txtTelefono2;
     private javax.swing.JTextField txtTelefonoEmergencia;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

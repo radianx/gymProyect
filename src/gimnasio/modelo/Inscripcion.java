@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,20 +14,23 @@ public class Inscripcion  implements java.io.Serializable {
      private Alumno alumno;
      private Date fechainscripcion;
      private Double cuotainicial;
+     private String estado;
 
     public Inscripcion() {
     }
 
 	
-    public Inscripcion(int idincripcion, Alumno alumno) {
+    public Inscripcion(int idincripcion, Alumno alumno, String estado) {
         this.idincripcion = idincripcion;
         this.alumno = alumno;
+        this.estado = estado;
     }
-    public Inscripcion(int idincripcion, Alumno alumno, Date fechainscripcion, Double cuotainicial) {
+    public Inscripcion(int idincripcion, Alumno alumno, Date fechainscripcion, Double cuotainicial, String estado) {
        this.idincripcion = idincripcion;
        this.alumno = alumno;
        this.fechainscripcion = fechainscripcion;
        this.cuotainicial = cuotainicial;
+       this.estado = estado;
     }
    
     public int getIdincripcion() {
@@ -57,6 +60,13 @@ public class Inscripcion  implements java.io.Serializable {
     
     public void setCuotainicial(Double cuotainicial) {
         this.cuotainicial = cuotainicial;
+    }
+    public String getEstado() {
+        return this.estado;
+    }
+    
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
 

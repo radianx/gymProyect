@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -14,19 +14,24 @@ public class Cargo  implements java.io.Serializable {
      private int idcargo;
      private String nombrecargo;
      private String descripcioncargo;
-     private Set usuarios = new HashSet(0);
+     private String estado;
+     private Set cargoPersonals = new HashSet(0);
 
     public Cargo() {
     }
 
 	
-    public Cargo(String nombrecargo) {
+    public Cargo(int idcargo, String nombrecargo, String estado) {
+        this.idcargo = idcargo;
         this.nombrecargo = nombrecargo;
+        this.estado = estado;
     }
-    public Cargo(String nombrecargo, String descripcioncargo, Set usuario) {
+    public Cargo(int idcargo, String nombrecargo, String descripcioncargo, String estado, Set cargoPersonals) {
+       this.idcargo = idcargo;
        this.nombrecargo = nombrecargo;
        this.descripcioncargo = descripcioncargo;
-       this.usuarios = usuario;
+       this.estado = estado;
+       this.cargoPersonals = cargoPersonals;
     }
    
     public int getIdcargo() {
@@ -50,12 +55,19 @@ public class Cargo  implements java.io.Serializable {
     public void setDescripcioncargo(String descripcioncargo) {
         this.descripcioncargo = descripcioncargo;
     }
-    public Set getUsuarios() {
-        return this.usuarios;
+    public String getEstado() {
+        return this.estado;
     }
     
-    public void setUsuarios(Set usuarios) {
-        this.usuarios = usuarios;
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    public Set getCargoPersonals() {
+        return this.cargoPersonals;
+    }
+    
+    public void setCargoPersonals(Set cargoPersonals) {
+        this.cargoPersonals = cargoPersonals;
     }
 
 

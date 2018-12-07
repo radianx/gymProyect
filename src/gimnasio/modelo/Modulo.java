@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -14,24 +14,25 @@ public class Modulo  implements java.io.Serializable {
      private int idmodulo;
      private Sistema sistema;
      private String nombremodulo;
-     private String estadomodulo;
-     private Set usuarios = new HashSet(0);
+     private String estado;
+     private Set usuarioModulos = new HashSet(0);
 
     public Modulo() {
     }
 
 	
-    public Modulo(int idmodulo, Sistema sistema, String nombremodulo) {
+    public Modulo(int idmodulo, Sistema sistema, String nombremodulo, String estado) {
         this.idmodulo = idmodulo;
         this.sistema = sistema;
         this.nombremodulo = nombremodulo;
+        this.estado = estado;
     }
-    public Modulo(int idmodulo, Sistema sistema, String nombremodulo, String estadomodulo, Set usuarios) {
+    public Modulo(int idmodulo, Sistema sistema, String nombremodulo, String estado, Set usuarioModulos) {
        this.idmodulo = idmodulo;
        this.sistema = sistema;
        this.nombremodulo = nombremodulo;
-       this.estadomodulo = estadomodulo;
-       this.usuarios = usuarios;
+       this.estado = estado;
+       this.usuarioModulos = usuarioModulos;
     }
    
     public int getIdmodulo() {
@@ -55,19 +56,19 @@ public class Modulo  implements java.io.Serializable {
     public void setNombremodulo(String nombremodulo) {
         this.nombremodulo = nombremodulo;
     }
-    public String getEstadomodulo() {
-        return this.estadomodulo;
+    public String getEstado() {
+        return this.estado;
     }
     
-    public void setEstadomodulo(String estadomodulo) {
-        this.estadomodulo = estadomodulo;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
-    public Set getUsuarios() {
-        return this.usuarios;
+    public Set getUsuarioModulos() {
+        return this.usuarioModulos;
     }
     
-    public void setUsuarios(Set usuarios) {
-        this.usuarios = usuarios;
+    public void setUsuarioModulos(Set usuarioModulos) {
+        this.usuarioModulos = usuarioModulos;
     }
 
 

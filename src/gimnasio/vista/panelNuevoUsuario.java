@@ -62,7 +62,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
 
         jLabel4 = new javax.swing.JLabel();
         btnFoto = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnCargarHuella = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
@@ -94,10 +94,10 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
 
         btnFoto.setText("TOMAR FOTO");
 
-        jButton1.setText("CARGAR HUELLA");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCargarHuella.setText("CARGAR HUELLA");
+        btnCargarHuella.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCargarHuellaActionPerformed(evt);
             }
         });
 
@@ -238,7 +238,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCargarHuella, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -266,7 +266,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnFoto)
-                    .addComponent(jButton1))
+                    .addComponent(btnCargarHuella))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -290,10 +290,10 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         this.btnGuardar.setEnabled(true);
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCargarHuellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarHuellaActionPerformed
         jDialogHuella huellaDialog = new jDialogHuella(null, true);
         this.datosHuella = huellaDialog.showDialog();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCargarHuellaActionPerformed
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         if(datosHuella!=null){
@@ -362,11 +362,11 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActivar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCargarHuella;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnFoto;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

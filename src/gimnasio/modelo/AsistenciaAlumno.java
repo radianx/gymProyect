@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,19 +13,22 @@ public class AsistenciaAlumno  implements java.io.Serializable {
      private AsistenciaAlumnoId id;
      private ClaseAlumno claseAlumno;
      private Date salida;
+     private String estado;
 
     public AsistenciaAlumno() {
     }
 
 	
-    public AsistenciaAlumno(AsistenciaAlumnoId id, ClaseAlumno claseAlumno) {
+    public AsistenciaAlumno(AsistenciaAlumnoId id, ClaseAlumno claseAlumno, String estado) {
         this.id = id;
         this.claseAlumno = claseAlumno;
+        this.estado = estado;
     }
-    public AsistenciaAlumno(AsistenciaAlumnoId id, ClaseAlumno claseAlumno, Date salida) {
+    public AsistenciaAlumno(AsistenciaAlumnoId id, ClaseAlumno claseAlumno, Date salida, String estado) {
        this.id = id;
        this.claseAlumno = claseAlumno;
        this.salida = salida;
+       this.estado = estado;
     }
    
     public AsistenciaAlumnoId getId() {
@@ -48,6 +51,13 @@ public class AsistenciaAlumno  implements java.io.Serializable {
     
     public void setSalida(Date salida) {
         this.salida = salida;
+    }
+    public String getEstado() {
+        return this.estado;
+    }
+    
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
 

@@ -51,8 +51,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         initComponents();
         this.btnEliminar.setEnabled(false);
         this.btnModificar.setEnabled(false);
-       
-        
+            
         panelNewUser = new panelNuevoUsuario(miControlador);
         this.jPanel1.add(panelNewUser);
         tablaUsuarios.clearSelection();
@@ -196,31 +195,30 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         jLabel2.setText("FOTOGRAFIA");
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        btnNuevo.setText("NUEVO USUARIO");
+        btnNuevo.setText("<html><center>NUEVO<br>USUARIO</center></html>");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
             }
         });
-        jPanel5.add(btnNuevo, new java.awt.GridBagConstraints());
+        jPanel5.add(btnNuevo);
 
-        btnModificar.setText("MODIFICAR USUARIO");
+        btnModificar.setText("<html><center>MODIFICAR<br>USUARIO</center></html>");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModificarActionPerformed(evt);
             }
         });
-        jPanel5.add(btnModificar, new java.awt.GridBagConstraints());
+        jPanel5.add(btnModificar);
 
-        btnEliminar.setText("ELIMINAR USUARIO");
+        btnEliminar.setText("<html><center>ELIMINAR<br>USUARIO</center></html>");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
             }
         });
-        jPanel5.add(btnEliminar, new java.awt.GridBagConstraints());
+        jPanel5.add(btnEliminar);
 
         tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -274,34 +272,38 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         panelPrinCentroLayout.setHorizontalGroup(
             panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrinCentroLayout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 37, Short.MAX_VALUE))
-            .addGroup(panelPrinCentroLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
                 .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(btnNuevo1))
+                    .addGroup(panelPrinCentroLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                        .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelPrinCentroLayout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelPrinCentroLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnNuevo1)))
+                        .addGap(14, 14, 14))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelPrinCentroLayout.setVerticalGroup(
             panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrinCentroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelPrinCentroLayout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNuevo1))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         panelPrincipal2.add(panelPrinCentro, java.awt.BorderLayout.CENTER);
@@ -438,18 +440,5 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JTable tablaUsuarios1;
     private javax.swing.JTextField txtBuscar2;
     // End of variables declaration//GEN-END:variables
-    
-    public void limpiarTabla(){
-         
-         DefaultTableModel modelo2=(DefaultTableModel) tablaUsuarios.getModel(); //GENERO UN NUEVO TABLE MODEL.. AL CUAL LE ASIGNO EL MODELO DE LA TABLA QUE CARGAMOS 																			CON ANTERIORIDAD
-         
-         int filas=tablaUsuarios.getRowCount(); ///GENERO UN INDICE PARA SABER CUANTAS FILAS TIENE MI TABLA
-         
-         for(int i=0; i<filas;i++){    ////RECORRO EL INDICE A TRAVES DE UN CICLO FOR
-
-             modelo2.removeRow(0);   /////DE ESTA MANERA VOY QUITANDO EL SIEMPRE LA PRIMER FILA DEL MODELO...ESTO UNA VEZ FINALIZADO EL RECORRIDO DEL FOR NOS 								     ELIMINA TODOS LOS ELEMENTOS DE LA TABLA
-         
-         }
-    }
-
+ 
 }

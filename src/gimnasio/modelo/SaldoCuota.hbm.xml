@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.SaldoCuota" table="saldo_cuota" schema="public" optimistic-lock="version">
+    <class name="modelonuevo.SaldoCuota" table="saldo_cuota" schema="public" optimistic-lock="version">
         <id name="idsaldocuota" type="int">
             <column name="idsaldocuota" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="cobroCuota" class="gimnasio.modelo.CobroCuota" fetch="select">
+        <many-to-one name="cobroCuota" class="modelonuevo.CobroCuota" fetch="select">
             <column name="idcobrocuota" not-null="true" />
         </many-to-one>
         <property name="montosaldo" type="double">
             <column name="montosaldo" precision="17" scale="17" not-null="true" />
         </property>
-        <property name="saldado" type="boolean">
-            <column name="saldado" not-null="true" />
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

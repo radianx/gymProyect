@@ -1,18 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Alumno" table="alumno" schema="public" optimistic-lock="version">
+    <class name="modelonuevo.Alumno" table="alumno" schema="public" optimistic-lock="version">
         <id name="idalumno" type="int">
             <column name="idalumno" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="usuario" class="gimnasio.modelo.Usuario" fetch="select">
-            <column name="idusuario" not-null="true" />
-        </many-to-one>
-        <many-to-one name="contacto" class="gimnasio.modelo.Contacto" fetch="select">
+        <many-to-one name="contacto" class="modelonuevo.Contacto" fetch="select">
             <column name="idcontacto" not-null="true" />
+        </many-to-one>
+        <many-to-one name="obrasocial" class="modelonuevo.Obrasocial" fetch="select">
+            <column name="idobrasocial" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuario" class="modelonuevo.Usuario" fetch="select">
+            <column name="idusuario" not-null="true" />
         </many-to-one>
         <property name="nombrealumno" type="string">
             <column name="nombrealumno" not-null="true" />
@@ -26,29 +29,29 @@
         <property name="altura" type="java.lang.Double">
             <column name="altura" precision="17" scale="17" />
         </property>
-        <property name="estado" type="string">
-            <column name="estado" />
-        </property>
         <property name="fechanacimiento" type="date">
             <column name="fechanacimiento" length="13" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
         </property>
         <set name="claseAlumnos" table="clase_alumno" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idalumno" not-null="true" />
             </key>
-            <one-to-many class="gimnasio.modelo.ClaseAlumno" />
+            <one-to-many class="modelonuevo.ClaseAlumno" />
         </set>
         <set name="cuotas" table="cuota" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idalumno" not-null="true" />
             </key>
-            <one-to-many class="gimnasio.modelo.Cuota" />
+            <one-to-many class="modelonuevo.Cuota" />
         </set>
         <set name="inscripcions" table="inscripcion" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idalumno" not-null="true" />
             </key>
-            <one-to-many class="gimnasio.modelo.Inscripcion" />
+            <one-to-many class="modelonuevo.Inscripcion" />
         </set>
     </class>
 </hibernate-mapping>

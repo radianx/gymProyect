@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -15,7 +15,7 @@ public class Sector  implements java.io.Serializable {
      private String nombresector;
      private String descripcionsector;
      private String estado;
-     private Set clases = new HashSet(0);
+     private Set sectorClases = new HashSet(0);
 
     public Sector() {
     }
@@ -26,11 +26,12 @@ public class Sector  implements java.io.Serializable {
         this.nombresector = nombresector;
         this.estado = estado;
     }
-    public Sector(int idsector, String nombresector, String descripcionsector, String estado) {
+    public Sector(int idsector, String nombresector, String descripcionsector, String estado, Set sectorClases) {
        this.idsector = idsector;
        this.nombresector = nombresector;
        this.descripcionsector = descripcionsector;
        this.estado = estado;
+       this.sectorClases = sectorClases;
     }
    
     public int getIdsector() {
@@ -54,23 +55,19 @@ public class Sector  implements java.io.Serializable {
     public void setDescripcionsector(String descripcionsector) {
         this.descripcionsector = descripcionsector;
     }
-
     public String getEstado() {
-        return estado;
+        return this.estado;
     }
-
+    
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
-    
-    public Set getClases() {
-        return this.clases;
+    public Set getSectorClases() {
+        return this.sectorClases;
     }
     
-    public void setClases(Set clases) {
-        this.clases = clases;
+    public void setSectorClases(Set sectorClases) {
+        this.sectorClases = sectorClases;
     }
 
 

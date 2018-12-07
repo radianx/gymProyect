@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Sector" table="sector" schema="public" optimistic-lock="version">
+    <class name="modelonuevo.Sector" table="sector" schema="public" optimistic-lock="version">
         <id name="idsector" type="int">
             <column name="idsector" />
             <generator class="assigned" />
@@ -15,13 +15,13 @@
             <column name="descripcionsector" />
         </property>
         <property name="estado" type="string">
-            <column name="estado" />
+            <column name="estado" not-null="true" />
         </property>
-        <set name="clases" table="clase" inverse="true" lazy="true" fetch="select">
+        <set name="sectorClases" table="sector_clase" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idsector" not-null="true" />
             </key>
-            <one-to-many class="gimnasio.modelo.Clase" />
+            <one-to-many class="modelonuevo.SectorClase" />
         </set>
     </class>
 </hibernate-mapping>

@@ -1,22 +1,25 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.AsistenciaProfesor" table="asistencia_profesor" schema="public" optimistic-lock="version">
-        <composite-id name="id" class="gimnasio.modelo.AsistenciaProfesorId">
-            <key-property name="idclase" type="int">
-                <column name="idclase" />
+    <class name="modelonuevo.AsistenciaProfesor" table="asistencia_profesor" schema="public" optimistic-lock="version">
+        <composite-id name="id" class="modelonuevo.AsistenciaProfesorId">
+            <key-property name="idclaseprofesor" type="int">
+                <column name="idclaseprofesor" />
             </key-property>
             <key-property name="ingreso" type="date">
                 <column name="ingreso" length="13" />
             </key-property>
         </composite-id>
-        <many-to-one name="clase" class="gimnasio.modelo.Clase" update="false" insert="false" fetch="select">
-            <column name="idclase" not-null="true" />
+        <many-to-one name="claseProfesor" class="modelonuevo.ClaseProfesor" update="false" insert="false" fetch="select">
+            <column name="idclaseprofesor" not-null="true" />
         </many-to-one>
         <property name="salida" type="date">
             <column name="salida" length="13" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

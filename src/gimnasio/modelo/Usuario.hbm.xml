@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Usuario" table="usuario" schema="public" optimistic-lock="version">
+    <class name="modelonuevo.Usuario" table="usuario" schema="public" optimistic-lock="version">
         <id name="idusuario" type="int">
             <column name="idusuario" />
-            <generator class="increment" />
+            <generator class="assigned" />
         </id>
         <property name="nombreusuario" type="string">
             <column name="nombreusuario" not-null="true" />
@@ -23,33 +23,29 @@
         <property name="estado" type="string">
             <column name="estado" />
         </property>
-        <set name="modulos" table="usuario_modulo" inverse="false" lazy="true" fetch="select">
+        <set name="usuarioModulos" table="usuario_modulo" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idusuario" not-null="true" />
             </key>
-            <many-to-many entity-name="gimnasio.modelo.Modulo">
-                <column name="idmodulo" not-null="true" />
-            </many-to-many>
+            <one-to-many class="modelonuevo.UsuarioModulo" />
         </set>
-        <set name="cargos" table="personal" inverse="true" lazy="true" fetch="select">
+        <set name="personals" table="personal" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idusuario" not-null="true" />
             </key>
-            <many-to-many entity-name="gimnasio.modelo.Cargo">
-                <column name="idcargo" not-null="true" />
-            </many-to-many>
+            <one-to-many class="modelonuevo.Personal" />
         </set>
         <set name="profesors" table="profesor" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idusuario" not-null="true" />
             </key>
-            <one-to-many class="gimnasio.modelo.Profesor" />
+            <one-to-many class="modelonuevo.Profesor" />
         </set>
         <set name="alumnos" table="alumno" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idusuario" not-null="true" />
             </key>
-            <one-to-many class="gimnasio.modelo.Alumno" />
+            <one-to-many class="modelonuevo.Alumno" />
         </set>
     </class>
 </hibernate-mapping>

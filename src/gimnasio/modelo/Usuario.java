@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -17,26 +17,30 @@ public class Usuario  implements java.io.Serializable {
      private byte[] planillahuellas;
      private byte[] foto;
      private String estado;
-     private Set modulos = new HashSet(0);
-     private Set cargos = new HashSet(0);
+     private Set usuarioModulos = new HashSet(0);
+     private Set personals = new HashSet(0);
      private Set profesors = new HashSet(0);
      private Set alumnos = new HashSet(0);
 
     public Usuario() {
     }
-    
-    public Usuario(String nombreusuario, String contrasenia, byte[] planillahuellas, byte[] foto, String estado) {
+
+	
+    public Usuario(int idusuario, String nombreusuario) {
+        this.idusuario = idusuario;
+        this.nombreusuario = nombreusuario;
+    }
+    public Usuario(int idusuario, String nombreusuario, String contrasenia, byte[] planillahuellas, byte[] foto, String estado, Set usuarioModulos, Set personals, Set profesors, Set alumnos) {
+       this.idusuario = idusuario;
        this.nombreusuario = nombreusuario;
        this.contrasenia = contrasenia;
        this.planillahuellas = planillahuellas;
        this.foto = foto;
        this.estado = estado;
-    }
-    
-    public Usuario(String nombreUsuario, String contrasenia, String estado){
-        this.nombreusuario= nombreUsuario;
-        this.contrasenia = contrasenia;
-        this.estado = estado;
+       this.usuarioModulos = usuarioModulos;
+       this.personals = personals;
+       this.profesors = profesors;
+       this.alumnos = alumnos;
     }
    
     public int getIdusuario() {
@@ -74,27 +78,26 @@ public class Usuario  implements java.io.Serializable {
     public void setFoto(byte[] foto) {
         this.foto = foto;
     }
-    public Set getModulos() {
-        return this.modulos;
-    }
-    
-    public void setEstado(String estado){
-        this.estado= estado;
-    }
-    
-    public String getEstado(){
+    public String getEstado() {
         return this.estado;
     }
     
-    public void setModulos(Set modulos) {
-        this.modulos = modulos;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
-    public Set getCargos() {
-        return this.cargos;
+    public Set getUsuarioModulos() {
+        return this.usuarioModulos;
     }
     
-    public void setCargos(Set cargos) {
-        this.cargos = cargos;
+    public void setUsuarioModulos(Set usuarioModulos) {
+        this.usuarioModulos = usuarioModulos;
+    }
+    public Set getPersonals() {
+        return this.personals;
+    }
+    
+    public void setPersonals(Set personals) {
+        this.personals = personals;
     }
     public Set getProfesors() {
         return this.profesors;
@@ -109,11 +112,6 @@ public class Usuario  implements java.io.Serializable {
     
     public void setAlumnos(Set alumnos) {
         this.alumnos = alumnos;
-    }
-
-    @Override
-    public String toString() {
-        return nombreusuario;
     }
 
 

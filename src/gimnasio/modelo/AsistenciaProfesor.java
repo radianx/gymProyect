@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,21 +11,24 @@ public class AsistenciaProfesor  implements java.io.Serializable {
 
 
      private AsistenciaProfesorId id;
-     private Clase clase;
+     private ClaseProfesor claseProfesor;
      private Date salida;
+     private String estado;
 
     public AsistenciaProfesor() {
     }
 
 	
-    public AsistenciaProfesor(AsistenciaProfesorId id, Clase clase) {
+    public AsistenciaProfesor(AsistenciaProfesorId id, ClaseProfesor claseProfesor, String estado) {
         this.id = id;
-        this.clase = clase;
+        this.claseProfesor = claseProfesor;
+        this.estado = estado;
     }
-    public AsistenciaProfesor(AsistenciaProfesorId id, Clase clase, Date salida) {
+    public AsistenciaProfesor(AsistenciaProfesorId id, ClaseProfesor claseProfesor, Date salida, String estado) {
        this.id = id;
-       this.clase = clase;
+       this.claseProfesor = claseProfesor;
        this.salida = salida;
+       this.estado = estado;
     }
    
     public AsistenciaProfesorId getId() {
@@ -35,12 +38,12 @@ public class AsistenciaProfesor  implements java.io.Serializable {
     public void setId(AsistenciaProfesorId id) {
         this.id = id;
     }
-    public Clase getClase() {
-        return this.clase;
+    public ClaseProfesor getClaseProfesor() {
+        return this.claseProfesor;
     }
     
-    public void setClase(Clase clase) {
-        this.clase = clase;
+    public void setClaseProfesor(ClaseProfesor claseProfesor) {
+        this.claseProfesor = claseProfesor;
     }
     public Date getSalida() {
         return this.salida;
@@ -48,6 +51,13 @@ public class AsistenciaProfesor  implements java.io.Serializable {
     
     public void setSalida(Date salida) {
         this.salida = salida;
+    }
+    public String getEstado() {
+        return this.estado;
+    }
+    
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
 

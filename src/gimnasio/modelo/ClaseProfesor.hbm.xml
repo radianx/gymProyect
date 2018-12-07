@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelonuevo.ClaseProfesor" table="clase_profesor" schema="public" optimistic-lock="version">
+        <id name="idclaseprofesor" type="int">
+            <column name="idclaseprofesor" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="clase" class="modelonuevo.Clase" fetch="select">
+            <column name="idclase" not-null="true" />
+        </many-to-one>
+        <many-to-one name="modalidad" class="modelonuevo.Modalidad" fetch="select">
+            <column name="idmodalidad" not-null="true" />
+        </many-to-one>
+        <many-to-one name="profesor" class="modelonuevo.Profesor" fetch="select">
+            <column name="idprofesor" not-null="true" />
+        </many-to-one>
+        <property name="inicio" type="date">
+            <column name="inicio" length="13" not-null="true" />
+        </property>
+        <property name="fin" type="date">
+            <column name="fin" length="13" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
+        </property>
+        <set name="asistenciaProfesors" table="asistencia_profesor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idclaseprofesor" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.AsistenciaProfesor" />
+        </set>
+        <set name="sectorClases" table="sector_clase" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idclaseprofesor" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.SectorClase" />
+        </set>
+        <set name="claseAlumnos" table="clase_alumno" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idclaseprofesor" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.ClaseAlumno" />
+        </set>
+    </class>
+</hibernate-mapping>

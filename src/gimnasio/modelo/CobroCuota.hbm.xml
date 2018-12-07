@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.CobroCuota" table="cobro_cuota" schema="public" optimistic-lock="version">
+    <class name="modelonuevo.CobroCuota" table="cobro_cuota" schema="public" optimistic-lock="version">
         <id name="idcobrocuota" type="int">
             <column name="idcobrocuota" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="cuota" class="gimnasio.modelo.Cuota" fetch="select">
+        <many-to-one name="cuota" class="modelonuevo.Cuota" fetch="select">
             <column name="idcuota" not-null="true" />
         </many-to-one>
         <property name="montocobro" type="double">
@@ -17,17 +17,20 @@
         <property name="fechapago" type="date">
             <column name="fechapago" length="13" not-null="true" />
         </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
+        </property>
+        <set name="saldopagoprofesors" table="saldopagoprofesor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idpagoprofesor" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.Saldopagoprofesor" />
+        </set>
         <set name="saldoCuotas" table="saldo_cuota" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idcobrocuota" not-null="true" />
             </key>
-            <one-to-many class="gimnasio.modelo.SaldoCuota" />
-        </set>
-        <set name="saldoPagoProfesors" table="saldo_pago_profesor" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="idpagoprofesor" not-null="true" />
-            </key>
-            <one-to-many class="gimnasio.modelo.SaldoPagoProfesor" />
+            <one-to-many class="modelonuevo.SaldoCuota" />
         </set>
     </class>
 </hibernate-mapping>

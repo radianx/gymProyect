@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelonuevo.Personal" table="personal" schema="public" optimistic-lock="version">
+        <id name="idpersonal" type="int">
+            <column name="idpersonal" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="contacto" class="modelonuevo.Contacto" fetch="select">
+            <column name="idcontacto" not-null="true" />
+        </many-to-one>
+        <many-to-one name="obrasocial" class="modelonuevo.Obrasocial" fetch="select">
+            <column name="idobrasocial" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuario" class="modelonuevo.Usuario" fetch="select">
+            <column name="idusuario" not-null="true" />
+        </many-to-one>
+        <property name="nombrepersonal" type="string">
+            <column name="nombrepersonal" not-null="true" />
+        </property>
+        <property name="apellidopersonal" type="string">
+            <column name="apellidopersonal" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
+        </property>
+        <set name="cajaDiarias" table="caja_diaria" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idpersonalapertura" />
+            </key>
+            <one-to-many class="modelonuevo.CajaDiaria" />
+        </set>
+        <set name="cierreCajaDiarias" table="cierre_caja_diaria" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idpersonalcierre" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.CierreCajaDiaria" />
+        </set>
+        <set name="aperturaCajaDiarias" table="apertura_caja_diaria" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idpersonalapertura" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.AperturaCajaDiaria" />
+        </set>
+        <set name="cargoPersonals" table="cargo_personal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idpersonal" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.CargoPersonal" />
+        </set>
+    </class>
+</hibernate-mapping>

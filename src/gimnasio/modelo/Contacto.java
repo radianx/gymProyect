@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -17,21 +17,32 @@ public class Contacto  implements java.io.Serializable {
      private String telefono2;
      private String email1;
      private String telefonoemergencia;
+     private String estado;
      private Set obrasocials = new HashSet(0);
+     private Set alumnos = new HashSet(0);
+     private Set personals = new HashSet(0);
+     private Set profesors = new HashSet(0);
 
     public Contacto() {
     }
 
 	
-    public Contacto(String direccion) {
-        this.direccion = direccion;
+    public Contacto(int idcontacto, String estado) {
+        this.idcontacto = idcontacto;
+        this.estado = estado;
     }
-    public Contacto(String direccion, String telefono1, String telefono2, String email1, String telefonoemergencia) {
+    public Contacto(int idcontacto, String direccion, String telefono1, String telefono2, String email1, String telefonoemergencia, String estado, Set obrasocials, Set alumnos, Set personals, Set profesors) {
+       this.idcontacto = idcontacto;
        this.direccion = direccion;
        this.telefono1 = telefono1;
        this.telefono2 = telefono2;
        this.email1 = email1;
        this.telefonoemergencia = telefonoemergencia;
+       this.estado = estado;
+       this.obrasocials = obrasocials;
+       this.alumnos = alumnos;
+       this.personals = personals;
+       this.profesors = profesors;
     }
    
     public int getIdcontacto() {
@@ -76,12 +87,40 @@ public class Contacto  implements java.io.Serializable {
     public void setTelefonoemergencia(String telefonoemergencia) {
         this.telefonoemergencia = telefonoemergencia;
     }
+    public String getEstado() {
+        return this.estado;
+    }
+    
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
     public Set getObrasocials() {
         return this.obrasocials;
     }
     
     public void setObrasocials(Set obrasocials) {
         this.obrasocials = obrasocials;
+    }
+    public Set getAlumnos() {
+        return this.alumnos;
+    }
+    
+    public void setAlumnos(Set alumnos) {
+        this.alumnos = alumnos;
+    }
+    public Set getPersonals() {
+        return this.personals;
+    }
+    
+    public void setPersonals(Set personals) {
+        this.personals = personals;
+    }
+    public Set getProfesors() {
+        return this.profesors;
+    }
+    
+    public void setProfesors(Set profesors) {
+        this.profesors = profesors;
     }
 
 

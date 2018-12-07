@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Cargo" table="cargo" schema="public" optimistic-lock="version">
+    <class name="modelonuevo.Cargo" table="cargo" schema="public" optimistic-lock="version">
         <id name="idcargo" type="int">
             <column name="idcargo" />
             <generator class="assigned" />
@@ -14,13 +14,14 @@
         <property name="descripcioncargo" type="string">
             <column name="descripcioncargo" />
         </property>
-        <set name="usuarios" table="personal" inverse="false" lazy="true" fetch="select">
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
+        </property>
+        <set name="cargoPersonals" table="cargo_personal" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idcargo" not-null="true" />
             </key>
-            <many-to-many entity-name="gimnasio.modelo.Usuario">
-                <column name="idusuario" not-null="true" />
-            </many-to-many>
+            <one-to-many class="modelonuevo.CargoPersonal" />
         </set>
     </class>
 </hibernate-mapping>

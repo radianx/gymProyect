@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -15,20 +15,25 @@ public class Modalidad  implements java.io.Serializable {
      private String nombremodalidad;
      private String descripcionmodalidad;
      private String estado;
-     private Set profesormodalidads = new HashSet(0);
+     private Set profesorModalidads = new HashSet(0);
+     private Set claseProfesors = new HashSet(0);
 
     public Modalidad() {
     }
 
 	
-    public Modalidad(String nombremodalidad, String estado) {
+    public Modalidad(int idmodalidad, String nombremodalidad, String estado) {
+        this.idmodalidad = idmodalidad;
         this.nombremodalidad = nombremodalidad;
-        this.estado= estado;
+        this.estado = estado;
     }
-    public Modalidad(String nombremodalidad, String descripcionmodalidad, String estado) {
+    public Modalidad(int idmodalidad, String nombremodalidad, String descripcionmodalidad, String estado, Set profesorModalidads, Set claseProfesors) {
+       this.idmodalidad = idmodalidad;
        this.nombremodalidad = nombremodalidad;
        this.descripcionmodalidad = descripcionmodalidad;
        this.estado = estado;
+       this.profesorModalidads = profesorModalidads;
+       this.claseProfesors = claseProfesors;
     }
    
     public int getIdmodalidad() {
@@ -52,21 +57,30 @@ public class Modalidad  implements java.io.Serializable {
     public void setDescripcionmodalidad(String descripcionmodalidad) {
         this.descripcionmodalidad = descripcionmodalidad;
     }
-    public Set getProfesormodalidads() {
-        return this.profesormodalidads;
+    public String getEstado() {
+        return this.estado;
     }
     
-    public void setProfesormodalidads(Set profesormodalidads) {
-        this.profesormodalidads = profesormodalidads;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
     public void setEstado(String estado) {
         this.estado = estado;
     }
+    public Set getProfesorModalidads() {
+        return this.profesorModalidads;
+    }
+    
+    public void setProfesorModalidads(Set profesorModalidads) {
+        this.profesorModalidads = profesorModalidads;
+    }
+    public Set getClaseProfesors() {
+        return this.claseProfesors;
+    }
+    
+    public void setClaseProfesors(Set claseProfesors) {
+        this.claseProfesors = claseProfesors;
+    }
+
+
+
 
 }
 

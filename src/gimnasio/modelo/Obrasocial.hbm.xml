@@ -1,18 +1,39 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Obrasocial" table="obrasocial" schema="public" optimistic-lock="version">
+    <class name="modelonuevo.Obrasocial" table="obrasocial" schema="public" optimistic-lock="version">
         <id name="idobrasocial" type="int">
             <column name="idobrasocial" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="contacto" class="gimnasio.modelo.Contacto" fetch="select">
-            <column name="idcontacto" />
+        <many-to-one name="contacto" class="modelonuevo.Contacto" fetch="select">
+            <column name="idcontacto" not-null="true" />
         </many-to-one>
         <property name="nombreobrasocial" type="string">
             <column name="nombreobrasocial" not-null="true" />
         </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
+        </property>
+        <set name="alumnos" table="alumno" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idobrasocial" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.Alumno" />
+        </set>
+        <set name="personals" table="personal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idobrasocial" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.Personal" />
+        </set>
+        <set name="profesors" table="profesor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idobrasocial" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.Profesor" />
+        </set>
     </class>
 </hibernate-mapping>

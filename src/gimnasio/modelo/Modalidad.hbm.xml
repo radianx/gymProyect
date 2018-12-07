@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Modalidad" table="modalidad" schema="public" optimistic-lock="version">
+    <class name="modelonuevo.Modalidad" table="modalidad" schema="public" optimistic-lock="version">
         <id name="idmodalidad" type="int">
             <column name="idmodalidad" />
             <generator class="assigned" />
@@ -15,13 +15,19 @@
             <column name="descripcionmodalidad" />
         </property>
         <property name="estado" type="string">
-            <column name="estado" />
+            <column name="estado" not-null="true" />
         </property>
-        <set name="profesormodalidads" table="profesormodalidad" inverse="true" lazy="true" fetch="select">
+        <set name="profesorModalidads" table="profesor_modalidad" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idmodalidad" not-null="true" />
             </key>
-            <one-to-many class="gimnasio.modelo.Profesormodalidad" />
+            <one-to-many class="modelonuevo.ProfesorModalidad" />
+        </set>
+        <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idmodalidad" not-null="true" />
+            </key>
+            <one-to-many class="modelonuevo.ClaseProfesor" />
         </set>
     </class>
 </hibernate-mapping>

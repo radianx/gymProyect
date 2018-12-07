@@ -1,5 +1,5 @@
-package gimnasio.modelo;
-// Generated 03/12/2018 19:24:10 by Hibernate Tools 4.3.1
+package modelonuevo;
+// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,14 +13,15 @@ public class Alumno  implements java.io.Serializable {
 
 
      private int idalumno;
-     private Usuario usuario;
      private Contacto contacto;
+     private Obrasocial obrasocial;
+     private Usuario usuario;
      private String nombrealumno;
      private String apellidoalumno;
      private Double peso;
      private Double altura;
-     private String estado;
      private Date fechanacimiento;
+     private String estado;
      private Set claseAlumnos = new HashSet(0);
      private Set cuotas = new HashSet(0);
      private Set inscripcions = new HashSet(0);
@@ -28,23 +29,30 @@ public class Alumno  implements java.io.Serializable {
     public Alumno() {
     }
 
-    public Alumno(Usuario usuario,String nombrealumno, String apellido, Contacto contacto, String estado){
-        this.usuario = usuario;
-        this.apellidoalumno = apellido;
-        this.nombrealumno = nombrealumno;
+	
+    public Alumno(int idalumno, Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombrealumno, String apellidoalumno, String estado) {
+        this.idalumno = idalumno;
         this.contacto = contacto;
+        this.obrasocial = obrasocial;
+        this.usuario = usuario;
+        this.nombrealumno = nombrealumno;
+        this.apellidoalumno = apellidoalumno;
         this.estado = estado;
     }
-
-    public Alumno(Usuario usuario, String nombrealumno, String apellidoalumno, Double peso, Double altura, String estado, Date fechanacimiento, Contacto contacto) {
+    public Alumno(int idalumno, Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombrealumno, String apellidoalumno, Double peso, Double altura, Date fechanacimiento, String estado, Set claseAlumnos, Set cuotas, Set inscripcions) {
+       this.idalumno = idalumno;
+       this.contacto = contacto;
+       this.obrasocial = obrasocial;
        this.usuario = usuario;
        this.nombrealumno = nombrealumno;
        this.apellidoalumno = apellidoalumno;
        this.peso = peso;
        this.altura = altura;
-       this.estado = estado;
        this.fechanacimiento = fechanacimiento;
-       this.contacto =  contacto;
+       this.estado = estado;
+       this.claseAlumnos = claseAlumnos;
+       this.cuotas = cuotas;
+       this.inscripcions = inscripcions;
     }
    
     public int getIdalumno() {
@@ -53,6 +61,20 @@ public class Alumno  implements java.io.Serializable {
     
     public void setIdalumno(int idalumno) {
         this.idalumno = idalumno;
+    }
+    public Contacto getContacto() {
+        return this.contacto;
+    }
+    
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
+    }
+    public Obrasocial getObrasocial() {
+        return this.obrasocial;
+    }
+    
+    public void setObrasocial(Obrasocial obrasocial) {
+        this.obrasocial = obrasocial;
     }
     public Usuario getUsuario() {
         return this.usuario;
@@ -75,7 +97,6 @@ public class Alumno  implements java.io.Serializable {
     public void setApellidoalumno(String apellidoalumno) {
         this.apellidoalumno = apellidoalumno;
     }
-
     public Double getPeso() {
         return this.peso;
     }
@@ -90,13 +111,6 @@ public class Alumno  implements java.io.Serializable {
     public void setAltura(Double altura) {
         this.altura = altura;
     }
-    public String getEstado() {
-        return this.estado;
-    }
-    
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
     public Date getFechanacimiento() {
         return this.fechanacimiento;
     }
@@ -104,17 +118,13 @@ public class Alumno  implements java.io.Serializable {
     public void setFechanacimiento(Date fechanacimiento) {
         this.fechanacimiento = fechanacimiento;
     }
-
-    public Contacto getContacto() {
-        return contacto;
-    }
-
-    public void setContacto(Contacto contacto) {
-        this.contacto = contacto;
+    public String getEstado() {
+        return this.estado;
     }
     
-    
-    
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
     public Set getClaseAlumnos() {
         return this.claseAlumnos;
     }
@@ -137,11 +147,8 @@ public class Alumno  implements java.io.Serializable {
         this.inscripcions = inscripcions;
     }
 
-    
-    @Override
-    public String toString() {
-        return nombrealumno;
-    }
+
+
 
 }
 

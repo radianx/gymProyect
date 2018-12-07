@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="gimnasio.modelo.Usuario" table="usuario" schema="public">
+        <id name="idusuario" type="int">
+            <column name="idusuario" />
+            <generator class="increment"></generator>
+        </id>
+        <property name="nombreusuario" type="string">
+            <column name="nombreusuario" not-null="true" />
+        </property>
+        <property name="contrasenia" type="string">
+            <column name="contrasenia" />
+        </property>
+        <property name="planillahuellas" type="binary">
+            <column name="planillahuellas" />
+        </property>
+        <property name="foto" type="binary">
+            <column name="foto" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" />
+        </property>
+        <set name="modulos" table="usuario_modulo" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="idusuario" not-null="true" />
+            </key>
+            <many-to-many entity-name="gimnasio.modelo.Modulo">
+                <column name="idmodulo" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="cargos" table="personal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idusuario" not-null="true" />
+            </key>
+            <many-to-many entity-name="gimnasio.modelo.Cargo">
+                <column name="idcargo" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="profesors" table="profesor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idusuario" not-null="true" />
+            </key>
+            <one-to-many class="gimnasio.modelo.Profesor" />
+        </set>
+        <set name="alumnos" table="alumno" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idusuario" not-null="true" />
+            </key>
+            <one-to-many class="gimnasio.modelo.Alumno" />
+        </set>
+    </class>
+</hibernate-mapping>
