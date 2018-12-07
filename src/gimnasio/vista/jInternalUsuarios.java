@@ -21,16 +21,10 @@ import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Usuario;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
-import javax.swing.RowSorter;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -57,10 +51,14 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         initComponents();
         this.btnEliminar.setEnabled(false);
         this.btnModificar.setEnabled(false);
+       
         
         panelNewUser = new panelNuevoUsuario(miControlador);
         this.jPanel1.add(panelNewUser);
+        tablaUsuarios.clearSelection();
         this.cargarTabla();
+        modeloTabla.addTableModelListener(tablaUsuarios);
+        this.tablaUsuarios.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         
         rowSorter = new TableRowSorter<>(this.tablaUsuarios.getModel());
         tablaUsuarios.setRowSorter(rowSorter);
@@ -72,19 +70,25 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
 		// this.pack();
     }
     
-    public void cargarTabla(){
+    public void cargarTabla() {
         try {
             modeloTabla = new DefaultTableModel();
             modeloTabla.addColumn("Nombre");
             Object[] fila = new Object[1];
-            
-            for(Usuario miUsuario: miControlador.getListaUsuarios()) {
-                if (miUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
-                    fila[0] = miUsuario;
-                    modeloTabla.addRow(fila);
+
+            try {
+                for (Usuario miUsuario : miControlador.getListaUsuarios()) {
+                    if (miUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
+                        fila[0] = miUsuario;
+                        modeloTabla.addRow(fila);
+                    }
                 }
+            } catch (NullPointerException ex) {
+                System.err.println("Error al cargar usuarios: " + ex.getMessage());
             }
             this.tablaUsuarios.setModel(modeloTabla);
+            rowSorter = new TableRowSorter<>(this.tablaUsuarios.getModel());
+        tablaUsuarios.setRowSorter(rowSorter);
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar usuarios desde la base de datos.");
         }
@@ -130,6 +134,11 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         jPanel1.setMaximumSize(new java.awt.Dimension(400, 400));
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 400));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 400));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel1MouseEntered(evt);
+            }
+        });
         jPanel1.setLayout(new java.awt.CardLayout());
 
         panelPrincipal2.setMinimumSize(new java.awt.Dimension(400, 200));
@@ -224,9 +233,13 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaUsuarios.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaUsuariosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseEntered(evt);
             }
         });
         jScrollPane1.setViewportView(tablaUsuarios);
@@ -262,7 +275,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
             panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrinCentroLayout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 27, Short.MAX_VALUE))
+                .addGap(0, 37, Short.MAX_VALUE))
             .addGroup(panelPrinCentroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -353,18 +366,20 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyPressed
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        if(!this.panelNewUser.isVisible()){
-            cambiarPanel(panelNewUser,panelPrincipal2);
-            this.cargarTabla();
-            this.modeloTabla.fireTableDataChanged();
-            this.txtBuscar2.grabFocus();
-        }
     }//GEN-LAST:event_formMouseEntered
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        Usuario unUsuario = (Usuario)this.tablaUsuarios1.getValueAt(tablaUsuarios1.getSelectedRow(), 0);
-        this.miControlador.bajaUsuario(unUsuario.getIdusuario());
-        this.modeloTabla.removeRow(tablaUsuarios1.getSelectedRow());
+        try {
+            Usuario unUsuario = (Usuario)this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
+            tablaUsuarios.clearSelection();
+            this.miControlador.bajaUsuario(unUsuario.getIdusuario());
+            SwingUtilities.invokeLater(new Runnable(){public void run(){
+                           cargarTabla(); 
+            }});
+
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, "Error: "+ex.getMessage());
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtBuscar2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscar2KeyTyped
@@ -382,12 +397,24 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         try {
-            panelNewUser.recibirDatos((Usuario) this.tablaUsuarios1.getValueAt(tablaUsuarios1.getSelectedRow(), 0));
+            panelNewUser.recibirDatos((Usuario) this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0));
             cambiarPanel(panelPrincipal2, panelNewUser);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null,"Error al seleccionar Usuario: "+ex.getMessage());
         }
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered
+        if(!this.panelNewUser.isVisible()){
+            cambiarPanel(panelNewUser,panelPrincipal2);
+        }
+    }//GEN-LAST:event_jPanel1MouseEntered
+
+    private void tablaUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseEntered
+        tablaUsuarios.clearSelection();
+        this.cargarTabla();
+        this.modeloTabla.fireTableDataChanged();
+    }//GEN-LAST:event_tablaUsuariosMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -411,4 +438,18 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JTable tablaUsuarios1;
     private javax.swing.JTextField txtBuscar2;
     // End of variables declaration//GEN-END:variables
+    
+    public void limpiarTabla(){
+         
+         DefaultTableModel modelo2=(DefaultTableModel) tablaUsuarios.getModel(); //GENERO UN NUEVO TABLE MODEL.. AL CUAL LE ASIGNO EL MODELO DE LA TABLA QUE CARGAMOS 																			CON ANTERIORIDAD
+         
+         int filas=tablaUsuarios.getRowCount(); ///GENERO UN INDICE PARA SABER CUANTAS FILAS TIENE MI TABLA
+         
+         for(int i=0; i<filas;i++){    ////RECORRO EL INDICE A TRAVES DE UN CICLO FOR
+
+             modelo2.removeRow(0);   /////DE ESTA MANERA VOY QUITANDO EL SIEMPRE LA PRIMER FILA DEL MODELO...ESTO UNA VEZ FINALIZADO EL RECORRIDO DEL FOR NOS 								     ELIMINA TODOS LOS ELEMENTOS DE LA TABLA
+         
+         }
+    }
+
 }

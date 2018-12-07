@@ -8,8 +8,8 @@ package gimnasio.vista;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
-import gimnasio.modelo.Usuario;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -27,6 +27,7 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     ControladorPrincipal miControlador;
     DefaultTableModel modeloTabla;
     TableRowSorter<TableModel> rowSorter;
+    panelNuevoAlumno panelNewAlumno;
     
     public jInternalAlumno(ControladorPrincipal controlador) {
         miControlador = controlador;
@@ -34,6 +35,8 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         cargarTabla();
         rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
         tablaAlumnos.setRowSorter(rowSorter);
+        panelNewAlumno = new panelNuevoAlumno(miControlador);
+        this.panelPadre.add(panelNewAlumno);
     }
 
     public void cargarTabla(){
@@ -64,7 +67,8 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        panelPadre = new javax.swing.JPanel();
+        panelPrincipal = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
@@ -83,7 +87,14 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(400, 400));
         setPreferredSize(new java.awt.Dimension(410, 400));
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        panelPadre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelPadreMouseEntered(evt);
+            }
+        });
+        panelPadre.setLayout(new java.awt.CardLayout());
+
+        panelPrincipal.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -102,7 +113,7 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         btnBuscar.setText("Buscar");
         jPanel2.add(btnBuscar);
 
-        jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_START);
+        panelPrincipal.add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -114,7 +125,7 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         });
         jPanel3.add(btnCerrar);
 
-        jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_END);
+        panelPrincipal.add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Alumnos"));
 
@@ -157,13 +168,11 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 2, Short.MAX_VALUE)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -176,9 +185,11 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
                 .addGap(16, 16, 16))
         );
 
-        jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
+        panelPrincipal.add(jPanel4, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        panelPadre.add(panelPrincipal, "card2");
+
+        getContentPane().add(panelPadre, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -188,7 +199,7 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-  //      cambiarPanel(panelPrincipal2, panelNewUser);
+        cambiarPanel(panelPrincipal, panelNewAlumno);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -204,6 +215,15 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
+    private void panelPadreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPadreMouseEntered
+        if (!this.panelNewAlumno.isVisible()) {
+            cambiarPanel(panelNewAlumno, panelPrincipal);
+            this.cargarTabla();
+            this.modeloTabla.fireTableDataChanged();
+            this.txtBuscar.grabFocus();
+        }
+    }//GEN-LAST:event_panelPadreMouseEntered
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -212,13 +232,21 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelPadre;
+    private javax.swing.JPanel panelPrincipal;
     private javax.swing.JTable tablaAlumnos;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+    
+    private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
+		panelActual.setVisible(false);
+                panelCambio.setVisible(true);
+		// this.pack();
+    }
+    
 }
