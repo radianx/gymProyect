@@ -14,21 +14,23 @@ public class Sector  implements java.io.Serializable {
      private int idsector;
      private String nombresector;
      private String descripcionsector;
+     private String estado;
      private Set clases = new HashSet(0);
 
     public Sector() {
     }
 
 	
-    public Sector(int idsector, String nombresector) {
+    public Sector(int idsector, String nombresector, String estado) {
         this.idsector = idsector;
         this.nombresector = nombresector;
+        this.estado = estado;
     }
-    public Sector(int idsector, String nombresector, String descripcionsector, Set clases) {
+    public Sector(int idsector, String nombresector, String descripcionsector, String estado) {
        this.idsector = idsector;
        this.nombresector = nombresector;
        this.descripcionsector = descripcionsector;
-       this.clases = clases;
+       this.estado = estado;
     }
    
     public int getIdsector() {
@@ -52,6 +54,17 @@ public class Sector  implements java.io.Serializable {
     public void setDescripcionsector(String descripcionsector) {
         this.descripcionsector = descripcionsector;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    
+    
     public Set getClases() {
         return this.clases;
     }

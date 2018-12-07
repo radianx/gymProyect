@@ -20,6 +20,9 @@
         <property name="horafin" type="date">
             <column name="horafin" length="13" />
         </property>
+        <property name="estado" type="string">
+            <column name="estado" />
+        </property>
         <set name="asistenciaProfesors" table="asistencia_profesor" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idclase" not-null="true" />

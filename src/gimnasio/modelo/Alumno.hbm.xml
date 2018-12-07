@@ -11,6 +11,9 @@
         <many-to-one name="usuario" class="gimnasio.modelo.Usuario" fetch="select">
             <column name="idusuario" not-null="true" />
         </many-to-one>
+        <many-to-one name="contacto" class="gimnasio.modelo.Contacto" fetch="select">
+            <column name="idcontacto" not-null="true" />
+        </many-to-one>
         <property name="nombrealumno" type="string">
             <column name="nombrealumno" not-null="true" />
         </property>

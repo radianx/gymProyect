@@ -17,6 +17,7 @@ public class Clase  implements java.io.Serializable {
      private Sector sector;
      private Date horainicio;
      private Date horafin;
+     private String estado;
      private Set asistenciaProfesors = new HashSet(0);
      private Set cuotas = new HashSet(0);
      private Set claseAlumnos = new HashSet(0);
@@ -72,6 +73,16 @@ public class Clase  implements java.io.Serializable {
     public void setHorafin(Date horafin) {
         this.horafin = horafin;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+     
+    
     public Set getAsistenciaProfesors() {
         return this.asistenciaProfesors;
     }

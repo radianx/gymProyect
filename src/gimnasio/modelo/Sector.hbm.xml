@@ -14,6 +14,9 @@
         <property name="descripcionsector" type="string">
             <column name="descripcionsector" />
         </property>
+        <property name="estado" type="string">
+            <column name="estado" />
+        </property>
         <set name="clases" table="clase" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idsector" not-null="true" />

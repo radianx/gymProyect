@@ -15,22 +15,18 @@ public class ClaseAlumno  implements java.io.Serializable {
      private Alumno alumno;
      private Clase clase;
      private int cantidadclases;
+     private String estado;
      private Set asistenciaAlumnos = new HashSet(0);
 
     public ClaseAlumno() {
     }
 
 	
-    public ClaseAlumno(Alumno alumno, Clase clase, int cantidadclases) {
+    public ClaseAlumno(Alumno alumno, Clase clase, int cantidadclases, String estado) {
         this.alumno = alumno;
         this.clase = clase;
         this.cantidadclases = cantidadclases;
-    }
-    public ClaseAlumno(Alumno alumno, Clase clase, int cantidadclases, Set asistenciaAlumnos) {
-       this.alumno = alumno;
-       this.clase = clase;
-       this.cantidadclases = cantidadclases;
-       this.asistenciaAlumnos = asistenciaAlumnos;
+        this.estado = estado;
     }
    
     public int getIdclasealumno() {
@@ -61,6 +57,17 @@ public class ClaseAlumno  implements java.io.Serializable {
     public void setCantidadclases(int cantidadclases) {
         this.cantidadclases = cantidadclases;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    
+    
     public Set getAsistenciaAlumnos() {
         return this.asistenciaAlumnos;
     }

@@ -15,15 +15,17 @@ public class Profesormodalidad  implements java.io.Serializable {
      private Modalidad modalidad;
      private Profesor profesor;
      private Double preciohora;
+     private String estado;
      private Set clases = new HashSet(0);
 
     public Profesormodalidad() {
     }
 
 	
-    public Profesormodalidad(Modalidad modalidad, Profesor profesor) {
+    public Profesormodalidad(Modalidad modalidad, Profesor profesor, String estado) {
         this.modalidad = modalidad;
         this.profesor = profesor;
+        this.estado = estado;
     }
     public Profesormodalidad(Modalidad modalidad, Profesor profesor, Double preciohora, Set clases) {
        this.modalidad = modalidad;
@@ -60,6 +62,19 @@ public class Profesormodalidad  implements java.io.Serializable {
     public void setPreciohora(Double preciohora) {
         this.preciohora = preciohora;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    
+    
+    
+    
     public Set getClases() {
         return this.clases;
     }

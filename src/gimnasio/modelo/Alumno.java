@@ -14,6 +14,7 @@ public class Alumno  implements java.io.Serializable {
 
      private int idalumno;
      private Usuario usuario;
+     private Contacto contacto;
      private String nombrealumno;
      private String apellidoalumno;
      private Double peso;
@@ -27,17 +28,15 @@ public class Alumno  implements java.io.Serializable {
     public Alumno() {
     }
 
-    public Alumno(String nombrealumno, String apellido){
+    public Alumno(Usuario usuario,String nombrealumno, String apellido, Contacto contacto, String estado){
+        this.usuario = usuario;
         this.apellidoalumno = apellido;
         this.nombrealumno = nombrealumno;
+        this.contacto = contacto;
+        this.estado = estado;
     }
-	
-    public Alumno(Usuario usuario, String nombrealumno, String apellidoalumno) {
-        this.usuario = usuario;
-        this.nombrealumno = nombrealumno;
-        this.apellidoalumno = apellidoalumno;
-    }
-    public Alumno(Usuario usuario, String nombrealumno, String apellidoalumno, Integer edad, Double peso, Double altura, String estado, Date fechanacimiento) {
+
+    public Alumno(Usuario usuario, String nombrealumno, String apellidoalumno, Double peso, Double altura, String estado, Date fechanacimiento, Contacto contacto) {
        this.usuario = usuario;
        this.nombrealumno = nombrealumno;
        this.apellidoalumno = apellidoalumno;
@@ -45,6 +44,7 @@ public class Alumno  implements java.io.Serializable {
        this.altura = altura;
        this.estado = estado;
        this.fechanacimiento = fechanacimiento;
+       this.contacto =  contacto;
     }
    
     public int getIdalumno() {
@@ -104,6 +104,17 @@ public class Alumno  implements java.io.Serializable {
     public void setFechanacimiento(Date fechanacimiento) {
         this.fechanacimiento = fechanacimiento;
     }
+
+    public Contacto getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
+    }
+    
+    
+    
     public Set getClaseAlumnos() {
         return this.claseAlumnos;
     }

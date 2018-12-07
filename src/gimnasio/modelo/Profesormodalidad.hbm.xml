@@ -17,6 +17,9 @@
         <property name="preciohora" type="java.lang.Double">
             <column name="preciohora" precision="17" scale="17" />
         </property>
+        <property name="estado" type="string">
+            <column name="estado" />
+        </property>
         <set name="clases" table="clase" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idprofesormodalidad" not-null="true" />

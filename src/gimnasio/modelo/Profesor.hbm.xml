@@ -6,14 +6,15 @@
     <class name="gimnasio.modelo.Profesor" table="profesor" schema="public" optimistic-lock="version">
         <id name="idprofesor" type="int">
             <column name="idprofesor" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
         <many-to-one name="usuario" class="gimnasio.modelo.Usuario" fetch="select">
             <column name="idusuario" not-null="true" />
         </many-to-one>
-        <property name="idcontacto" type="int">
+        
+        <many-to-one name="contacto" class="gimnasio.modelo.Contacto" fetch="select">
             <column name="idcontacto" not-null="true" />
-        </property>
+        </many-to-one>
         <property name="idobrasocial" type="java.lang.Integer">
             <column name="idobrasocial" />
         </property>

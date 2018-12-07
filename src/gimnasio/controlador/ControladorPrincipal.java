@@ -7,6 +7,7 @@ import gimnasio.modelo.AsistenciaAlumno;
 import gimnasio.modelo.AsistenciaProfesor;
 import gimnasio.modelo.Cargo;
 import gimnasio.modelo.Clase;
+import gimnasio.modelo.Contacto;
 import gimnasio.modelo.CobroCuota;
 import gimnasio.modelo.Cuota;
 import gimnasio.modelo.Modalidad;
@@ -118,7 +119,8 @@ public class ControladorPrincipal {
     }
     
     public Usuario buscarUsuarioAlta(String nombreUsuario){
-        Usuario unUsuario = null;
+        Usuario unUsuario = new Usuario();
+        unUsuario= null;
         for(Usuario miUsuario : this.listaUsuarios){
             if(miUsuario.getNombreusuario().equalsIgnoreCase(nombreUsuario)){
                 unUsuario = miUsuario;
@@ -389,7 +391,7 @@ public class ControladorPrincipal {
    
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
     
-    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, int edad, Double peso, Double altura, Date fechaNacimiento) throws Notificaciones{
+    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, int edad, Double peso, Double altura, Date fechaNacimiento, Contacto contacto) throws Notificaciones{
         Alumno unAlumno = buscarAlumnoAlta(nombreAlu,apellido);
         String estado = "ACTIVO";
         if(unAlumno != null){
@@ -406,13 +408,13 @@ public class ControladorPrincipal {
                 this.miPersistencia.persistirInstancia(unAlumno);
             }
         }else{
-            unAlumno = new Alumno(unUsuario, nombreAlu, apellido, edad, peso, altura,estado, fechaNacimiento);
+            unAlumno = new Alumno(unUsuario, nombreAlu, apellido, peso, altura,estado, fechaNacimiento, contacto);
             this.listaAlumnos.add(unAlumno);
             this.miPersistencia.persistirInstancia(unAlumno);
         }
     }
     
-    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido) throws Notificaciones{
+    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, Contacto contacto) throws Notificaciones{
         Alumno unAlumno = buscarAlumnoAlta(nombreAlu,apellido);
         String estado = "ACTIVO";
         if(unAlumno == null){
@@ -426,7 +428,7 @@ public class ControladorPrincipal {
                 this.miPersistencia.persistirInstancia(unAlumno);
             }
         }else{
-            unAlumno = new Alumno(unUsuario, nombreAlu, apellido);
+            unAlumno = new Alumno(unUsuario, nombreAlu, apellido,contacto, estado);
             this.listaAlumnos.add(unAlumno);
             this.miPersistencia.persistirInstancia(unAlumno);
         }
@@ -486,13 +488,27 @@ public void agregarProfesor(Usuario unUsuario, String nombreProfesor, String ape
             this.miPersistencia.persistirInstancia(unProfesor);
         }
     }
-    /*----------------------CONTINUAR: PENSAR LA OPCION DE BORRAR TODAS LAS CLASES DE LOS ALUMNOS EN LAS CUALES LAS CLASES SON
-IMPARTIDAS POR EL PROFESOR, Y TAMBIEN DAR LA OPCION DE ASIGNAR NUEVOS PROFESORES A DICHOS ALUMNOS -- ----- --- ---- --- --- - - */
-public void bajaProfesor(int idProfesor) throws Notificaciones{
+
+
+
+public List<Alumno> bajaProfesor(int idProfesor) throws Notificaciones{
+    Profesor unProfesor;
+    List<Alumno> listaAlumnosSinClases = new ArrayList<>();
     String estado = "INACTIVO";
-    Profesor unProfesor = buscarProfesor(idProfesor);
+    List<Clase> listaClases = buscarClasesPorProfesor(idProfesor);
+    if(listaClases != null){
+        for(Clase miClase : listaClases){
+                listaAlumnosSinClases = bajaClase(miClase);
+                
+        }
+    }
+    unProfesor = buscarProfesor(idProfesor);
     unProfesor.setEstado(estado);
-    miPersistencia.persistirInstancia(unProfesor);
+    this.miPersistencia.persistirInstancia(unProfesor);
+    if(listaAlumnosSinClases.isEmpty()){
+        listaAlumnosSinClases = null;
+    }
+    return listaAlumnosSinClases;
 }
 
 //  <----------------------------------------------------ABM MODALIDADES----------------------------------------------------> 
@@ -539,12 +555,13 @@ public void bajaModalidad(int idModalidad) throws Notificaciones{
 //  <----------------------------------------------------ABM PROFESORES POR MODALIDADES----------------------------------------------------> 
 
 public void agregarProfesorPorModalidad(Modalidad unModalidad, Profesor unProfesor) throws Notificaciones{
+    String estado = "ACTIVO";
     List<Modalidad> modalidadesDelProfesor = buscarModalidadDeProfesor(unProfesor.getIdprofesor());
     for(Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad){
         if (miProfesorModalidad.getModalidad()==unModalidad){
             throw new Notificaciones("El profesor ya tiene asignada la modalidad");
         }else{
-            Profesormodalidad unProfesorModalidad = new Profesormodalidad(unModalidad, unProfesor);
+            Profesormodalidad unProfesorModalidad = new Profesormodalidad(unModalidad, unProfesor,estado);
             this.listaProfesorModalidad.add(unProfesorModalidad);
             this.miPersistencia.persistirInstancia(unProfesorModalidad);
         }
@@ -552,6 +569,7 @@ public void agregarProfesorPorModalidad(Modalidad unModalidad, Profesor unProfes
 }
 
 public void quitarProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throws Notificaciones{
+    String estado = "INACTIVO";
     for (Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad) {
         if (miProfesorModalidad == unProfesorModalidad) {
             try {
@@ -578,7 +596,7 @@ public void agregarClase(Profesormodalidad unProfesorModalidad, Sector unSector)
     }
 }
 
-public List<Alumno> quitarClase(Clase unaClase) throws Notificaciones{
+public List<Alumno> bajaClase(Clase unaClase) throws Notificaciones{
     List<Alumno> alumnosSinClase = new ArrayList<>();
     try {
         for(ClaseAlumno miClaseAlumno : this.listaClaseAlumno){
@@ -605,10 +623,11 @@ public List<Alumno> quitarClase(Clase unaClase) throws Notificaciones{
 
 
 public void agregarAlumnoClase(Alumno unAlumno, Clase unaClase, int cantidadClases) throws Notificaciones{
+    String estado = "ACTIVO";
     if(buscarAlumnoClase(unAlumno)!=null){
         throw new Notificaciones("El alumno ya se encuentra inscripto en la clase");
     }else{
-        ClaseAlumno unaClaseAlumno = new ClaseAlumno(unAlumno, unaClase, cantidadClases);
+        ClaseAlumno unaClaseAlumno = new ClaseAlumno(unAlumno, unaClase, cantidadClases, estado);
     }
 }
 
@@ -655,9 +674,6 @@ public void altaCuotaConDeuda(Alumno unAlumno, Clase unaClase, Double precio, Da
 public void bajaCuota(ClaseAlumno unaClaseAlumno, Date altaCuota){
     String estado = "BAJA";
     Date vencimiento = parseDate("11/09/2001");
-    Cuota unaBajaCuota = new Cuota(unaClaseAlumno.getAlumno(), unaClaseAlumno.getClase(), altaCuota, vencimiento);
-    this.listaAsistenciaAlumno.clear(unaClaseAlumno);
-    this.miPersistencia.persistirInstancia(estado)
 }
 
 
