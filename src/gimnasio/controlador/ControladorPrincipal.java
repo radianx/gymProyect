@@ -446,7 +446,7 @@ public class ControladorPrincipal {
     
     
  //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
-public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Integer edad, Double peso, Double altura, Date fechaNacimiento) throws Notificaciones {
+public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Double peso, Double altura, Date fechaNacimiento) throws Notificaciones {
         String estado = "ACTIVO";
         Profesor unProfesor = buscarProfesor(nombreProfesor, apellidoProfesor);
         if (unProfesor != null) {
@@ -464,7 +464,7 @@ public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocia
                 this.miPersistencia.persistirInstancia(unProfesor);
             }
         } else {
-            unProfesor = new Profesor(usuario, idContacto, idObraSocial, nombreProfesor, apellidoProfesor, edad, peso, altura, estado, fechaNacimiento);
+            unProfesor = new Profesor(usuario, idContacto, idObraSocial, nombreProfesor, apellidoProfesor, peso, altura, estado, fechaNacimiento);
             this.listaProfesores.add(unProfesor);
             this.miPersistencia.persistirInstancia(unProfesor);
         }
