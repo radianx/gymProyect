@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="modelonuevo.Usuario" table="usuario" schema="public" optimistic-lock="version">
+    <class name="gimnasio.modelo.Usuario" table="usuario" schema="public" optimistic-lock="version">
         <id name="idusuario" type="int">
             <column name="idusuario" />
             <generator class="assigned" />
@@ -27,25 +27,25 @@
             <key>
                 <column name="idusuario" not-null="true" />
             </key>
-            <one-to-many class="modelonuevo.UsuarioModulo" />
+            <one-to-many class="gimnasio.modelo.UsuarioModulo" />
         </set>
         <set name="personals" table="personal" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idusuario" not-null="true" />
             </key>
-            <one-to-many class="modelonuevo.Personal" />
+            <one-to-many class="gimnasio.modelo.Personal" />
         </set>
         <set name="profesors" table="profesor" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idusuario" not-null="true" />
             </key>
-            <one-to-many class="modelonuevo.Profesor" />
+            <one-to-many class="gimnasio.modelo.Profesor" />
         </set>
         <set name="alumnos" table="alumno" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idusuario" not-null="true" />
             </key>
-            <one-to-many class="modelonuevo.Alumno" />
+            <one-to-many class="gimnasio.modelo.Alumno" />
         </set>
     </class>
 </hibernate-mapping>

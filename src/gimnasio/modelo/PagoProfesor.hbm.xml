@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="modelonuevo.PagoProfesor" table="pago_profesor" schema="public" optimistic-lock="version">
+    <class name="gimnasio.modelo.PagoProfesor" table="pago_profesor" schema="public" optimistic-lock="version">
         <id name="idpagoprofesor" type="int">
             <column name="idpagoprofesor" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="profesor" class="modelonuevo.Profesor" fetch="select">
+        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" fetch="select">
             <column name="idprofesor" not-null="true" />
         </many-to-one>
         <property name="montopago" type="double">

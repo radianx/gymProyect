@@ -1,5 +1,5 @@
-package modelonuevo;
-// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
+package gimnasio.modelo;
+// Generated Dec 8, 2018 5:14:35 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -30,6 +30,7 @@ public class Usuario  implements java.io.Serializable {
         this.idusuario = idusuario;
         this.nombreusuario = nombreusuario;
     }
+    
     public Usuario(int idusuario, String nombreusuario, String contrasenia, byte[] planillahuellas, byte[] foto, String estado, Set usuarioModulos, Set personals, Set profesors, Set alumnos) {
        this.idusuario = idusuario;
        this.nombreusuario = nombreusuario;
@@ -114,8 +115,10 @@ public class Usuario  implements java.io.Serializable {
         this.alumnos = alumnos;
     }
 
-
-
+    @Override
+    public String toString() {
+        return nombreusuario;
+    }
 
 }
 

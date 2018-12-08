@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="modelonuevo.Profesor" table="profesor" schema="public" optimistic-lock="version">
+    <class name="gimnasio.modelo.Profesor" table="profesor" schema="public" optimistic-lock="version">
         <id name="idprofesor" type="int">
             <column name="idprofesor" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="contacto" class="modelonuevo.Contacto" fetch="select">
+        <many-to-one name="contacto" class="gimnasio.modelo.Contacto" fetch="select">
             <column name="idcontacto" not-null="true" />
         </many-to-one>
-        <many-to-one name="obrasocial" class="modelonuevo.Obrasocial" fetch="select">
+        <many-to-one name="obrasocial" class="gimnasio.modelo.Obrasocial" fetch="select">
             <column name="idobrasocial" not-null="true" />
         </many-to-one>
-        <many-to-one name="usuario" class="modelonuevo.Usuario" fetch="select">
+        <many-to-one name="usuario" class="gimnasio.modelo.Usuario" fetch="select">
             <column name="idusuario" not-null="true" />
         </many-to-one>
         <property name="nombreprofesor" type="string">
@@ -39,19 +39,19 @@
             <key>
                 <column name="idprofesor" not-null="true" />
             </key>
-            <one-to-many class="modelonuevo.PagoProfesor" />
+            <one-to-many class="gimnasio.modelo.PagoProfesor" />
         </set>
         <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idprofesor" not-null="true" />
             </key>
-            <one-to-many class="modelonuevo.ClaseProfesor" />
+            <one-to-many class="gimnasio.modelo.ClaseProfesor" />
         </set>
         <set name="profesorModalidads" table="profesor_modalidad" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idprofesor" not-null="true" />
             </key>
-            <one-to-many class="modelonuevo.ProfesorModalidad" />
+            <one-to-many class="gimnasio.modelo.ProfesorModalidad" />
         </set>
     </class>
 </hibernate-mapping>

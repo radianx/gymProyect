@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="modelonuevo.Cuota" table="cuota" schema="public" optimistic-lock="version">
+    <class name="gimnasio.modelo.Cuota" table="cuota" schema="public" optimistic-lock="version">
         <id name="idcuota" type="int">
             <column name="idcuota" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="alumno" class="modelonuevo.Alumno" fetch="select">
+        <many-to-one name="alumno" class="gimnasio.modelo.Alumno" fetch="select">
             <column name="idalumno" not-null="true" />
         </many-to-one>
-        <many-to-one name="clase" class="modelonuevo.Clase" fetch="select">
+        <many-to-one name="clase" class="gimnasio.modelo.Clase" fetch="select">
             <column name="idclase" not-null="true" />
         </many-to-one>
         <property name="monto" type="java.lang.Double">
@@ -30,7 +30,7 @@
             <key>
                 <column name="idcuota" not-null="true" />
             </key>
-            <one-to-many class="modelonuevo.CobroCuota" />
+            <one-to-many class="gimnasio.modelo.CobroCuota" />
         </set>
     </class>
 </hibernate-mapping>

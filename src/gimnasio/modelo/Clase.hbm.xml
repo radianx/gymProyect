@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="modelonuevo.Clase" table="clase" schema="public" optimistic-lock="version">
+    <class name="gimnasio.modelo.Clase" table="clase" schema="public" optimistic-lock="version">
         <id name="idclase" type="int">
             <column name="idclase" />
             <generator class="assigned" />
@@ -24,13 +24,13 @@
             <key>
                 <column name="idclase" not-null="true" />
             </key>
-            <one-to-many class="modelonuevo.Cuota" />
+            <one-to-many class="gimnasio.modelo.Cuota" />
         </set>
         <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idclase" not-null="true" />
             </key>
-            <one-to-many class="modelonuevo.ClaseProfesor" />
+            <one-to-many class="gimnasio.modelo.ClaseProfesor" />
         </set>
     </class>
 </hibernate-mapping>

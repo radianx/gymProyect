@@ -1,5 +1,5 @@
-package modelonuevo;
-// Generated Dec 7, 2018 12:25:40 PM by Hibernate Tools 4.3.1
+package gimnasio.modelo;
+// Generated Dec 8, 2018 5:14:35 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -147,9 +147,9 @@ public class Profesor  implements java.io.Serializable {
         this.profesorModalidads = profesorModalidads;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return this.nombreprofesor;
+    }
 }
-
 

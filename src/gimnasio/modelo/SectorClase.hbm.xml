@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="modelonuevo.SectorClase" table="sector_clase" schema="public" optimistic-lock="version">
-        <composite-id name="id" class="modelonuevo.SectorClaseId">
+    <class name="gimnasio.modelo.SectorClase" table="sector_clase" schema="public" optimistic-lock="version">
+        <composite-id name="id" class="gimnasio.modelo.SectorClaseId">
             <key-property name="idsector" type="int">
                 <column name="idsector" />
             </key-property>
@@ -12,10 +12,10 @@
                 <column name="idclaseprofesor" />
             </key-property>
         </composite-id>
-        <many-to-one name="claseProfesor" class="modelonuevo.ClaseProfesor" update="false" insert="false" fetch="select">
+        <many-to-one name="claseProfesor" class="gimnasio.modelo.ClaseProfesor" update="false" insert="false" fetch="select">
             <column name="idclaseprofesor" not-null="true" />
         </many-to-one>
-        <many-to-one name="sector" class="modelonuevo.Sector" update="false" insert="false" fetch="select">
+        <many-to-one name="sector" class="gimnasio.modelo.Sector" update="false" insert="false" fetch="select">
             <column name="idsector" not-null="true" />
         </many-to-one>
         <property name="inicio" type="date">
