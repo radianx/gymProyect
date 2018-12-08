@@ -22,6 +22,7 @@ public class Profesormodalidad  implements java.io.Serializable {
     }
 
 	
+    
     public Profesormodalidad(Modalidad modalidad, Profesor profesor, String estado) {
         this.modalidad = modalidad;
         this.profesor = profesor;

@@ -16,7 +16,7 @@ import gimnasio.modelo.PagoProfesor;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Profesormodalidad;
 import gimnasio.modelo.SaldoCuota;
-import gimnasio.modelo.SaldoPagoProfesor;
+import gimnasio.modelo.Saldopagoprofesor;
 import gimnasio.modelo.Sector;
 import gimnasio.modelo.Usuario;
 import gimnasio.herramientas.excepciones.Notificaciones;
