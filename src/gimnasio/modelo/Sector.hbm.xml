@@ -6,7 +6,7 @@
     <class name="gimnasio.modelo.Sector" table="sector" schema="public" optimistic-lock="version">
         <id name="idsector" type="int">
             <column name="idsector" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
         <property name="nombresector" type="string">
             <column name="nombresector" not-null="true" />

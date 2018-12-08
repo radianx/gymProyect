@@ -21,8 +21,7 @@ public class ClaseAlumno  implements java.io.Serializable {
     }
 
 	
-    public ClaseAlumno(int idclasealumno, Alumno alumno, ClaseProfesor claseProfesor, String estado) {
-        this.idclasealumno = idclasealumno;
+    public ClaseAlumno(Alumno alumno, ClaseProfesor claseProfesor, String estado) {
         this.alumno = alumno;
         this.claseProfesor = claseProfesor;
         this.estado = estado;

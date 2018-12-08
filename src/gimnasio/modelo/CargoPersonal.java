@@ -17,8 +17,7 @@ public class CargoPersonal  implements java.io.Serializable {
     public CargoPersonal() {
     }
 
-    public CargoPersonal(int idcargopersonal, Cargo cargo, Personal personal, String estado) {
-       this.idcargopersonal = idcargopersonal;
+    public CargoPersonal(Cargo cargo, Personal personal, String estado) {
        this.cargo = cargo;
        this.personal = personal;
        this.estado = estado;

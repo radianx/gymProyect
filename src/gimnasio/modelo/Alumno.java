@@ -30,8 +30,7 @@ public class Alumno  implements java.io.Serializable {
     }
 
 	
-    public Alumno(int idalumno, Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombrealumno, String apellidoalumno, String estado) {
-        this.idalumno = idalumno;
+    public Alumno(Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombrealumno, String apellidoalumno, String estado) {
         this.contacto = contacto;
         this.obrasocial = obrasocial;
         this.usuario = usuario;
@@ -39,8 +38,7 @@ public class Alumno  implements java.io.Serializable {
         this.apellidoalumno = apellidoalumno;
         this.estado = estado;
     }
-    public Alumno(int idalumno, Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombrealumno, String apellidoalumno, Double peso, Double altura, Date fechanacimiento, String estado, Set claseAlumnos, Set cuotas, Set inscripcions) {
-       this.idalumno = idalumno;
+    public Alumno(Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombrealumno, String apellidoalumno, Double peso, Double altura, Date fechanacimiento, String estado) {
        this.contacto = contacto;
        this.obrasocial = obrasocial;
        this.usuario = usuario;
