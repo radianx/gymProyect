@@ -21,13 +21,11 @@ public class Sector  implements java.io.Serializable {
     }
 
 	
-    public Sector(int idsector, String nombresector, String estado) {
-        this.idsector = idsector;
+    public Sector(String nombresector, String estado) {
         this.nombresector = nombresector;
         this.estado = estado;
     }
-    public Sector(int idsector, String nombresector, String descripcionsector, String estado, Set sectorClases) {
-       this.idsector = idsector;
+    public Sector(String nombresector, String descripcionsector, String estado, Set sectorClases) {
        this.nombresector = nombresector;
        this.descripcionsector = descripcionsector;
        this.estado = estado;

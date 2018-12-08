@@ -6,7 +6,7 @@
     <class name="gimnasio.modelo.Cargo" table="cargo" schema="public" optimistic-lock="version">
         <id name="idcargo" type="int">
             <column name="idcargo" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
         <property name="nombrecargo" type="string">
             <column name="nombrecargo" not-null="true" />

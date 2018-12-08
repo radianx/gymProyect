@@ -52,7 +52,7 @@ public class ControladorPrincipal {
     private Set<CobroCuota> listaCobroCuota = new HashSet<>();
     private Set<SaldoCuota> listaSaldoCuota = new HashSet<>();
     private Set<PagoProfesor> listaPagoProfesores = new HashSet<>();
-    private Set<SaldoPagoProfesor> listaSaldoPagoProfesores = new HashSet<>();
+    private Set<Saldopagoprofesor> listaSaldoPagoProfesores = new HashSet<>();
     private Set<Usuario> listaUsuarios = new HashSet<>();
     private Set<Modulo> listaModulos = new HashSet<>();
     private Set<Cargo> listaCargos = new HashSet<>();
@@ -153,6 +153,8 @@ public class ControladorPrincipal {
         }
         return unAlumno;
     }
+    
+    
     public Alumno buscarAlumnoBaja(int idAlumno) {
         Alumno unAlumno = null;
         for (Alumno miAlumno : this.listaAlumnos) {
@@ -235,7 +237,7 @@ public class ControladorPrincipal {
     public List<Clase> buscarClasesPorModalidad(int idModalidad){
         List<Clase> clasesModalidad = new ArrayList<>();
         for(Clase miClase : this.listaClases){
-            if(miClase.getProfesormodalidad().getModalidad().getIdmodalidad() == idModalidad){
+            if(miClase.getProfesorModalidad().getModalidad().getIdmodalidad() == idModalidad){
                 clasesModalidad.add(miClase);
             }
         }
@@ -868,5 +870,7 @@ public void bajaPersonal(){
     public void setMiLector(ControladorHuella miLector) {
         this.miLector = miLector;
     }
+    
+    
     
 }

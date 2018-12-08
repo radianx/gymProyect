@@ -27,8 +27,7 @@ public class ClaseProfesor  implements java.io.Serializable {
     }
 
 	
-    public ClaseProfesor(int idclaseprofesor, Clase clase, Modalidad modalidad, Profesor profesor, Date inicio, Date fin, String estado) {
-        this.idclaseprofesor = idclaseprofesor;
+    public ClaseProfesor(Clase clase, Modalidad modalidad, Profesor profesor, Date inicio, Date fin, String estado) {
         this.clase = clase;
         this.modalidad = modalidad;
         this.profesor = profesor;
@@ -36,8 +35,7 @@ public class ClaseProfesor  implements java.io.Serializable {
         this.fin = fin;
         this.estado = estado;
     }
-    public ClaseProfesor(int idclaseprofesor, Clase clase, Modalidad modalidad, Profesor profesor, Date inicio, Date fin, String estado, Set asistenciaProfesors, Set sectorClases, Set claseAlumnos) {
-       this.idclaseprofesor = idclaseprofesor;
+    public ClaseProfesor(Clase clase, Modalidad modalidad, Profesor profesor, Date inicio, Date fin, String estado, Set asistenciaProfesors, Set sectorClases, Set claseAlumnos) {
        this.clase = clase;
        this.modalidad = modalidad;
        this.profesor = profesor;

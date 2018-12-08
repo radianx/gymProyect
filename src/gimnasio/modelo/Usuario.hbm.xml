@@ -21,7 +21,7 @@
             <column name="foto" />
         </property>
         <property name="estado" type="string">
-            <column name="estado" />
+            <column name="estado" not-null="true" />
         </property>
         <set name="usuarioModulos" table="usuario_modulo" inverse="true" lazy="true" fetch="select">
             <key>

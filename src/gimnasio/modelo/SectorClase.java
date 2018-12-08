@@ -21,14 +21,12 @@ public class SectorClase  implements java.io.Serializable {
     }
 
 	
-    public SectorClase(SectorClaseId id, ClaseProfesor claseProfesor, Sector sector, String estado) {
-        this.id = id;
+    public SectorClase(ClaseProfesor claseProfesor, Sector sector, String estado) {
         this.claseProfesor = claseProfesor;
         this.sector = sector;
         this.estado = estado;
     }
-    public SectorClase(SectorClaseId id, ClaseProfesor claseProfesor, Sector sector, Date inicio, Date fin, String estado) {
-       this.id = id;
+    public SectorClase(ClaseProfesor claseProfesor, Sector sector, Date inicio, Date fin, String estado) {
        this.claseProfesor = claseProfesor;
        this.sector = sector;
        this.inicio = inicio;

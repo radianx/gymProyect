@@ -53,6 +53,8 @@ public class Profesormodalidad  implements java.io.Serializable {
         return this.profesor;
     }
     
+    
+    
     public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
     }

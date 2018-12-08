@@ -6,7 +6,7 @@
     <class name="gimnasio.modelo.CargoPersonal" table="cargo_personal" schema="public" optimistic-lock="version">
         <id name="idcargopersonal" type="int">
             <column name="idcargopersonal" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
         <many-to-one name="cargo" class="gimnasio.modelo.Cargo" fetch="select">
             <column name="idcargo" not-null="true" />

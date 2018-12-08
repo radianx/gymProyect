@@ -23,13 +23,11 @@ public class Clase  implements java.io.Serializable {
     }
 
 	
-    public Clase(int idclase, String tipoclase, String estado) {
-        this.idclase = idclase;
+    public Clase(String tipoclase, String estado) {
         this.tipoclase = tipoclase;
         this.estado = estado;
     }
-    public Clase(int idclase, String tipoclase, Integer alumnosmaximo, String descripcionclase, String estado, Set cuotas, Set claseProfesors) {
-       this.idclase = idclase;
+    public Clase(String tipoclase, Integer alumnosmaximo, String descripcionclase, String estado, Set cuotas, Set claseProfesors) {
        this.tipoclase = tipoclase;
        this.alumnosmaximo = alumnosmaximo;
        this.descripcionclase = descripcionclase;
