@@ -33,6 +33,11 @@ public class Cargo  implements java.io.Serializable {
        this.estado = estado;
        this.cargoPersonals = cargoPersonals;
     }
+    public Cargo(String text, String text0) {
+       this.nombrecargo = text;
+       this.descripcioncargo = text0;
+    }
+
    
     public int getIdcargo() {
         return this.idcargo;
