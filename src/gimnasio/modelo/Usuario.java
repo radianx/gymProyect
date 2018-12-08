@@ -26,13 +26,12 @@ public class Usuario  implements java.io.Serializable {
     }
 
 	
-    public Usuario(String nombreusuario, String estado) {
+    public Usuario(String nombreusuario, String contrasenia, String estado) {
         this.nombreusuario = nombreusuario;
         this.estado = estado;
     }
     
-    public Usuario(int idusuario, String nombreusuario, String contrasenia, byte[] planillahuellas, byte[] foto, String estado) {
-       this.idusuario = idusuario;
+    public Usuario(String nombreusuario, String contrasenia, byte[] planillahuellas, byte[] foto, String estado) {
        this.nombreusuario = nombreusuario;
        this.contrasenia = contrasenia;
        this.planillahuellas = planillahuellas;

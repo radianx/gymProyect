@@ -21,6 +21,7 @@ import gimnasio.modelo.Sector;
 import gimnasio.modelo.Usuario;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.ClaseAlumno;
+import gimnasio.modelo.Obrasocial;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -393,7 +394,7 @@ public class ControladorPrincipal {
    
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
     
-    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, Double peso, Double altura, Date fechaNacimiento, Contacto contacto) throws Notificaciones{
+    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, Double peso, Double altura, Date fechaNacimiento, Contacto contacto, Obrasocial obraSocial) throws Notificaciones{
         Alumno unAlumno = buscarAlumnoAlta(nombreAlu,apellido);
         String estado = "ACTIVO";
         if(unAlumno != null){
@@ -410,13 +411,13 @@ public class ControladorPrincipal {
                 this.miPersistencia.persistirInstancia(unAlumno);
             }
         }else{
-            unAlumno = new Alumno(unUsuario, nombreAlu, apellido, peso, altura,estado, fechaNacimiento, contacto);
+            unAlumno = new Alumno(contacto, obraSocial,unUsuario, nombreAlu, apellido, estado);
             this.listaAlumnos.add(unAlumno);
             this.miPersistencia.persistirInstancia(unAlumno);
         }
     }
     
-    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, Contacto contacto) throws Notificaciones{
+    public void agregarAlumno(Usuario unUsuario, String nombreAlu, String apellido, Contacto contacto, Obrasocial obrasocial) throws Notificaciones{
         Alumno unAlumno = buscarAlumnoAlta(nombreAlu,apellido);
         String estado = "ACTIVO";
         if(unAlumno != null){
@@ -430,7 +431,7 @@ public class ControladorPrincipal {
                 this.miPersistencia.persistirInstancia(unAlumno);
             }
         }else{
-            unAlumno = new Alumno(unUsuario, nombreAlu, apellido,contacto, estado);
+            unAlumno = new Alumno(contacto, obrasocial, unUsuario, nombreAlu, apellido, estado);
             this.listaAlumnos.add(unAlumno);
             this.miPersistencia.persistirInstancia(unAlumno);
         }
@@ -448,7 +449,7 @@ public class ControladorPrincipal {
     
     
  //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
-public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocial, String nombreProfesor, String apellidoProfesor, Double peso, Double altura, Date fechaNacimiento) throws Notificaciones {
+public void agregarProfesor(Usuario usuario, Contacto contacto, Obrasocial obraSocial, String nombreProfesor, String apellidoProfesor, Double peso, Double altura, Date fechaNacimiento) throws Notificaciones {
         String estado = "ACTIVO";
         Profesor unProfesor = buscarProfesor(nombreProfesor, apellidoProfesor);
         if (unProfesor != null) {
@@ -456,8 +457,6 @@ public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocia
                 throw new Notificaciones("El profesor ya existe");
             } else {
                 unProfesor.setNombreprofesor(nombreProfesor);
-                unProfesor.setIdcontacto(idContacto);
-                unProfesor.setIdobrasocial(idObraSocial);
                 unProfesor.setApellidoprofesor(apellidoProfesor);
                 unProfesor.setPeso(peso);
                 unProfesor.setAltura(altura);
@@ -466,13 +465,13 @@ public void agregarProfesor(Usuario usuario, int idContacto, Integer idObraSocia
                 this.miPersistencia.persistirInstancia(unProfesor);
             }
         } else {
-            unProfesor = new Profesor(usuario, idContacto, idObraSocial, nombreProfesor, apellidoProfesor, peso, altura, estado, fechaNacimiento);
+            unProfesor = new Profesor(contacto, obraSocial, usuario, nombreProfesor, apellidoProfesor, peso, altura, fechaNacimiento, estado);
             this.listaProfesores.add(unProfesor);
             this.miPersistencia.persistirInstancia(unProfesor);
         }
     }
 
-public void agregarProfesor(Usuario unUsuario, String nombreProfesor, String apellidoProfesor) throws Notificaciones{
+public void agregarProfesor(Usuario unUsuario, String nombreProfesor, String apellidoProfesor, Contacto contacto, Obrasocial obrasocial) throws Notificaciones{
         String estado = "ACTIVO";
         Profesor unProfesor = buscarProfesor(nombreProfesor, apellidoProfesor);
         if (unProfesor != null) {
@@ -485,7 +484,7 @@ public void agregarProfesor(Usuario unUsuario, String nombreProfesor, String ape
                 this.miPersistencia.persistirInstancia(unProfesor);
             }
         } else {
-            unProfesor = new Profesor(unUsuario, nombreProfesor, apellidoProfesor, estado);
+            unProfesor = new Profesor(contacto, obrasocial, unUsuario, nombreProfesor, apellidoProfesor, estado);
             this.listaProfesores.add(unProfesor);
             this.miPersistencia.persistirInstancia(unProfesor);
         }
@@ -586,7 +585,19 @@ public void quitarProfesorDeModalidad(Profesormodalidad unProfesorModalidad) thr
 
 //  <----------------------------------------------------ABM CLASES ----------------------------------------------------> 
 
-public void agregarClase(Profesormodalidad unProfesorModalidad, Sector unSector) throws Notificaciones{
+public void agregarClase(String tipoClase, int cantidadAlumnos, String descripcion){
+    String estado = "ACTIVO";
+    for(Clase miClase : this.listaClases){
+        if(miClase.getDescripcionclase().equalsIgnoreCase(descripcion)){
+            if(miClase.getEstado().equalsIgnoreCase(estado)){
+                
+            }
+        }
+    }
+     
+}
+
+public void agregarClaseNADAQUEVER(Profesormodalidad unProfesorModalidad, Sector unSector) throws Notificaciones{
     for(Clase miClase : this.listaClases){
         if(miClase.getProfesormodalidad()==unProfesorModalidad && miClase.getSector()== unSector){
             throw new Notificaciones("La clase ya existe");

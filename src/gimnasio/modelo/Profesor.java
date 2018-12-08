@@ -38,7 +38,7 @@ public class Profesor  implements java.io.Serializable {
         this.apellidoprofesor = apellidoprofesor;
         this.estado = estado;
     }
-    public Profesor(Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombreprofesor, String apellidoprofesor, Double peso, Double altura, Date fechanacimiento, String estado, Set pagoProfesors, Set claseProfesors, Set profesorModalidads) {
+    public Profesor(Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombreprofesor, String apellidoprofesor, Double peso, Double altura, Date fechanacimiento, String estado) {
        this.contacto = contacto;
        this.obrasocial = obrasocial;
        this.usuario = usuario;

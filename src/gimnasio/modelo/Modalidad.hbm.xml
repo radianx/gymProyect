@@ -6,7 +6,7 @@
     <class name="gimnasio.modelo.Modalidad" table="modalidad" schema="public" optimistic-lock="version">
         <id name="idmodalidad" type="int">
             <column name="idmodalidad" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
         <property name="nombremodalidad" type="string">
             <column name="nombremodalidad" not-null="true" />
