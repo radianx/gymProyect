@@ -332,7 +332,10 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevo1ActionPerformed
-        // TODO add your handling code here:
+        jInternalCargos cargos = new jInternalCargos(miControlador);
+        this.getParent().add(cargos);
+        cargos.toFront();
+        
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
     private void tablaUsuarios1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuarios1MouseClicked

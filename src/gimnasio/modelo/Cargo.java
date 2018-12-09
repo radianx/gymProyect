@@ -73,7 +73,12 @@ public class Cargo  implements java.io.Serializable {
         this.cargoPersonals = cargoPersonals;
     }
 
+    @Override
+    public String toString() {
+        return nombrecargo;
+    }
 
+    
 
 
 }
