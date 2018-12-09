@@ -22,6 +22,10 @@ public class Obrasocial  implements java.io.Serializable {
     public Obrasocial() {
     }
 
+    public Obrasocial(Contacto contacto, String nombreobrasocial) {
+        this.contacto = contacto;
+        this.nombreobrasocial = nombreobrasocial;
+    }
 	
     public Obrasocial(int idobrasocial, Contacto contacto, String nombreobrasocial, String estado) {
         this.idobrasocial = idobrasocial;
@@ -89,8 +93,10 @@ public class Obrasocial  implements java.io.Serializable {
         this.profesors = profesors;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Obrasocial{" + "nombreobrasocial=" + nombreobrasocial + '}';
+    }
 
 }
 

@@ -267,7 +267,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnFoto)
                     .addComponent(btnCargarHuella))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(btnBuscar)
@@ -331,12 +331,15 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
         try {
             Usuario unUsuario = (Usuario) this.tablaUsuariosInactivos.getValueAt(this.tablaUsuariosInactivos.getSelectedRow(), 0);
-            miControlador.agregarUsuario(this.txtNombre.getText(), Arrays.toString(this.txtContrasena.getPassword()), convertir(this.datosHuella),unUsuario.getFoto());
+            unUsuario.setNombreusuario(txtNombre.getText());
+            unUsuario.setContrasenia(new String(this.txtContrasena.getPassword()));
+            unUsuario.setPlanillahuellas(convertir(this.datosHuella));
+            miControlador.altaUsuario(unUsuario);
             SwingUtilities.invokeLater(new Runnable(){public void run(){
                            cargarTabla(); 
             }});
             this.btnActivar.setEnabled(false);
-        } catch (IOException | Notificaciones ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el usuario: "+ex.getMessage());
         }
     }//GEN-LAST:event_btnActivarActionPerformed

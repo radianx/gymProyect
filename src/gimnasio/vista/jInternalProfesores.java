@@ -85,6 +85,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
 
+        setTitle("GESTION DE PROFESORES");
         setMaximumSize(new java.awt.Dimension(410, 400));
         setMinimumSize(new java.awt.Dimension(410, 400));
         setPreferredSize(new java.awt.Dimension(410, 400));
