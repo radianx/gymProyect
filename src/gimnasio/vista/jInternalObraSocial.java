@@ -34,6 +34,8 @@ public class jInternalObraSocial extends javax.swing.JInternalFrame {
         initComponents();
         panelNewOS = new panelNuevaObraSocial(miControlador);
         this.add(panelNewOS);
+        this.btnEliminar.setEnabled(false);
+        this.btnModificar.setEnabled(false);
     
     }
 
@@ -85,6 +87,7 @@ public class jInternalObraSocial extends javax.swing.JInternalFrame {
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
 
+        setTitle("GESTION DE OBRAS SOCIALES");
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);
@@ -92,6 +95,11 @@ public class jInternalObraSocial extends javax.swing.JInternalFrame {
         });
         getContentPane().setLayout(new java.awt.CardLayout());
 
+        panelPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelPrincipalMouseEntered(evt);
+            }
+        });
         panelPrincipal.setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Obras Sociales"));
@@ -266,6 +274,15 @@ public class jInternalObraSocial extends javax.swing.JInternalFrame {
             this.txtBuscar.grabFocus();
         }
     }//GEN-LAST:event_formMouseEntered
+
+    private void panelPrincipalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMouseEntered
+        if(!panelNewOS.isVisible()){
+            cambiarPanel(panelNewOS, panelPrincipal);
+            this.cargarTabla();
+            this.modeloTabla.fireTableDataChanged();
+            this.txtBuscar.grabFocus();
+        }
+    }//GEN-LAST:event_panelPrincipalMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

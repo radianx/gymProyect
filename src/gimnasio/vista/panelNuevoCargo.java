@@ -55,7 +55,7 @@ public class panelNuevoCargo extends javax.swing.JPanel {
             rowSorter = new TableRowSorter<>(this.tablaCargosInactivos.getModel());
             tablaCargosInactivos.setRowSorter(rowSorter);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al cargar Cargos desde la base de datos.");
+            JOptionPane.showMessageDialog(null, "Error al cargar Cargos desde la base de datos "+ex.getMessage());
         }
     }
     

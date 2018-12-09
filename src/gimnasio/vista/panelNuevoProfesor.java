@@ -418,7 +418,7 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
         try {
             Profesor unProfesor = (Profesor) this.tablaProfesoresInactivos.getValueAt(this.tablaProfesoresInactivos.getSelectedRow(), 0);
             unProfesor.setEstado("ACTIVO");
-            miControlador.altaProfesor(unProfesor.getUsuario(),unProfesor.getNombreprofesor(),unProfesor.getApellidoprofesor(),unProfesor.getPeso(),unProfesor.getAltura(),unProfesor.getFechanacimiento(),unProfesor.getContacto());
+            miControlador.altaProfesor(unProfesor);
             SwingUtilities.invokeLater(new Runnable(){public void run(){
                 cargarTabla();
             }});

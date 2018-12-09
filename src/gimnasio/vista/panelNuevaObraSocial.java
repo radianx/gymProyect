@@ -29,6 +29,7 @@ public class panelNuevaObraSocial extends javax.swing.JPanel {
     public panelNuevaObraSocial(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
+        this.btnActivar.setEnabled(false);
     }
 
     public void cargarTabla() {
@@ -52,7 +53,7 @@ public class panelNuevaObraSocial extends javax.swing.JPanel {
             tablaOSInactivas.setRowSorter(rowSorter);
         
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al cargar Obras Sociales desde la base de datos.");
+            JOptionPane.showMessageDialog(null, "Error al cargar Obras Sociales desde la base de datos ", +ex.getMessage());
         }
     }
     

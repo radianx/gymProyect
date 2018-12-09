@@ -454,8 +454,8 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                 Contacto unContacto = new Contacto(txtDireccion.getText(), txtTelefono1.getText(), txtTelefono2.getText(), txtEmail.getText(), txtTelefonoEmergencia.getText());
                 Obrasocial unaOS = (Obrasocial) this.modeloCombo.getSelectedItem();
                 miControlador.altaContacto(unContacto);
-                miControlador.agregarAlumno(usuarioSeleccionado, this.txtNombre.getText(), this.txtApellido.getText(), Double.valueOf(this.txtPeso.getText()), Double.valueOf(this.txtAltura.getText()), fecha, unContacto, unaOS);
-                
+                Alumno unAlumno = new Alumno(unContacto, unaOS,usuarioSeleccionado, this.txtNombre.getText(), this.txtApellido.getText(), Double.valueOf(this.txtPeso.getText()), Double.valueOf(this.txtAltura.getText()), fecha, "ACTIVO");
+                miControlador.altaAlumno(unAlumno);
                 String[] opciones ={"SI","NO","CANCELAR"};
                 int seleccion = JOptionPane.showOptionDialog(null, "¿Desea generar una cuota?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
                 switch (seleccion){
@@ -471,7 +471,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario.");
             }
-        } catch (Notificaciones ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar alumno: " + ex.getMessage());
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
