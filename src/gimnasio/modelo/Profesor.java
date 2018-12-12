@@ -48,9 +48,6 @@ public class Profesor  implements java.io.Serializable {
        this.altura = altura;
        this.fechanacimiento = fechanacimiento;
        this.estado = estado;
-       this.pagoProfesors = pagoProfesors;
-       this.claseProfesors = claseProfesors;
-       this.profesorModalidads = profesorModalidads;
     }
    
     public int getIdprofesor() {

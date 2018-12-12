@@ -30,7 +30,7 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
         super(parent, modal);
         miControlador = controlador;
         initComponents();
-        cargarTabla();
+        this.cargarTabla();
         this.btnOk.setEnabled(false);
     }
     
@@ -42,13 +42,14 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
 
             try {
                 for (Usuario unUsuario : miControlador.getListaUsuarios()) {
-                    if (miUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    if (unUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
                         fila[0] = unUsuario;
                         modeloTabla.addRow(fila);
                     }
                 }
             } catch (NullPointerException ex) {
                 System.err.println("Error al cargar usuarios: " + ex.getMessage());
+                ex.printStackTrace();
             }
             this.tablaUsuarios.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaUsuarios.getModel());
@@ -92,6 +93,9 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
             }
         ));
         tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseClicked(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaUsuariosMouseReleased(evt);
             }
@@ -186,6 +190,7 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
     private void tablaUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseReleased
         try{
             miUsuario = (Usuario) this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
+            this.btnOk.setEnabled(true);
         }catch(NullPointerException ex){
             System.err.println("seleccion nula");
         }
@@ -208,6 +213,15 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void tablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseClicked
+        try {
+            miUsuario = (Usuario) this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
+            this.btnOk.setEnabled(true);
+        } catch (NullPointerException ex) {
+            System.err.println("seleccion nula");
+        }
+    }//GEN-LAST:event_tablaUsuariosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

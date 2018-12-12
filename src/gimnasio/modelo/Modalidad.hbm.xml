@@ -21,7 +21,7 @@
             <key>
                 <column name="idmodalidad" not-null="true" />
             </key>
-            <one-to-many class="gimnasio.modelo.ProfesorModalidad" />
+            <one-to-many class="gimnasio.modelo.Profesormodalidad" />
         </set>
         <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" fetch="select">
             <key>

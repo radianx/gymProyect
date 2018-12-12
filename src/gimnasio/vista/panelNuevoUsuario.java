@@ -304,7 +304,8 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(!this.txtNombre.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
             try {
-                this.miControlador.agregarUsuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), null);
+                Usuario miUsuario = new Usuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), null);
+                this.miControlador.altaUsuario(miUsuario);
                 this.setVisible(false);
             } catch (IOException | Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());

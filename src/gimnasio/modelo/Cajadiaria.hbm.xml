@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Cajadiaria" table="cajadiaria" schema="public">
+    <class name="gimnasio.modelo.Cajadiaria" table="caja_diaria" schema="public">
         <id name="idcaja" type="int">
             <column name="idcaja" />
             <generator class="assigned"></generator>

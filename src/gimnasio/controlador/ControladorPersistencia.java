@@ -489,11 +489,11 @@ public class ControladorPersistencia {
         return saldoCuotas;
     }
 
-    public Set<SaldoPagoProfesor> getSaldoPagoProfesores() throws Notificaciones {
-        Set<SaldoPagoProfesor> saldoPagoProfesores = new HashSet<>();
+    public Set<Saldopagoprofesor> getSaldoPagoProfesores() throws Notificaciones {
+        Set<Saldopagoprofesor> saldoPagoProfesores = new HashSet<>();
 
-        String textoConsulta = "FROM SaldoPagoProfesor";
-        List<SaldoPagoProfesor> lista = null;
+        String textoConsulta = "FROM Saldopagoprofesor";
+        List<Saldopagoprofesor> lista = null;
 
         synchronized (this.sesion) {
             this.comprobarConexion();
@@ -505,7 +505,7 @@ public class ControladorPersistencia {
             }
         }
         if (lista != null) {
-            for (SaldoPagoProfesor unSaldoPagoP : lista) {
+            for (Saldopagoprofesor unSaldoPagoP : lista) {
                 saldoPagoProfesores.add(unSaldoPagoP);
             }
         }
@@ -556,5 +556,28 @@ public class ControladorPersistencia {
             }
         }
         return usuarios;
+    }
+
+    public Set<Obrasocial> getObraSociales() throws Notificaciones{
+        Set<Obrasocial> obras = new HashSet<>();
+
+        String textoConsulta = "FROM Obrasocial";
+        List<Obrasocial> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Obrasocial unaOS : lista) {
+                obras.add(unaOS);
+            }
+        }
+        return obras;
     }
 }

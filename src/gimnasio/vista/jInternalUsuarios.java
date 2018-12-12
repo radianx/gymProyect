@@ -56,11 +56,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         this.jPanel1.add(panelNewUser);
         tablaUsuarios.clearSelection();
         this.cargarTabla();
-        modeloTabla.addTableModelListener(tablaUsuarios);
-        this.tablaUsuarios.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
-        
-        rowSorter = new TableRowSorter<>(this.tablaUsuarios.getModel());
-        tablaUsuarios.setRowSorter(rowSorter);
+
     }
     
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
@@ -87,7 +83,8 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
             }
             this.tablaUsuarios.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaUsuarios.getModel());
-        tablaUsuarios.setRowSorter(rowSorter);
+            tablaUsuarios.setRowSorter(rowSorter);
+            
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar usuarios desde la base de datos.");
         }

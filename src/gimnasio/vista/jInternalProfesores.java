@@ -32,7 +32,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         initComponents();
         cargarTabla();
         panelNewProfe = new panelNuevoProfesor(miControlador);
-        panelPrincipal.add(panelNewProfe);
+        this.panelPrincipal.add(panelNewProfe);
         rowSorter = new TableRowSorter<>(this.tablaProfesore.getModel());
         tablaProfesore.setRowSorter(rowSorter);
     }
@@ -62,7 +62,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
 		panelActual.setVisible(false);
                 panelCambio.setVisible(true);
-		// this.pack();
+         //       this.pack();
     }
     
     @SuppressWarnings("unchecked")
@@ -85,10 +85,20 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("GESTION DE PROFESORES");
-        setMaximumSize(new java.awt.Dimension(410, 400));
-        setMinimumSize(new java.awt.Dimension(410, 400));
-        setPreferredSize(new java.awt.Dimension(410, 400));
+        setMaximumSize(new java.awt.Dimension(800, 600));
+        setMinimumSize(new java.awt.Dimension(420, 420));
+        setNormalBounds(new java.awt.Rectangle(0, 0, 420, 0));
+        setPreferredSize(new java.awt.Dimension(420, 420));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                formMouseEntered(evt);
+            }
+        });
 
         panelPrincipal.setLayout(new java.awt.CardLayout());
 
@@ -154,6 +164,11 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         jPanel5.add(btnModificar);
 
         btnEliminar.setText("<html><center>ELIMINAR<br>PROFESOR</center></html>");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnEliminar);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -163,7 +178,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -181,7 +196,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
 
         panelPrincipal.add(jPanel1, "card2");
 
-        getContentPane().add(panelPrincipal, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(panelPrincipal, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -200,8 +215,18 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        this.cambiarPanel()
+        this.cambiarPanel(this.jPanel1,panelNewProfe);
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
+        if(!panelNewProfe.isVisible()){
+            this.jPanel1.setVisible(true);
+        }
+    }//GEN-LAST:event_formMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

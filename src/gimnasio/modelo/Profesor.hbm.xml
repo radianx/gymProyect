@@ -51,7 +51,7 @@
             <key>
                 <column name="idprofesor" not-null="true" />
             </key>
-            <one-to-many class="gimnasio.modelo.ProfesorModalidad" />
+            <one-to-many class="gimnasio.modelo.Profesormodalidad" />
         </set>
     </class>
 </hibernate-mapping>
