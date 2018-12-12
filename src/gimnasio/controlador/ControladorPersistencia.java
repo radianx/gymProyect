@@ -15,6 +15,7 @@ import gimnasio.modelo.Cuota;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Modalidad;
 import gimnasio.modelo.Modulo;
+import gimnasio.modelo.Obrasocial;
 import gimnasio.modelo.PagoProfesor;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Profesormodalidad;
@@ -570,5 +571,28 @@ public class ControladorPersistencia {
             }
         }
         return usuarios;
+    }
+
+    public Set<Obrasocial> getObraSociales() throws Notificaciones{
+        Set<Obrasocial> obras = new HashSet<>();
+
+        String textoConsulta = "FROM Obrasocial";
+        List<Obrasocial> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        if (lista != null) {
+            for (Obrasocial unaOS : lista) {
+                obras.add(unaOS);
+            }
+        }
+        return obras;
     }
 }

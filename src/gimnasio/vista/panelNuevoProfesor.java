@@ -8,6 +8,7 @@ package gimnasio.vista;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Contacto;
+import gimnasio.modelo.Obrasocial;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Usuario;
 import java.time.ZoneId;
@@ -389,11 +390,13 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            if (!tablaProfesoresInactivos.getSelectionModel().isSelectionEmpty() && usuarioSeleccionado != null) {
+            if (usuarioSeleccionado != null) {
                 Date fecha = Date.from(this.datePicker1.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Contacto unContacto = new Contacto(txtDireccion.getText(), txtTelefono1.getText(), txtTelefono2.getText(), txtEmail.getText(), txtTelefonoEmergencia.getText());
+                unContacto.setEstado("ACTIVO");
                 miControlador.altaContacto(unContacto);
-                miControlador.agregarAlumno(usuarioSeleccionado, this.txtNombre.getText(), this.txtApellido.getText(), Double.valueOf(this.txtPeso.getText()), Double.valueOf(this.txtAltura.getText()), fecha, unContacto);
+                Profesor unProfesor = new Profesor( unContacto, null, usuarioSeleccionado, this.txtNombre.getText(), this.txtApellido.getText(), Double.valueOf(this.txtPeso.getText()), Double.valueOf(this.txtAltura.getText()), fecha,"ACTIVO");
+                miControlador.altaProfesor(unProfesor);
             } else {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario.");
             }

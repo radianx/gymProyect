@@ -83,7 +83,7 @@ public class ControladorPrincipal {
             this.listaSaldoPagoProfesores = miPersistencia.getSaldoPagoProfesores();
             this.listaSectores = miPersistencia.getSectores();
             this.listaUsuarios = miPersistencia.getUsuarios();
-//            this.listaObraSociales = miPersistencia.getObraSociales();
+            this.listaObraSociales = miPersistencia.getObraSociales();
 //            this.listaContactos = miPersistencia.getContactos();
             
             
@@ -339,6 +339,7 @@ public class ControladorPrincipal {
     public void altaUsuario(Usuario usuario) throws Notificaciones {
         Usuario unUsuario = buscarUsuarioAlta(usuario.getNombreusuario());
         String estado = "ACTIVO";
+        usuario.setEstado(estado);
         if (unUsuario == null) {
             this.listaUsuarios.add(usuario);
             this.miPersistencia.persistirInstancia(usuario);
