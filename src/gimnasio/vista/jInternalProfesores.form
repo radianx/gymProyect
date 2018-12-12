@@ -205,6 +205,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;ELIMINAR&lt;br&gt;PROFESOR&lt;/center&gt;&lt;/html&gt;"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

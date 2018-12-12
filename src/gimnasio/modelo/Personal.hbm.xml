@@ -30,7 +30,7 @@
             <key>
                 <column name="idpersonalapertura" />
             </key>
-            <one-to-many class="gimnasio.modelo.CajaDiaria" />
+            <one-to-many class="gimnasio.modelo.Cajadiaria" />
         </set>
         <set name="cierreCajaDiarias" table="cierre_caja_diaria" inverse="true" lazy="true" fetch="select">
             <key>

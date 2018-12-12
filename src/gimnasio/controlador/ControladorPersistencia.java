@@ -19,7 +19,7 @@ import gimnasio.modelo.PagoProfesor;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Profesormodalidad;
 import gimnasio.modelo.SaldoCuota;
-import gimnasio.modelo.SaldoPagoProfesor;
+import gimnasio.modelo.Saldopagoprofesor;
 import gimnasio.modelo.Sector;
 import gimnasio.modelo.Usuario;
 import java.util.HashSet;
@@ -503,11 +503,11 @@ public class ControladorPersistencia {
         return saldoCuotas;
     }
 
-    public Set<SaldoPagoProfesor> getSaldoPagoProfesores() throws Notificaciones {
-        Set<SaldoPagoProfesor> saldoPagoProfesores = new HashSet<>();
+    public Set<Saldopagoprofesor> getSaldoPagoProfesores() throws Notificaciones {
+        Set<Saldopagoprofesor> saldoPagoProfesores = new HashSet<>();
 
-        String textoConsulta = "FROM SaldoPagoProfesor";
-        List<SaldoPagoProfesor> lista = null;
+        String textoConsulta = "FROM Saldopagoprofesor";
+        List<Saldopagoprofesor> lista = null;
 
         synchronized (this.sesion) {
             this.comprobarConexion();
@@ -519,7 +519,7 @@ public class ControladorPersistencia {
             }
         }
         if (lista != null) {
-            for (SaldoPagoProfesor unSaldoPagoP : lista) {
+            for (Saldopagoprofesor unSaldoPagoP : lista) {
                 saldoPagoProfesores.add(unSaldoPagoP);
             }
         }
