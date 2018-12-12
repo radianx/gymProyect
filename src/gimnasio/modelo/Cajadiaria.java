@@ -57,6 +57,25 @@ public class Cajadiaria  implements java.io.Serializable {
     public Date getCierre() {
         return this.cierre;
     }
+
+    public Personal getPersonal() {
+        return personal;
+    }
+
+    public void setPersonal(Personal personal) {
+        this.personal = personal;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    
+    
 }
 
 
