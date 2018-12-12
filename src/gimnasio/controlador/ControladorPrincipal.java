@@ -51,7 +51,7 @@ public class ControladorPrincipal {
     private Set<AsistenciaProfesor> listaAsistenciasProfesores = new HashSet<>();
     private Set<AsistenciaAlumno> listaAsistenciasAlumnos = new HashSet<>();
     private Set<Cajadiaria> listaCajasDiarias = new HashSet<>();
-    private Set<Documentacion>
+    private Set<Documentacion> listaDocumentacion = new HashSet<>();
     
     
 // private LectorHuella miLector = new LectorHuella();
@@ -248,7 +248,16 @@ public class ControladorPrincipal {
     
     
 
-    
+    public Obrasocial buscarObraSocial(String nombreObrasocial){
+        Obrasocial unaObraSocial = null;
+        for(Obrasocial miObraSocial : this.listaObraSociales){
+            if(miObraSocial.getNombreobrasocial()==nombreObrasocial){
+                unaObraSocial = miObraSocial;
+                break;
+            }
+        }
+        return unaObraSocial;
+    }
 
     public List<Cuota> buscarCuotasImpagas(){
         List<Cuota> cuotasImpagas = new ArrayList<>();
@@ -340,7 +349,7 @@ public class ControladorPrincipal {
     public void altaUsuario(Usuario usuario) throws Notificaciones {
         Usuario unUsuario = buscarUsuarioAlta(usuario.getNombreusuario());
         String estado = "ACTIVO";
-        unUsuario.setEstado(estado);
+        usuario.setEstado(estado);
         if (unUsuario == null) {
             this.listaUsuarios.add(usuario);
             this.miPersistencia.persistirInstancia(usuario);
@@ -464,7 +473,8 @@ public void bajaModalidad(int idModalidad) throws Notificaciones{
         if (modalidadesDelProfesor != null) {
             for (Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad) {
                 if (miProfesorModalidad.getModalidad() == unaModalidad && miProfesorModalidad.getProfesor() == unProfesor) {
-                    
+                    miProfesorModalidad.setEstado(estado);
+                    miProfesorModalidad.Se
                 }
             }
 
