@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Profesormodalidad" table="profesormodalidad" schema="public" optimistic-lock="version">
+    <class name="gimnasio.modelo.Profesormodalidad" table="profesor_modalidad" schema="public" optimistic-lock="version">
         <id name="idprofesormodalidad" type="int">
             <column name="idprofesormodalidad" />
             <generator class="increment" />

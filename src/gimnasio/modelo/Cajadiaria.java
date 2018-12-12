@@ -44,7 +44,7 @@ public class Cajadiaria  implements java.io.Serializable {
         this.montoactual = montoactual;
     }
      
-    public void setApertuta(Date apertura) {
+    public void setApertura(Date apertura) {
         this.apertura = apertura;
     }
     public Date getApertura() {

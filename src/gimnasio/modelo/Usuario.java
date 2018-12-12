@@ -39,6 +39,13 @@ public class Usuario  implements java.io.Serializable {
        this.estado = estado;
     }
    
+    public Usuario(String nombreusuario, String contrasenia, byte[] planillahuellas, byte[] foto) {
+       this.nombreusuario = nombreusuario;
+       this.contrasenia = contrasenia;
+       this.planillahuellas = planillahuellas;
+       this.foto = foto;
+    }
+    
     public int getIdusuario() {
         return this.idusuario;
     }

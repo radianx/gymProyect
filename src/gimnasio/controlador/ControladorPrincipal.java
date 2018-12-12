@@ -83,8 +83,8 @@ public class ControladorPrincipal {
             this.listaSaldoPagoProfesores = miPersistencia.getSaldoPagoProfesores();
             this.listaSectores = miPersistencia.getSectores();
             this.listaUsuarios = miPersistencia.getUsuarios();
-            this.listaObraSociales = miPersistencia.getObraSociales();
-            this.listaContactos = miPersistencia.getContactos();
+//            this.listaObraSociales = miPersistencia.getObraSociales();
+//            this.listaContactos = miPersistencia.getContactos();
             
             
         } catch (Notificaciones ex) {

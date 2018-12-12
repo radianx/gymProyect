@@ -32,7 +32,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         initComponents();
         cargarTabla();
         panelNewProfe = new panelNuevoProfesor(miControlador);
-        panelPrincipal.add(panelNewProfe);
+        this.add(panelNewProfe);
         rowSorter = new TableRowSorter<>(this.tablaProfesore.getModel());
         tablaProfesore.setRowSorter(rowSorter);
     }
@@ -62,7 +62,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
 		panelActual.setVisible(false);
                 panelCambio.setVisible(true);
-		// this.pack();
+                this.pack();
     }
     
     @SuppressWarnings("unchecked")
@@ -85,8 +85,12 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("GESTION DE PROFESORES");
-        setMaximumSize(new java.awt.Dimension(410, 400));
+        setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(410, 400));
         setPreferredSize(new java.awt.Dimension(410, 400));
 
@@ -205,7 +209,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        this.cambiarPanel();
+        this.cambiarPanel(this.panelPrincipal,panelNewProfe);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
