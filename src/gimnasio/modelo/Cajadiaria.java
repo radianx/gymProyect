@@ -11,25 +11,22 @@ public class Cajadiaria  implements java.io.Serializable {
 
 
      private int idcaja;
-     private double montoinicial;
-     private Double montofinal;
-     private Date fechainicial;
-     private Date fechafinal;
+     private double montoactual;
+     private Personal personal;
+     private Date apertura;
+     private Date cierre;
+     private String estado;
 
     public Cajadiaria() {
     }
 
 	
-    public Cajadiaria(int idcaja, double montoinicial) {
-        this.idcaja = idcaja;
-        this.montoinicial = montoinicial;
-    }
-    public Cajadiaria(int idcaja, double montoinicial, Double montofinal, Date fechainicial, Date fechafinal) {
-       this.idcaja = idcaja;
-       this.montoinicial = montoinicial;
-       this.montofinal = montofinal;
-       this.fechainicial = fechainicial;
-       this.fechafinal = fechafinal;
+    public Cajadiaria(Personal personal, Double montoactual, Date apertura, Date cierre, String estado) {
+       this.personal = personal;
+       this.montoactual = montoactual;;
+       this.apertura = apertura;
+       this.cierre = cierre;
+       this.estado = estado;
     }
    
     public int getIdcaja() {
@@ -39,38 +36,27 @@ public class Cajadiaria  implements java.io.Serializable {
     public void setIdcaja(int idcaja) {
         this.idcaja = idcaja;
     }
-    public double getMontoinicial() {
-        return this.montoinicial;
+    public double getMontoactual() {
+        return this.montoactual;
     }
     
-    public void setMontoinicial(double montoinicial) {
-        this.montoinicial = montoinicial;
+    public void setMontoactual(double montoactual) {
+        this.montoactual = montoactual;
     }
-    public Double getMontofinal() {
-        return this.montofinal;
+     
+    public void setApertuta(Date apertura) {
+        this.apertura = apertura;
     }
-    
-    public void setMontofinal(Double montofinal) {
-        this.montofinal = montofinal;
-    }
-    public Date getFechainicial() {
-        return this.fechainicial;
+    public Date getApertura() {
+        return this.apertura;
     }
     
-    public void setFechainicial(Date fechainicial) {
-        this.fechainicial = fechainicial;
+      public void setCierre(Date cierre) {
+        this.cierre = cierre;
     }
-    public Date getFechafinal() {
-        return this.fechafinal;
+    public Date getCierre() {
+        return this.cierre;
     }
-    
-    public void setFechafinal(Date fechafinal) {
-        this.fechafinal = fechafinal;
-    }
-
-
-
-
 }
 
 
