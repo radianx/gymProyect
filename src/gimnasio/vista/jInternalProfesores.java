@@ -38,7 +38,6 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
     }
     
     public void cargarTabla(){
-//        try {
             modeloTabla = new DefaultTableModel();
             modeloTabla.addColumn("Nombre");
             modeloTabla.addColumn("Apellido");
@@ -54,9 +53,6 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
                 }
             }
             this.tablaProfesore.setModel(modeloTabla);
-//        } catch (Notificaciones ex) {
-//            JOptionPane.showMessageDialog(null, "Error al cargar Profesores desde la base de datos.");
-//        }
     }
     
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {

@@ -84,9 +84,11 @@ public class Clase  implements java.io.Serializable {
         this.claseProfesors = claseProfesors;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return tipoclase;
+    }
+    
 }
 
 

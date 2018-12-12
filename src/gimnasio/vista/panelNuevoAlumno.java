@@ -13,6 +13,8 @@ import gimnasio.modelo.Alumno;
 import gimnasio.modelo.Contacto;
 import gimnasio.modelo.Obrasocial;
 import gimnasio.modelo.Usuario;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.ZoneId;
@@ -73,8 +75,19 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     
     public void cargarCombo(){
         modeloCombo = new DefaultComboBoxModel();
+        final String nuevo = "NUEVO";
+        this.cmbObraSocial.addItem( nuevo );
+        this.cmbObraSocial.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED
+                        && nuevo.equals(e.getItem())) {
+                    
+                }
+            }
+            });
         List<String> decoracion = new ArrayList<>();
-        for(Obrasocial unaOS: miControlador.getListaObrasSociales()){
+        for(Obrasocial unaOS: miControlador.getListaObraSociales()){
             modeloCombo.addElement(unaOS);
             decoracion.add(unaOS.getNombreobrasocial());
         }

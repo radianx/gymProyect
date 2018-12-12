@@ -53,7 +53,10 @@ public class SaldoCuota  implements java.io.Serializable {
         this.estado = estado;
     }
 
-
+    @Override
+    public String toString() {
+        return cobroCuota.getCuota().toString();
+    }
 
 
 }

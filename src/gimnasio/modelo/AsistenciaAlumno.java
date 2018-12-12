@@ -60,9 +60,11 @@ public class AsistenciaAlumno  implements java.io.Serializable {
         this.estado = estado;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return claseAlumno.getAlumno().getNombrealumno() + " " + claseAlumno.getAlumno().getApellidoalumno();
+    }
+   
 }
 
 

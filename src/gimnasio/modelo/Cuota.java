@@ -101,7 +101,10 @@ public class Cuota  implements java.io.Serializable {
         this.cobroCuotas = cobroCuotas;
     }
 
-
+    @Override
+    public String toString() {
+        return alumno.getNombrealumno() + " " + alumno.getApellidoalumno();
+    }
 
 
 }

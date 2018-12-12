@@ -71,6 +71,10 @@ public class Modulo  implements java.io.Serializable {
         this.usuarioModulos = usuarioModulos;
     }
 
+    @Override
+    public String toString() {
+        return nombremodulo;
+    }
 
 
 

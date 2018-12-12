@@ -10,16 +10,16 @@ public class Saldopagoprofesor  implements java.io.Serializable {
 
 
      private int idsaldopago;
-     private CobroCuota cobroCuota;
+     private PagoProfesor pagoProfesor;
      private double montosaldo;
      private String estado;
 
     public Saldopagoprofesor() {
     }
 
-    public Saldopagoprofesor(int idsaldopago, CobroCuota cobroCuota, double montosaldo, String estado) {
+    public Saldopagoprofesor(int idsaldopago, PagoProfesor pagoProfesor, double montosaldo, String estado) {
        this.idsaldopago = idsaldopago;
-       this.cobroCuota = cobroCuota;
+       this.pagoProfesor = pagoProfesor;
        this.montosaldo = montosaldo;
        this.estado = estado;
     }
@@ -31,12 +31,12 @@ public class Saldopagoprofesor  implements java.io.Serializable {
     public void setIdsaldopago(int idsaldopago) {
         this.idsaldopago = idsaldopago;
     }
-    public CobroCuota getCobroCuota() {
-        return this.cobroCuota;
+    public PagoProfesor getPagoProfesor() {
+        return this.pagoProfesor;
     }
     
-    public void setCobroCuota(CobroCuota cobroCuota) {
-        this.cobroCuota = cobroCuota;
+    public void setPagoProfesor(PagoProfesor pagoProfesor) {
+        this.pagoProfesor = pagoProfesor;
     }
     public double getMontosaldo() {
         return this.montosaldo;
@@ -53,6 +53,10 @@ public class Saldopagoprofesor  implements java.io.Serializable {
         this.estado = estado;
     }
 
+    @Override
+    public String toString() {
+        return pagoProfesor.getProfesor().getNombreprofesor() + " " + pagoProfesor.getProfesor().getApellidoprofesor();
+    }
 
 
 

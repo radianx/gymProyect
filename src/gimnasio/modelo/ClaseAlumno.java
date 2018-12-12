@@ -70,8 +70,12 @@ public class ClaseAlumno  implements java.io.Serializable {
         this.asistenciaAlumnos = asistenciaAlumnos;
     }
 
+    @Override
+    public String toString() {
+        return claseProfesor.getClase().getTipoclase();
+    }
 
-
+    
 
 }
 

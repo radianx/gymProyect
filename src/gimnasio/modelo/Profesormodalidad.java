@@ -81,8 +81,10 @@ public class Profesormodalidad  implements java.io.Serializable {
         this.clases = clases;
     }
 
-
-
+    @Override
+    public String toString() {
+        return  profesor.getNombreprofesor();
+    }
 
 }
 

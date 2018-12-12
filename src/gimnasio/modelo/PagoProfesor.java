@@ -63,8 +63,10 @@ public class PagoProfesor  implements java.io.Serializable {
         this.estado = estado;
     }
 
-
-
+    @Override
+    public String toString() {
+        return profesor.getNombreprofesor() + " " + profesor.getApellidoprofesor();
+    }
 
 }
 

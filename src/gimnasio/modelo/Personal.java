@@ -127,7 +127,10 @@ public class Personal  implements java.io.Serializable {
         this.cargoPersonals = cargoPersonals;
     }
 
-
+    @Override
+    public String toString() {
+        return nombrepersonal + " " + apellidopersonal;
+    }
 
 
 }
