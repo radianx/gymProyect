@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 7, 2018 12:25:53 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="gimnasio.modelo.Cajadiaria" table="cajadiaria" schema="public">
+        <id name="idcaja" type="int">
+            <column name="idcaja" />
+            <generator class="assigned"></generator>
+        </id>
+        <property name="montoactual" type="double">
+            <column name="montoactual" precision="17" scale="17" not-null="true" />
+        </property>
+        <property name="montofinal" type="java.lang.Double">
+            <column name="montofinal" precision="17" scale="17" />
+        </property>
+        <property name="apertura" type="date">
+            <column name="apertura" length="13" />
+        </property>
+        <property name="cierre" type="date">
+            <column name="cierre" length="13" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
+        </property>
+        </many-to-one>
+        <many-to-one name="personal" class="gimnasio.modelo.Personal" fetch="select">
+            <column name="idpersonal" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

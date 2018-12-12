@@ -382,8 +382,8 @@ public class ControladorPrincipal {
                 this.miPersistencia.persistirInstancia(unAlumno);
                 this.listaAlumnos = miPersistencia.getAlumnos();
         }else{
-            this.listaAlumnos.add(alumno);
             this.miPersistencia.persistirInstancia(alumno);
+            this.miPersistencia.getAlumnos();
         }
     }
     
@@ -394,6 +394,7 @@ public class ControladorPrincipal {
         String estado = "INACTIVO";
         miAlumno.setEstado(estado);
         miPersistencia.persistirInstancia(miAlumno);
+        this.miPersistencia.getAlumnos();
     }
     
     
@@ -414,7 +415,7 @@ public class ControladorPrincipal {
             this.listaProfesores = miPersistencia.getProfesores();
         } else {
             this.miPersistencia.persistirInstancia(profesor);
-            this.listaProfesores.add(profesor);
+            this.miPersistencia.getProfesores();
         }
     }
 
@@ -451,8 +452,8 @@ public class ControladorPrincipal {
             this.miPersistencia.persistirInstancia(unaModalidad);
             this.listaModalidades = miPersistencia.getModalidades();
         }else {
-            this.listaModalidades.add(modalidad);
             this.miPersistencia.persistirInstancia(modalidad);
+            this.miPersistencia.getModalidades();
         }
     }
 
@@ -462,14 +463,14 @@ public void bajaModalidad(int idModalidad) throws Notificaciones{
 
 //  <----------------------------------------------------ABM PROFESORES POR MODALIDADES----------------------------------------------------> 
 
-public void agregarProfesorPorModalidad(Modalidad unModalidad, Profesor unProfesor) throws Notificaciones{
+public void agregarProfesorPorModalidad(Modalidad unaModalidad, Profesor unProfesor) throws Notificaciones{
     String estado = "ACTIVO";
     List<Modalidad> modalidadesDelProfesor = buscarModalidadDeProfesor(unProfesor.getIdprofesor());
     for(Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad){
-        if (miProfesorModalidad.getModalidad()==unModalidad){
+        if (miProfesorModalidad.getModalidad()==unaModalidad){
             throw new Notificaciones("El profesor ya tiene asignada la modalidad");
         }else{
-            Profesormodalidad unProfesorModalidad = new Profesormodalidad(unModalidad, unProfesor,estado);
+            Profesormodalidad unProfesorModalidad = new Profesormodalidad(unaModalidad, unProfesor,estado);
             this.listaProfesorModalidad.add(unProfesorModalidad);
             this.miPersistencia.persistirInstancia(unProfesorModalidad);
         }
