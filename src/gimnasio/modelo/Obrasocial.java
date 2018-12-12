@@ -27,20 +27,11 @@ public class Obrasocial  implements java.io.Serializable {
         this.nombreobrasocial = nombreobrasocial;
     }
 	
-    public Obrasocial(int idobrasocial, Contacto contacto, String nombreobrasocial, String estado) {
+    public Obrasocial(Contacto contacto, String nombreobrasocial, String estado) {
         this.idobrasocial = idobrasocial;
         this.contacto = contacto;
         this.nombreobrasocial = nombreobrasocial;
         this.estado = estado;
-    }
-    public Obrasocial(int idobrasocial, Contacto contacto, String nombreobrasocial, String estado, Set alumnos, Set personals, Set profesors) {
-       this.idobrasocial = idobrasocial;
-       this.contacto = contacto;
-       this.nombreobrasocial = nombreobrasocial;
-       this.estado = estado;
-       this.alumnos = alumnos;
-       this.personals = personals;
-       this.profesors = profesors;
     }
    
     public int getIdobrasocial() {
