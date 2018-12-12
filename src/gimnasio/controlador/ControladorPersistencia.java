@@ -5,24 +5,9 @@
  */
 package gimnasio.controlador;
 
-import gimnasio.modelo.Alumno;
-import gimnasio.modelo.AsistenciaAlumno;
-import gimnasio.modelo.AsistenciaProfesor;
-import gimnasio.modelo.Cargo;
-import gimnasio.modelo.Clase;
-import gimnasio.modelo.CobroCuota;
-import gimnasio.modelo.Cuota;
+import gimnasio.modelo.*;
 import gimnasio.herramientas.excepciones.Notificaciones;
-import gimnasio.modelo.Modalidad;
-import gimnasio.modelo.Modulo;
-import gimnasio.modelo.Obrasocial;
-import gimnasio.modelo.PagoProfesor;
-import gimnasio.modelo.Profesor;
-import gimnasio.modelo.Profesormodalidad;
-import gimnasio.modelo.SaldoCuota;
-import gimnasio.modelo.Saldopagoprofesor;
-import gimnasio.modelo.Sector;
-import gimnasio.modelo.Usuario;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

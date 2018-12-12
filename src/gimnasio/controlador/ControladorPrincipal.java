@@ -50,7 +50,8 @@ public class ControladorPrincipal {
     private Set<AperturaCajaDiaria> listaAperturaCajaDiaria = new HashSet<>();
     private Set<AsistenciaProfesor> listaAsistenciasProfesores = new HashSet<>();
     private Set<AsistenciaAlumno> listaAsistenciasAlumnos = new HashSet<>();
-    
+    private Set<Cajadiaria> listaCajasDiarias = new HashSet<>();
+    private Set<Documentacion>
     
     
 // private LectorHuella miLector = new LectorHuella();
@@ -339,7 +340,7 @@ public class ControladorPrincipal {
     public void altaUsuario(Usuario usuario) throws Notificaciones {
         Usuario unUsuario = buscarUsuarioAlta(usuario.getNombreusuario());
         String estado = "ACTIVO";
-        usuario.setEstado(estado);
+        unUsuario.setEstado(estado);
         if (unUsuario == null) {
             this.listaUsuarios.add(usuario);
             this.miPersistencia.persistirInstancia(usuario);
@@ -437,7 +438,7 @@ public class ControladorPrincipal {
     }
 
 //  <----------------------------------------------------ABM MODALIDADES----------------------------------------------------> 
-    public void agregarModalidad(Modalidad modalidad) throws Notificaciones {
+    public void altaModalidad(Modalidad modalidad) throws Notificaciones {
         Modalidad unaModalidad = buscarModalidad(modalidad.getNombremodalidad());
         String estado = "ACTIVO";
         if (unaModalidad != null) {
@@ -457,22 +458,25 @@ public void bajaModalidad(int idModalidad) throws Notificaciones{
 } 
 
 //  <----------------------------------------------------ABM PROFESORES POR MODALIDADES----------------------------------------------------> 
+    public void altaProfesorPorModalidad(Modalidad unaModalidad, Profesor unProfesor, Double precioHora) throws Notificaciones {
+        String estado = "ACTIVO";
+        List<Modalidad> modalidadesDelProfesor = buscarModalidadDeProfesor(unProfesor.getIdprofesor());
+        if (modalidadesDelProfesor != null) {
+            for (Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad) {
+                if (miProfesorModalidad.getModalidad() == unaModalidad && miProfesorModalidad.getProfesor() == unProfesor) {
+                    
+                }
+            }
 
-public void agregarProfesorPorModalidad(Modalidad unaModalidad, Profesor unProfesor) throws Notificaciones{
-    String estado = "ACTIVO";
-    List<Modalidad> modalidadesDelProfesor = buscarModalidadDeProfesor(unProfesor.getIdprofesor());
-    for(Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad){
-        if (miProfesorModalidad.getModalidad()==unaModalidad){
-            throw new Notificaciones("El profesor ya tiene asignada la modalidad");
-        }else{
-            Profesormodalidad unProfesorModalidad = new Profesormodalidad(unaModalidad, unProfesor,estado);
+        } else {
+            Profesormodalidad unProfesorModalidad = new Profesormodalidad(unaModalidad, unProfesor, precioHora, estado);
             this.listaProfesorModalidad.add(unProfesorModalidad);
             this.miPersistencia.persistirInstancia(unProfesorModalidad);
         }
     }
-}
 
-public void quitarProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throws Notificaciones{
+
+public void bajaProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throws Notificaciones{
     String estado = "INACTIVO";
     for (Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad) {
         if (miProfesorModalidad == unProfesorModalidad) {
