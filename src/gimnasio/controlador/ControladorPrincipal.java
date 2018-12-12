@@ -2,26 +2,8 @@
 package gimnasio.controlador;
 
 import com.sun.org.apache.xpath.internal.operations.Minus;
-import gimnasio.modelo.Alumno;
-import gimnasio.modelo.AsistenciaAlumno;
-import gimnasio.modelo.AsistenciaProfesor;
-import gimnasio.modelo.Cargo;
-import gimnasio.modelo.Clase;
-import gimnasio.modelo.Contacto;
-import gimnasio.modelo.CobroCuota;
-import gimnasio.modelo.Cuota;
-import gimnasio.modelo.Modalidad;
-import gimnasio.modelo.Modulo;
-import gimnasio.modelo.PagoProfesor;
-import gimnasio.modelo.Profesor;
-import gimnasio.modelo.Profesormodalidad;
-import gimnasio.modelo.SaldoCuota;
-import gimnasio.modelo.Saldopagoprofesor;
-import gimnasio.modelo.Sector;
-import gimnasio.modelo.Usuario;
+import gimnasio.modelo.*;
 import gimnasio.herramientas.excepciones.Notificaciones;
-import gimnasio.modelo.ClaseAlumno;
-import gimnasio.modelo.Obrasocial;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -34,6 +16,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -59,6 +42,16 @@ public class ControladorPrincipal {
     private Set<Cargo> listaCargos = new HashSet<>();
     private Set<Obrasocial> listaObraSociales = new HashSet<>();
     private Set<Contacto> listaContactos = new HashSet<>();
+    private Set<Personal> listaPersonal = new HashSet<>();
+    private Set<CargoPersonal> listaCargoPersonal = new HashSet<>();
+    private Set<ClaseProfesor> listaClaseProfesor = new HashSet<>();
+    private Set<Saldopagoprofesor> listaSaldoPagoProfesor = new HashSet<>();
+    private Set<SectorClase>  listaSectorClase = new HashSet<>();
+    private Set<AperturaCajaDiaria> listaAperturaCajaDiaria = new HashSet<>();
+    private Set<AsistenciaProfesor> listaAsistenciasProfesores = new HashSet<>();
+    private Set<AsistenciaAlumno> listaAsistenciasAlumnos = new HashSet<>();
+    
+    
     
 // private LectorHuella miLector = new LectorHuella();
 
@@ -92,6 +85,7 @@ public class ControladorPrincipal {
             this.listaUsuarios = miPersistencia.getUsuarios();
             this.listaObraSociales = miPersistencia.getObraSociales();
             this.listaContactos = miPersistencia.getContactos();
+            
             
         } catch (Notificaciones ex) {
             Logger.getLogger(ControladorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
