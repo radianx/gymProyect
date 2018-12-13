@@ -190,8 +190,7 @@ public class ControladorPersistencia {
 
     }
 
-    public Set<Alumno> getAlumnos() throws Notificaciones {
-        Set<Alumno> alumnos = new HashSet<>();
+    public List<Alumno> getAlumnos() throws Notificaciones {
 
         String textoConsulta = "FROM Alumno";
         List<Alumno> lista = null;
@@ -205,17 +204,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Alumno unAlumno : lista) {
-                alumnos.add(unAlumno);
-            }
-        }
-        return alumnos;
+        return lista;
     }
 
-    public Set<AsistenciaAlumno> getAsistenciaAlumno() throws Notificaciones {
-        Set<AsistenciaAlumno> asistAlumnos = new HashSet<>();
-
+    public List<AsistenciaAlumno> getAsistenciaAlumno() throws Notificaciones {
+        
         String textoConsulta = "FROM AsistenciaAlumno";
         List<AsistenciaAlumno> lista = null;
 
@@ -228,17 +221,12 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (AsistenciaAlumno unAsistAlumno : lista) {
-                asistAlumnos.add(unAsistAlumno);
-            }
-        }
-        return asistAlumnos;
+        
+        return lista;
     }
 
-    public Set<AsistenciaProfesor> getAsistenciaProfesor() throws Notificaciones {
-        Set<AsistenciaProfesor> asistProfe = new HashSet<>();
-
+    public List<AsistenciaProfesor> getAsistenciaProfesor() throws Notificaciones {
+        
         String textoConsulta = "FROM AsistenciaProfesor";
         List<AsistenciaProfesor> lista = null;
 
@@ -251,17 +239,10 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (AsistenciaProfesor unAsistProfe : lista) {
-                asistProfe.add(unAsistProfe);
-            }
-        }
-        return asistProfe;
+        return lista;
     }
 
-    public Set<Cargo> getCargos() throws Notificaciones {
-        Set<Cargo> cargos = new HashSet<>();
-
+    public List<Cargo> getCargos() throws Notificaciones {
         String textoConsulta = "FROM Cargo";
         List<Cargo> lista = null;
 
@@ -274,17 +255,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Cargo unCargo : lista) {
-                cargos.add(unCargo);
-            }
-        }
-        return cargos;
+        return lista;
     }
 
-    public Set<Clase> getClases() throws Notificaciones {
-        Set<Clase> clases = new HashSet<>();
-
+    public List<Clase> getClases() throws Notificaciones {
+        
         String textoConsulta = "FROM Clase";
         List<Clase> lista = null;
 
@@ -297,17 +272,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Clase unaClase : lista) {
-                clases.add(unaClase);
-            }
-        }
-        return clases;
+        
+        return lista;
     }
 
-    public Set<Cuota> getCuotas() throws Notificaciones {
-        Set<Cuota> cuotas = new HashSet<>();
-
+    public List<Cuota> getCuotas() throws Notificaciones {
         String textoConsulta = "FROM Cuota";
         List<Cuota> lista = null;
 
@@ -320,17 +289,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Cuota unaCuota : lista) {
-                cuotas.add(unaCuota);
-            }
-        }
-        return cuotas;
+        return lista;
     }
 
-    public Set<CobroCuota> getCobroCuota() throws Notificaciones {
-        Set<CobroCuota> cobroCuotas = new HashSet<>();
-
+    public List<CobroCuota> getCobroCuota() throws Notificaciones {
+        
         String textoConsulta = "FROM CobroCuota";
         List<CobroCuota> lista = null;
 
@@ -343,16 +306,10 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (CobroCuota unCobroCuota : lista) {
-                cobroCuotas.add(unCobroCuota);
-            }
-        }
-        return cobroCuotas;
+        return lista;
     }
 
-    public Set<Modalidad> getModalidades() throws Notificaciones {
-        Set<Modalidad> modalidades = new HashSet<>();
+    public List<Modalidad> getModalidades() throws Notificaciones {
 
         String textoConsulta = "FROM Modalidad";
         List<Modalidad> lista = null;
@@ -366,17 +323,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Modalidad unaModalidad : lista) {
-                modalidades.add(unaModalidad);
-            }
-        }
-        return modalidades;
+        return lista;
     }
 
-    public Set<Modulo> getModulos() throws Notificaciones {
-        Set<Modulo> modulos = new HashSet<>();
-
+    public List<Modulo> getModulos() throws Notificaciones {
+        
         String textoConsulta = "FROM Modulo";
         List<Modulo> lista = null;
 
@@ -389,16 +340,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Modulo unModulo : lista) {
-                modulos.add(unModulo);
-            }
-        }
-        return modulos;
+        
+        return lista;
     }
 
-    public Set<PagoProfesor> getPagoProfesores() throws Notificaciones {
-        Set<PagoProfesor> pagoProfesores = new HashSet<>();
+    public List<PagoProfesor> getPagoProfesores() throws Notificaciones {
 
         String textoConsulta = "FROM PagoProfesor";
         List<PagoProfesor> lista = null;
@@ -412,16 +358,10 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (PagoProfesor unPagoProfesor : lista) {
-                pagoProfesores.add(unPagoProfesor);
-            }
-        }
-        return pagoProfesores;
+        return lista;
     }
 
-    public Set<Profesor> getProfesores() throws Notificaciones {
-        Set<Profesor> profesores = new HashSet<>();
+    public List<Profesor> getProfesores() throws Notificaciones {
 
         String textoConsulta = "FROM Profesor";
         List<Profesor> lista = null;
@@ -435,16 +375,10 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Profesor unProfesor : lista) {
-                profesores.add(unProfesor);
-            }
-        }
-        return profesores;
+        return lista;
     }
 
-    public Set<Profesormodalidad> getProfesorModalidad() throws Notificaciones {
-        Set<Profesormodalidad> profesorModalidades = new HashSet<>();
+    public List<Profesormodalidad> getProfesorModalidad() throws Notificaciones {
 
         String textoConsulta = "FROM Profesormodalidad";
         List<Profesormodalidad> lista = null;
@@ -458,17 +392,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Profesormodalidad unProfesorModalidad : lista) {
-                profesorModalidades.add(unProfesorModalidad);
-            }
-        }
-        return profesorModalidades;
+        return lista;
     }
 
-    public Set<SaldoCuota> getSaldoCuota() throws Notificaciones {
-        Set<SaldoCuota> saldoCuotas = new HashSet<>();
-
+    public List<SaldoCuota> getSaldoCuota() throws Notificaciones {
+        
         String textoConsulta = "FROM SaldoCuota";
         List<SaldoCuota> lista = null;
 
@@ -481,17 +409,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (SaldoCuota unSaldoCuota : lista) {
-                saldoCuotas.add(unSaldoCuota);
-            }
-        }
-        return saldoCuotas;
+        return lista;
     }
 
-    public Set<Saldopagoprofesor> getSaldoPagoProfesores() throws Notificaciones {
-        Set<Saldopagoprofesor> saldoPagoProfesores = new HashSet<>();
-
+    public List<Saldopagoprofesor> getSaldoPagoProfesores() throws Notificaciones {
+        
         String textoConsulta = "FROM Saldopagoprofesor";
         List<Saldopagoprofesor> lista = null;
 
@@ -504,16 +426,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Saldopagoprofesor unSaldoPagoP : lista) {
-                saldoPagoProfesores.add(unSaldoPagoP);
-            }
-        }
-        return saldoPagoProfesores;
+        
+        return lista;
     }
 
-    public Set<Sector> getSectores() throws Notificaciones {
-        Set<Sector> sectores = new HashSet<>();
+    public List<Sector> getSectores() throws Notificaciones {
 
         String textoConsulta = "FROM Sector";
         List<Sector> lista = null;
@@ -527,17 +444,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Sector unSector : lista) {
-                sectores.add(unSector);
-            }
-        }
-        return sectores;
+        return lista;
     }
 
-    public Set<Usuario> getUsuarios() throws Notificaciones {
-        Set<Usuario> usuarios = new HashSet<>();
-
+    public List<Usuario> getUsuarios() throws Notificaciones {
+        
         String textoConsulta = "FROM Usuario";
         List<Usuario> lista = null;
 
@@ -550,17 +461,11 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Usuario unUsuario : lista) {
-                usuarios.add(unUsuario);
-            }
-        }
-        return usuarios;
+        return lista;
     }
 
-    public Set<Obrasocial> getObraSociales() throws Notificaciones{
-        Set<Obrasocial> obras = new HashSet<>();
-
+    public List<Obrasocial> getObraSociales() throws Notificaciones{
+        
         String textoConsulta = "FROM Obrasocial";
         List<Obrasocial> lista = null;
 
@@ -573,11 +478,6 @@ public class ControladorPersistencia {
                 throw new Notificaciones(e.getMessage());
             }
         }
-        if (lista != null) {
-            for (Obrasocial unaOS : lista) {
-                obras.add(unaOS);
-            }
-        }
-        return obras;
+        return lista;
     }
 }

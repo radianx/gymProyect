@@ -2,7 +2,7 @@
 package gimnasio.controlador;
 
 import com.sun.org.apache.xpath.internal.operations.Minus;
-import gimnasio.modelo.*;
+import gimnasio.modelo.ModeloPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,35 +23,6 @@ import javax.swing.JOptionPane;
  * @author Family
  */
 public class ControladorPrincipal {
-    private Set<Alumno> listaAlumnos = new HashSet<>();
-    private Set<ClaseAlumno> listaClaseAlumno = new HashSet<>();
-    private Set<Profesor> listaProfesores = new HashSet<>();
-    private Set<Modalidad> listaModalidades = new HashSet<>();
-    private Set<Profesormodalidad> listaProfesorModalidad = new HashSet<>();
-    private Set<Sector> listaSectores = new HashSet<>();
-    private Set<Clase> listaClases = new HashSet<>();
-    private Set<AsistenciaAlumno> listaAsistenciaAlumno = new HashSet<>();
-    private Set<AsistenciaProfesor> listaAsistenciaProfesor = new HashSet<>();
-    private Set<Cuota> listaCuotas = new HashSet<>();
-    private Set<CobroCuota> listaCobroCuota = new HashSet<>();
-    private Set<SaldoCuota> listaSaldoCuota = new HashSet<>();
-    private Set<PagoProfesor> listaPagoProfesores = new HashSet<>();
-    private Set<Saldopagoprofesor> listaSaldoPagoProfesores = new HashSet<>();
-    private Set<Usuario> listaUsuarios = new HashSet<>();
-    private Set<Modulo> listaModulos = new HashSet<>();
-    private Set<Cargo> listaCargos = new HashSet<>();
-    private Set<Obrasocial> listaObraSociales = new HashSet<>();
-    private Set<Contacto> listaContactos = new HashSet<>();
-    private Set<Personal> listaPersonal = new HashSet<>();
-    private Set<CargoPersonal> listaCargoPersonal = new HashSet<>();
-    private Set<ClaseProfesor> listaClaseProfesor = new HashSet<>();
-    private Set<Saldopagoprofesor> listaSaldoPagoProfesor = new HashSet<>();
-    private Set<SectorClase>  listaSectorClase = new HashSet<>();
-    private Set<AperturaCajaDiaria> listaAperturaCajaDiaria = new HashSet<>();
-    private Set<AsistenciaProfesor> listaAsistenciasProfesores = new HashSet<>();
-    private Set<AsistenciaAlumno> listaAsistenciasAlumnos = new HashSet<>();
-    private Set<Cajadiaria> listaCajasDiarias = new HashSet<>();
-    private Set<Documentacion> listaDocumentacion = new HashSet<>();
     
     
 // private LectorHuella miLector = new LectorHuella();
@@ -60,12 +31,44 @@ public class ControladorPrincipal {
 //  <-----------------CONTROLADORES EXTRA-------------------------->
     private ControladorHuella miLector = new ControladorHuella();
     private ControladorRele miRele = new ControladorRele();
-    private ControladorPersistencia miPersistencia = new ControladorPersistencia();
-
+    private ControladorPersistencia miPersistencia;    
+    
+    private ControladorBusquedas controladorBusquedas;
+    private ControladorCajaDiaria controladorCajaDiaria;
+    private ControladorCargo controladorCargo;
+    private ControladorCargoPersonal controladorCargoPersonal;
+    private ControladorClase controladorClase;
+    private ControladorClaseAlumno controladorClaseAlumno;
+    private ControladorCuota controladorCuota;
+    private ControladorModalidad controladorModalidad;
+    private ControladorModulo controladorModulo;
+    private ControladorObraSocial controladorObraSocial;
+    private ControladorPago controladorPago;
+    private ControladorPersonal controladorPersonal;
+    private ControladorProfesor controladorProfesor;
+    private ControladorProfesorModalidad controladorProfesorModalidad;
+    private ControladorSector controladorSector;
+    private ControladorSectorClase controladorSectoClase;
+    private ControladorUsuario controladorUsuario;
+    private ControladorUsuarioModulo controladorUsuarioModulo;
+    
+    private ModeloPrincipal miModeloPrincipal;
+    
     
 //  <-----------------CONSTRUCTOR DEL CONTROLADOR PRINCIPAL------------------->
 
-    public ControladorPrincipal(){
+    public ControladorPrincipal(ModeloPrincipal ModeloPrincipal) throws Notificaciones{
+        
+        this.miModeloPrincipal = ModeloPrincipal;
+        this.miPersistencia = new ControladorPersistencia();
+        
+        
+        this.controladorUsuario = new ControladorUsuario(this.miPersistencia,this.miModeloPrincipal.getListaUsuarios());
+        
+        
+        /*
+        
+        
         try {
             this.listaAlumnos = miPersistencia.getAlumnos();
             this.listaAsistenciaAlumno = miPersistencia.getAsistenciaAlumno();
@@ -83,7 +86,7 @@ public class ControladorPrincipal {
             this.listaSaldoCuota = miPersistencia.getSaldoCuota();
             this.listaSaldoPagoProfesores = miPersistencia.getSaldoPagoProfesores();
             this.listaSectores = miPersistencia.getSectores();
-            this.listaUsuarios = miPersistencia.getUsuarios();
+            
             this.listaObraSociales = miPersistencia.getObraSociales();
 //            this.listaContactos = miPersistencia.getContactos();
             
@@ -92,7 +95,7 @@ public class ControladorPrincipal {
             Logger.getLogger(ControladorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    */
     
     
     public static Date parseDate (String date){
@@ -103,239 +106,7 @@ public class ControladorPrincipal {
         }
     }
     
-    
-//  <-----------------BUSQUEDAS-------------------> 
-    
-    public Usuario buscarUsuario(String nombreUsuario, String contrasenia){
-        Usuario unUsuario = null;
-        for(Usuario miUsuario : this.listaUsuarios){
-            if(miUsuario.getNombreusuario().equalsIgnoreCase(nombreUsuario) && miUsuario.getContrasenia().equals(contrasenia)){
-                unUsuario = miUsuario;
-                break;
-            }
-        }
-        return unUsuario;
-    }
-    
-    public Usuario buscarUsuarioAlta(String nombreUsuario){
-        Usuario unUsuario = new Usuario();
-        unUsuario= null;
-        for(Usuario miUsuario : this.listaUsuarios){
-            if(miUsuario.getNombreusuario().equalsIgnoreCase(nombreUsuario)){
-                unUsuario = miUsuario;
-                break;
-            }
-        }
-        return unUsuario;
-    }
-    
-    
-    public Usuario buscarUsuarioBaja(int idUsuario){
-        Usuario unUsuario = null;
-        for(Usuario miUsuario : this.listaUsuarios){
-            if(miUsuario.getIdusuario()==idUsuario){
-                unUsuario = miUsuario;
-                break;
-            }
-        }
-        return unUsuario;
-    }
-    
-    
-    public Alumno buscarAlumnoAlta(String nombrealu, String apellido) {
-        Alumno unAlumno = null;
-        for (Alumno miAlumno : this.listaAlumnos) {
-            if (miAlumno.getNombrealumno().equalsIgnoreCase(nombrealu) && miAlumno.getApellidoalumno().equalsIgnoreCase(apellido)) {
-                unAlumno = miAlumno;
-                break;
-            }
-        }
-        return unAlumno;
-    }
-    
-    
-    public Alumno buscarAlumnoBaja(int idAlumno) {
-        Alumno unAlumno = null;
-        for (Alumno miAlumno : this.listaAlumnos) {
-            if (miAlumno.getIdalumno() == idAlumno) {
-                unAlumno = miAlumno;
-                break;
-            }
-        }
-        return unAlumno;
-    }
-    
-    
-    
-    public Clase buscarClase(Clase clase){
-        Clase unaClase = null;
-        for(Clase miClase : this.listaClases){
-            if(miClase.getDescripcionclase().equalsIgnoreCase(clase.getDescripcionclase())){
-                unaClase = miClase;
-                break;
-            }
-        }
-        return unaClase;
-    }
-    
-    
-    public Alumno buscarAlumnoClase(Alumno elAlumno){
-        Alumno unAlumno = null;
-        for(Alumno miAlumno : this.listaAlumnos){
-            if (miAlumno.getIdalumno() == elAlumno.getIdalumno()){
-                unAlumno = miAlumno;
-                break;
-            }
-        }
-        return unAlumno;
-    }
-    
-    public Profesor buscarProfesor(String nombreProfesor){
-        Profesor unProfesor = null;
-        for(Profesor miProfesor : this.listaProfesores){
-            if(miProfesor.getNombreprofesor().equalsIgnoreCase(nombreProfesor)){
-                unProfesor = miProfesor;
-            }
-            break;
-        }
-        return unProfesor;
-    }
-    
-    public Profesor buscarProfesor(int idProfesor){
-        Profesor unProfesor = null;
-        for(Profesor miProfesor : this.listaProfesores){
-            if(miProfesor.getIdprofesor()==idProfesor){
-                unProfesor = miProfesor;
-            }
-            break;
-        }
-        return unProfesor;
-    }
-    
-    public Profesor buscarProfesor(String nombreProfesor, String apellidoProfesor){
-        Profesor unProfesor = null;
-        for(Profesor miProfesor : this.listaProfesores){
-            if(miProfesor.getNombreprofesor().equalsIgnoreCase(nombreProfesor)){
-                unProfesor = miProfesor;
-            }
-            break;
-        }
-        return unProfesor;
-    }
-    
-    
-    public Sector buscarSector(String nombreSector){
-        Sector unSector = null;
-        for(Sector miSector : this.listaSectores){
-            if(miSector.getNombresector().equalsIgnoreCase(nombreSector)){
-                unSector = miSector;
-            }
-            break;
-        }
-        return unSector;
-    }
-    
-    public Cargo buscarCargo(String nombreCargo){
-        Cargo unCargo = null;
-        for(Cargo miCargo : this.listaCargos){
-            if(miCargo.getNombrecargo().equalsIgnoreCase(nombreCargo)){
-                unCargo = miCargo;
-                break;
-            }
-        }
-        return unCargo;
-    }
-    
-    
 
-    public Obrasocial buscarObraSocial(String nombreObrasocial){
-        Obrasocial unaObraSocial = null;
-        for(Obrasocial miObraSocial : this.listaObraSociales){
-            if(miObraSocial.getNombreobrasocial()==nombreObrasocial){
-                unaObraSocial = miObraSocial;
-                break;
-            }
-        }
-        return unaObraSocial;
-    }
-
-    public List<Cuota> buscarCuotasImpagas(){
-        List<Cuota> cuotasImpagas = new ArrayList<>();
-        for(Cuota miCuota :this.listaCuotas){
-            if(miCuota.getEstado().equalsIgnoreCase("ADEUDA")){
-                cuotasImpagas.add(miCuota);
-            }
-        }
-        return cuotasImpagas;
-    }
-    
-    public List<Cuota> buscarCuotasImpagas(Alumno unAlumno){
-        List<Cuota> cuotasImpagas = new ArrayList<>();
-        for(Cuota miCuota :this.listaCuotas){
-            if(miCuota.getEstado().equalsIgnoreCase("GENERADA")&&miCuota.getAlumno().getIdalumno()==unAlumno.getIdalumno()){
-                cuotasImpagas.add(miCuota);
-            }
-        }
-        return cuotasImpagas;
-    }
-    
-    
-    public List<Cuota> buscarCuotasConSaldo(){
-        List<Cuota> cuotasConSaldo = new ArrayList<>();
-        for(Cuota miCuota :this.listaCuotas){
-            if(miCuota.getEstado().equalsIgnoreCase("SALDO")){
-                cuotasConSaldo.add(miCuota);
-            }
-        }
-        return cuotasConSaldo;
-    }
-    
-    public List<Cuota> buscarCuotasConSaldo(Alumno unAlumno){
-        List<Cuota> cuotasConSaldo = new ArrayList<>();
-        for(Cuota miCuota :this.listaCuotas){
-            if(miCuota.getEstado().equalsIgnoreCase("SALDO")&& miCuota.getAlumno().getIdalumno()== unAlumno.getIdalumno()){
-                cuotasConSaldo.add(miCuota);
-            }
-        }
-        return cuotasConSaldo;
-    }
-    
-    
-    
-    public Modalidad buscarModalidad (String nombreModalidad){
-        Modalidad unaModalidad = null;
-        for(Modalidad miModalidad : this.listaModalidades){
-            if(miModalidad.getNombremodalidad().equalsIgnoreCase(nombreModalidad)){
-                unaModalidad = miModalidad;
-                break;
-            }
-        }
-        return unaModalidad;
-    }
-    
-    public Modalidad buscarModalidad(int idModalidad){
-        Modalidad unaModalidad = null;
-        for(Modalidad miModalidad: this.listaModalidades){
-            if(miModalidad.getIdmodalidad()== idModalidad){
-                unaModalidad = miModalidad;
-                break;
-            }
-        }
-        return unaModalidad;
-    }
-    
-    public List<Modalidad> buscarModalidadDeProfesor(int idProfesor){
-        List<Modalidad> modalidadesDelProfesor = new ArrayList<>();
-        for(Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad){
-            if(miProfesorModalidad.getProfesor().getIdprofesor() == idProfesor){
-                modalidadesDelProfesor.add(miProfesorModalidad.getModalidad());
-            }
-        }
-        return modalidadesDelProfesor;
-    }
-    
-    
-    
     
     
 //  <-------------------------------------------------------------------------------------------------------------------------------------> 
@@ -346,62 +117,8 @@ public class ControladorPrincipal {
      
      
 //  <----------------------------------------------------ABM USUARIOS----------------------------------------------------> 
-    public void altaUsuario(Usuario usuario) throws Notificaciones {
-        Usuario unUsuario = buscarUsuarioAlta(usuario.getNombreusuario());
-        String estado = "ACTIVO";
-        usuario.setEstado(estado);
-        if (unUsuario == null) {
-            this.listaUsuarios.add(usuario);
-            this.miPersistencia.persistirInstancia(usuario);
-        } else {
-            unUsuario.setEstado(estado);
-            unUsuario.setContrasenia(usuario.getContrasenia());
-            unUsuario.setPlanillahuellas(usuario.getPlanillahuellas());
-            unUsuario.setFoto(usuario.getFoto());
-            this.miPersistencia.persistirInstancia(unUsuario);
-            this.listaUsuarios = miPersistencia.getUsuarios();
-            
-        }
-    }
-     
-     
-     public void bajaUsuario(int idUsuario) throws Notificaciones{
-         Usuario unUsuario = buscarUsuarioBaja(idUsuario);
-         String estado = "INACTIVO";
-         unUsuario.setEstado(estado);
-         this.miPersistencia.persistirInstancia(unUsuario);
-     }
    
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
-    
-    public void altaAlumno(Alumno alumno) throws Notificaciones{
-        Alumno unAlumno = buscarAlumnoAlta(alumno.getNombrealumno(),alumno.getApellidoalumno());
-        String estado = "ACTIVO";
-        if(unAlumno != null){
-                unAlumno.setEstado(estado);
-                unAlumno.setNombrealumno(alumno.getNombrealumno());
-                unAlumno.setApellidoalumno(alumno.getApellidoalumno());
-                unAlumno.setPeso(alumno.getPeso());
-                unAlumno.setAltura(alumno.getAltura());
-                unAlumno.setFechanacimiento(alumno.getFechanacimiento());
-                this.miPersistencia.persistirInstancia(unAlumno);
-                this.listaAlumnos = miPersistencia.getAlumnos();
-        }else{
-            this.miPersistencia.persistirInstancia(alumno);
-            this.miPersistencia.getAlumnos();
-        }
-    }
-    
-    
-    
-    public void bajaAlumno(int idAlumno) throws Notificaciones{
-        Alumno miAlumno = buscarAlumnoBaja(idAlumno);
-        String estado = "INACTIVO";
-        miAlumno.setEstado(estado);
-        miPersistencia.persistirInstancia(miAlumno);
-        this.miPersistencia.getAlumnos();
-    }
-    
     
     
     
@@ -474,14 +191,17 @@ public void bajaModalidad(int idModalidad) throws Notificaciones{
             for (Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad) {
                 if (miProfesorModalidad.getModalidad() == unaModalidad && miProfesorModalidad.getProfesor() == unProfesor) {
                     miProfesorModalidad.setEstado(estado);
-                    miProfesorModalidad.Se
+                    miProfesorModalidad.setPreciohora(precioHora);
+                    this.miPersistencia.persistirInstancia(miProfesorModalidad);
+                    this.listaProfesorModalidad = miPersistencia.getProfesorModalidad();
+                    break;
                 }
             }
 
         } else {
             Profesormodalidad unProfesorModalidad = new Profesormodalidad(unaModalidad, unProfesor, precioHora, estado);
-            this.listaProfesorModalidad.add(unProfesorModalidad);
             this.miPersistencia.persistirInstancia(unProfesorModalidad);
+            this.listaProfesorModalidad = miPersistencia.getProfesorModalidad();
         }
     }
 
@@ -489,14 +209,10 @@ public void bajaModalidad(int idModalidad) throws Notificaciones{
 public void bajaProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throws Notificaciones{
     String estado = "INACTIVO";
     for (Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad) {
-        if (miProfesorModalidad == unProfesorModalidad) {
-            try {
-                this.miPersistencia.eliminarInstancia(miProfesorModalidad);
-            } catch (Exception e) {
-                    throw new Notificaciones(e.getMessage());
-            }
-        }
-    }
+       if(miProfesorModalidad.getProfesor()==unProfesorModalidad.getProfesor()&&miProfesorModalidad.getModalidad()==unProfesorModalidad.getModalidad()){
+           miProfesorModalidad.setEstado(estado);
+           break;
+       }
 }
 
 
@@ -522,24 +238,9 @@ public void bajaProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throw
 
 
 public List<Alumno> bajaClase(Clase unaClase) throws Notificaciones{
-    List<Alumno> alumnosSinClase = new ArrayList<>();
-    try {
-        for(ClaseAlumno miClaseAlumno : this.listaClaseAlumno){
-            if(miClaseAlumno.getClase()==unaClase){
-                alumnosSinClase.add(miClaseAlumno.getAlumno());
-                bajaClaseAlumno(miClaseAlumno);
-            }
-        }
-        this.listaClases.remove(unaClase);
-        this.miPersistencia.eliminarInstancia(unaClase);
-    } catch (Notificaciones e) {
-        throw new Notificaciones(e.getMessage());
-    }finally{
-        if(alumnosSinClase.isEmpty()){
-            alumnosSinClase = null;
-        }
-        return alumnosSinClase;
-    }
+    List<Alumno> alumnosSinClasse = new ArrayList<>();
+    
+    return alumnosSinClasse;
 }
 
 
@@ -687,147 +388,6 @@ public void altaObraSocial(Obrasocial obrasocial) throws Notificaciones{
     
     
 
-
-//  <-----------------LISTA DE GETTERS Y SETTERS------------------->
-
-    public ControladorRele getMiRele() {
-        return miRele;
-    }
-
-    public void setMiRele(ControladorRele miRele) {
-        this.miRele = miRele;
-    }
-
-    public Set<Alumno> getListaAlumnos() throws Notificaciones {
-        this.listaAlumnos = miPersistencia.getAlumnos();
-        return listaAlumnos;
-    }
-
-    public void setListaAlumnos(Set<Alumno> listaAlumnos) {
-        this.listaAlumnos = listaAlumnos;
-    }
-
-    public Set<Profesor> getListaProfesores() {
-        return listaProfesores;
-    }
-
-    public void setListaProfesores(Set<Profesor> listaProfesores) {
-        this.listaProfesores = listaProfesores;
-    }
-
-    public Set<Modalidad> getListaModalidades() {
-        return listaModalidades;
-    }
-
-    public void setListaModalidades(Set<Modalidad> listaModalidades) {
-        this.listaModalidades = listaModalidades;
-    }
-
-    public Set<Sector> getListaSectores() {
-        return listaSectores;
-    }
-
-    public void setListaSectores(Set<Sector> listaSectores) {
-        this.listaSectores = listaSectores;
-    }
-
-    public Set<Clase> getListaClases() {
-        return listaClases;
-    }
-
-    public void setListaClases(Set<Clase> listaClases) {
-        this.listaClases = listaClases;
-    }
-
-    public Set<AsistenciaAlumno> getListaAsistenciaAlumno() {
-        return listaAsistenciaAlumno;
-    }
-
-    public void setListaAsistenciaAlumno(Set<AsistenciaAlumno> listaAsistenciaAlumno) {
-        this.listaAsistenciaAlumno = listaAsistenciaAlumno;
-    }
-
-    public Set<AsistenciaProfesor> getListaAsistenciaProfesor() {
-        return listaAsistenciaProfesor;
-    }
-
-    public void setListaAsistenciaProfesor(Set<AsistenciaProfesor> listaAsistenciaProfesor) {
-        this.listaAsistenciaProfesor = listaAsistenciaProfesor;
-    }
-
-    public Set<Cuota> getListaCuotas() {
-        return listaCuotas;
-    }
-
-    public void setListaCuotas(Set<Cuota> listaCuotas) {
-        this.listaCuotas = listaCuotas;
-    }
-
-    public Set<CobroCuota> getListaCobroCuota() {
-        return listaCobroCuota;
-    }
-
-    public void setListaCobroCuota(Set<CobroCuota> listaCobroCuota) {
-        this.listaCobroCuota = listaCobroCuota;
-    }
-
-    public Set<SaldoCuota> getListaSaldoCuota() {
-        return listaSaldoCuota;
-    }
-
-    public void setListaSaldoCuota(Set<SaldoCuota> listaSaldoCuota) {
-        this.listaSaldoCuota = listaSaldoCuota;
-    }
-
-    public Set<PagoProfesor> getListaPagoProfesores() {
-        return listaPagoProfesores;
-    }
-
-    public void setListaPagoProfesores(Set<PagoProfesor> listaPagoProfesores) {
-        this.listaPagoProfesores = listaPagoProfesores;
-    }
-
-    public Set<SaldoPagoProfesor> getListaSaldoPagoProfesores() {
-        return listaSaldoPagoProfesores;
-    }
-
-    public void setListaSaldoPagoProfesores(Set<SaldoPagoProfesor> listaSaldoPagoProfesores) {
-        this.listaSaldoPagoProfesores = listaSaldoPagoProfesores;
-    }
-
-    public Set<Usuario> getListaUsuarios() throws Notificaciones {
-        this.listaUsuarios = miPersistencia.getUsuarios();
-        return listaUsuarios;
-    }
-
-    public void setListaUsuarios(Set<Usuario> listaUsuarios) {
-        this.listaUsuarios = listaUsuarios;
-    }
-
-    public Set<Modulo> getListaModulos() {
-        return listaModulos;
-    }
-
-    public void setListaModulos(Set<Modulo> listaModulos) {
-        this.listaModulos = listaModulos;
-    }
-
-    public Set<Cargo> getListaCargos() {
-        return listaCargos;
-    }
-
-    public void setListaCargos(Set<Cargo> listaCargos) {
-        this.listaCargos = listaCargos;
-    }
-
-    public ControladorHuella getMiLector() {
-        return miLector;
-    }
-
-    public void setMiLector(ControladorHuella miLector) {
-        this.miLector = miLector;
-    }
-    
     
     
 }
