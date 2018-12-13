@@ -118,6 +118,11 @@ public class ClaseProfesor  implements java.io.Serializable {
         this.claseAlumnos = claseAlumnos;
     }
 
+    @Override
+    public String toString() {
+        return clase.getDescripcionclase();
+    }
+
 
 
 

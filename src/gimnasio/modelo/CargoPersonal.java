@@ -52,8 +52,10 @@ public class CargoPersonal  implements java.io.Serializable {
         this.estado = estado;
     }
 
-
-
+    @Override
+    public String toString() {
+        return cargo.getNombrecargo();
+    }
 
 }
 

@@ -8,10 +8,13 @@ package gimnasio.vista;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
+import gimnasio.modelo.AperturaCajaDiaria;
 import gimnasio.modelo.AsistenciaAlumno;
 import gimnasio.modelo.Cargo;
+import gimnasio.modelo.CargoPersonal;
 import gimnasio.modelo.Clase;
 import gimnasio.modelo.ClaseAlumno;
+import gimnasio.modelo.ClaseProfesor;
 import gimnasio.modelo.CobroCuota;
 import gimnasio.modelo.Cuota;
 import gimnasio.modelo.Modalidad;
@@ -24,6 +27,7 @@ import gimnasio.modelo.Profesormodalidad;
 import gimnasio.modelo.SaldoCuota;
 import gimnasio.modelo.Saldopagoprofesor;
 import gimnasio.modelo.Sector;
+import gimnasio.modelo.SectorClase;
 import gimnasio.modelo.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -831,7 +835,169 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
         tabla.setRowSorter(rowSorter);                
     }    
     
-    //CARGOPERSONAL, CLASEPROFESOR, APERTURACAJADIARIA
+    
+    public static void cargoPersonalActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Cargo");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        Object[] fila = new Object[3];
+
+        for (CargoPersonal cargopersonal : controlador.getListaCargoPersonal()) {
+            if (cargopersonal.getEstado().equalsIgnoreCase("ACTIVO")) {
+                fila[0] = cargopersonal;
+                fila[1] = cargopersonal.getPersonal().getNombrepersonal();
+                fila[2] = cargopersonal.getPersonal().getApellidopersonal();
+                modeloTabla.addRow(fila);
+            }
+        }
+        
+        tabla.setModel(modeloTabla);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+        tabla.setRowSorter(rowSorter);                
+    }        
+
+    public static void cargoPersonalInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Cargo");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        Object[] fila = new Object[3];
+
+        for (CargoPersonal cargopersonal : controlador.getListaCargoPersonal()) {
+            if (cargopersonal.getEstado().equalsIgnoreCase("INACTIVO")) {
+                fila[0] = cargopersonal;
+                fila[1] = cargopersonal.getPersonal().getNombrepersonal();
+                fila[2] = cargopersonal.getPersonal().getApellidopersonal();
+                modeloTabla.addRow(fila);
+            }
+        }
+        
+        tabla.setModel(modeloTabla);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+        tabla.setRowSorter(rowSorter);                
+    }        
+
+    public static void claseProfesorActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Clase");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        Object[] fila = new Object[3];
+
+        for (ClaseProfesor claseProfesor : controlador.getListaClaseProfesor()) {
+            if (claseProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+                fila[0] = claseProfesor;
+                fila[1] = claseProfesor.getProfesor().getNombreprofesor();
+                fila[2] = claseProfesor.getProfesor().getApellidoprofesor();
+                modeloTabla.addRow(fila);
+            }
+        }
+        
+        tabla.setModel(modeloTabla);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+        tabla.setRowSorter(rowSorter);                
+    }        
+
+    public static void claseProfesorInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Clase");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        Object[] fila = new Object[3];
+
+        for (ClaseProfesor claseProfesor : controlador.getListaClaseProfesor()) {
+            if (claseProfesor.getEstado().equalsIgnoreCase("INACTIVO")) {
+                fila[0] = claseProfesor;
+                fila[1] = claseProfesor.getProfesor().getNombreprofesor();
+                fila[2] = claseProfesor.getProfesor().getApellidoprofesor();
+                modeloTabla.addRow(fila);
+            }
+        }
+        
+        tabla.setModel(modeloTabla);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+        tabla.setRowSorter(rowSorter);                
+    } 
+
+    public static void aperturaCajaDiariaActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Fecha");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        Object[] fila = new Object[3];
+
+        for (AperturaCajaDiaria aperturaCajaDiaria : controlador.getListaAperturaCajaDiaria()) {
+            if (aperturaCajaDiaria.getEstado().equalsIgnoreCase("ACTIVO")) {
+                fila[0] = aperturaCajaDiaria;
+                fila[1] = aperturaCajaDiaria.getPersonal().getNombrepersonal();
+                fila[2] = aperturaCajaDiaria.getPersonal().getApellidopersonal();
+                modeloTabla.addRow(fila);
+            }
+        }
+        
+        tabla.setModel(modeloTabla);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+        tabla.setRowSorter(rowSorter);                
+    } 
+    
+    public static void aperturaCajaDiariaInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Fecha");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        Object[] fila = new Object[3];
+
+        for (AperturaCajaDiaria aperturaCajaDiaria : controlador.getListaAperturaCajaDiaria()) {
+            if (aperturaCajaDiaria.getEstado().equalsIgnoreCase("INACTIVO")) {
+                fila[0] = aperturaCajaDiaria;
+                fila[1] = aperturaCajaDiaria.getPersonal().getNombrepersonal();
+                fila[2] = aperturaCajaDiaria.getPersonal().getApellidopersonal();
+                modeloTabla.addRow(fila);
+            }
+        }
+        
+        tabla.setModel(modeloTabla);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+        tabla.setRowSorter(rowSorter);                
+    }     
+    
+    public static void sectorClaseActivos(JTable tabla, ControladorPrincipal controlador){
+        
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Sector");
+        modeloTabla.addColumn("Clase");
+        modeloTabla.addColumn("Profesor");
+        modeloTabla.addColumn("Fecha Inicio");
+        modeloTabla.addColumn("Fecha Fin");
+        Object[] fila = new Object[5];
+        
+        String patron = "HH:mm dd/MM/yyyy";
+        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+
+        for (SectorClase sectorClase : controlador.getListaSectorClase()) {
+            if (sectorClase.getEstado().equalsIgnoreCase("INACTIVO")) {
+                fila[0] = sectorClase;
+                fila[1] = sectorClase.getClaseProfesor().getClase();
+                fila[2] = sectorClase.getClaseProfesor().getProfesor();
+                fila[3] = f.format(sectorClase.getInicio());
+                fila[4] = f.format(sectorClase.getFin());
+                modeloTabla.addRow(fila);
+            }
+        }
+        
+        tabla.setModel(modeloTabla);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+        tabla.setRowSorter(rowSorter); 
+    }
     //SECTORCLASE
+
+    
     
 }

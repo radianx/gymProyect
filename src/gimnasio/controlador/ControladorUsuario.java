@@ -89,4 +89,8 @@ public class ControladorUsuario {
         return unUsuario;
     }
 
+    public List<Usuario> getListaUsuarios() {
+        return this.listaUsuarios;
+    }
+
 }

@@ -8,9 +8,6 @@
             <column name="idsaldopago" />
             <generator class="assigned" />
         </id>
-        <one-to-one name="pagoProfesor" class="gimnasio.modelo.PagoProfesor" fetch="select">
-            <column name="idpagoprofesor" not-null="true" />
-        </one-to-one>
         <property name="montosaldo" type="double">
             <column name="montosaldo" precision="17" scale="17" not-null="true" />
         </property>

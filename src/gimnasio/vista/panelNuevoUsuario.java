@@ -310,7 +310,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
             } catch (IOException | Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 System.err.print(Arrays.toString(ex.getStackTrace()));
-            }
+}
         }else{
             JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos. ");
         }
@@ -387,7 +387,6 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void cargarTabla(){
-        try {
             modeloTabla = new DefaultTableModel();
             modeloTabla.addColumn("Nombre");
             Object[] fila = new Object[1];
@@ -405,9 +404,6 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
             this.tablaUsuariosInactivos.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaUsuariosInactivos.getModel());
             tablaUsuariosInactivos.setRowSorter(rowSorter);
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, "Error al cargar usuarios desde la base de datos.");
-        }
     }
     
     public byte[] convertir(ByteArrayInputStream bais) throws IOException{

@@ -77,6 +77,11 @@ public class SectorClase  implements java.io.Serializable {
         this.estado = estado;
     }
 
+    @Override
+    public String toString() {
+        return sector.getNombresector();
+    }
+
 
 
 

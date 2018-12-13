@@ -66,7 +66,6 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     }
     
     public void cargarTabla() {
-        try {
             modeloTabla = new DefaultTableModel();
             modeloTabla.addColumn("Nombre");
             Object[] fila = new Object[1];
@@ -85,9 +84,6 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
             rowSorter = new TableRowSorter<>(this.tablaUsuarios.getModel());
             tablaUsuarios.setRowSorter(rowSorter);
             
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, "Error al cargar usuarios desde la base de datos.");
-        }
     }
     
     @SuppressWarnings("unchecked")

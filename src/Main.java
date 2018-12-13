@@ -1,5 +1,7 @@
 
 import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.ModeloPrincipal;
 import gimnasio.vista.MainMenu;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -24,8 +26,9 @@ public class Main {
      * @throws java.lang.InstantiationException
      * @throws java.lang.IllegalAccessException
      */
-    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-        ControladorPrincipal miControlador = new ControladorPrincipal();
+    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, Notificaciones {
+        ModeloPrincipal miModelo = new ModeloPrincipal();
+        ControladorPrincipal miControlador = new ControladorPrincipal(miModelo);
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         MainMenu menuPrincipal = new MainMenu(miControlador);
         menuPrincipal.setLocationByPlatform(true);

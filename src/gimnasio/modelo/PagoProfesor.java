@@ -12,11 +12,21 @@ public class PagoProfesor  implements java.io.Serializable {
 
      private int idpagoprofesor;
      private Profesor profesor;
+     private Saldopagoprofesor saldopagoprofesor;
      private double montopago;
      private Date fechapago;
      private String estado;
 
     public PagoProfesor() {
+    }
+
+    public PagoProfesor(int idpagoprofesor, Profesor profesor, Saldopagoprofesor saldopagoprofesor, double montopago, Date fechapago, String estado) {
+        this.idpagoprofesor = idpagoprofesor;
+        this.profesor = profesor;
+        this.saldopagoprofesor = saldopagoprofesor;
+        this.montopago = montopago;
+        this.fechapago = fechapago;
+        this.estado = estado;
     }
 
     public PagoProfesor(int idpagoprofesor, Profesor profesor, double montopago, Date fechapago, String estado) {
@@ -61,6 +71,14 @@ public class PagoProfesor  implements java.io.Serializable {
     
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public Saldopagoprofesor getSaldopagoprofesor() {
+        return saldopagoprofesor;
+    }
+
+    public void setSaldopagoprofesor(Saldopagoprofesor saldopagoprofesor) {
+        this.saldopagoprofesor = saldopagoprofesor;
     }
 
     @Override
