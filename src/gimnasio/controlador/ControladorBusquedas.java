@@ -22,11 +22,7 @@ import java.util.List;
  *
  * @author Julien_W
  */
-public class ControladorBusquedas {
-    
-    
-    
-    
+public class ControladorBusquedas {    
     
     public Alumno buscarAlumnoClase(Alumno elAlumno){
         Alumno unAlumno = null;

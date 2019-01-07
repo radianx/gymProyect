@@ -149,14 +149,14 @@
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="txtNombreModalidad2" max="32767" attributes="0"/>
-                                          <Component id="txtNombreModalidad" max="32767" attributes="0"/>
+                                          <Component id="txtTipoClase" max="32767" attributes="0"/>
+                                          <Component id="txtNombreClase" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtNombreModalidad1" max="32767" attributes="0"/>
+                                      <Component id="txtAlumnosMax" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
@@ -172,17 +172,17 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNombreModalidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtNombreClase" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNombreModalidad2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtTipoClase" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNombreModalidad1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtAlumnosMax" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="94" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -201,7 +201,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Modalidades Desactivadas"/>
+                    <TitledBorder title="Clases Desactivadas"/>
                   </Border>
                 </Property>
               </Properties>
@@ -211,7 +211,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="tablaModalidadesInactivas">
+                <Component class="javax.swing.JTable" name="tablaClasesInactivas">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
@@ -223,8 +223,8 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaModalidadesInactivasMouseClicked"/>
-                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaModalidadesInactivasMouseReleased"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaClasesInactivasMouseClicked"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaClasesInactivasMouseReleased"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -253,21 +253,21 @@
                 <Property name="text" type="java.lang.String" value="Nombre de Clase:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtNombreModalidad">
+            <Component class="javax.swing.JTextField" name="txtNombreClase">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cantidad m&#xe1;xima de alumnos:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtNombreModalidad1">
+            <Component class="javax.swing.JTextField" name="txtAlumnosMax">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tipo de Clase:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtNombreModalidad2">
+            <Component class="javax.swing.JTextField" name="txtTipoClase">
             </Component>
           </SubComponents>
         </Container>

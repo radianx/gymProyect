@@ -45,8 +45,14 @@ public class ControladorAlumno {
         Alumno miAlumno = buscarAlumnoBaja(idAlumno);
         String estado = "INACTIVO";
         miAlumno.setEstado(estado);
+        int i = this.listaAlumnos.lastIndexOf(miAlumno);
+        if(i != -1){
+            this.listaAlumnos.set(i, miAlumno);
+        }else{
+            throw new Notificaciones("Lista de Alumnos no actualizada");
+        }
+
         miPersistencia.persistirInstancia(miAlumno);
-        this.miPersistencia.getAlumnos();
     }
 
     public Alumno buscarAlumnoAlta(String nombrealu, String apellido) {
@@ -69,6 +75,10 @@ public class ControladorAlumno {
             }
         }
         return unAlumno;
+    }
+
+    public List<Alumno> getListaAlumnos() {
+        return this.listaAlumnos;
     }
 
 }

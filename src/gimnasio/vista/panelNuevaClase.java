@@ -4,18 +4,32 @@
  * and open the template in the editor.
  */
 package gimnasio.vista;
-
+import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Clase;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.RowFilter;
+import javax.swing.RowSorter;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 /**
  *
  * @author Family
  */
 public class panelNuevaClase extends javax.swing.JPanel {
 
-    /**
-     * Creates new form panelNuevaClase
-     */
-    public panelNuevaClase() {
+    ControladorPrincipal miControlador;
+    String text = "";
+    
+    public panelNuevaClase(ControladorPrincipal controlador) {
+        miControlador = controlador;
         initComponents();
+        CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
     }
 
     /**
@@ -35,15 +49,15 @@ public class panelNuevaClase extends javax.swing.JPanel {
         btnCerrar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaModalidadesInactivas = new javax.swing.JTable();
+        tablaClasesInactivas = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        txtNombreModalidad = new javax.swing.JTextField();
+        txtNombreClase = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtNombreModalidad1 = new javax.swing.JTextField();
+        txtAlumnosMax = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtNombreModalidad2 = new javax.swing.JTextField();
+        txtTipoClase = new javax.swing.JTextField();
 
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 400));
 
@@ -83,9 +97,9 @@ public class panelNuevaClase extends javax.swing.JPanel {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Modalidades Desactivadas"));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Clases Desactivadas"));
 
-        tablaModalidadesInactivas.setModel(new javax.swing.table.DefaultTableModel(
+        tablaClasesInactivas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -96,15 +110,15 @@ public class panelNuevaClase extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tablaModalidadesInactivas.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaClasesInactivas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaModalidadesInactivasMouseClicked(evt);
+                tablaClasesInactivasMouseClicked(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaModalidadesInactivasMouseReleased(evt);
+                tablaClasesInactivasMouseReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tablaModalidadesInactivas);
+        jScrollPane1.setViewportView(tablaClasesInactivas);
 
         txtBuscar.setMinimumSize(new java.awt.Dimension(150, 20));
         txtBuscar.setPreferredSize(new java.awt.Dimension(150, 20));
@@ -148,12 +162,12 @@ public class panelNuevaClase extends javax.swing.JPanel {
                                     .addComponent(jLabel1))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNombreModalidad2)
-                                    .addComponent(txtNombreModalidad)))
+                                    .addComponent(txtTipoClase)
+                                    .addComponent(txtNombreClase)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNombreModalidad1)))
+                                .addComponent(txtAlumnosMax)))
                         .addGap(101, 101, 101)))
                 .addContainerGap())
         );
@@ -163,15 +177,15 @@ public class panelNuevaClase extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtNombreModalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombreClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(txtNombreModalidad2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTipoClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtNombreModalidad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtAlumnosMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -225,62 +239,79 @@ public class panelNuevaClase extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if(!this.txtNombreModalidad.getText().isEmpty()){
-            Modalidad modalidad = new Modalidad(this.txtNombreModalidad.getText(),this.txtDescripcion.getText());
-            miControlador.altaModalidad(modalidad);
-            SwingUtilities.invokeLater(new Runnable(){public void run(){
-                cargarTabla();
-            }});
-            this.setVisible(false);
-            this.btnActivar.setEnabled(false);
+        if(!this.txtNombreClase.getText().isEmpty()){
+            try {
+                Clase clase = new Clase(this.txtNombreClase.getText(),this.txtTipoClase.getText(), Integer.parseInt(this.txtAlumnosMax.getText()));
+                miControlador.altaClase(clase);
+                SwingUtilities.invokeLater(new Runnable(){public void run(){
+                    CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
+                }});
+                this.setVisible(false);
+                this.btnActivar.setEnabled(false);
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         }else{
-            JOptionPane.showMessageDialog(null,"Debe ingresar el nombre para una Modalidad.");
+            JOptionPane.showMessageDialog(null,"Debe ingresar el nombre para una Clase.");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         this.txtBuscar.setText("");
-        this.txtDescripcion.setText("");
-        this.txtNombreModalidad.setText("");
+        this.txtTipoClase.setText("");
+        this.txtNombreClase.setText("");
+        this.txtAlumnosMax.setText("");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
-        Modalidad modalidad = (Modalidad) this.tablaModalidadesInactivas.getValueAt(this.tablaModalidadesInactivas.getSelectedRow(),0);
-        miControlador.bajaModalidad(modalidad);
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                cargarTabla();
-            }
-        });
+        try {
+            Clase clase = (Clase) this.tablaClasesInactivas.getValueAt(this.tablaClasesInactivas.getSelectedRow(),0);
+            miControlador.bajaClase(clase);
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
+                }
+            });
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_btnActivarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-    private void tablaModalidadesInactivasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaModalidadesInactivasMouseClicked
+    private void tablaClasesInactivasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesInactivasMouseClicked
 
-    }//GEN-LAST:event_tablaModalidadesInactivasMouseClicked
+    }//GEN-LAST:event_tablaClasesInactivasMouseClicked
 
-    private void tablaModalidadesInactivasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaModalidadesInactivasMouseReleased
+    private void tablaClasesInactivasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesInactivasMouseReleased
         this.btnActivar.setEnabled(true);
-    }//GEN-LAST:event_tablaModalidadesInactivasMouseReleased
+    }//GEN-LAST:event_tablaClasesInactivasMouseReleased
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesInactivas.getModel());
             rowSorter.setRowFilter(null);
+            tablaClasesInactivas.setRowSorter(rowSorter);
         } else {
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesInactivas.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+            tablaClasesInactivas.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesInactivas.getModel());
             rowSorter.setRowFilter(null);
+            tablaClasesInactivas.setRowSorter(rowSorter);
         } else {
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesInactivas.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+            tablaClasesInactivas.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
@@ -298,10 +329,21 @@ public class panelNuevaClase extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaModalidadesInactivas;
+    private javax.swing.JTable tablaClasesInactivas;
+    private javax.swing.JTextField txtAlumnosMax;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtNombreModalidad;
-    private javax.swing.JTextField txtNombreModalidad1;
-    private javax.swing.JTextField txtNombreModalidad2;
+    private javax.swing.JTextField txtNombreClase;
+    private javax.swing.JTextField txtTipoClase;
     // End of variables declaration//GEN-END:variables
+    private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
+		panelActual.setVisible(false);
+                panelCambio.setVisible(true);
+		// this.pack();
+    }
+
+    public void recibirDatos(Clase clase) {
+        this.txtAlumnosMax.setText(String.valueOf(clase.getAlumnosmaximo()));
+        this.txtNombreClase.setText(clase.getDescripcionclase());
+        this.txtTipoClase.setText(clase.getTipoclase());
+    }
 }

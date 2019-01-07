@@ -2,7 +2,7 @@
 package gimnasio.controlador;
 
 import com.sun.org.apache.xpath.internal.operations.Minus;
-import gimnasio.modelo.ModeloPrincipal;
+import gimnasio.modelo.*;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,10 +29,10 @@ public class ControladorPrincipal {
 
 
 //  <-----------------CONTROLADORES EXTRA-------------------------->
-    private ControladorHuella miLector = new ControladorHuella();
     private ControladorRele miRele = new ControladorRele();
     private ControladorPersistencia miPersistencia;    
     
+    private ControladorAlumno controladorAlumno;
     private ControladorBusquedas controladorBusquedas;
     private ControladorCajaDiaria controladorCajaDiaria;
     private ControladorCargo controladorCargo;
@@ -62,11 +62,21 @@ public class ControladorPrincipal {
         this.miModeloPrincipal = ModeloPrincipal;
         this.miPersistencia = new ControladorPersistencia();
         
-        
         this.controladorUsuario = new ControladorUsuario(this.miPersistencia,this.miModeloPrincipal.getListaUsuarios());
-        
-        
-        /*
+        this.controladorAlumno = new ControladorAlumno(this.miPersistencia,this.miModeloPrincipal.getListaAlumnos());
+//        this.controladorProfesor = new ControladorProfesor(this.miPersistencia, this.miModeloPrincipal.getListaProfesores());
+    }      
+    
+    public ControladorPersistencia getMiPersistencia() {
+        return miPersistencia;
+    }
+
+    public void setMiPersistencia(ControladorPersistencia miPersistencia) {
+        this.miPersistencia = miPersistencia;
+    }
+  
+    
+    /*
         
         
         try {
@@ -117,15 +127,36 @@ public class ControladorPrincipal {
      
      
 //  <----------------------------------------------------ABM USUARIOS----------------------------------------------------> 
-   
+    public List<Usuario> getListaUsuarios(){
+        return this.controladorUsuario.getListaUsuarios();
+    }    
+    
+    public void altaUsuario(Usuario unUsuario) throws Notificaciones{
+        this.controladorUsuario.altaUsuario(unUsuario);
+    }
+    
+    public void bajaUsuario(int idUsuario) throws Notificaciones{
+        this.controladorUsuario.bajaUsuario(idUsuario);
+    }
+    
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
     
+    public List<Alumno> getListaAlumnos(){
+        return this.controladorAlumno.getListaAlumnos();
+    }
     
+    public void bajaAlumno(int idAlumno) throws Notificaciones{
+        this.controladorAlumno.bajaAlumno(idAlumno);
+    }
+    
+    public void altaAlumno(Alumno unAlumno) throws Notificaciones{
+        this.controladorAlumno.altaAlumno(unAlumno);
+    }
     
  //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
     public void altaProfesor(Profesor profesor) throws Notificaciones {
         String estado = "ACTIVO";
-        Profesor unProfesor = buscarProfesor(profesor.getNombreprofesor(), profesor.getApellidoprofesor());
+        Profesor unProfesor = controladorProfesor.buscarProfesor(profesor.getNombreprofesor(), profesor.getApellidoprofesor());
         if (unProfesor != null) {
             unProfesor.setEstado(estado);
             unProfesor.setNombreprofesor(profesor.getNombreprofesor());
@@ -213,8 +244,8 @@ public void bajaProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throw
            miProfesorModalidad.setEstado(estado);
            break;
        }
+    }
 }
-
 
 //  <----------------------------------------------------ABM CLASES ----------------------------------------------------> 
 
@@ -348,9 +379,10 @@ public void altaSector(Sector sector) throws Notificaciones{
 //  <----------------------------------------------------ABM CONTACTO----------------------------------------------------> 
 
 public void altaContacto (Contacto unContacto) throws Notificaciones{
+    unContacto.setEstado("ACTIVO");
     this.miPersistencia.persistirInstancia(unContacto);
-    this.listaContactos.add(unContacto);
-    this.miPersistencia.persistirInstancia(unContacto);
+//    this.listaContactos.add(unContacto);
+//    this.miPersistencia.persistirInstancia(unContacto);
 }
 //  <----------------------------------------------------ABM ASISTENCIA PROFESOR----------------------------------------------------> 
 
@@ -382,12 +414,88 @@ public void altaObraSocial(Obrasocial obrasocial) throws Notificaciones{
         
 }
 
-//  <----------------------------------------------------ABM----------------------------------------------------> 
-    
-    
-    
-    
+//  <------GETTERS DE LISTAS---------------------------------------------------> 
 
+    public List<Clase> getListaClases() {
+        return this.miModeloPrincipal.getListaClases();
+    }
+
+    public List<Cargo> getListaCargos() {
+        return this.miModeloPrincipal.getListaCargos();
+    }
+
+    public List<Modalidad> getListaModalidades() {
+        return this.miModeloPrincipal.getListaModalidades();
+    }
+
+    public List<Obrasocial> getListaObraSociales() {
+        return this.miModeloPrincipal.getListaObraSociales();
+    }
+
+    public List<Profesor> getListaProfesores() {
+        return this.miModeloPrincipal.getListaProfesores();
+    }
+
+    public List<Sector> getListaSectores() {
+        return this.miModeloPrincipal.getListaSectores();
+    }
+
+    public List<ClaseAlumno> getListaClasesAlumnos() {
+        return this.miModeloPrincipal.getListaClaseAlumno();
+    }
+
+    public List<Profesormodalidad> getListaProfesorModalidades() {
+        return this.miModeloPrincipal.getListaProfesorModalidad();
+    }
+
+    public List<AsistenciaAlumno> getListaAsistenciaAlumno() {
+        return this.miModeloPrincipal.getListaAsistenciaAlumno();
+    }
+
+    public List<Cuota> getListaCuotas() {
+        return this.miModeloPrincipal.getListaCuotas();
+    }
+
+    public List<CobroCuota> getListaCobroCuota() {
+        return this.miModeloPrincipal.getListaCobroCuota();
+    }
+
+    public List<SaldoCuota> getListaSaldoCuota() {
+        return this.miModeloPrincipal.getListaSaldoCuota();
+    }
+
+    public List<PagoProfesor> getListaPagoProfesores() {
+        return this.miModeloPrincipal.getListaPagoProfesores();
+        
+    }
+    
+    public List<Saldopagoprofesor> getListaSaldoPagoProfesores() {
+        return this.miModeloPrincipal.getListaSaldoPagoProfesores();
+    }
+    
+    public List<Modulo> getListaModulos(){
+        return this.miModeloPrincipal.getListaModulos();
+    }
+    
+    public List<Personal> getListaPersonal(){
+        return this.miModeloPrincipal.getListaPersonal();
+    }
+    
+    public List<CargoPersonal> getListaCargoPersonal(){
+        return this.miModeloPrincipal.getListaCargoPersonal();
+    }
+
+    public List<ClaseProfesor> getListaClaseProfesor(){
+        return this.miModeloPrincipal.getListaClaseProfesor();
+    }
+    
+    public List<AperturaCajaDiaria> getListaAperturaCajaDiaria(){
+        return this.miModeloPrincipal.getListaAperturaCajaDiaria();
+    }
+    
+    public List<SectorClase> getListaSectorClase(){
+        return this.miModeloPrincipal.getListaSectorClase();
+    }
     
     
 }

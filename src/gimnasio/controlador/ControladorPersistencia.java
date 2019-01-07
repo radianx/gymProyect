@@ -464,6 +464,8 @@ public class ControladorPersistencia {
         return lista;
     }
 
+    
+    
     public List<Obrasocial> getObraSociales() throws Notificaciones{
         
         String textoConsulta = "FROM Obrasocial";

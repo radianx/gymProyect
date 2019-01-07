@@ -26,10 +26,6 @@ public class ControladorUsuario {
         this.listaUsuarios = miPersistencia.getUsuarios();
     }
 
-    
-    
-    
-
     public void altaUsuario(Usuario usuario) throws Notificaciones {
         Usuario unUsuario = buscarUsuarioAlta(usuario.getNombreusuario());
         String estado = "ACTIVO";
@@ -52,6 +48,12 @@ public class ControladorUsuario {
         Usuario unUsuario = buscarUsuarioBaja(idUsuario);
         String estado = "INACTIVO";
         unUsuario.setEstado(estado);
+        int i = this.listaUsuarios.lastIndexOf(unUsuario);
+        if(i != -1){
+            this.listaUsuarios.set(i, unUsuario);
+        }else{
+            throw new Notificaciones("Lista de usuarios no actualizada");
+        }
         this.miPersistencia.persistirInstancia(unUsuario);
     }
 

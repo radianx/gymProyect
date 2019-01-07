@@ -122,6 +122,34 @@ public class Usuario  implements java.io.Serializable {
         return nombreusuario;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        boolean retorno = false;
+        if(this == obj){
+            retorno = true;
+        }
+        if(obj == null){
+            retorno = false;
+        }else{
+                if(getClass() != obj.getClass()){
+                    retorno = false;
+                }
+                Usuario comparador = (Usuario)obj;
+                if(this.getIdusuario() == comparador.getIdusuario()){
+                    retorno = true;
+                }
+        }
+        
+        return retorno;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + this.idusuario;
+        return hash;
+    }
+
 }
 
 

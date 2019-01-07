@@ -24,18 +24,26 @@ import com.digitalpersona.onetouch.processing.DPFPFeatureExtraction;
 import com.digitalpersona.onetouch.processing.DPFPImageQualityException;
 import com.digitalpersona.onetouch.verification.DPFPVerification;
 import com.digitalpersona.onetouch.verification.DPFPVerificationResult;
+import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Usuario;
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
+import java.sql.ResultSet;
 import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Family
  */
-public class ControladorHuella{
+public class ControladorHuella implements Runnable{
 
+    JTextField texto;
     //Varible que permite iniciar el dispositivo de lector de huella conectado
     // con sus distintos metodos.
     private DPFPCapture lector = DPFPGlobal.getCaptureFactory().createCapture();
@@ -55,8 +63,31 @@ public class ControladorHuella{
     //Esta es una variable comun y aburrida que indica el estado, no tiene nada especial
     private String estado;
 
+    private boolean huellaVerificada = false;
+    private boolean verificacion = false;
+    
+    private boolean iniciado =false;
+    
+    private Usuario usuario;
+    
     public static String TEMPLATE_PROPERTY = "template";
+    private ControladorPersistencia miPersistencia;
+    
+    
+    public ControladorHuella(ControladorPersistencia persistencia, JTextField texto) {
+        this.texto = texto;
+        miPersistencia = persistencia;
+    }
 
+    public JTextField getTexto() {
+        return texto;
+    }
+
+    public void setTexto(JTextField texto) {
+        this.texto = texto;
+    }
+
+    
     public DPFPCapture getLector() {
         return lector;
     }
@@ -92,14 +123,18 @@ public class ControladorHuella{
     
     
     public void Iniciar() {
+        this.iniciado = true;
+        System.out.println("Inciando escaner de huella");
         lector.addDataListener(new DPFPDataAdapter() {
-            public void dataAquired(final DPFPDataEvent e) {
+            @Override
+            public void dataAcquired(DPFPDataEvent e) {
                 SwingUtilities.invokeLater(() -> {
-                    EnviarTexto("La huella digital se capturo con exito.");
+                    EnviarTexto("CAPTURA");
                     try {
-                        ProcesarCaptura(e.getSample());
+ //                       ProcesarCaptura(e.getSample());
+                        identificarHuella(e.getSample());
                     } catch (Exception ex) {
-                        System.err.println(Arrays.toString(ex.getStackTrace()));
+                        ex.printStackTrace();
                     }
                 });
             }
@@ -110,7 +145,7 @@ public class ControladorHuella{
             @Override
             public void readerConnected(final DPFPReaderStatusEvent e) {
                 SwingUtilities.invokeLater(() -> {
-                    EnviarTexto("Sensor de huellas digitalPersona U.are.U 4500 conectado.");
+                    EnviarTexto("CONECTADO");
                 });
             }
 
@@ -118,14 +153,13 @@ public class ControladorHuella{
            @Override
             public void readerDisconnected(final DPFPReaderStatusEvent e) {
                 SwingUtilities.invokeLater(() -> {
-                    EnviarTexto("El sensor de huellas se ha desconectado o desactivado");
+                    EnviarTexto("DESCONEXION");
                 });
             }
         });
         lector.addSensorListener(new DPFPSensorAdapter() {
             @Override
             public void fingerTouched(final DPFPSensorEvent e) {
-
             }
         });
         lector.addErrorListener(new DPFPErrorAdapter() {
@@ -152,7 +186,7 @@ public class ControladorHuella{
         return DPFPGlobal.getSampleConversionFactory().createImage(sample);
     }
 
-    private void EnviarTexto(String unString) {
+    public void EnviarTexto(String unString) {
         this.estado = unString;
     }
 
@@ -168,17 +202,21 @@ public class ControladorHuella{
 //    }
 
     public void EstadoHuellas(){
-        EnviarTexto("Muestra de Huellas Necesarias para Guardar Template " + reclutador.getFeaturesNeeded());
+        EnviarTexto("FALTAN HUELLAS" + reclutador.getFeaturesNeeded());
     }
     
     public void start(){
         lector.startCapture();
-        EnviarTexto("Utilizando el Lector de Huella Dactilar");
+        texto.setText("INICIANDO CAPTURA");
+        EnviarTexto("USANDO");
     }
     
     public void stop(){
         lector.stopCapture();
-        EnviarTexto("No se esta usando el lector de Huellas Dactular");
+        this.iniciado = false;
+        System.out.println("Detiendo captura de huellas");
+        texto.setText("CAPTURA DETENIDA");
+        EnviarTexto("DETENIDO");
     }
   
     public DPFPTemplate getTemplate(){
@@ -190,6 +228,8 @@ public class ControladorHuella{
         this.planilla = template;
  //       firePropertyChange(TEMPLATE_PROPERTY, old, template); <--- Esta linea es para control del componente visual
     }
+
+    
     
     public void ProcesarCaptura(DPFPSample sample) throws Exception{
     // Procesar la muestra de la huella y crear un conjunto de características con el propósito de inscripción.
@@ -214,7 +254,7 @@ public class ControladorHuella{
                     case TEMPLATE_STATUS_READY://informe de exito y detiene la captura de huellas
                         stop();
                         setTemplate(reclutador.getTemplate());
-                        EnviarTexto("La plantilla de la huella ha sido registrada");
+                        EnviarTexto("REGISTRO");
                         break;
                     
                     case TEMPLATE_STATUS_FAILED://informe de fallo y luego reinicio
@@ -260,7 +300,7 @@ public class ControladorHuella{
 //    }
     }
     
-    public void verificarHuella(String nom){
+    public void verificarHuella(String nom) {
 //             try {
 //    //Establece los valores para la sentencia SQL
 //    Connection c=con.conectar();
@@ -273,67 +313,134 @@ public class ControladorHuella{
 //    if (rs.next()){
 //    //Lee la plantilla de la base de datos
 //      byte templateBuffer[] = rs.getBytes("huella");
-            //Crea una nueva plantilla a partir de la guardada en la base de datos(Por el momento crea una no mas)
-            DPFPTemplate referenceTemplate = DPFPGlobal.getTemplateFactory().createTemplate();//.createTemplate(templateBuffer);
-            //Envia la plantilla creada al objeto contendor de Template del componente de huella digital
-            setTemplate(referenceTemplate);
+        //Crea una nueva plantilla a partir de la guardada en la base de datos(Por el momento crea una no mas)
+        DPFPTemplate referenceTemplate = DPFPGlobal.getTemplateFactory().createTemplate();//.createTemplate(templateBuffer);
+        //Envia la plantilla creada al objeto contendor de Template del componente de huella digital
+        setTemplate(referenceTemplate);
+
+        //Compara las caracteristicas de la huella recientemente capturada      
+        //con la plantilla guardada al usuario especifico en la base de datos
+        DPFPVerificationResult result = verificador.verify(this.featuresvertification, getTemplate());
+
+        if (result.isVerified()) {
+            System.out.println("La huella capturada coincide");
+        } else {
+            System.out.println("No corresponde la huella");
+        }
+    }
+
+    public void identificarHuella(DPFPSample sample) throws InterruptedException {
+        try {
+            setVerificacion(true);
+            //       Conexion con base de datos, preparar sentencia sql o blabla
+            //     Obtenemos ---TODAS---- las huellas de la BD
+            //   normalmente guardandolas en un ResultSet, ej:
+            //             Connection c=con.conectar();
+            //            PreparedStatement identificarStmt = c.prepareStatement("SELECT nombre,huella FROM personal");
+            //          ResultSet rs = identificarStmt.executeQuery();
+            //  Se recorre la lista de la base de datos
+            List<Usuario> usuarios = miPersistencia.getUsuarios();
+
+            featuresvertification = extraerCaracteristicas(sample, DPFPDataPurpose.DATA_PURPOSE_VERIFICATION); 
             
-            //Compara las caracteristicas de la huella recientemente capturada
-            //con la plantilla guardada al usuario especifico en la base de datos
-            DPFPVerificationResult result = verificador.verify(this.featuresvertification, getTemplate());
-            
-            if(result.isVerified()){
-                System.out.println("La huella capturada coincide");           
-            } else{
-                System.out.println("No corresponde la huella");
-            }     
+            for (Usuario miUsuario : usuarios) {
+                if(miUsuario.getPlanillahuellas() !=null){
+                    //Lee la plantilla de la base de datos
+                    byte templateBuffer[] = miUsuario.getPlanillahuellas();
+                    String nombre = miUsuario.getNombreusuario();
+                    //Crea una nueva plantilla a partir de la guardada en la base de datos               
+                    DPFPTemplate referenceTemplate = DPFPGlobal.getTemplateFactory().createTemplate(templateBuffer);
+                    //Envia la plantilla creada al objeto contendor de Template del componente de huella digital
+                    setTemplate(referenceTemplate);
+                    // Compara las caracteriticas de la huella recientemente capturda con 
+                    // alguna plantilla guardada en la base de datos que coincide con ese tipo
+                    DPFPVerificationResult result = verificador.verify(this.featuresvertification, getTemplate());
+                    //compara las plantilas (actual vs bd)
+                    //Si encuentra correspondencia dibuja el mapa
+                    //e indica el nombre de la persona que coincidió.
+                    if (result.isVerified()) {
+                        //crea la imagen de los datos guardado de las huellas guardadas en la base de datos
+                        //JOptionPane.showMessageDialog(null, "Las huella capturada es de " + nombre, "Verificacion de Huella", JOptionPane.INFORMATION_MESSAGE);
+                        verificacionCorrecta(miUsuario);
+                        setHuellaVerificada(true);
+                        EnviarTexto("CORRECTO");
+                        setVerificacion(false);
+                        return; //<---- Esto es un break del for..
+                    }
+                }
+            }
+            //Si no encuentra alguna huella correspondiente al nombre lo indica con un mensaje
+            setVerificacion(false);
+            setTemplate(null);
+            setHuellaVerificada(false);
+        } catch (Notificaciones e) {
+            //Si ocurre un error lo indica en la consola
+            System.err.println("Error al identificar huella dactilar." + e.getMessage());
+        }
+    }
+
+    private void verificacionCorrecta(Usuario miUsuario) {
+        this.usuario = miUsuario;
+    }
+
+    public boolean isHuellaVerificada() {
+        return huellaVerificada;
+    }
+
+    public boolean verificando(){
+        return verificacion;
     }
     
-    public void identificarHuella(){
-        //try{
-        //Conexion con base de datos, preparar sentencia sql o blabla
-        //Obtenemos ---TODAS---- las huellas de la BD
-        //normalmente guardandolas en un ResultSet, ej:
-        //       Connection c=con.conectar();
-        //        PreparedStatement identificarStmt = c.prepareStatement("SELECT nombre,huella FROM personal");
-        //        ResultSet rs = identificarStmt.executeQuery();
-        //Se recorre la lista de la base de datos
-        //
-//        while (rs.next()) {
-//            //Lee la plantilla de la base de datos
-//            byte templateBuffer[] = rs.getBytes("huella");
-//            String nombre = rs.getString("nombre");
-//            //Crea una nueva plantilla a partir de la guardada en la base de datos
-//            DPFPTemplate referenceTemplate = DPFPGlobal.getTemplateFactory().createTemplate(templateBuffer);
-//            //Envia la plantilla creada al objeto contendor de Template del componente de huella digital
-//            setTemplate(referenceTemplate);
-//            // Compara las caracteriticas de la huella recientemente capturda con la
-//            // alguna plantilla guardada en la base de datos que coincide con ese tipo
-//            DPFPVerificationResult result = Verificador.verify(featuresverificacion, getTemplate());
-//            //compara las plantilas (actual vs bd)
-//            //Si encuentra correspondencia dibuja el mapa
-//            //e indica el nombre de la persona que coincidió.
-//            if (result.isVerified()) {
-//                //crea la imagen de los datos guardado de las huellas guardadas en la base de datos
-//                JOptionPane.showMessageDialog(null, "Las huella capturada es de " + nombre, "Verificacion de Huella", JOptionPane.INFORMATION_MESSAGE);
-//                return; <---- Esto es un break del while, seguro hay una mejor forma
-//            }
-//        }
-//        //Si no encuentra alguna huella correspondiente al nombre lo indica con un mensaje
-//        JOptionPane.showMessageDialog(null, "No existe ningún registro que coincida con la huella", "Verificacion de Huella", JOptionPane.ERROR_MESSAGE);
-//        setTemplate(null);
-//    }
-//    catch (SQLException e
-//
-//    
-//        ) {
-//       //Si ocurre un error lo indica en la consola
-//       System.err.println("Error al identificar huella dactilar." + e.getMessage());
-//    }
-//
-//    
-//        finally{
-//       con.desconectar();
-//    }
+    public void setVerificacion(boolean verificacion){
+        this.verificacion = verificacion;
     }
+    
+    public void setHuellaVerificada(boolean huellaVerificada) {
+        this.huellaVerificada = huellaVerificada;
+    }
+    
+    public Usuario getDuenioHuella(){
+        return this.usuario;
+    }
+    
+    
+    @Override
+    public void run() {
+        this.start();
+        this.Iniciar();
+        while(true){
+            try {
+                if (verificando()) {
+                    texto.setText("Verificando huella...");
+                    Thread.sleep(1000);
+                    if (isHuellaVerificada()) {
+                        texto.setText(usuario.getNombreusuario());
+                        Thread.sleep(2000);
+                        texto.setText("");
+                    }
+                    if (!isHuellaVerificada()) {
+                        texto.setText("Huella no Encontrada");
+                        Thread.sleep(2000);
+                        texto.setText("");
+                    }
+                }
+                if (!verificando()) {
+                    texto.setText("Esperando Huella");
+                }
+            } catch (InterruptedException ex) {
+                System.err.println(ex.getMessage());
+            }
+
+        }
+    }
+
+    public boolean isIniciado() {
+        return iniciado;
+    }
+
+    public void setIniciado(boolean iniciado) {
+        this.iniciado = iniciado;
+    }
+    
+    
 }

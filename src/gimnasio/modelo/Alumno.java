@@ -145,6 +145,34 @@ public class Alumno  implements java.io.Serializable {
         this.inscripcions = inscripcions;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        boolean retorno = false;
+                if(this == obj){
+            retorno = true;
+        }
+        if(obj == null){
+            retorno = false;
+        }else{
+                if(getClass() != obj.getClass()){
+                    retorno = false;
+                }
+                Alumno comparador = (Alumno)obj;
+                if(this.getIdalumno()== comparador.getIdalumno()){
+                    retorno = true;
+                }
+        }
+        
+        return retorno;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 59 * hash + this.idalumno;
+        return hash;
+    }
+
 
 
 

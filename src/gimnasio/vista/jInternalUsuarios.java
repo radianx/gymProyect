@@ -21,10 +21,14 @@ import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Usuario;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -57,6 +61,22 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         tablaUsuarios.clearSelection();
         this.cargarTabla();
 
+        this.addInternalFrameListener(new InternalFrameAdapter() {
+            @Override
+            public void internalFrameClosing(InternalFrameEvent e) {
+                System.out.println("internalFrameClosing....");
+                MainMenu.detenerEscaner = true;
+                super.internalFrameClosing(e);
+            }
+         
+            @Override
+            public void internalFrameClosed(InternalFrameEvent e) {
+                System.out.println("internalFrameClosed....");
+                MainMenu.detenerEscaner = true;
+                super.internalFrameClosed(e);
+            }
+        });
+        
     }
     
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
@@ -367,17 +387,16 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formMouseEntered
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        Usuario unUsuario = (Usuario)this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
+        tablaUsuarios.clearSelection();
         try {
-            Usuario unUsuario = (Usuario)this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
-            tablaUsuarios.clearSelection();
             this.miControlador.bajaUsuario(unUsuario.getIdusuario());
-            SwingUtilities.invokeLater(new Runnable(){public void run(){
-                           cargarTabla(); 
-            }});
-
         } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, "Error: "+ex.getMessage());
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+        SwingUtilities.invokeLater(new Runnable(){public void run(){
+            cargarTabla();
+        }});
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtBuscar2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscar2KeyTyped

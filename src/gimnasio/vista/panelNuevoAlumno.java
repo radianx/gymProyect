@@ -59,6 +59,12 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         this.btnActivar.setEnabled(false);
         cargarTabla();
         cargarCombo();
+//        List<String> decoracion = new ArrayList<>();
+//        for(Obrasocial unaOS: miControlador.getListaObraSociales()){
+//            modeloCombo.addElement(unaOS);
+//            decoracion.add(unaOS.getNombreobrasocial());
+//        }
+//        JComboBoxDecorator.decorate(cmbObraSocial,true,decoracion);
     }
 
     public void recibirDatos(Alumno unAlumno) throws IOException{
@@ -86,17 +92,11 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                 }
             }
             });
-        List<String> decoracion = new ArrayList<>();
-        for(Obrasocial unaOS: miControlador.getListaObraSociales()){
-            modeloCombo.addElement(unaOS);
-            decoracion.add(unaOS.getNombreobrasocial());
-        }
         this.cmbObraSocial.setModel(modeloCombo);
-        JComboBoxDecorator.decorate(cmbObraSocial,true,decoracion);
+
     }
     
     public void cargarTabla() {
-        try {
             modeloTabla = new DefaultTableModel();
             modeloTabla.addColumn("Nombre");
             modeloTabla.addColumn("Apellido");
@@ -118,9 +118,6 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             this.tablaAlumnosInactivos.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaAlumnosInactivos.getModel());
             tablaAlumnosInactivos.setRowSorter(rowSorter);
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, "Error al cargar usuarios desde la base de datos: "+ex.getMessage());
-        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -431,7 +428,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -462,7 +459,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            if (!tablaAlumnosInactivos.getSelectionModel().isSelectionEmpty() && usuarioSeleccionado != null) {
+            if (usuarioSeleccionado != null) {
                 Date fecha = Date.from(this.datePicker1.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Contacto unContacto = new Contacto(txtDireccion.getText(), txtTelefono1.getText(), txtTelefono2.getText(), txtEmail.getText(), txtTelefonoEmergencia.getText());
                 Obrasocial unaOS = (Obrasocial) this.modeloCombo.getSelectedItem();
@@ -470,9 +467,12 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                 Alumno unAlumno = new Alumno(unContacto, unaOS,usuarioSeleccionado, this.txtNombre.getText(), this.txtApellido.getText(), Double.valueOf(this.txtPeso.getText()), Double.valueOf(this.txtAltura.getText()), fecha, "ACTIVO");
                 miControlador.altaAlumno(unAlumno);
                 String[] opciones ={"SI","NO","CANCELAR"};
-                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea generar una cuota?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+                int seleccion = JOptionPane.showOptionDialog(null, "¿Inscribir al alumno a una clase?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
                 switch (seleccion){
-                    case 0: abrir coso de cuotas;
+                    case 0: 
+                        jInternalClases clases = new jInternalClases(this.miControlador);
+                        clases.setVisible(true);
+                        this.getParent().getParent().add(clases);
                         this.setVisible(false);
                         break;
                     case 1: //salio por el no
@@ -486,6 +486,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar alumno: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -512,7 +513,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         try {
             Alumno unAlumno = (Alumno) this.tablaAlumnosInactivos.getValueAt(this.tablaAlumnosInactivos.getSelectedRow(), 0);
             unAlumno.setEstado("ACTIVO");
-            miControlador.altaAlumno(unAlumno.getUsuario(),unAlumno.getNombrealumno(),unAlumno.getApellidoalumno(),unAlumno.getPeso(),unAlumno.getAltura(),unAlumno.getFechanacimiento(),unAlumno.getContacto());
+            miControlador.altaAlumno(unAlumno);
             SwingUtilities.invokeLater(new Runnable(){public void run(){
                            cargarTabla(); 
             }});

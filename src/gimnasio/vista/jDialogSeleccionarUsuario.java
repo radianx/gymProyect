@@ -35,7 +35,6 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
     }
     
     public void cargarTabla() {
-        try {
             modeloTabla = new DefaultTableModel();
             modeloTabla.addColumn("Nombre");
             Object[] fila = new Object[1];
@@ -54,9 +53,6 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
             this.tablaUsuarios.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaUsuarios.getModel());
             tablaUsuarios.setRowSorter(rowSorter);
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, "Error al cargar usuarios desde la base de datos.");
-        }
     }
 
     /**

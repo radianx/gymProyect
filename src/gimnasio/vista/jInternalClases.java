@@ -5,19 +5,35 @@
  */
 package gimnasio.vista;
 
+import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Clase;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
+import javax.swing.table.TableRowSorter;
 /**
  *
  * @author adrian
  */
 public class jInternalClases extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form jFrameClases
-     */
-    public jInternalClases() {
+    ControladorPrincipal miControlador;
+    panelNuevaClase panelNewClase;
+    String text = "";
+    
+    public jInternalClases(ControladorPrincipal controlador) {
+        miControlador = controlador;
         initComponents();
+        CargadorTabla.clasesActivas(tablaClasesActivas, miControlador);
+        panelNewClase = new panelNuevaClase(miControlador);
+        this.add(panelNewClase);
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,7 +46,7 @@ public class jInternalClases extends javax.swing.JInternalFrame {
         panelPrincipal = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaClases = new javax.swing.JTable();
+        tablaClasesActivas = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
@@ -52,7 +68,7 @@ public class jInternalClases extends javax.swing.JInternalFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Clases"));
 
-        tablaClases.setModel(new javax.swing.table.DefaultTableModel(
+        tablaClasesActivas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -63,15 +79,15 @@ public class jInternalClases extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tablaClases.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaClasesActivas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaClasesMouseClicked(evt);
+                tablaClasesActivasMouseClicked(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaClasesMouseReleased(evt);
+                tablaClasesActivasMouseReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tablaClases);
+        jScrollPane1.setViewportView(tablaClasesActivas);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -160,40 +176,44 @@ public class jInternalClases extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tablaClasesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesMouseClicked
+    private void tablaClasesActivasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesActivasMouseClicked
         try{
-            unaModalidad = (Modalidad) this.tablaClases.getValueAt(this.tablaClases.getSelectedRow(), 0);
+            Clase unaClase = (Clase) this.tablaClasesActivas.getValueAt(this.tablaClasesActivas.getSelectedRow(), 0);
         }catch(Exception ex){
             System.err.println("Seleccion vacia: "+ex.getMessage());
         }
-    }//GEN-LAST:event_tablaClasesMouseClicked
+    }//GEN-LAST:event_tablaClasesActivasMouseClicked
 
-    private void tablaClasesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesMouseReleased
+    private void tablaClasesActivasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesActivasMouseReleased
         this.btnModificar.setEnabled(true);
         this.btnEliminar.setEnabled(true);
-    }//GEN-LAST:event_tablaClasesMouseReleased
+    }//GEN-LAST:event_tablaClasesActivasMouseReleased
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        cambiarPanel(this.panelPrincipal, panelNewModalidad);
+        cambiarPanel(this.panelPrincipal, panelNewClase);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         try {
-            panelNewModalidad.recibirDatos((Modalidad) this.tablaClases.getValueAt(tablaClases.getSelectedRow(), 0));
-            cambiarPanel(panelPrincipal, panelNewModalidad);
+            panelNewClase.recibirDatos((Clase) this.tablaClasesActivas.getValueAt(tablaClasesActivas.getSelectedRow(), 0));
+            cambiarPanel(panelPrincipal, panelNewClase);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,"Error al seleccionar Modalidad: "+ex.getMessage());
+            JOptionPane.showMessageDialog(null,"Error al seleccionar Clase: "+ex.getMessage());
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if(!this.tablaClases.getSelectionModel().isSelectionEmpty()){
-            unaModalidad = (Modalidad) this.tablaClases.getValueAt(this.tablaClases.getSelectedRow(), 0);
-            unaModalidad.setEstado("INACTIVO");
-            miControlador.bajaModalidad(unaModalidad);
-            SwingUtilities.invokeLater(new Runnable(){public void run(){
-                cargarTabla();
-            }});
+        if(!this.tablaClasesActivas.getSelectionModel().isSelectionEmpty()){
+            try {
+                Clase unaClase = (Clase) this.tablaClasesActivas.getValueAt(this.tablaClasesActivas.getSelectedRow(), 0);
+                unaClase.setEstado("INACTIVO");
+                miControlador.bajaClase(unaClase);
+                SwingUtilities.invokeLater(new Runnable(){public void run(){
+                    CargadorTabla.clasesActivas(tablaClasesActivas, miControlador);
+                }});
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -204,26 +224,33 @@ public class jInternalClases extends javax.swing.JInternalFrame {
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesActivas.getModel());
             rowSorter.setRowFilter(null);
+            tablaClasesActivas.setRowSorter(rowSorter);
         } else {
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesActivas.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+            tablaClasesActivas.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesActivas.getModel());
             rowSorter.setRowFilter(null);
+            tablaClasesActivas.setRowSorter(rowSorter);
         } else {
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesActivas.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+            tablaClasesActivas.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void panelPrincipalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMouseEntered
-        if(!panelNewModalidad.isVisible()){
-            cambiarPanel(panelNewModalidad, panelPrincipal);
-            this.cargarTabla();
-            this.modeloTabla.fireTableDataChanged();
+        if(!panelNewClase.isVisible()){
+            cambiarPanel(panelNewClase, panelPrincipal);
+            CargadorTabla.clasesActivas(tablaClasesActivas, miControlador);
             this.txtBuscar.grabFocus();
         }
     }//GEN-LAST:event_panelPrincipalMouseEntered
@@ -241,7 +268,12 @@ public class jInternalClases extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelPrincipal;
-    private javax.swing.JTable tablaClases;
+    private javax.swing.JTable tablaClasesActivas;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+    private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
+		panelActual.setVisible(false);
+                panelCambio.setVisible(true);
+		// this.pack();
+    }
 }

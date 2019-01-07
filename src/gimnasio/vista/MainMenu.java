@@ -6,7 +6,9 @@
 package gimnasio.vista;
 
 
+import com.digitalpersona.onetouch.capture.event.DPFPDataListener;
 import com.sun.jna.Native;
+import gimnasio.controlador.ControladorHuella;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.controlador.ControladorRele;
 import gimnasio.interfaces.GestorRele;
@@ -19,20 +21,13 @@ import java.util.logging.Logger;
  * @author adrian
  */
 public class MainMenu extends javax.swing.JFrame {
-
-    /**
-     * Creates new form MainMenu
-     */
+    
 //    jInternalLogueo panelLogin = new jInternalLogueo();
 //    jInternalProductos panelProductos = new jInternalProductos();
 //    jInternalInformes panelInformes = new jInternalInformes();
-//    jInternalClases panelClases = new jInternalClases();
-//    jTemporal panelTemporal = new jTemporal();
     
     boolean mostrar = false;    
-    
-    public void actualizarTabla(){
-    }
+    public static Boolean detenerEscaner = true;
     
     public void cerrarSesion(){
         this.btnAsistencia.setEnabled(false);
@@ -42,6 +37,12 @@ public class MainMenu extends javax.swing.JFrame {
     }
     
     ControladorPrincipal miControlador;
+    ControladorHuella lector;
+    Thread thread_object;
+    /**
+     * Creates new form MainMenu
+     * @param controlador
+     */
     
     public MainMenu(ControladorPrincipal controlador) {
         this.miControlador = controlador;
@@ -50,13 +51,14 @@ public class MainMenu extends javax.swing.JFrame {
         this.btnCobros.setEnabled(mostrar);
         this.btnVentas.setEnabled(mostrar);
         this.btnUsuarios.setEnabled(mostrar);
-        jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
 //        jDesktopPane1.add(panelTemporal);
 //        jDesktopPane1.add(panelLogin);
 //        jDesktopPane1.add(panelInformes);
 //        jDesktopPane1.add(panelProductos);
 //        jDesktopPane1.add(panelClases);
-        jDesktopPane1.add(panelUsuarios);
+        lector = new ControladorHuella(controlador.getMiPersistencia(),this.txtHabilitado);
+        thread_object =new Thread(lector);
+        thread_object.start();
         
         this.setBtnsVisibility(false);
         
@@ -65,6 +67,7 @@ public class MainMenu extends javax.swing.JFrame {
        
 //        panelLogin.setLocation((desktopSize.width - loginSize.width)/2, (desktopSize.height - loginSize.height)/2);
 //        panelLogin.setVisible(true);
+    
     }
     
     
@@ -151,8 +154,12 @@ public class MainMenu extends javax.swing.JFrame {
         setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(920, 600));
         setName("Sistema Country GYM"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(920, 600));
         setSize(new java.awt.Dimension(920, 600));
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                formMouseMoved(evt);
+            }
+        });
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -271,7 +278,7 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1067, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -478,8 +485,9 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVentasActionPerformed
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
-        jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
-        this.jDesktopPane1.add(panelUsuarios);
+        lector.stop();
+        this.detenerEscaner = false;
+        jInternalUsuarios panelUsuarios = new jInternalUsuarios(this.miControlador);
         panelUsuarios.setVisible(true);
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
@@ -502,6 +510,8 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
     private void menuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUsuariosActionPerformed
+        lector.stop();
+        this.detenerEscaner = false;
         jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
         this.jDesktopPane1.add(panelUsuarios);
         panelUsuarios.setVisible(true);
@@ -514,7 +524,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_menuUsuariosMouseClicked
 
     private void btnAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlumnosActionPerformed
-        jInternalAlumno panelAlumnos = new jInternalAlumno(miControlador);
+        jInternalAlumno panelAlumnos =  new jInternalAlumno(miControlador);
         this.jDesktopPane1.add(panelAlumnos);
         panelAlumnos.setVisible(true);
     }//GEN-LAST:event_btnAlumnosActionPerformed
@@ -524,6 +534,15 @@ public class MainMenu extends javax.swing.JFrame {
         this.jDesktopPane1.add(panelProfesores);
         panelProfesores.setVisible(true);
     }//GEN-LAST:event_btnProfesoresActionPerformed
+
+    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+        if(detenerEscaner == true){
+            if(!lector.isIniciado()){
+                lector.start();
+                lector.Iniciar();
+            }
+        }
+    }//GEN-LAST:event_formMouseMoved
 
     /**
      * @param args the command line arguments
@@ -596,7 +615,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenu menuUsuarios;
     private javax.swing.JTextField txtHabilitado;
     // End of variables declaration//GEN-END:variables
-
+ 
     public void setBtnsVisibility(boolean b) {
         this.btnAsistencia.setEnabled(!b);
         this.btnCobros.setEnabled(!b);

@@ -982,6 +982,35 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
         SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
 
         for (SectorClase sectorClase : controlador.getListaSectorClase()) {
+            if (sectorClase.getEstado().equalsIgnoreCase("ACTIVO")) {
+                fila[0] = sectorClase;
+                fila[1] = sectorClase.getClaseProfesor().getClase();
+                fila[2] = sectorClase.getClaseProfesor().getProfesor();
+                fila[3] = f.format(sectorClase.getInicio());
+                fila[4] = f.format(sectorClase.getFin());
+                modeloTabla.addRow(fila);
+            }
+        }
+        
+        tabla.setModel(modeloTabla);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+        tabla.setRowSorter(rowSorter); 
+    }
+    
+    public static void sectorClaseInactivos(JTable tabla, ControladorPrincipal controlador){
+        
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Sector");
+        modeloTabla.addColumn("Clase");
+        modeloTabla.addColumn("Profesor");
+        modeloTabla.addColumn("Fecha Inicio");
+        modeloTabla.addColumn("Fecha Fin");
+        Object[] fila = new Object[5];
+        
+        String patron = "HH:mm dd/MM/yyyy";
+        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+
+        for (SectorClase sectorClase : controlador.getListaSectorClase()) {
             if (sectorClase.getEstado().equalsIgnoreCase("INACTIVO")) {
                 fila[0] = sectorClase;
                 fila[1] = sectorClase.getClaseProfesor().getClase();
@@ -996,7 +1025,6 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
         tabla.setRowSorter(rowSorter); 
     }
-    //SECTORCLASE
 
     
     

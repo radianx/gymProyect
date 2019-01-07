@@ -42,23 +42,18 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     }
 
     public void cargarTabla(){
-        try {
-            modeloTabla = new DefaultTableModel();
-            modeloTabla.addColumn("Nombre");
-            modeloTabla.addColumn("Apellido");
-            modeloTabla.addColumn("Usuario");
-            Object[] fila = new Object[3];
-            
-            for(Alumno miAlumno: miControlador.getListaAlumnos()){
-                fila[0] = miAlumno;
-                fila[1] = miAlumno.getApellidoalumno();
-                fila[2] = miAlumno.getUsuario().getNombreusuario();
-                modeloTabla.addRow(fila);
-            }
-            this.tablaAlumnos.setModel(modeloTabla);
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, "Error al cargar Alumnos desde la base de datos.");
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        modeloTabla.addColumn("Usuario");
+        Object[] fila = new Object[3];
+        for(Alumno miAlumno: miControlador.getListaAlumnos()){
+            fila[0] = miAlumno;
+            fila[1] = miAlumno.getApellidoalumno();
+            fila[2] = miAlumno.getUsuario().getNombreusuario();
+            modeloTabla.addRow(fila);
         }
+        this.tablaAlumnos.setModel(modeloTabla);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,9 +80,12 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
 
+        setClosable(true);
+        setResizable(true);
         setTitle("GESTION DE ALUMNOS");
-        setMinimumSize(new java.awt.Dimension(400, 400));
-        setPreferredSize(new java.awt.Dimension(410, 400));
+        setMinimumSize(new java.awt.Dimension(421, 430));
+        setName(""); // NOI18N
+        setPreferredSize(new java.awt.Dimension(421, 430));
 
         panelPadre.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
