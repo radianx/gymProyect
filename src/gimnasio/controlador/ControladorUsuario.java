@@ -21,7 +21,7 @@ public class ControladorUsuario {
   
     
     
-    public ControladorUsuario(ControladorPersistencia persistencia, List<Usuario> usuarios) throws Notificaciones {
+    public ControladorUsuario(ControladorPersistencia persistencia) throws Notificaciones {
         this.miPersistencia = persistencia;
         this.listaUsuarios = miPersistencia.getUsuarios();
     }

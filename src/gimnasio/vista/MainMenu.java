@@ -272,19 +272,20 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jDesktopPane1.setBackground(javax.swing.UIManager.getDefaults().getColor("ComboBox.selectionBackground"));
-        jDesktopPane1.setMinimumSize(new java.awt.Dimension(600, 400));
+        jDesktopPane1.setMinimumSize(new java.awt.Dimension(500, 450));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 652, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -489,6 +490,7 @@ public class MainMenu extends javax.swing.JFrame {
         this.detenerEscaner = false;
         jInternalUsuarios panelUsuarios = new jInternalUsuarios(this.miControlador);
         panelUsuarios.setVisible(true);
+        this.jDesktopPane1.add(panelUsuarios);
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     private void btnAbrirPuertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirPuertaActionPerformed

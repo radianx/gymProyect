@@ -89,7 +89,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(420, 420));
         setNormalBounds(new java.awt.Rectangle(0, 0, 420, 0));
-        setPreferredSize(new java.awt.Dimension(420, 420));
+        setPreferredSize(new java.awt.Dimension(420, 430));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);

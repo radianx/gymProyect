@@ -146,6 +146,12 @@ public class Alumno  implements java.io.Serializable {
     }
 
     @Override
+    public String toString() {
+        return nombrealumno;
+    }
+
+    
+    @Override
     public boolean equals(Object obj) {
         boolean retorno = false;
                 if(this == obj){

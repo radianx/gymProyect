@@ -6,8 +6,11 @@
 package gimnasio.vista;
 
 import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Contacto;
 import gimnasio.modelo.Obrasocial;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
@@ -53,7 +56,7 @@ public class panelNuevaObraSocial extends javax.swing.JPanel {
             tablaOSInactivas.setRowSorter(rowSorter);
         
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al cargar Obras Sociales desde la base de datos ", +ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al cargar Obras Sociales desde la base de datos: " +ex.getMessage());
         }
     }
     
@@ -259,7 +262,8 @@ public class panelNuevaObraSocial extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if(!this.txtNombreOS.getText().isEmpty()){
+        try{
+            if(!this.txtNombreOS.getText().isEmpty()){
             Contacto contacto = new Contacto(this.txtDireccion.getText(),this.txtTelef1.getText(),this.txtTelef2.getText(),this.txtEmail.getText());
             miControlador.altaContacto(contacto);
             Obrasocial unaOS = new Obrasocial(contacto,this.txtNombreOS.getText());
@@ -271,7 +275,11 @@ public class panelNuevaObraSocial extends javax.swing.JPanel {
             this.btnActivar.setEnabled(false);
         }else{
             JOptionPane.showMessageDialog(null,"Debe ingresar el nombre para una Obra Social.");
+            }
+        }catch (Notificaciones ex){
+                JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -284,13 +292,17 @@ public class panelNuevaObraSocial extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
-        Obrasocial obraSocial = (Obrasocial) this.tablaOSInactivas.getValueAt(this.tablaOSInactivas.getSelectedRow(),0);
-        miControlador.bajaObraSocial(obraSocial);
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                cargarTabla();
-            }
-        });
+        try {
+            Obrasocial obraSocial = (Obrasocial) this.tablaOSInactivas.getValueAt(this.tablaOSInactivas.getSelectedRow(),0);
+            miControlador.bajaObraSocial(obraSocial.getNombreobrasocial());
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    cargarTabla();
+                }
+            });
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
+        }
     }//GEN-LAST:event_btnActivarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed

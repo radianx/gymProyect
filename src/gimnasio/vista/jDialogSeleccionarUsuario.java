@@ -73,6 +73,7 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(400, 300));
         setPreferredSize(new java.awt.Dimension(400, 300));
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Usuarios"));

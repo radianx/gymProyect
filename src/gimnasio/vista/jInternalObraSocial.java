@@ -87,7 +87,11 @@ public class jInternalObraSocial extends javax.swing.JInternalFrame {
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
 
+        setClosable(true);
+        setResizable(true);
         setTitle("GESTION DE OBRAS SOCIALES");
+        setMinimumSize(new java.awt.Dimension(400, 407));
+        setPreferredSize(new java.awt.Dimension(400, 407));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);

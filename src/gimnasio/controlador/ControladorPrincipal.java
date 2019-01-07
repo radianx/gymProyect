@@ -62,8 +62,9 @@ public class ControladorPrincipal {
         this.miModeloPrincipal = ModeloPrincipal;
         this.miPersistencia = new ControladorPersistencia();
         
-        this.controladorUsuario = new ControladorUsuario(this.miPersistencia,this.miModeloPrincipal.getListaUsuarios());
-        this.controladorAlumno = new ControladorAlumno(this.miPersistencia,this.miModeloPrincipal.getListaAlumnos());
+        this.controladorUsuario = new ControladorUsuario(this.miPersistencia);
+        this.controladorAlumno = new ControladorAlumno(this.miPersistencia);
+        this.controladorObraSocial = new ControladorObraSocial(this.miPersistencia);
 //        this.controladorProfesor = new ControladorProfesor(this.miPersistencia, this.miModeloPrincipal.getListaProfesores());
     }      
     
@@ -398,20 +399,15 @@ public void bajaPersonal(){
 
 //  <----------------------------------------------------ABM OBRASOCIAL----------------------------------------------------> 
 public void altaObraSocial(Obrasocial obrasocial) throws Notificaciones{
-    String estado = "ACTIVO";
-    Obrasocial unaObrasocial = buscarObraSocial(obrasocial.getNombreobrasocial());
-    if(unaObrasocial != null){
-        unaObrasocial.setNombreobrasocial(obrasocial.getNombreobrasocial());
-        unaObrasocial.setContacto(obrasocial.getContacto());
-        unaObrasocial.setEstado(estado);
-        this.miPersistencia.persistirInstancia(unaObrasocial);
-        this.listaObraSociales = miPersistencia.getObraSociales();
-    }else{
-        obrasocial.setEstado(estado);
-        this.miPersistencia.persistirInstancia(obrasocial);
-        this.listaObraSociales.add(obrasocial);
-    }
-        
+    this.controladorObraSocial.altaObraSocial(obrasocial);
+}
+
+public List<Obrasocial> getListaObrasSociales(){
+    return this.controladorObraSocial.getObrasSociales();
+}
+
+public void bajaObraSocial(String nombreObra) throws Notificaciones{
+    this.controladorObraSocial.bajaObraSocial(nombreObra);
 }
 
 //  <------GETTERS DE LISTAS---------------------------------------------------> 
@@ -428,9 +424,6 @@ public void altaObraSocial(Obrasocial obrasocial) throws Notificaciones{
         return this.miModeloPrincipal.getListaModalidades();
     }
 
-    public List<Obrasocial> getListaObraSociales() {
-        return this.miModeloPrincipal.getListaObraSociales();
-    }
 
     public List<Profesor> getListaProfesores() {
         return this.miModeloPrincipal.getListaProfesores();

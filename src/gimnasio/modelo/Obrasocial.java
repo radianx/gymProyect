@@ -22,6 +22,10 @@ public class Obrasocial  implements java.io.Serializable {
     public Obrasocial() {
     }
 
+    public Obrasocial(String toString){
+        this.nombreobrasocial = toString;
+    }
+    
     public Obrasocial(Contacto contacto, String nombreobrasocial) {
         this.contacto = contacto;
         this.nombreobrasocial = nombreobrasocial;
@@ -86,9 +90,42 @@ public class Obrasocial  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Obrasocial{" + "nombreobrasocial=" + nombreobrasocial + '}';
+        return  nombreobrasocial;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        boolean retorno = false;
+                if(this == obj){
+            retorno = true;
+        }
+        if(obj == null){
+            retorno = false;
+        }else{
+                if(getClass() != obj.getClass()){
+                    retorno = false;
+                }
+                try{
+                Obrasocial comparador = (Obrasocial)obj;
+                if(this.getIdobrasocial()== comparador.getIdobrasocial()){
+                    retorno = true;
+                }
+                }catch (ClassCastException ex){
+                    return false;
+                }
+        }
+        
+        return retorno; 
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + this.idobrasocial;
+        return hash;
+    }
+
+    
 }
 
 

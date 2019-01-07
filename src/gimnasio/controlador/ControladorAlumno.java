@@ -18,7 +18,7 @@ public class ControladorAlumno {
     private ControladorPersistencia miPersistencia;
     private List<Alumno> listaAlumnos;
 
-    public ControladorAlumno(ControladorPersistencia persistencia, List<Alumno> alumnos) throws Notificaciones {
+    public ControladorAlumno(ControladorPersistencia persistencia) throws Notificaciones {
         this.miPersistencia = persistencia;
         this.listaAlumnos = miPersistencia.getAlumnos();
     }

@@ -13,6 +13,8 @@ import gimnasio.modelo.Alumno;
 import gimnasio.modelo.Contacto;
 import gimnasio.modelo.Obrasocial;
 import gimnasio.modelo.Usuario;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.ByteArrayInputStream;
@@ -81,17 +83,13 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     
     public void cargarCombo(){
         modeloCombo = new DefaultComboBoxModel();
-        final String nuevo = "NUEVO";
-        this.cmbObraSocial.addItem( nuevo );
-        this.cmbObraSocial.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED
-                        && nuevo.equals(e.getItem())) {
-                    
-                }
+        final String nuevo = "---NUEVA OBRA SOCIAL---";
+        this.modeloCombo.addElement( nuevo );
+        for(Obrasocial miObraSocial: miControlador.getListaObrasSociales()){
+            if(miObraSocial.getEstado().equalsIgnoreCase("ACTIVO")){
+                this.modeloCombo.addElement(miObraSocial);
             }
-            });
+        }
         this.cmbObraSocial.setModel(modeloCombo);
 
     }
@@ -153,7 +151,6 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         txtUsuario = new javax.swing.JTextField();
         cmbObraSocial = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
-        btnObraSocial = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
@@ -238,6 +235,11 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         txtUsuario.setEditable(false);
         txtUsuario.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
+        cmbObraSocial.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cmbObraSocialFocusGained(evt);
+            }
+        });
         cmbObraSocial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbObraSocialActionPerformed(evt);
@@ -245,13 +247,6 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         });
 
         jLabel12.setText("Obra Social:");
-
-        btnObraSocial.setText("<HTML><CENTER>AGREGAR<BR>OBRA SOCIAL</CENTER></HTML>");
-        btnObraSocial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnObraSocialActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -269,11 +264,9 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel12)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(cmbObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbObraSocial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(btnUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -296,15 +289,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(txtTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel4)
@@ -318,7 +303,15 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                                     .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(datePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel9)
-                                .addComponent(txtTelefonoEmergencia)))))
+                                .addComponent(txtTelefonoEmergencia)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtDireccion)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -353,19 +346,14 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                     .addComponent(txtTelefonoEmergencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cmbObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12))
-                        .addGap(8, 8, 8))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnObraSocial)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUsuario)
                     .addComponent(jLabel11)
@@ -472,8 +460,9 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                     case 0: 
                         jInternalClases clases = new jInternalClases(this.miControlador);
                         clases.setVisible(true);
-                        this.getParent().getParent().add(clases);
+                        this.getParent().getParent().getParent().getParent().getParent().getParent().add(clases);
                         this.setVisible(false);
+                        clases.toFront();
                         break;
                     case 1: //salio por el no
                         this.setVisible(false);
@@ -537,17 +526,21 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     }//GEN-LAST:event_jPanel1MouseEntered
 
     private void cmbObraSocialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbObraSocialActionPerformed
-        // TODO add your handling code here:
+        if (cmbObraSocial.getSelectedItem().toString().equalsIgnoreCase("---NUEVA OBRA SOCIAL---")) {
+            jInternalObraSocial panelObraSocial = new jInternalObraSocial(miControlador);
+            panelObraSocial.setVisible(true);
+            this.getParent().getParent().getParent().getParent().getParent().getParent().add(panelObraSocial);
+            panelObraSocial.toFront();
+        }
     }//GEN-LAST:event_cmbObraSocialActionPerformed
 
-    private void btnObraSocialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObraSocialActionPerformed
-        jInternalObraSocial obraSocial = new jInternalObraSocial(miControlador);
-        this.getParent().getParent().add(obraSocial);
-    }//GEN-LAST:event_btnObraSocialActionPerformed
-
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        this.cargarCombo();
+
     }//GEN-LAST:event_formMouseEntered
+
+    private void cmbObraSocialFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbObraSocialFocusGained
+        this.cargarCombo();
+    }//GEN-LAST:event_cmbObraSocialFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -556,7 +549,6 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnObraSocial;
     private javax.swing.JButton btnUsuario;
     private javax.swing.JComboBox<String> cmbObraSocial;
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
