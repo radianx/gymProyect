@@ -65,7 +65,8 @@ public class ControladorPrincipal {
         this.controladorUsuario = new ControladorUsuario(this.miPersistencia);
         this.controladorAlumno = new ControladorAlumno(this.miPersistencia);
         this.controladorObraSocial = new ControladorObraSocial(this.miPersistencia);
-//        this.controladorProfesor = new ControladorProfesor(this.miPersistencia, this.miModeloPrincipal.getListaProfesores());
+        this.controladorProfesor = new ControladorProfesor(this.miPersistencia);
+        this.controladorClase = new ControladorClase(this.miPersistencia);
     }      
     
     public ControladorPersistencia getMiPersistencia() {
@@ -156,25 +157,20 @@ public class ControladorPrincipal {
     
  //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
     public void altaProfesor(Profesor profesor) throws Notificaciones {
-        String estado = "ACTIVO";
-        Profesor unProfesor = controladorProfesor.buscarProfesor(profesor.getNombreprofesor(), profesor.getApellidoprofesor());
-        if (unProfesor != null) {
-            unProfesor.setEstado(estado);
-            unProfesor.setNombreprofesor(profesor.getNombreprofesor());
-            unProfesor.setApellidoprofesor(profesor.getApellidoprofesor());
-            unProfesor.setPeso(profesor.getPeso());
-            unProfesor.setAltura(profesor.getAltura());
-            unProfesor.setFechanacimiento(profesor.getFechanacimiento());
-            this.miPersistencia.persistirInstancia(unProfesor);
-            this.listaProfesores = miPersistencia.getProfesores();
-        } else {
-            this.miPersistencia.persistirInstancia(profesor);
-            this.miPersistencia.getProfesores();
-        }
+        this.controladorProfesor.altaProfesor(profesor);
     }
 
-
-
+    /**
+    * Retorna una lista de Alumnos que se quedaron sin clases
+    * debido a que el profesor fue dado de Baja,
+    * esta baja se especifica en el controlador Principal y 
+    * no en el controlador de profesores porque necesita buscar
+    * clases por profesor.
+    * 
+    * @param idProfesor el entero que es ID de profesor
+    * @return listaAlumnosSinClases puede ser null
+    * @throws Notificaciones
+    */
     public List<Alumno> bajaProfesor(int idProfesor) throws Notificaciones {
         Profesor unProfesor;
         List<Alumno> listaAlumnosSinClases = new ArrayList<>();
@@ -186,7 +182,7 @@ public class ControladorPrincipal {
 
             }
         }
-        unProfesor = buscarProfesor(idProfesor);
+        unProfesor = this.controladorProfesor.buscarProfesor(idProfesor);
         unProfesor.setEstado(estado);
         this.miPersistencia.persistirInstancia(unProfesor);
         if (listaAlumnosSinClases.isEmpty()) {
@@ -194,7 +190,15 @@ public class ControladorPrincipal {
         }
         return listaAlumnosSinClases;
     }
-
+    
+    public Profesor buscarProfesor(String nombreProfesor, String apellidoProfesor){
+        return this.controladorProfesor.buscarProfesor(nombreProfesor, apellidoProfesor);
+    }
+    
+    public List<Clase> buscarClasesPorProfesor(int idProfesor) throws Notificaciones{
+        return this.controladorProfesor.buscarClasesPorProfesor(idProfesor);
+    }
+    
 //  <----------------------------------------------------ABM MODALIDADES----------------------------------------------------> 
     public void altaModalidad(Modalidad modalidad) throws Notificaciones {
         Modalidad unaModalidad = buscarModalidad(modalidad.getNombremodalidad());
@@ -251,29 +255,13 @@ public void bajaProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throw
 //  <----------------------------------------------------ABM CLASES ----------------------------------------------------> 
 
     public void altaClase(Clase clase) throws Notificaciones {
-        String estado = "ACTIVO";
-        Clase unaClase = buscarClase(clase);
-        if (unaClase != null) {
-            unaClase.setEstado(estado);
-            unaClase.setAlumnosmaximo(clase.getAlumnosmaximo());
-            unaClase.setTipoclase(clase.getTipoclase());
-            this.miPersistencia.persistirInstancia(unaClase);
-            this.listaClases = miPersistencia.getClases();
-        } else {
-            this.miPersistencia.persistirInstancia(clase);
-            this.listaClases.add(clase);
-        }
+        this.controladorClase.altaClase(clase);
     }
    
 
-
-
-
-public List<Alumno> bajaClase(Clase unaClase) throws Notificaciones{
-    List<Alumno> alumnosSinClasse = new ArrayList<>();
-    
-    return alumnosSinClasse;
-}
+    public List<Alumno> bajaClase(Clase unaClase) throws Notificaciones {
+        return this.controladorClase.bajaClase(unaClase);
+    }
 
 
 
@@ -426,7 +414,7 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
 
 
     public List<Profesor> getListaProfesores() {
-        return this.miModeloPrincipal.getListaProfesores();
+        return this.controladorProfesor.getListaProfesores();
     }
 
     public List<Sector> getListaSectores() {

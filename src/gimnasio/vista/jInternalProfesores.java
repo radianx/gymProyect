@@ -9,9 +9,11 @@ import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
 import gimnasio.modelo.Profesor;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -26,41 +28,43 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
     DefaultTableModel modeloTabla;
     TableRowSorter<TableModel> rowSorter;
     panelNuevoProfesor panelNewProfe;
-    
+
     public jInternalProfesores(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
         cargarTabla();
+        this.btnEliminar.setEnabled(false);
+        this.btnModificar.setEnabled(false);
         panelNewProfe = new panelNuevoProfesor(miControlador);
         this.panelPrincipal.add(panelNewProfe);
         rowSorter = new TableRowSorter<>(this.tablaProfesore.getModel());
         tablaProfesore.setRowSorter(rowSorter);
     }
-    
-    public void cargarTabla(){
-            modeloTabla = new DefaultTableModel();
-            modeloTabla.addColumn("Nombre");
-            modeloTabla.addColumn("Apellido");
-            modeloTabla.addColumn("Usuario");
-            Object[] fila = new Object[3];
-            
-            for (Profesor miProfesor : miControlador.getListaProfesores()) {
-                if (miProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
-                    fila[0] = miProfesor;
-                    fila[1] = miProfesor.getApellidoprofesor();
-                    fila[2] = miProfesor.getUsuario().getNombreusuario();
-                    modeloTabla.addRow(fila);
-                }
+
+    public void cargarTabla() {
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        modeloTabla.addColumn("Usuario");
+        Object[] fila = new Object[3];
+
+        for (Profesor miProfesor : miControlador.getListaProfesores()) {
+            if (miProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+                fila[0] = miProfesor;
+                fila[1] = miProfesor.getApellidoprofesor();
+                fila[2] = miProfesor.getUsuario().getNombreusuario();
+                modeloTabla.addRow(fila);
             }
-            this.tablaProfesore.setModel(modeloTabla);
+        }
+        this.tablaProfesore.setModel(modeloTabla);
     }
-    
+
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
-		panelActual.setVisible(false);
-                panelCambio.setVisible(true);
-         //       this.pack();
+        panelActual.setVisible(false);
+        panelCambio.setVisible(true);
+        //       this.pack();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -87,9 +91,9 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("GESTION DE PROFESORES");
         setMaximumSize(new java.awt.Dimension(800, 600));
-        setMinimumSize(new java.awt.Dimension(420, 420));
+        setMinimumSize(new java.awt.Dimension(380, 420));
         setNormalBounds(new java.awt.Rectangle(0, 0, 420, 0));
-        setPreferredSize(new java.awt.Dimension(420, 430));
+        setPreferredSize(new java.awt.Dimension(390, 430));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);
@@ -98,6 +102,11 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
 
         panelPrincipal.setLayout(new java.awt.CardLayout());
 
+        jPanel1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanel1ComponentShown(evt);
+            }
+        });
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -144,6 +153,11 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaProfesore.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProfesoreMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaProfesore);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -157,6 +171,11 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         jPanel5.add(btnNuevo);
 
         btnModificar.setText("<html><center>MODIFICAR<br>PROFESOR</center></html>");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnModificar);
 
         btnEliminar.setText("<html><center>ELIMINAR<br>PROFESOR</center></html>");
@@ -174,7 +193,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -183,7 +202,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -203,26 +222,59 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         String text = this.txtBuscar.getText();
-        if(text.trim().length() == 0){
+        if (text.trim().length() == 0) {
             rowSorter.setRowFilter(null);
-        } else{
+        } else {
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        this.cambiarPanel(this.jPanel1,panelNewProfe);
+        this.cambiarPanel(this.jPanel1, panelNewProfe);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        if (!this.tablaProfesore.getSelectionModel().isSelectionEmpty()) {
+            Profesor unProfesor = (Profesor) this.tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(), 0);
+            tablaProfesore.clearSelection();
+            try {
+                this.miControlador.bajaProfesor(unProfesor.getIdprofesor());
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Profesor para poder eliminarlo");
+        }
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                cargarTabla();
+            }
+        });
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        if(!panelNewProfe.isVisible()){
+        if (!panelNewProfe.isVisible()) {
             this.jPanel1.setVisible(true);
         }
     }//GEN-LAST:event_formMouseEntered
+
+    private void jPanel1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel1ComponentShown
+        cargarTabla();
+    }//GEN-LAST:event_jPanel1ComponentShown
+
+    private void tablaProfesoreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoreMouseClicked
+        this.btnEliminar.setEnabled(true);
+        this.btnModificar.setEnabled(true);
+    }//GEN-LAST:event_tablaProfesoreMouseClicked
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        if (!this.tablaProfesore.getSelectionModel().isSelectionEmpty()) {
+            panelNewProfe.recibirDatos((Profesor) this.tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(), 0));
+            cambiarPanel(jPanel1, panelNewProfe);
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Profesor para poder modificarlo");
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

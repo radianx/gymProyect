@@ -89,6 +89,11 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                 formMouseEntered(evt);
             }
         });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel4.setText("FOTOGRAFIA");
 
@@ -340,6 +345,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                            cargarTabla(); 
             }});
             this.btnActivar.setEnabled(false);
+            this.setVisible(false);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el usuario: "+ex.getMessage());
         }
@@ -361,6 +367,10 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private void tablaUsuariosInactivosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosInactivosMouseReleased
         this.btnActivar.setEnabled(true);
     }//GEN-LAST:event_tablaUsuariosInactivosMouseReleased
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        this.cargarTabla();
+    }//GEN-LAST:event_formComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

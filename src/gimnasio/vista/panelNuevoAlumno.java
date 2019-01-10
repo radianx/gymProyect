@@ -79,6 +79,8 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         this.txtTelefono1.setText(unAlumno.getContacto().getTelefono1());
         this.txtTelefono2.setText(unAlumno.getContacto().getTelefono1());
         this.txtTelefonoEmergencia.setText(unAlumno.getContacto().getTelefonoemergencia());
+        this.usuarioSeleccionado = unAlumno.getUsuario();
+        this.cmbObraSocial.setSelectedItem(unAlumno.getObrasocial());
     }
     
     public void cargarCombo(){
@@ -462,10 +464,12 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                         clases.setVisible(true);
                         this.getParent().getParent().getParent().getParent().getParent().getParent().add(clases);
                         this.setVisible(false);
+                        this.limpiarCampos();
                         clases.toFront();
                         break;
                     case 1: //salio por el no
                         this.setVisible(false);
+                        this.limpiarCampos();
                         break;
                     case 3: //no hacer nada --> hacer algo?
                         break;
@@ -480,18 +484,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        this.txtNombre.setText("");
-        this.txtApellido.setText("");
-        this.txtAltura.setText("");
-        this.txtDireccion.setText("");
-        this.txtEmail.setText("");
-        this.txtPeso.setText("");
-        this.txtTelefono1.setText("");
-        this.txtTelefono2.setText("");
-        this.txtTelefonoEmergencia.setText("");
-        this.txtBuscar.setText("");
-        this.datePicker1.setText("");
-        this.btnActivar.setEnabled(false);
+        this.limpiarCampos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void tablaAlumnosInactivosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosInactivosMouseReleased
@@ -580,4 +573,19 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     private javax.swing.JTextField txtTelefonoEmergencia;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
+    
+    private void limpiarCampos(){
+        this.txtNombre.setText("");
+        this.txtApellido.setText("");
+        this.txtAltura.setText("");
+        this.txtDireccion.setText("");
+        this.txtEmail.setText("");
+        this.txtPeso.setText("");
+        this.txtTelefono1.setText("");
+        this.txtTelefono2.setText("");
+        this.txtTelefonoEmergencia.setText("");
+        this.txtBuscar.setText("");
+        this.datePicker1.setText("");
+        this.btnActivar.setEnabled(false);
+    }
 }

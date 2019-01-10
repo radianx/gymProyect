@@ -14,7 +14,7 @@ public class Clase  implements java.io.Serializable {
      private String descripcionclase;
      private String estado;
      private Set cuotas = new HashSet(0);
-     private Set claseProfesors = new HashSet(0);
+     private Set<ClaseProfesor> claseProfesors = new HashSet(0);
 
     public Clase() {
     }
@@ -80,7 +80,7 @@ public class Clase  implements java.io.Serializable {
     public void setCuotas(Set cuotas) {
         this.cuotas = cuotas;
     }
-    public Set getClaseProfesors() {
+    public Set<ClaseProfesor> getClaseProfesors() {
         return this.claseProfesors;
     }
     
@@ -92,6 +92,32 @@ public class Clase  implements java.io.Serializable {
     public String toString() {
         return tipoclase;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + this.idclase;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Clase other = (Clase) obj;
+        if (this.idclase != other.idclase) {
+            return false;
+        }
+        return true;
+    }
+    
     
 }
 

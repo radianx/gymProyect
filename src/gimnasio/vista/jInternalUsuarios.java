@@ -151,6 +151,11 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
                 jPanel1MouseEntered(evt);
             }
         });
+        jPanel1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanel1ComponentShown(evt);
+            }
+        });
         jPanel1.setLayout(new java.awt.CardLayout());
 
         panelPrincipal2.setMinimumSize(new java.awt.Dimension(400, 200));
@@ -387,12 +392,16 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formMouseEntered
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(!this.tablaUsuarios.getSelectionModel().isSelectionEmpty()){
         Usuario unUsuario = (Usuario)this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
         tablaUsuarios.clearSelection();
         try {
             this.miControlador.bajaUsuario(unUsuario.getIdusuario());
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un usario para Eliminarlo");
         }
         SwingUtilities.invokeLater(new Runnable(){public void run(){
             cargarTabla();
@@ -414,8 +423,12 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         try {
+            if(!this.tablaUsuarios.getSelectionModel().isSelectionEmpty()){
             panelNewUser.recibirDatos((Usuario) this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0));
             cambiarPanel(panelPrincipal2, panelNewUser);
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario para Modificarlo");
+            }
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null,"Error al seleccionar Usuario: "+ex.getMessage());
         }
@@ -432,6 +445,10 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         this.cargarTabla();
         this.modeloTabla.fireTableDataChanged();
     }//GEN-LAST:event_tablaUsuariosMouseEntered
+
+    private void jPanel1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel1ComponentShown
+        this.cargarTabla();
+    }//GEN-LAST:event_jPanel1ComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

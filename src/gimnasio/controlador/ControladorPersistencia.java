@@ -75,7 +75,7 @@ public class ControladorPersistencia {
 
             } catch (Exception e) {
                 t.rollback();
-                throw new Notificaciones("Ya existe un alumno con el mismo identificador(huella): \n"+e.getMessage());
+                throw new Notificaciones(e.getLocalizedMessage());
             }
         }
 

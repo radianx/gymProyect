@@ -86,14 +86,15 @@ public class MainMenu extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        btnUsuarios = new javax.swing.JButton();
         btnAlumnos = new javax.swing.JButton();
-        btnAsistencia = new javax.swing.JButton();
         btnProfesores = new javax.swing.JButton();
+        btnClases = new javax.swing.JButton();
         btnHorarios = new javax.swing.JButton();
+        btnAsistencia = new javax.swing.JButton();
         btnCobros = new javax.swing.JButton();
         btnVentas = new javax.swing.JButton();
         btnPagos = new javax.swing.JButton();
-        btnUsuarios = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -122,6 +123,10 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
+        menuClases = new javax.swing.JMenu();
+        itemNuevaClase = new javax.swing.JMenuItem();
+        itemListarClases = new javax.swing.JMenuItem();
+        itemEliminarClase = new javax.swing.JMenuItem();
         jMenu11 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
@@ -165,6 +170,14 @@ public class MainMenu extends javax.swing.JFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(2, 2));
 
+        btnUsuarios.setText("Usuarios");
+        btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuariosActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnUsuarios);
+
         btnAlumnos.setText("Alumnos");
         btnAlumnos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,14 +185,6 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnAlumnos);
-
-        btnAsistencia.setText("Asistencia");
-        btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAsistenciaActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnAsistencia);
 
         btnProfesores.setText("Profesores");
         btnProfesores.addActionListener(new java.awt.event.ActionListener() {
@@ -189,8 +194,24 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(btnProfesores);
 
+        btnClases.setText("Clases");
+        btnClases.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClasesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnClases);
+
         btnHorarios.setText("Horarios");
         jPanel2.add(btnHorarios);
+
+        btnAsistencia.setText("Asistencia");
+        btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsistenciaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnAsistencia);
 
         btnCobros.setText("Cobros");
         btnCobros.addActionListener(new java.awt.event.ActionListener() {
@@ -210,14 +231,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         btnPagos.setText("Pagos");
         jPanel2.add(btnPagos);
-
-        btnUsuarios.setText("Usuarios");
-        btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUsuariosActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnUsuarios);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.EAST);
 
@@ -278,7 +291,7 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1008, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,6 +371,24 @@ public class MainMenu extends javax.swing.JFrame {
         jMenu9.add(jMenuItem15);
 
         jMenuArchivo.add(jMenu9);
+
+        menuClases.setText("Clases");
+
+        itemNuevaClase.setText("Nueva Clase");
+        itemNuevaClase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemNuevaClaseActionPerformed(evt);
+            }
+        });
+        menuClases.add(itemNuevaClase);
+
+        itemListarClases.setText("Listar Clases");
+        menuClases.add(itemListarClases);
+
+        itemEliminarClase.setText("Eliminar Clase");
+        menuClases.add(itemEliminarClase);
+
+        jMenuArchivo.add(menuClases);
 
         jMenu11.setText("Personal");
 
@@ -546,6 +577,18 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formMouseMoved
 
+    private void itemNuevaClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNuevaClaseActionPerformed
+        jInternalClases panelClases = new jInternalClases(this.miControlador);
+        this.jDesktopPane1.add(panelClases);
+        panelClases.setVisible(true);
+    }//GEN-LAST:event_itemNuevaClaseActionPerformed
+
+    private void btnClasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasesActionPerformed
+        jInternalClases panelClases = new jInternalClases(this.miControlador);
+        this.jDesktopPane1.add(panelClases);
+        panelClases.setVisible(true);
+    }//GEN-LAST:event_btnClasesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -554,12 +597,16 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnAbrirPuerta;
     private javax.swing.JButton btnAlumnos;
     private javax.swing.JButton btnAsistencia;
+    private javax.swing.JButton btnClases;
     private javax.swing.JButton btnCobros;
     private javax.swing.JButton btnHorarios;
     private javax.swing.JButton btnPagos;
     private javax.swing.JButton btnProfesores;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JButton btnVentas;
+    private javax.swing.JMenuItem itemEliminarClase;
+    private javax.swing.JMenuItem itemListarClases;
+    private javax.swing.JMenuItem itemNuevaClase;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu10;
@@ -614,6 +661,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JMenu menuClases;
     private javax.swing.JMenu menuUsuarios;
     private javax.swing.JTextField txtHabilitado;
     // End of variables declaration//GEN-END:variables

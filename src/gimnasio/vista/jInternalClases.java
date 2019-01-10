@@ -57,11 +57,20 @@ public class jInternalClases extends javax.swing.JInternalFrame {
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
 
+        setClosable(true);
+        setResizable(true);
+        setMinimumSize(new java.awt.Dimension(400, 400));
+        setPreferredSize(new java.awt.Dimension(400, 400));
         getContentPane().setLayout(new java.awt.CardLayout());
 
         panelPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 panelPrincipalMouseEntered(evt);
+            }
+        });
+        panelPrincipal.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                panelPrincipalComponentShown(evt);
             }
         });
         panelPrincipal.setLayout(new java.awt.BorderLayout());
@@ -195,8 +204,12 @@ public class jInternalClases extends javax.swing.JInternalFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         try {
-            panelNewClase.recibirDatos((Clase) this.tablaClasesActivas.getValueAt(tablaClasesActivas.getSelectedRow(), 0));
-            cambiarPanel(panelPrincipal, panelNewClase);
+            if (!tablaClasesActivas.getSelectionModel().isSelectionEmpty()) {
+                panelNewClase.recibirDatos((Clase) this.tablaClasesActivas.getValueAt(tablaClasesActivas.getSelectedRow(), 0));
+                cambiarPanel(panelPrincipal, panelNewClase);
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe seleccionar una clase para modificarla");
+            }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Error al seleccionar Clase: "+ex.getMessage());
         }
@@ -214,6 +227,8 @@ public class jInternalClases extends javax.swing.JInternalFrame {
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una clase para eliminarla");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -250,10 +265,13 @@ public class jInternalClases extends javax.swing.JInternalFrame {
     private void panelPrincipalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMouseEntered
         if(!panelNewClase.isVisible()){
             cambiarPanel(panelNewClase, panelPrincipal);
-            CargadorTabla.clasesActivas(tablaClasesActivas, miControlador);
             this.txtBuscar.grabFocus();
         }
     }//GEN-LAST:event_panelPrincipalMouseEntered
+
+    private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
+        CargadorTabla.clasesActivas(tablaClasesActivas, miControlador);
+    }//GEN-LAST:event_panelPrincipalComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

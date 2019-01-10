@@ -94,6 +94,11 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         });
         panelPadre.setLayout(new java.awt.CardLayout());
 
+        panelPrincipal.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                panelPrincipalComponentShown(evt);
+            }
+        });
         panelPrincipal.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -208,12 +213,18 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         try {
-            Alumno unAlumno = (Alumno)this.tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
-            tablaAlumnos.clearSelection();
-            this.miControlador.bajaAlumno(unAlumno.getIdalumno());
-            SwingUtilities.invokeLater(new Runnable(){public void run(){
-                           cargarTabla(); 
-            }});
+            if (!this.tablaAlumnos.getSelectionModel().isSelectionEmpty()) {
+                Alumno unAlumno = (Alumno) this.tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+                tablaAlumnos.clearSelection();
+                this.miControlador.bajaAlumno(unAlumno.getIdalumno());
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        cargarTabla();
+                    }
+                });
+            } else{
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un Alumno para Eliminarlo");
+            }
 
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, "Error: "+ex.getMessage());
@@ -232,20 +243,25 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     private void panelPadreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPadreMouseEntered
         if (!this.panelNewAlumno.isVisible()) {
             cambiarPanel(panelNewAlumno, panelPrincipal);
-            this.cargarTabla();
-            this.modeloTabla.fireTableDataChanged();
-            this.txtBuscar.grabFocus();
         }
     }//GEN-LAST:event_panelPadreMouseEntered
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         try {
-            panelNewAlumno.recibirDatos((Alumno) this.tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0));
-            cambiarPanel(panelPrincipal, panelNewAlumno);
+            if(!this.tablaAlumnos.getSelectionModel().isSelectionEmpty()){
+                panelNewAlumno.recibirDatos((Alumno) this.tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0));
+                cambiarPanel(panelPrincipal, panelNewAlumno);
+            } else{
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un Alumno para poder modificarlo");
+            }
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null,"Error al seleccionar Alumno: "+ex.getMessage());
         }
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
+        this.cargarTabla();
+    }//GEN-LAST:event_panelPrincipalComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

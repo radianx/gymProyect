@@ -41,12 +41,6 @@ public class panelNuevaClase extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        btnGuardar = new javax.swing.JButton();
-        btnLimpiar = new javax.swing.JButton();
-        btnActivar = new javax.swing.JButton();
-        btnCerrar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaClasesInactivas = new javax.swing.JTable();
@@ -55,45 +49,14 @@ public class panelNuevaClase extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         txtNombreClase = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtAlumnosMax = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtTipoClase = new javax.swing.JTextField();
-
-        jPanel1.setMinimumSize(new java.awt.Dimension(400, 400));
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        btnGuardar.setText("GUARDAR");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnGuardar);
-
-        btnLimpiar.setText("LIMPIAR");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnLimpiar);
-
-        btnActivar.setText("ACTIVAR");
-        btnActivar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActivarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnActivar);
-
-        btnCerrar.setText("CERRAR");
-        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnCerrar);
+        txtAlumnosMax = new javax.swing.JFormattedTextField();
+        jPanel2 = new javax.swing.JPanel();
+        btnGuardar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnActivar = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -141,6 +104,8 @@ public class panelNuevaClase extends javax.swing.JPanel {
 
         jLabel7.setText("Tipo de Clase:");
 
+        txtAlumnosMax.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -148,14 +113,21 @@ public class panelNuevaClase extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(107, 107, 107)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtAlumnosMax))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel7)
@@ -163,13 +135,8 @@ public class panelNuevaClase extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtTipoClase)
-                                    .addComponent(txtNombreClase)))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtAlumnosMax)))
-                        .addGap(101, 101, 101)))
-                .addContainerGap())
+                                    .addComponent(txtNombreClase))))
+                        .addGap(77, 77, 77))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,7 +153,7 @@ public class panelNuevaClase extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtAlumnosMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
@@ -195,91 +162,61 @@ public class panelNuevaClase extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        btnGuardar.setText("GUARDAR");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnGuardar);
+
+        btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnLimpiar);
+
+        btnActivar.setText("ACTIVAR");
+        btnActivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActivarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnActivar);
+
+        btnCerrar.setText("CERRAR");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnCerrar);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 13, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 418, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if(!this.txtNombreClase.getText().isEmpty()){
-            try {
-                Clase clase = new Clase(this.txtNombreClase.getText(),this.txtTipoClase.getText(), Integer.parseInt(this.txtAlumnosMax.getText()));
-                miControlador.altaClase(clase);
-                SwingUtilities.invokeLater(new Runnable(){public void run(){
-                    CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
-                }});
-                this.setVisible(false);
-                this.btnActivar.setEnabled(false);
-            } catch (Notificaciones ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
-            }
-        }else{
-            JOptionPane.showMessageDialog(null,"Debe ingresar el nombre para una Clase.");
-        }
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        this.txtBuscar.setText("");
-        this.txtTipoClase.setText("");
-        this.txtNombreClase.setText("");
-        this.txtAlumnosMax.setText("");
-    }//GEN-LAST:event_btnLimpiarActionPerformed
-
-    private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
-        try {
-            Clase clase = (Clase) this.tablaClasesInactivas.getValueAt(this.tablaClasesInactivas.getSelectedRow(),0);
-            miControlador.bajaClase(clase);
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
-                }
-            });
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-    }//GEN-LAST:event_btnActivarActionPerformed
-
-    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        this.setVisible(false);
-    }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void tablaClasesInactivasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesInactivasMouseClicked
 
@@ -315,6 +252,53 @@ public class panelNuevaClase extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
+        try {
+            if(!tablaClasesInactivas.getSelectionModel().isSelectionEmpty()){
+                Clase clase = (Clase) this.tablaClasesInactivas.getValueAt(this.tablaClasesInactivas.getSelectedRow(), 0);
+                miControlador.bajaClase(clase);
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
+                    }
+                });
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe seleccionar una clase para reactivarla");
+            }
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_btnActivarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        this.txtBuscar.setText("");
+        this.txtTipoClase.setText("");
+        this.txtNombreClase.setText("");
+        this.txtAlumnosMax.setText("");
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if(!this.txtNombreClase.getText().isEmpty()){
+            try {
+                Clase clase = new Clase(this.txtNombreClase.getText(),this.txtTipoClase.getText(), Integer.parseInt(this.txtAlumnosMax.getText()));
+                miControlador.altaClase(clase);
+                SwingUtilities.invokeLater(new Runnable(){public void run(){
+                    CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
+                }});
+                this.setVisible(false);
+                this.btnActivar.setEnabled(false);
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Debe ingresar el nombre para una Clase.");
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActivar;
@@ -325,12 +309,11 @@ public class panelNuevaClase extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaClasesInactivas;
-    private javax.swing.JTextField txtAlumnosMax;
+    private javax.swing.JFormattedTextField txtAlumnosMax;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtNombreClase;
     private javax.swing.JTextField txtTipoClase;

@@ -23,7 +23,7 @@ public class Profesor  implements java.io.Serializable {
      private Date fechanacimiento;
      private String estado;
      private Set pagoProfesors = new HashSet(0);
-     private Set claseProfesors = new HashSet(0);
+     private Set<ClaseProfesor> claseProfesors = new HashSet(0);
      private Set profesorModalidads = new HashSet(0);
 
     public Profesor() {
@@ -127,7 +127,7 @@ public class Profesor  implements java.io.Serializable {
     public void setPagoProfesors(Set pagoProfesors) {
         this.pagoProfesors = pagoProfesors;
     }
-    public Set getClaseProfesors() {
+    public Set<ClaseProfesor> getClaseProfesors() {
         return this.claseProfesors;
     }
     
