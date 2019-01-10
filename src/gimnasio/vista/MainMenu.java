@@ -578,13 +578,13 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_formMouseMoved
 
     private void itemNuevaClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNuevaClaseActionPerformed
-        jInternalClases panelClases = new jInternalClases(this.miControlador);
+        jInternalClasesProfesor panelClases = new jInternalClasesProfesor(this.miControlador);
         this.jDesktopPane1.add(panelClases);
         panelClases.setVisible(true);
     }//GEN-LAST:event_itemNuevaClaseActionPerformed
 
     private void btnClasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasesActionPerformed
-        jInternalClases panelClases = new jInternalClases(this.miControlador);
+        jInternalClasesProfesor panelClases = new jInternalClasesProfesor(this.miControlador);
         this.jDesktopPane1.add(panelClases);
         panelClases.setVisible(true);
     }//GEN-LAST:event_btnClasesActionPerformed

@@ -482,4 +482,21 @@ public class ControladorPersistencia {
         }
         return lista;
     }
+
+    public List<ClaseProfesor> getClasesProfesores() throws Notificaciones {
+                
+        String textoConsulta = "FROM ClaseProfesor";
+        List<ClaseProfesor> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        return lista;
+    }
 }

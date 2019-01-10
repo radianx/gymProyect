@@ -39,6 +39,7 @@ public class ControladorPrincipal {
     private ControladorCargoPersonal controladorCargoPersonal;
     private ControladorClase controladorClase;
     private ControladorClaseAlumno controladorClaseAlumno;
+    private ControladorClaseProfesor controladorClaseProfesor;
     private ControladorCuota controladorCuota;
     private ControladorModalidad controladorModalidad;
     private ControladorModulo controladorModulo;
@@ -67,6 +68,7 @@ public class ControladorPrincipal {
         this.controladorObraSocial = new ControladorObraSocial(this.miPersistencia);
         this.controladorProfesor = new ControladorProfesor(this.miPersistencia);
         this.controladorClase = new ControladorClase(this.miPersistencia);
+        this.controladorClaseProfesor = new ControladorClaseProfesor(this.miPersistencia);
     }      
     
     public ControladorPersistencia getMiPersistencia() {
@@ -259,8 +261,8 @@ public void bajaProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throw
     }
    
 
-    public List<Alumno> bajaClase(Clase unaClase) throws Notificaciones {
-        return this.controladorClase.bajaClase(unaClase);
+    public void bajaClase(Clase unaClase) throws Notificaciones {
+        this.controladorClase.bajaClase(unaClase);
     }
 
 
@@ -476,6 +478,10 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
     
     public List<SectorClase> getListaSectorClase(){
         return this.miModeloPrincipal.getListaSectorClase();
+    }
+
+    public void altaClaseProfesor(ClaseProfesor unaClaseProfesor) throws Notificaciones {
+        controladorClaseProfesor.altaClaseProfesor(unaClaseProfesor);
     }
     
     
