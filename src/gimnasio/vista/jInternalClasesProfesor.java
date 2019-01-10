@@ -8,12 +8,15 @@ package gimnasio.vista;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Clase;
+import gimnasio.modelo.ClaseProfesor;
+import gimnasio.modelo.Profesor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 /**
  *
@@ -23,6 +26,7 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
 
     ControladorPrincipal miControlador;
     panelClaseProfesor panelNewClaseProfesor;
+    DefaultTableModel modeloTablaDias;
     String text = "";
     
     public jInternalClasesProfesor(ControladorPrincipal controlador) {
@@ -33,11 +37,37 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
         }
+        cargarTablaDias();
         panelNewClaseProfesor = new panelClaseProfesor(miControlador);
         this.add(panelNewClaseProfesor);
     }
 
+    public void cargarTablaDias(){
+        modeloTablaDias = new DefaultTableModel();
+        modeloTablaDias.addColumn("Tipo");
+        modeloTablaDias.addColumn("Alumnos Max.");
+        modeloTablaDias.addColumn("Descripcion");
+        this.tablaClasesActivas.setModel(modeloTablaDias);
+    }
     
+    public void cargarTablaClases(Profesor unProfe){
+        modeloTablaDias = new DefaultTableModel();
+        modeloTablaDias.addColumn("Tipo");
+        modeloTablaDias.addColumn("Alumnos Max.");
+        modeloTablaDias.addColumn("Descripcion");
+        this.tablaClasesActivas.setModel(modeloTablaDias);
+        Object[] fila = new Object[3];
+        if(unProfe != null){
+            for(ClaseProfesor claseProfesor:unProfe.getClaseProfesors()){
+                if (claseProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    fila[0] = claseProfesor.getClase();
+                    fila[1] = claseProfesor.getClase().getAlumnosmaximo();
+                    fila[2] = claseProfesor.getClase().getDescripcionclase();
+                    modeloTablaDias.addRow(fila);
+                }
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,8 +95,8 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setResizable(true);
-        setMinimumSize(new java.awt.Dimension(400, 400));
-        setPreferredSize(new java.awt.Dimension(400, 400));
+        setMinimumSize(new java.awt.Dimension(600, 400));
+        setPreferredSize(new java.awt.Dimension(600, 400));
         getContentPane().setLayout(new java.awt.CardLayout());
 
         panelPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -299,7 +329,9 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_panelPrincipalComponentShown
 
     private void tablaProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseClicked
-        // TODO add your handling code here:
+        if(!tablaProfesores.getSelectionModel().isSelectionEmpty()){
+            cargarTablaClases((Profesor) tablaProfesores.getValueAt(tablaProfesores.getSelectedRow(), 0));
+        }
     }//GEN-LAST:event_tablaProfesoresMouseClicked
 
     private void tablaProfesoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseReleased

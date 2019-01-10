@@ -6,7 +6,10 @@
 package gimnasio.vista;
 
 import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Modalidad;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
@@ -31,6 +34,7 @@ public class jInternalModalidades extends javax.swing.JInternalFrame {
     public jInternalModalidades(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
+        cargarTabla();
         panelNewModalidad = new panelNuevaModalidad(miControlador);
         this.add(panelNewModalidad);
         this.btnEliminar.setEnabled(false);
@@ -53,7 +57,7 @@ public class jInternalModalidades extends javax.swing.JInternalFrame {
                         modeloTabla.addRow(fila);
                     }
                 }
-            } catch (NullPointerException ex) {
+            } catch (Exception ex) {
                 System.err.println("Error al cargar Modalidades: " + ex.getMessage());
             }
             this.tablaModalidades.setModel(modeloTabla);
@@ -89,11 +93,18 @@ public class jInternalModalidades extends javax.swing.JInternalFrame {
         btnBuscar = new javax.swing.JButton();
 
         setTitle("GESTION DE MODALIDADES");
+        setMinimumSize(new java.awt.Dimension(400, 410));
+        setPreferredSize(new java.awt.Dimension(400, 411));
         getContentPane().setLayout(new java.awt.CardLayout());
 
         panelPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 panelPrincipalMouseEntered(evt);
+            }
+        });
+        panelPrincipal.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                panelPrincipalComponentShown(evt);
             }
         });
         panelPrincipal.setLayout(new java.awt.BorderLayout());
@@ -162,7 +173,7 @@ public class jInternalModalidades extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -231,17 +242,22 @@ public class jInternalModalidades extends javax.swing.JInternalFrame {
             cambiarPanel(panelPrincipal, panelNewModalidad);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Error al seleccionar Modalidad: "+ex.getMessage());
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if(!this.tablaModalidades.getSelectionModel().isSelectionEmpty()){
-            unaModalidad = (Modalidad) this.tablaModalidades.getValueAt(this.tablaModalidades.getSelectedRow(), 0);
-            unaModalidad.setEstado("INACTIVO");
-            miControlador.bajaModalidad(unaModalidad);
-            SwingUtilities.invokeLater(new Runnable(){public void run(){
-                cargarTabla();
-            }});
+            try {
+                unaModalidad = (Modalidad) this.tablaModalidades.getValueAt(this.tablaModalidades.getSelectedRow(), 0);
+                unaModalidad.setEstado("INACTIVO");
+                miControlador.bajaModalidad(unaModalidad.getIdmodalidad());
+                SwingUtilities.invokeLater(new Runnable(){public void run(){
+                    cargarTabla();
+                }});
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null,ex.getLocalizedMessage());
+            }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -270,11 +286,12 @@ public class jInternalModalidades extends javax.swing.JInternalFrame {
     private void panelPrincipalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMouseEntered
         if(!panelNewModalidad.isVisible()){
             cambiarPanel(panelNewModalidad, panelPrincipal);
-            this.cargarTabla();
-            this.modeloTabla.fireTableDataChanged();
-            this.txtBuscar.grabFocus();
         }        
     }//GEN-LAST:event_panelPrincipalMouseEntered
+
+    private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
+        cargarTabla();
+    }//GEN-LAST:event_panelPrincipalComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

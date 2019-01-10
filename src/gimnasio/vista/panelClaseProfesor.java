@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,9 +47,11 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     public panelClaseProfesor(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
-        cargarComboClases();
-        cargarTablaDiasClases();
         try {
+            cargarComboClases();
+            cargarComboModalidades();
+            cargarTablaDiasClases();
+
             CargadorTabla.profesoresActivos(this.tablaProfesore, miControlador);
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, "PanelClaseProfesor: "+ex.getMessage());
@@ -61,20 +64,21 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         modeloComboClases = new DefaultComboBoxModel();
         for(Clase miClase: miControlador.getListaClases()){
             if(miClase.getEstado().equalsIgnoreCase("ACTIVO")){
-                this.modeloComboClases.addElement(miClase);
+                modeloComboClases.addElement(miClase);
             }
         }
-        this.cmbClase.setModel(modeloComboClases);
+        cmbClase.setModel(modeloComboClases);
     }
 
-    public void cargarComboModalidades(){
-        modeloComboModalidades = new DefaultComboBoxModel();
+    public void cargarComboModalidades() throws Notificaciones{
+        ArrayList<Modalidad> listaModalidades = new ArrayList<>();
         for(Modalidad miModalidad: miControlador.getListaModalidades()){
             if(miModalidad.getEstado().equalsIgnoreCase("ACTIVO")){
-                this.modeloComboModalidades.addElement(miModalidad);
+                listaModalidades.add(miModalidad);
             }
         }
-        this.cmbClase.setModel(modeloComboModalidades);
+        modeloComboModalidades = new DefaultComboBoxModel(listaModalidades.toArray());
+        this.cmbModalidad.setModel(modeloComboModalidades);
 
     }
     
@@ -82,8 +86,8 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         this.modeloTablaDias = new DefaultTableModel();
         modeloTablaDias.addColumn("Clase");
         modeloTablaDias.addColumn("Dia");
-        modeloTablaDias.addColumn("Hora Inicio");
-        modeloTablaDias.addColumn("Hora Fin");
+        modeloTablaDias.addColumn("Inicio");
+        modeloTablaDias.addColumn("Fin");
 
         this.tablaDiasClase.setModel(modeloTablaDias);
 
@@ -103,16 +107,16 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         btnLimpiar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        TimePickerSettings timeSettings = new TimePickerSettings();
-        timeSettings.setAllowEmptyTimes(false);
-        timeSettings.setAllowKeyboardEditing(false);
-        timeSettings.generatePotentialMenuTimes(TimePickerSettings.TimeIncrement.FifteenMinutes, LocalTime.of(7, 0), LocalTime.of(11,0));
-        timePicker1 = new com.github.lgooddatepicker.components.TimePicker(timeSettings);
+        TimePickerSettings configuracionTiempo = new TimePickerSettings();
+        configuracionTiempo.setAllowEmptyTimes(false);
+        configuracionTiempo.setAllowKeyboardEditing(false);
+        configuracionTiempo.generatePotentialMenuTimes(TimePickerSettings.TimeIncrement.FifteenMinutes, LocalTime.of(7, 0), LocalTime.of(23,0));
+        timePicker1 = new com.github.lgooddatepicker.components.TimePicker(configuracionTiempo);
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaProfesore = new javax.swing.JTable();
-        txtBuscar3 = new javax.swing.JTextField();
+        txtBuscar = new javax.swing.JTextField();
         btnBuscar3 = new javax.swing.JButton();
         cmbClase = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
@@ -120,7 +124,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         TimePickerSettings timeSettings = new TimePickerSettings();
         timeSettings.setAllowEmptyTimes(false);
         timeSettings.setAllowKeyboardEditing(false);
-        timeSettings.generatePotentialMenuTimes(TimePickerSettings.TimeIncrement.FifteenMinutes, LocalTime.of(7, 0), LocalTime.of(11,0));
+        timeSettings.generatePotentialMenuTimes(TimePickerSettings.TimeIncrement.FifteenMinutes, LocalTime.of(7, 0), LocalTime.of(23,0));
         timePicker2 = new com.github.lgooddatepicker.components.TimePicker(timeSettings);
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -189,17 +193,15 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         });
         jScrollPane4.setViewportView(tablaProfesore);
 
-        txtBuscar3.setMinimumSize(new java.awt.Dimension(109, 20));
-        txtBuscar3.setPreferredSize(new java.awt.Dimension(150, 20));
-        txtBuscar3.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtBuscar.setMinimumSize(new java.awt.Dimension(109, 20));
+        txtBuscar.setPreferredSize(new java.awt.Dimension(150, 20));
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtBuscar3KeyReleased(evt);
+                txtBuscarKeyReleased(evt);
             }
         });
 
         btnBuscar3.setText("Buscar");
-
-        cmbClase.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel12.setText("Clase:");
 
@@ -244,8 +246,6 @@ public class panelClaseProfesor extends javax.swing.JPanel {
 
         jLabel17.setText("Modalidad:");
 
-        cmbModalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -261,13 +261,6 @@ public class panelClaseProfesor extends javax.swing.JPanel {
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(timePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cmbDia, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(cmbClase, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtProfesor, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
@@ -288,11 +281,19 @@ public class panelClaseProfesor extends javax.swing.JPanel {
                                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel17)
                                     .addComponent(cmbModalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cmbDia, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cmbClase, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscar3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscar3)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -306,7 +307,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtBuscar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -347,28 +348,22 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if(!this.txtNombreClase.getText().isEmpty()){
-            try {
-                Clase clase = new Clase(this.txtNombreClase.getText(),this.txtTipoClase.getText(), Integer.parseInt(this.txtAlumnosMax.getText()));
-                miControlador.altaClase(clase);
-                SwingUtilities.invokeLater(new Runnable(){public void run(){
-                    CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
-                }});
-                this.setVisible(false);
-                this.btnActivar.setEnabled(false);
-            } catch (Notificaciones ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
-            }
+        if(!txtProfesor.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Guardado con exito");
+            this.setVisible(false);
         }else{
-            JOptionPane.showMessageDialog(null,"Debe ingresar el nombre para una Clase.");
+            JOptionPane.showMessageDialog(null, "Error: Profesor no cargado");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         this.txtBuscar.setText("");
-        this.txtTipoClase.setText("");
-        this.txtNombreClase.setText("");
-        this.txtAlumnosMax.setText("");
+        this.txtProfesor.setText("");
+        int cantidadFilas = modeloTablaDias.getRowCount();
+        for(int i = cantidadFilas -1; i>= 0; i--){
+            modeloTablaDias.removeRow(i);
+        }
+        this.tablaProfesore.clearSelection();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -376,17 +371,20 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void tablaProfesoreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoreMouseClicked
-
+        if(!tablaProfesore.getSelectionModel().isSelectionEmpty()){
+            Profesor unProfe = (Profesor) tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(),0);
+            this.txtProfesor.setText(unProfe.getNombreprofesor() + " " + unProfe.getApellidoprofesor());
+        }
     }//GEN-LAST:event_tablaProfesoreMouseClicked
 
-    private void txtBuscar3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscar3KeyReleased
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         String text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
             rowSorter.setRowFilter(null);
         } else {
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
         }
-    }//GEN-LAST:event_txtBuscar3KeyReleased
+    }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void tablaDiasClaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDiasClaseMouseClicked
         // TODO add your handling code here:
@@ -394,7 +392,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if(!tablaProfesore.getSelectionModel().isSelectionEmpty()){
-            Profesor unProfesor = (Profesor) tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(), tablaProfesore.getSelectedColumn());
+            Profesor unProfesor = (Profesor) tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(), 0);
             Clase unaClase = (Clase) cmbClase.getSelectedItem();
             Modalidad unaModalidad = (Modalidad) cmbModalidad.getSelectedItem();
             
@@ -433,9 +431,6 @@ public class panelClaseProfesor extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnBuscar1;
-    private javax.swing.JButton btnBuscar2;
     private javax.swing.JButton btnBuscar3;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnGuardar;
@@ -443,53 +438,23 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cmbClase;
     private javax.swing.JComboBox<String> cmbDia;
     private javax.swing.JComboBox<String> cmbModalidad;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable tablaClasesInactivas;
-    private javax.swing.JTable tablaClasesInactivas1;
-    private javax.swing.JTable tablaClasesInactivas2;
     private javax.swing.JTable tablaDiasClase;
     private javax.swing.JTable tablaProfesore;
     private com.github.lgooddatepicker.components.TimePicker timePicker1;
     private com.github.lgooddatepicker.components.TimePicker timePicker2;
-    private javax.swing.JFormattedTextField txtAlumnosMax;
-    private javax.swing.JFormattedTextField txtAlumnosMax1;
-    private javax.swing.JFormattedTextField txtAlumnosMax2;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtBuscar1;
-    private javax.swing.JTextField txtBuscar2;
-    private javax.swing.JTextField txtBuscar3;
-    private javax.swing.JTextField txtNombreClase;
-    private javax.swing.JTextField txtNombreClase1;
-    private javax.swing.JTextField txtNombreClase2;
     private javax.swing.JTextField txtProfesor;
-    private javax.swing.JTextField txtTipoClase;
-    private javax.swing.JTextField txtTipoClase1;
-    private javax.swing.JTextField txtTipoClase2;
     // End of variables declaration//GEN-END:variables
 }

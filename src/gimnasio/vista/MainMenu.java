@@ -90,7 +90,8 @@ public class MainMenu extends javax.swing.JFrame {
         btnAlumnos = new javax.swing.JButton();
         btnProfesores = new javax.swing.JButton();
         btnClases = new javax.swing.JButton();
-        btnHorarios = new javax.swing.JButton();
+        btnClasesProfesor = new javax.swing.JButton();
+        btnModalidad = new javax.swing.JButton();
         btnAsistencia = new javax.swing.JButton();
         btnCobros = new javax.swing.JButton();
         btnVentas = new javax.swing.JButton();
@@ -202,8 +203,21 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(btnClases);
 
-        btnHorarios.setText("Horarios");
-        jPanel2.add(btnHorarios);
+        btnClasesProfesor.setText("<HTML><center>Clases por<br>Profesor</center></HTML>");
+        btnClasesProfesor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClasesProfesorActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnClasesProfesor);
+
+        btnModalidad.setText("Modalidades");
+        btnModalidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModalidadActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnModalidad);
 
         btnAsistencia.setText("Asistencia");
         btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
@@ -291,7 +305,7 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1008, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1038, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -584,10 +598,22 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_itemNuevaClaseActionPerformed
 
     private void btnClasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasesActionPerformed
-        jInternalClasesProfesor panelClases = new jInternalClasesProfesor(this.miControlador);
+        jInternalClases panelClases = new jInternalClases(this.miControlador);
         this.jDesktopPane1.add(panelClases);
         panelClases.setVisible(true);
     }//GEN-LAST:event_btnClasesActionPerformed
+
+    private void btnClasesProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasesProfesorActionPerformed
+        jInternalClasesProfesor panelClaseProfesor = new jInternalClasesProfesor(this.miControlador);
+        this.jDesktopPane1.add(panelClaseProfesor);
+        panelClaseProfesor.setVisible(true);
+    }//GEN-LAST:event_btnClasesProfesorActionPerformed
+
+    private void btnModalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModalidadActionPerformed
+        jInternalModalidades panelModalidad = new jInternalModalidades(this.miControlador);
+        this.jDesktopPane1.add(panelModalidad);
+        panelModalidad.setVisible(true);
+    }//GEN-LAST:event_btnModalidadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -598,8 +624,9 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnAlumnos;
     private javax.swing.JButton btnAsistencia;
     private javax.swing.JButton btnClases;
+    private javax.swing.JButton btnClasesProfesor;
     private javax.swing.JButton btnCobros;
-    private javax.swing.JButton btnHorarios;
+    private javax.swing.JButton btnModalidad;
     private javax.swing.JButton btnPagos;
     private javax.swing.JButton btnProfesores;
     private javax.swing.JButton btnUsuarios;

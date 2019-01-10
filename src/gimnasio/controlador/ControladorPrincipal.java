@@ -69,6 +69,7 @@ public class ControladorPrincipal {
         this.controladorProfesor = new ControladorProfesor(this.miPersistencia);
         this.controladorClase = new ControladorClase(this.miPersistencia);
         this.controladorClaseProfesor = new ControladorClaseProfesor(this.miPersistencia);
+        this.controladorModalidad = new ControladorModalidad(this.miPersistencia);
     }      
     
     public ControladorPersistencia getMiPersistencia() {
@@ -203,23 +204,12 @@ public class ControladorPrincipal {
     
 //  <----------------------------------------------------ABM MODALIDADES----------------------------------------------------> 
     public void altaModalidad(Modalidad modalidad) throws Notificaciones {
-        Modalidad unaModalidad = buscarModalidad(modalidad.getNombremodalidad());
-        String estado = "ACTIVO";
-        if (unaModalidad != null) {
-            unaModalidad.setEstado(estado);
-            unaModalidad.setNombremodalidad(modalidad.getNombremodalidad());
-            unaModalidad.setDescripcionmodalidad(modalidad.getDescripcionmodalidad());
-            this.miPersistencia.persistirInstancia(unaModalidad);
-            this.listaModalidades = miPersistencia.getModalidades();
-        }else {
-            this.miPersistencia.persistirInstancia(modalidad);
-            this.miPersistencia.getModalidades();
-        }
+        this.controladorModalidad.altaModalidad(modalidad);
     }
 
-public void bajaModalidad(int idModalidad) throws Notificaciones{
-
-} 
+    public void bajaModalidad(int idModalidad) throws Notificaciones {
+        this.controladorModalidad.bajaModalidad(idModalidad);
+    }
 
 //  <----------------------------------------------------ABM PROFESORES POR MODALIDADES----------------------------------------------------> 
     public void altaProfesorPorModalidad(Modalidad unaModalidad, Profesor unProfesor, Double precioHora) throws Notificaciones {
@@ -403,15 +393,15 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
 //  <------GETTERS DE LISTAS---------------------------------------------------> 
 
     public List<Clase> getListaClases() {
-        return this.miModeloPrincipal.getListaClases();
+        return this.controladorClase.getListaClases();
     }
 
     public List<Cargo> getListaCargos() {
         return this.miModeloPrincipal.getListaCargos();
     }
 
-    public List<Modalidad> getListaModalidades() {
-        return this.miModeloPrincipal.getListaModalidades();
+    public List<Modalidad> getListaModalidades() throws Notificaciones{
+        return this.controladorModalidad.getListaModalidades();
     }
 
 

@@ -3,6 +3,7 @@ package gimnasio.modelo;
 
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -22,9 +23,9 @@ public class Modalidad  implements java.io.Serializable {
     }
 
 	
-    public Modalidad(String nombremodalidad, String estado) {
+    public Modalidad(String nombremodalidad, String descripcion) {
         this.nombremodalidad = nombremodalidad;
-        this.estado = estado;
+        this.descripcionmodalidad = descripcion;
     }
     public Modalidad(String nombremodalidad, String descripcionmodalidad, String estado) {
        this.nombremodalidad = nombremodalidad;
@@ -75,6 +76,42 @@ public class Modalidad  implements java.io.Serializable {
     
     public void setClaseProfesors(Set claseProfesors) {
         this.claseProfesors = claseProfesors;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + this.idmodalidad;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Modalidad other = (Modalidad) obj;
+        if (this.idmodalidad != other.idmodalidad) {
+            return false;
+        }
+        if (!Objects.equals(this.nombremodalidad, other.nombremodalidad)) {
+            return false;
+        }
+        if (!Objects.equals(this.descripcionmodalidad, other.descripcionmodalidad)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return nombremodalidad;
     }
 
 

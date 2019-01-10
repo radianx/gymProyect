@@ -18,7 +18,7 @@ public class ControladorClaseProfesor {
     ControladorPersistencia persistencia;
     List<ClaseProfesor> listaClaseProfesor;
     
-    ControladorClaseProfesor(ControladorPersistencia miPersistencia) {
+    public ControladorClaseProfesor(ControladorPersistencia miPersistencia) throws Notificaciones {
         this.persistencia = miPersistencia;
         listaClaseProfesor = persistencia.getClasesProfesores();
     }

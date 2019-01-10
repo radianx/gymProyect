@@ -28,12 +28,8 @@ public class ControladorClase {
     public Clase buscarClase(Clase clase) {
         Clase unaClase = null;
         int i = listaClases.lastIndexOf(clase);
-        listaClases.get(i);
-        for (Clase miClase : this.listaClases) {
-            if (miClase.getDescripcionclase().equalsIgnoreCase(clase.getDescripcionclase())) {
-                unaClase = miClase;
-                break;
-            }
+        if(i >= 0){
+            unaClase = listaClases.get(i);
         }
         return unaClase;
     }
@@ -68,4 +64,7 @@ public class ControladorClase {
         this.listaClases.remove(i);
     }
    
+    public List<Clase> getListaClases(){
+        return this.listaClases;
+    }
 }

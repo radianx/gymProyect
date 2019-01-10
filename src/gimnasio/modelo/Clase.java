@@ -90,7 +90,7 @@ public class Clase  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return tipoclase;
+        return this.descripcionclase;
     }
 
     @Override
