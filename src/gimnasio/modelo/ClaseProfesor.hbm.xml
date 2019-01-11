@@ -17,10 +17,10 @@
         <many-to-one name="profesor" class="gimnasio.modelo.Profesor" fetch="select">
             <column name="idprofesor" not-null="true" />
         </many-to-one>
-        <property name="inicio" type="date">
+        <property name="inicio" type="timestamp">
             <column name="inicio" length="13" not-null="true" />
         </property>
-        <property name="fin" type="date">
+        <property name="fin" type="timestamp">
             <column name="fin" length="13" not-null="true" />
         </property>
         <property name="estado" type="string">

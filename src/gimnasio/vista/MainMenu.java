@@ -49,7 +49,6 @@ public class MainMenu extends javax.swing.JFrame {
         initComponents();
         this.btnAsistencia.setEnabled(mostrar);
         this.btnCobros.setEnabled(mostrar);
-        this.btnVentas.setEnabled(mostrar);
         this.btnUsuarios.setEnabled(mostrar);
 //        jDesktopPane1.add(panelTemporal);
 //        jDesktopPane1.add(panelLogin);
@@ -94,8 +93,8 @@ public class MainMenu extends javax.swing.JFrame {
         btnModalidad = new javax.swing.JButton();
         btnAsistencia = new javax.swing.JButton();
         btnCobros = new javax.swing.JButton();
-        btnVentas = new javax.swing.JButton();
         btnPagos = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -227,7 +226,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(btnAsistencia);
 
-        btnCobros.setText("Cobros");
+        btnCobros.setText("Cobranzas");
         btnCobros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCobrosActionPerformed(evt);
@@ -235,16 +234,16 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(btnCobros);
 
-        btnVentas.setText("Ventas");
-        btnVentas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVentasActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnVentas);
-
         btnPagos.setText("Pagos");
         jPanel2.add(btnPagos);
+
+        jButton1.setText("<HTML><center>Modalidades<br>por Profesor</center></HTML>");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.EAST);
 
@@ -305,7 +304,7 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1038, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1043, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -526,10 +525,6 @@ public class MainMenu extends javax.swing.JFrame {
 //        panelTemporal.setVisible(true);
     }//GEN-LAST:event_btnAsistenciaActionPerformed
 
-    private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-//        panelProductos.setVisible(true);
-    }//GEN-LAST:event_btnVentasActionPerformed
-
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
         lector.stop();
         this.detenerEscaner = false;
@@ -615,6 +610,12 @@ public class MainMenu extends javax.swing.JFrame {
         panelModalidad.setVisible(true);
     }//GEN-LAST:event_btnModalidadActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jInternalProfesorModalidad panelProfeMod = new jInternalProfesorModalidad(this.miControlador);
+        this.jDesktopPane1.add(panelProfeMod);
+        panelProfeMod.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -630,10 +631,10 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnPagos;
     private javax.swing.JButton btnProfesores;
     private javax.swing.JButton btnUsuarios;
-    private javax.swing.JButton btnVentas;
     private javax.swing.JMenuItem itemEliminarClase;
     private javax.swing.JMenuItem itemListarClases;
     private javax.swing.JMenuItem itemNuevaClase;
+    private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu10;
@@ -696,7 +697,6 @@ public class MainMenu extends javax.swing.JFrame {
     public void setBtnsVisibility(boolean b) {
         this.btnAsistencia.setEnabled(!b);
         this.btnCobros.setEnabled(!b);
-        this.btnVentas.setEnabled(!b);
         this.btnUsuarios.setEnabled(!b);
         this.jMenuArchivo.setEnabled(!b);
         this.jMenuEdicion.setEnabled(!b);

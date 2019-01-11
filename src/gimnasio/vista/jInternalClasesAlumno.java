@@ -28,18 +28,18 @@ import javax.swing.table.TableRowSorter;
  *
  * @author adrian
  */
-public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
+public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
 
     ControladorPrincipal miControlador;
-    panelClaseProfesor panelNewClaseProfesor;
+    panelClaseAlumno panelNewClaseAlumno;
     DefaultTableModel modeloTablaDias;
     String text = "";
     
-    public jInternalClasesProfesor(ControladorPrincipal controlador) {
+    public jInternalClasesAlumno(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
         try {
-            CargadorTabla.profesoresActivos(this.tablaProfesores, miControlador);
+            CargadorTabla.clasesActivas(this.tablaPrincipal, miControlador);
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
         }
@@ -48,13 +48,16 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
         this.add(panelNewClaseProfesor);
     }
 
-    public void cargarTablaDias(){
+    public void cargarTablaPrincipal(){
         modeloTablaDias = new DefaultTableModel();
         modeloTablaDias.addColumn("Clase");
+        modeloTablaDias.addColumn("Profesor");
         modeloTablaDias.addColumn("Dia");
         modeloTablaDias.addColumn("Inicio");
         modeloTablaDias.addColumn("Fin");
-        this.tablaClasesActivas.setModel(modeloTablaDias);
+        modeloTablaDias.addColumn("Modalidad");
+        modeloTablaDias.addColumn("Precio");
+        this.tablaPrincipal.setModel(modeloTablaDias);
     }
     
     public void cargarTablaClases(Profesor unProfe){
@@ -103,7 +106,7 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
         btnNuevo = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablaProfesores = new javax.swing.JTable();
+        tablaPrincipal = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         btnCerrar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -169,9 +172,9 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
         });
         jPanel5.add(btnEliminar);
 
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Profesores"));
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Clases"));
 
-        tablaProfesores.setModel(new javax.swing.table.DefaultTableModel(
+        tablaPrincipal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -182,15 +185,15 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tablaProfesores.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaProfesoresMouseClicked(evt);
+                tablaPrincipalMouseClicked(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaProfesoresMouseReleased(evt);
+                tablaPrincipalMouseReleased(evt);
             }
         });
-        jScrollPane2.setViewportView(tablaProfesores);
+        jScrollPane2.setViewportView(tablaPrincipal);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -269,7 +272,7 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
                 unaClase.setEstado("INACTIVO");
                 miControlador.bajaClaseProfesor(unaClase);
                 SwingUtilities.invokeLater(new Runnable(){public void run(){
-                    cargarTablaClases((Profesor) tablaProfesores.getValueAt(tablaProfesores.getSelectedRow(),0));
+                    cargarTablaClases((Profesor) tablaPrincipal.getValueAt(tablaPrincipal.getSelectedRow(),0));
                 }});
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -286,26 +289,26 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaPrincipal.getModel());
             rowSorter.setRowFilter(null);
-            tablaProfesores.setRowSorter(rowSorter);
+            tablaPrincipal.setRowSorter(rowSorter);
         } else {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaPrincipal.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            tablaProfesores.setRowSorter(rowSorter);
+            tablaPrincipal.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaPrincipal.getModel());
             rowSorter.setRowFilter(null);
-            tablaProfesores.setRowSorter(rowSorter);
+            tablaPrincipal.setRowSorter(rowSorter);
         } else {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaPrincipal.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            tablaProfesores.setRowSorter(rowSorter);
+            tablaPrincipal.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
@@ -318,21 +321,21 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
 
     private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
         try {
-            CargadorTabla.profesoresActivos(tablaProfesores, miControlador);
+            CargadorTabla.profesoresActivos(tablaPrincipal, miControlador);
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
         }
     }//GEN-LAST:event_panelPrincipalComponentShown
 
-    private void tablaProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseClicked
-        if(!tablaProfesores.getSelectionModel().isSelectionEmpty()){
-            cargarTablaClases((Profesor) tablaProfesores.getValueAt(tablaProfesores.getSelectedRow(), 0));
+    private void tablaPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipalMouseClicked
+        if(!tablaPrincipal.getSelectionModel().isSelectionEmpty()){
+            cargarTablaClases((Profesor) tablaPrincipal.getValueAt(tablaPrincipal.getSelectedRow(), 0));
         }
-    }//GEN-LAST:event_tablaProfesoresMouseClicked
+    }//GEN-LAST:event_tablaPrincipalMouseClicked
 
-    private void tablaProfesoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseReleased
+    private void tablaPrincipalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipalMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_tablaProfesoresMouseReleased
+    }//GEN-LAST:event_tablaPrincipalMouseReleased
 
     private void tablaClasesActivasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesActivasMouseReleased
         this.btnModificar.setEnabled(true);
@@ -356,7 +359,7 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JTable tablaClasesActivas;
-    private javax.swing.JTable tablaProfesores;
+    private javax.swing.JTable tablaPrincipal;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {

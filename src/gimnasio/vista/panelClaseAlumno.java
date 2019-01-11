@@ -35,7 +35,7 @@ import javax.swing.table.TableRowSorter;
  *
  * @author Family
  */
-public class panelClaseProfesor extends javax.swing.JPanel {
+public class panelClaseAlumno extends javax.swing.JPanel {
 
     DefaultComboBoxModel modeloComboClases;
     DefaultComboBoxModel modeloComboModalidades;
@@ -44,7 +44,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     ControladorPrincipal miControlador;
     TableRowSorter<TableModel> rowSorter;
     
-    public panelClaseProfesor(ControladorPrincipal controlador) {
+    public panelClaseAlumno(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
         try {

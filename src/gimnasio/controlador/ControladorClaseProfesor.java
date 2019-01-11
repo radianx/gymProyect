@@ -27,5 +27,11 @@ public class ControladorClaseProfesor {
         persistencia.persistirInstancia(unaClaseProfesor);
         this.listaClaseProfesor.add(unaClaseProfesor);
     }
+
+    public void bajaClaseProfesor(ClaseProfesor unaClase) throws Notificaciones {
+        listaClaseProfesor.remove(unaClase);
+        unaClase.setEstado("INACTIVO");
+        persistencia.persistirInstancia(unaClase);
+    }
     
 }

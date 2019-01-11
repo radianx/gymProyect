@@ -70,6 +70,7 @@ public class ControladorPrincipal {
         this.controladorClase = new ControladorClase(this.miPersistencia);
         this.controladorClaseProfesor = new ControladorClaseProfesor(this.miPersistencia);
         this.controladorModalidad = new ControladorModalidad(this.miPersistencia);
+        this.controladorProfesorModalidad =  new ControladorProfesorModalidad(this.miPersistencia);
     }      
     
     public ControladorPersistencia getMiPersistencia() {
@@ -212,37 +213,13 @@ public class ControladorPrincipal {
     }
 
 //  <----------------------------------------------------ABM PROFESORES POR MODALIDADES----------------------------------------------------> 
-    public void altaProfesorPorModalidad(Modalidad unaModalidad, Profesor unProfesor, Double precioHora) throws Notificaciones {
-        String estado = "ACTIVO";
-        List<Modalidad> modalidadesDelProfesor = buscarModalidadDeProfesor(unProfesor.getIdprofesor());
-        if (modalidadesDelProfesor != null) {
-            for (Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad) {
-                if (miProfesorModalidad.getModalidad() == unaModalidad && miProfesorModalidad.getProfesor() == unProfesor) {
-                    miProfesorModalidad.setEstado(estado);
-                    miProfesorModalidad.setPreciohora(precioHora);
-                    this.miPersistencia.persistirInstancia(miProfesorModalidad);
-                    this.listaProfesorModalidad = miPersistencia.getProfesorModalidad();
-                    break;
-                }
-            }
-
-        } else {
-            Profesormodalidad unProfesorModalidad = new Profesormodalidad(unaModalidad, unProfesor, precioHora, estado);
-            this.miPersistencia.persistirInstancia(unProfesorModalidad);
-            this.listaProfesorModalidad = miPersistencia.getProfesorModalidad();
-        }
+    public void altaProfesorPorModalidad(Profesormodalidad profesorModalidad) throws Notificaciones {
+        this.controladorProfesorModalidad.altaProfesorModalidad(profesorModalidad);
     }
 
-
-public void bajaProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throws Notificaciones{
-    String estado = "INACTIVO";
-    for (Profesormodalidad miProfesorModalidad : this.listaProfesorModalidad) {
-       if(miProfesorModalidad.getProfesor()==unProfesorModalidad.getProfesor()&&miProfesorModalidad.getModalidad()==unProfesorModalidad.getModalidad()){
-           miProfesorModalidad.setEstado(estado);
-           break;
-       }
+    public void bajaProfesorDeModalidad(Profesormodalidad unProfesorModalidad) throws Notificaciones {
+        this.controladorProfesorModalidad.bajaProfesorModalidad(unProfesorModalidad);
     }
-}
 
 //  <----------------------------------------------------ABM CLASES ----------------------------------------------------> 
 
@@ -472,6 +449,14 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
 
     public void altaClaseProfesor(ClaseProfesor unaClaseProfesor) throws Notificaciones {
         controladorClaseProfesor.altaClaseProfesor(unaClaseProfesor);
+    }
+
+    public void bajaClaseProfesor(ClaseProfesor unaClase) throws Notificaciones {
+        controladorClaseProfesor.bajaClaseProfesor(unaClase);
+    }
+
+    public List<Profesormodalidad> getListaProfeModalidades() {
+        return controladorProfesorModalidad.getListaProfesorModalidad();
     }
     
     

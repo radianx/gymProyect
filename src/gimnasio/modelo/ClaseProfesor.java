@@ -123,6 +123,31 @@ public class ClaseProfesor  implements java.io.Serializable {
         return clase.getDescripcionclase();
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + this.idclaseprofesor;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ClaseProfesor other = (ClaseProfesor) obj;
+        if (this.idclaseprofesor != other.idclaseprofesor) {
+            return false;
+        }
+        return true;
+    }
+
 
 
 

@@ -5,10 +5,44 @@
  */
 package gimnasio.controlador;
 
+import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Profesormodalidad;
+import java.util.List;
+
 /**
  *
  * @author Julien_W
  */
 public class ControladorProfesorModalidad {
+
+    ControladorPersistencia miPersistencia;
+    List<Profesormodalidad> listaProfesorModalidad;
+    
+    public ControladorProfesorModalidad(ControladorPersistencia miPersistencia) throws Notificaciones {
+        this.miPersistencia = miPersistencia;
+        this.listaProfesorModalidad = miPersistencia.getProfesorModalidad();
+    }
+    
+    public List<Profesormodalidad> getListaProfesorModalidad(){
+        return this.listaProfesorModalidad;
+    }
+    
+    public void bajaProfesorModalidad(Profesormodalidad profesorModalidad) throws Notificaciones{
+        this.listaProfesorModalidad.remove(profesorModalidad);
+        profesorModalidad.setEstado("INACTIVO");
+        miPersistencia.persistirInstancia(profesorModalidad);
+    }
+    
+    public void altaProfesorModalidad(Profesormodalidad profesorModalidad) throws Notificaciones{
+        int i = listaProfesorModalidad.lastIndexOf(profesorModalidad);
+        if(i>=0){
+            miPersistencia.persistirInstancia(profesorModalidad);
+            listaProfesorModalidad.remove(i);
+            listaProfesorModalidad.add(profesorModalidad);
+        }else{
+            miPersistencia.persistirInstancia(profesorModalidad);
+            listaProfesorModalidad.add(profesorModalidad);
+        }
+    }
     
 }

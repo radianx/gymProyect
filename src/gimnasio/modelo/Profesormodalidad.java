@@ -3,6 +3,7 @@ package gimnasio.modelo;
 
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -23,7 +24,7 @@ public class Profesormodalidad  implements java.io.Serializable {
 
 	
     
-    public Profesormodalidad(Modalidad modalidad, Profesor profesor, Double preciohora, String estado) {
+    public Profesormodalidad(Profesor profesor, Modalidad modalidad, Double preciohora, String estado) {
        this.modalidad = modalidad;
        this.profesor = profesor;
        this.preciohora = preciohora;
@@ -70,9 +71,6 @@ public class Profesormodalidad  implements java.io.Serializable {
     }
     
     
-    
-    
-    
     public Set getClases() {
         return this.clases;
     }
@@ -83,9 +81,43 @@ public class Profesormodalidad  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return  profesor.getNombreprofesor();
+        return  this.modalidad.toString();
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 17 * hash + this.idprofesormodalidad;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Profesormodalidad other = (Profesormodalidad) obj;
+        if (!Objects.equals(this.modalidad, other.modalidad)) {
+            return false;
+        }
+        if (!Objects.equals(this.profesor, other.profesor)) {
+            return false;
+        }
+        if (!Objects.equals(this.preciohora, other.preciohora)) {
+            return false;
+        }
+        return true;
+    }
+
+
+
+    
 }
 
 
