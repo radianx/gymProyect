@@ -71,6 +71,7 @@ public class ControladorPrincipal {
         this.controladorClaseProfesor = new ControladorClaseProfesor(this.miPersistencia);
         this.controladorModalidad = new ControladorModalidad(this.miPersistencia);
         this.controladorProfesorModalidad =  new ControladorProfesorModalidad(this.miPersistencia);
+        this.controladorClaseAlumno = new ControladorClaseAlumno(this.miPersistencia);
     }      
     
     public ControladorPersistencia getMiPersistencia() {
@@ -237,13 +238,8 @@ public class ControladorPrincipal {
 //  <------------------------------------------------ABM CLASES ALUMNO------------------------------------------------> 
 
 
-public void altaAlumnoClase(Alumno unAlumno, Clase unaClase, int cantidadClases) throws Notificaciones{
-    String estado = "ACTIVO";
-    if(buscarAlumnoClase(unAlumno)!=null){
-        throw new Notificaciones("El alumno ya se encuentra inscripto en la clase");
-    }else{
-        ClaseAlumno unaClaseAlumno = new ClaseAlumno(unAlumno, unaClase, cantidadClases, estado);
-    }
+public void altaClaseAlumno(ClaseAlumno claseAlumno) throws Notificaciones{
+    this.controladorClaseAlumno.altaClaseAlumno(claseAlumno);
 }
 
 public void bajaClaseAlumno(ClaseAlumno unaClaseAlumno) throws Notificaciones{
@@ -382,7 +378,7 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
     }
 
 
-    public List<Profesor> getListaProfesores() {
+    public List<Profesor> getListaProfesores() throws Notificaciones {
         return this.controladorProfesor.getListaProfesores();
     }
 
@@ -457,6 +453,10 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
 
     public List<Profesormodalidad> getListaProfeModalidades() {
         return controladorProfesorModalidad.getListaProfesorModalidad();
+    }
+
+    public void actualizarClaseProfesor(ClaseProfesor claseSeleccionada) throws Notificaciones {
+        controladorClaseProfesor.actualizarClaseProfesor(claseSeleccionada);
     }
     
     

@@ -36,9 +36,7 @@ public class ControladorProfesorModalidad {
     public void altaProfesorModalidad(Profesormodalidad profesorModalidad) throws Notificaciones{
         int i = listaProfesorModalidad.lastIndexOf(profesorModalidad);
         if(i>=0){
-            miPersistencia.persistirInstancia(profesorModalidad);
-            listaProfesorModalidad.remove(i);
-            listaProfesorModalidad.add(profesorModalidad);
+            throw new Notificaciones(profesorModalidad.getProfesor()+" ya tiene asignado/a la modalidad "+profesorModalidad.getModalidad());
         }else{
             miPersistencia.persistirInstancia(profesorModalidad);
             listaProfesorModalidad.add(profesorModalidad);

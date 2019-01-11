@@ -186,6 +186,9 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaProfesoresMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tablaProfesoresMouseEntered(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaProfesoresMouseReleased(evt);
             }
@@ -335,12 +338,19 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaProfesoresMouseReleased
 
     private void tablaClasesActivasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesActivasMouseReleased
-        this.btnModificar.setEnabled(true);
         this.btnEliminar.setEnabled(true);
     }//GEN-LAST:event_tablaClasesActivasMouseReleased
 
     private void tablaClasesActivasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesActivasMouseClicked
     }//GEN-LAST:event_tablaClasesActivasMouseClicked
+
+    private void tablaProfesoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseEntered
+        try {
+            CargadorTabla.profesoresActivos(tablaProfesores, miControlador);
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
+        }
+    }//GEN-LAST:event_tablaProfesoresMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

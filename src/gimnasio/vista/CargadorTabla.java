@@ -162,7 +162,7 @@ public abstract class CargadorTabla {
             modeloTabla.addColumn("Nombre");
             Object[] fila = new Object[1];
 
-                for (Obrasocial miOS : controlador.getListaObraSociales()) {
+                for (Obrasocial miOS : controlador.getListaObrasSociales()) {
                     if (miOS.getEstado().equalsIgnoreCase("ACTIVO")) {
                         fila[0] = miOS;
                         modeloTabla.addRow(fila);
@@ -179,7 +179,7 @@ public abstract class CargadorTabla {
             modeloTabla.addColumn("Nombre");
             Object[] fila = new Object[1];
 
-                for (Obrasocial miOS : controlador.getListaObraSociales()) {
+                for (Obrasocial miOS : controlador.getListaObrasSociales()) {
                     if (miOS.getEstado().equalsIgnoreCase("INACTIVO")) {
                         fila[0] = miOS;
                         modeloTabla.addRow(fila);
@@ -191,24 +191,24 @@ public abstract class CargadorTabla {
             tabla.setRowSorter(rowSorter);
     }
 
-    public static void profesoresActivos(JTable tabla, ControladorPrincipal controlador) throws Notificaciones{
-            DefaultTableModel modeloTabla = new DefaultTableModel();
-            modeloTabla.addColumn("Nombre");
-            modeloTabla.addColumn("Apellido");
-            modeloTabla.addColumn("Usuario");
-            Object[] fila = new Object[3];
-            
-            for (Profesor miProfesor : controlador.getListaProfesores()) {
-                if (miProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
-                    fila[0] = miProfesor;
-                    fila[1] = miProfesor.getApellidoprofesor();
-                    fila[2] = miProfesor.getUsuario().getNombreusuario();
-                    modeloTabla.addRow(fila);
-                }
+    public static void profesoresActivos(JTable tabla, ControladorPrincipal controlador) throws Notificaciones {
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        modeloTabla.addColumn("Usuario");
+        Object[] fila = new Object[3];
+
+        for (Profesor miProfesor : controlador.getListaProfesores()) {
+            if (miProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+                fila[0] = miProfesor;
+                fila[1] = miProfesor.getApellidoprofesor();
+                fila[2] = miProfesor.getUsuario().getNombreusuario();
+                modeloTabla.addRow(fila);
             }
-            tabla.setModel(modeloTabla);
-            TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-            tabla.setRowSorter(rowSorter);
+        }
+        tabla.setModel(modeloTabla);
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+        tabla.setRowSorter(rowSorter);
     }
     
     public static void profesoresInactivos(JTable tabla, ControladorPrincipal controlador) throws Notificaciones{

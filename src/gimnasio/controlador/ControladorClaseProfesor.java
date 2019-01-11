@@ -24,14 +24,24 @@ public class ControladorClaseProfesor {
     }
 
     public void altaClaseProfesor(ClaseProfesor unaClaseProfesor) throws Notificaciones {
-        persistencia.persistirInstancia(unaClaseProfesor);
-        this.listaClaseProfesor.add(unaClaseProfesor);
+        int i = listaClaseProfesor.lastIndexOf(unaClaseProfesor);
+        if(i>=0){
+            throw new Notificaciones("La clase " + unaClaseProfesor.getClase() + " ya se encuentra asignada al profesor " + unaClaseProfesor.getProfesor());
+        }else{
+            persistencia.persistirInstancia(unaClaseProfesor);
+            this.listaClaseProfesor.add(unaClaseProfesor);
+        }        
     }
-
+    
     public void bajaClaseProfesor(ClaseProfesor unaClase) throws Notificaciones {
         listaClaseProfesor.remove(unaClase);
         unaClase.setEstado("INACTIVO");
         persistencia.persistirInstancia(unaClase);
+    }
+
+    public void actualizarClaseProfesor(ClaseProfesor claseSeleccionada) throws Notificaciones {
+        persistencia.persistirInstancia(claseSeleccionada);   
+        listaClaseProfesor = persistencia.getClasesProfesores();
     }
     
 }

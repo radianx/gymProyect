@@ -13,6 +13,7 @@ import gimnasio.modelo.Clase;
 import gimnasio.modelo.ClaseProfesor;
 import gimnasio.modelo.Modalidad;
 import gimnasio.modelo.Profesor;
+import gimnasio.modelo.Profesormodalidad;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -49,7 +50,6 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         initComponents();
         try {
             cargarComboClases();
-            cargarComboModalidades();
             cargarTablaDiasClases();
 
             CargadorTabla.profesoresActivos(this.tablaProfesore, miControlador);
@@ -70,11 +70,11 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         cmbClase.setModel(modeloComboClases);
     }
 
-    public void cargarComboModalidades() throws Notificaciones{
+    public void cargarComboModalidades(Profesor unProfe) throws Notificaciones{
         ArrayList<Modalidad> listaModalidades = new ArrayList<>();
-        for(Modalidad miModalidad: miControlador.getListaModalidades()){
-            if(miModalidad.getEstado().equalsIgnoreCase("ACTIVO")){
-                listaModalidades.add(miModalidad);
+        for(Profesormodalidad profeModa: unProfe.getProfesorModalidads()){
+            if(profeModa.getModalidad().getEstado().equalsIgnoreCase("ACTIVO")){
+                listaModalidades.add(profeModa.getModalidad());
             }
         }
         modeloComboModalidades = new DefaultComboBoxModel(listaModalidades.toArray());
@@ -372,8 +372,13 @@ public class panelClaseProfesor extends javax.swing.JPanel {
 
     private void tablaProfesoreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoreMouseClicked
         if(!tablaProfesore.getSelectionModel().isSelectionEmpty()){
-            Profesor unProfe = (Profesor) tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(),0);
-            this.txtProfesor.setText(unProfe.getNombreprofesor() + " " + unProfe.getApellidoprofesor());
+            try {
+                Profesor unProfe = (Profesor) tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(),0);
+                this.txtProfesor.setText(unProfe.getNombreprofesor() + " " + unProfe.getApellidoprofesor());
+                cargarComboModalidades(unProfe);
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
+            }
         }
     }//GEN-LAST:event_tablaProfesoreMouseClicked
 

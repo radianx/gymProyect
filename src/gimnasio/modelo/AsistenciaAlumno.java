@@ -10,8 +10,9 @@ import java.util.Date;
 public class AsistenciaAlumno  implements java.io.Serializable {
 
 
-     private AsistenciaAlumnoId id;
+     private int id;
      private ClaseAlumno claseAlumno;
+     private Date ingreso;
      private Date salida;
      private String estado;
 
@@ -19,23 +20,24 @@ public class AsistenciaAlumno  implements java.io.Serializable {
     }
 
 	
-    public AsistenciaAlumno(AsistenciaAlumnoId id, ClaseAlumno claseAlumno, String estado) {
+    public AsistenciaAlumno(int id, ClaseAlumno claseAlumno, String estado) {
         this.id = id;
         this.claseAlumno = claseAlumno;
         this.estado = estado;
     }
-    public AsistenciaAlumno(AsistenciaAlumnoId id, ClaseAlumno claseAlumno, Date salida, String estado) {
+    
+    public AsistenciaAlumno(int id, ClaseAlumno claseAlumno, Date ingreso, String estado) {
        this.id = id;
        this.claseAlumno = claseAlumno;
-       this.salida = salida;
+       this.ingreso = ingreso;
        this.estado = estado;
     }
    
-    public AsistenciaAlumnoId getId() {
+    public int getId() {
         return this.id;
     }
     
-    public void setId(AsistenciaAlumnoId id) {
+    public void setId(int id) {
         this.id = id;
     }
     public ClaseAlumno getClaseAlumno() {
@@ -60,6 +62,16 @@ public class AsistenciaAlumno  implements java.io.Serializable {
         this.estado = estado;
     }
 
+    public Date getIngreso() {
+        return ingreso;
+    }
+
+    public void setIngreso(Date ingreso) {
+        this.ingreso = ingreso;
+    }
+
+    
+    
     @Override
     public String toString() {
         return claseAlumno.getAlumno().getNombrealumno() + " " + claseAlumno.getAlumno().getApellidoalumno();

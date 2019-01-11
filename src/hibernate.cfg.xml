@@ -46,7 +46,6 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/gimnasio</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">postgres</property>
-    <mapping resource="gimnasio/modelo/Documentacion.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Saldopagoprofesor.hbm.xml"/>
     <mapping resource="gimnasio/modelo/SectorClase.hbm.xml"/>
     <mapping resource="gimnasio/modelo/UsuarioModulo.hbm.xml"/>
@@ -67,7 +66,6 @@ Contributor(s):
     <mapping resource="gimnasio/modelo/Sector.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Profesor.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Alumno.hbm.xml"/>
-    <mapping resource="gimnasio/modelo/AsistenciaAlumno.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Modalidad.hbm.xml"/>
     <mapping resource="gimnasio/modelo/CobroCuota.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Modulo.hbm.xml"/>
@@ -76,5 +74,6 @@ Contributor(s):
     <mapping resource="gimnasio/modelo/AperturaCajaDiaria.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Usuario.hbm.xml"/>
     <mapping resource="gimnasio/modelo/CargoPersonal.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/AsistenciaAlumno.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

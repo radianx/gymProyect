@@ -32,7 +32,7 @@ public class ControladorModalidad {
             this.miPersistencia.persistirInstancia(miModalidad);
             this.listaModalidades = miPersistencia.getModalidades();
         }else {
-            this.miPersistencia.persistirInstancia(miModalidad);
+            this.miPersistencia.persistirInstancia(unaModalidad);
             listaModalidades = this.miPersistencia.getModalidades();
         }
     }

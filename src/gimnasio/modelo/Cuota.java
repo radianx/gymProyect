@@ -14,7 +14,7 @@ public class Cuota  implements java.io.Serializable {
 
      private int idcuota;
      private Alumno alumno;
-     private Clase clase;
+     private ClaseProfesor claseProfesor;
      private Double monto;
      private Date altacuota;
      private Date vencimiento;
@@ -25,18 +25,18 @@ public class Cuota  implements java.io.Serializable {
     }
 
 	
-    public Cuota(int idcuota, Alumno alumno, Clase clase, Date altacuota, Date vencimiento, String estado) {
+    public Cuota(int idcuota, Alumno alumno, ClaseProfesor claseProfesor, Date altacuota, Date vencimiento, String estado) {
         this.idcuota = idcuota;
         this.alumno = alumno;
-        this.clase = clase;
+        this.claseProfesor = claseProfesor;
         this.altacuota = altacuota;
         this.vencimiento = vencimiento;
         this.estado = estado;
     }
-    public Cuota(int idcuota, Alumno alumno, Clase clase, Double monto, Date altacuota, Date vencimiento, String estado, Set cobroCuotas) {
+    public Cuota(int idcuota, Alumno alumno, ClaseProfesor claseProfesor, Double monto, Date altacuota, Date vencimiento, String estado, Set cobroCuotas) {
        this.idcuota = idcuota;
        this.alumno = alumno;
-       this.clase = clase;
+       this.claseProfesor = claseProfesor;
        this.monto = monto;
        this.altacuota = altacuota;
        this.vencimiento = vencimiento;
@@ -58,13 +58,7 @@ public class Cuota  implements java.io.Serializable {
     public void setAlumno(Alumno alumno) {
         this.alumno = alumno;
     }
-    public Clase getClase() {
-        return this.clase;
-    }
-    
-    public void setClase(Clase clase) {
-        this.clase = clase;
-    }
+
     public Double getMonto() {
         return this.monto;
     }
@@ -101,6 +95,14 @@ public class Cuota  implements java.io.Serializable {
         this.cobroCuotas = cobroCuotas;
     }
 
+    public ClaseProfesor getClaseProfesor() {
+        return claseProfesor;
+    }
+
+    public void setClaseProfesor(ClaseProfesor claseProfesor) {
+        this.claseProfesor = claseProfesor;
+    }    
+    
     @Override
     public String toString() {
         return alumno.getNombrealumno() + " " + alumno.getApellidoalumno();
