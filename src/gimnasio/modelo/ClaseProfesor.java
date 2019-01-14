@@ -16,36 +16,33 @@ public class ClaseProfesor  implements java.io.Serializable {
      private Clase clase;
      private Modalidad modalidad;
      private Profesor profesor;
-     private Date inicio;
-     private Date fin;
      private String estado;
      private Set asistenciaProfesors = new HashSet(0);
      private Set sectorClases = new HashSet(0);
+     private Set<HorarioProfesor> horarios= new HashSet(0);
      private Set<ClaseAlumno> claseAlumnos = new HashSet(0);
 
     public ClaseProfesor() {
     }
 
 	
-    public ClaseProfesor(Clase clase, Modalidad modalidad, Profesor profesor, Date inicio, Date fin, String estado) {
+    public ClaseProfesor(Clase clase, Modalidad modalidad, Profesor profesor,Set horarios, String estado) {
         this.clase = clase;
         this.modalidad = modalidad;
         this.profesor = profesor;
-        this.inicio = inicio;
-        this.fin = fin;
+        this.horarios = horarios;
         this.estado = estado;
     }
-    public ClaseProfesor(Clase clase, Modalidad modalidad, Profesor profesor, Date inicio, Date fin, String estado, Set asistenciaProfesors, Set sectorClases, Set claseAlumnos) {
-       this.clase = clase;
-       this.modalidad = modalidad;
-       this.profesor = profesor;
-       this.inicio = inicio;
-       this.fin = fin;
-       this.estado = estado;
-       this.asistenciaProfesors = asistenciaProfesors;
-       this.sectorClases = sectorClases;
-       this.claseAlumnos = claseAlumnos;
+
+    public ClaseProfesor(int idclaseprofesor, Clase clase, Modalidad modalidad, Profesor profesor, String estado, Set<HorarioProfesor> horarios) {
+        this.idclaseprofesor = idclaseprofesor;
+        this.clase = clase;
+        this.modalidad = modalidad;
+        this.profesor = profesor;
+        this.estado = estado;
+        this.horarios = horarios;
     }
+
    
     public int getIdclaseprofesor() {
         return this.idclaseprofesor;
@@ -75,20 +72,15 @@ public class ClaseProfesor  implements java.io.Serializable {
     public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
     }
-    public Date getInicio() {
-        return this.inicio;
+
+    public Set<HorarioProfesor> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(Set<HorarioProfesor> horarios) {
+        this.horarios = horarios;
     }
     
-    public void setInicio(Date inicio) {
-        this.inicio = inicio;
-    }
-    public Date getFin() {
-        return this.fin;
-    }
-    
-    public void setFin(Date fin) {
-        this.fin = fin;
-    }
     public String getEstado() {
         return this.estado;
     }
@@ -122,46 +114,5 @@ public class ClaseProfesor  implements java.io.Serializable {
     public String toString() {
         return clase.toString();
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 41 * hash + this.idclaseprofesor;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ClaseProfesor other = (ClaseProfesor) obj;
-        if (this.idclaseprofesor != other.idclaseprofesor) {
-            return false;
-        }
-        if (!Objects.equals(this.clase, other.clase)) {
-            return false;
-        }
-        if (!Objects.equals(this.modalidad, other.modalidad)) {
-            return false;
-        }
-        if (!Objects.equals(this.profesor, other.profesor)) {
-            return false;
-        }
-        return true;
-    }
-
-
-
-
-
-
+    
 }
-
-

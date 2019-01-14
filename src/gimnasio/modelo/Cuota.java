@@ -174,13 +174,15 @@ public class Cuota  implements java.io.Serializable, java.lang.Comparable<Cuota>
 
     @Override
     public int compareTo(Cuota o) {
+        int i = -1;
         if(this.equals(o)){
-            return 0;
+            i = 0;
         }else if(this.altacuota.before(o.getAltacuota())){
-            return -1;
+            i = -1;
         }else if(this.altacuota.after(o.getAltacuota())){
-            return 1;
+            i = 1;
         }
+        return i;
     }
 
 }

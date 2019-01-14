@@ -512,7 +512,7 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
         for (Cuota cuota : controlador.getListaCuotas()) {
             if (cuota.getEstado().equalsIgnoreCase("ACTIVO")) {
                 fila[0] = cuota;
-                fila[1] = cuota.getClase().getTipoclase();
+                fila[1] = cuota.getClaseProfesor().getClase().getTipoclase();
                 fila[2] = cuota.getMonto();
                 fila[3] = f.format(cuota.getAltacuota());
                 fila[4] = f.format(cuota.getVencimiento());
@@ -539,7 +539,7 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
         for (Cuota cuota : controlador.getListaCuotas()) {
             if (cuota.getEstado().equalsIgnoreCase("INACTIVO")) {
                 fila[0] = cuota;
-                fila[1] = cuota.getClase().getTipoclase();
+                fila[1] = cuota.getClaseProfesor().getClase().getTipoclase();
                 fila[2] = cuota.getMonto();
                 fila[3] = f.format(cuota.getAltacuota());
                 fila[4] = f.format(cuota.getVencimiento());

@@ -178,23 +178,23 @@ public class ControladorPrincipal {
     * @throws Notificaciones
     */
     public List<Alumno> bajaProfesor(int idProfesor) throws Notificaciones {
-        Profesor unProfesor;
-        List<Alumno> listaAlumnosSinClases = new ArrayList<>();
-        String estado = "INACTIVO";
-        List<Clase> listaClases = buscarClasesPorProfesor(idProfesor);
-        if (listaClases != null) {
-            for (Clase miClase : listaClases) {
-                listaAlumnosSinClases = bajaClase(miClase);
-
-            }
-        }
-        unProfesor = this.controladorProfesor.buscarProfesor(idProfesor);
-        unProfesor.setEstado(estado);
-        this.miPersistencia.persistirInstancia(unProfesor);
-        if (listaAlumnosSinClases.isEmpty()) {
-            listaAlumnosSinClases = null;
-        }
-        return listaAlumnosSinClases;
+//        Profesor unProfesor;
+//        List<Alumno> listaAlumnosSinClases = new ArrayList<>();
+//        String estado = "INACTIVO";
+//        List<Clase> listaClases = buscarClasesPorProfesor(idProfesor);
+//        if (listaClases != null) {
+//            for (Clase miClase : listaClases) {
+//                listaAlumnosSinClases = bajaClase(miClase);
+//
+//            }
+//        }
+//        unProfesor = this.controladorProfesor.buscarProfesor(idProfesor);
+//        unProfesor.setEstado(estado);
+//        this.miPersistencia.persistirInstancia(unProfesor);
+//        if (listaAlumnosSinClases.isEmpty()) {
+//            listaAlumnosSinClases = null;
+//        }
+//        return listaAlumnosSinClases;
     }
     
     public Profesor buscarProfesor(String nombreProfesor, String apellidoProfesor){
@@ -244,14 +244,14 @@ public void altaClaseAlumno(ClaseAlumno claseAlumno) throws Notificaciones{
 }
 
 public void bajaClaseAlumno(ClaseAlumno unaClaseAlumno) throws Notificaciones{
-    try {
-       unaClaseAlumno.setCantidadclases(0);
-       this.listaClaseAlumno.remove(unaClaseAlumno);
-       this.miPersistencia.persistirInstancia(unaClaseAlumno);
-        bajaCuota(unaClaseAlumno);
-    } catch (Exception e) {
-        throw new Notificaciones(e.getMessage());
-    }
+//    try {
+//       unaClaseAlumno.setCantidadclases(0);
+//       this.listaClaseAlumno.remove(unaClaseAlumno);
+//       this.miPersistencia.persistirInstancia(unaClaseAlumno);
+//        bajaCuota(unaClaseAlumno);
+//    } catch (Exception e) {
+//        throw new Notificaciones(e.getMessage());
+//    }
 }
 
 
@@ -285,19 +285,19 @@ public void bajaCuota(ClaseAlumno unaClaseAlumno, Date altaCuota){
 
 //  <----------------------------------------------------ABM CARGOS----------------------------------------------------> 
     public void altaCargo(Cargo cargo) throws Notificaciones {
-        String estado = "ACTIVO";
-        Cargo unCargo = buscarCargo(cargo.getNombrecargo());
-        if (unCargo != null) {
-            if (unCargo.getEstado().equalsIgnoreCase(estado)) {
-                unCargo.setDescripcioncargo(cargo.getDescripcioncargo());
-                this.miPersistencia.persistirInstancia(unCargo);
-                this.listaCargos = miPersistencia.getCargos();
-            }
-            } else {
-                Cargo miCargo = new Cargo(cargo.getNombrecargo(),cargo.getDescripcioncargo(),estado);
-                this.listaCargos.add(miCargo);
-                this.miPersistencia.persistirInstancia(miCargo);
-            }
+//        String estado = "ACTIVO";
+//        Cargo unCargo = buscarCargo(cargo.getNombrecargo());
+//        if (unCargo != null) {
+//            if (unCargo.getEstado().equalsIgnoreCase(estado)) {
+//                unCargo.setDescripcioncargo(cargo.getDescripcioncargo());
+//                this.miPersistencia.persistirInstancia(unCargo);
+//                this.listaCargos = miPersistencia.getCargos();
+//            }
+//            } else {
+//                Cargo miCargo = new Cargo(cargo.getNombrecargo(),cargo.getDescripcioncargo(),estado);
+//                this.listaCargos.add(miCargo);
+//                this.miPersistencia.persistirInstancia(miCargo);
+//            }
         }
 
 
@@ -307,14 +307,14 @@ public void bajaCargo(Cargo unCargo){
 //  <----------------------------------------------------ABM SECTORES----------------------------------------------------> 
     
 public void altaSector(Sector sector) throws Notificaciones{
-    String estado = "ACTIVO";
-    for(Sector miSector : this.listaSectores){
-        if(miSector.getNombresector().equalsIgnoreCase(sector.getNombresector())){
-            if(miSector.getEstado().equalsIgnoreCase(estado)){
-                this.miPersistencia.persistirInstancia(sector);
-            }
-        }
-    }
+//    String estado = "ACTIVO";
+//    for(Sector miSector : this.listaSectores){
+//        if(miSector.getNombresector().equalsIgnoreCase(sector.getNombresector())){
+//            if(miSector.getEstado().equalsIgnoreCase(estado)){
+//                this.miPersistencia.persistirInstancia(sector);
+//            }
+//        }
+//    }
 }
 //  <----------------------------------------------------ABM CONTACTO----------------------------------------------------> 
 

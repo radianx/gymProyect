@@ -240,7 +240,7 @@ public class jInternalSectores extends javax.swing.JInternalFrame {
         if(!this.tablaSectores.getSelectionModel().isSelectionEmpty()){
             unSector = (Sector) this.tablaSectores.getValueAt(this.tablaSectores.getSelectedRow(), 0);
             unSector.setEstado("INACTIVO");
-            miControlador.bajaSector(unSector);
+ //           miControlador.bajaSector(unSector);
             SwingUtilities.invokeLater(new Runnable(){public void run(){
                 cargarTabla();
             }});

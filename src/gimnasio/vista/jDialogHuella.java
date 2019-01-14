@@ -42,7 +42,6 @@ public class jDialogHuella extends javax.swing.JDialog {
     private DPFPFeatureSet featuresinscripcion;
     private DPFPFeatureSet featuresvertification;
     private DPFPTemplate planilla;
-    private ControladorRele controlRele = new ControladorRele();
     private ByteArrayInputStream datosRetorno;
    
     public jDialogHuella(java.awt.Frame parent, boolean modal) {
@@ -50,7 +49,6 @@ public class jDialogHuella extends javax.swing.JDialog {
         initComponents();
         DefaultCaret caret = (DefaultCaret)this.txtArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-        controlRele.start();
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addComponentListener(new ComponentAdapter() {
             @Override

@@ -8,7 +8,14 @@ package gimnasio.vista;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Usuario;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,6 +23,8 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
@@ -35,6 +44,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     ControladorPrincipal miControlador;
     DefaultTableModel modeloTabla;
     ByteArrayInputStream datosHuella = null;
+    BufferedImage foto = null;
     TableRowSorter<TableModel> rowSorter;
     String text = "";
     
@@ -49,7 +59,13 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     public void recibirDatos(Usuario unUsuario) throws IOException{
         this.txtNombre.setText(unUsuario.getNombreusuario());
         this.txtContrasena.setText(unUsuario.getContrasenia());
-        this.datosHuella = new ByteArrayInputStream(unUsuario.getPlanillahuellas());
+        if(unUsuario.getPlanillahuellas()!=null){
+            this.datosHuella = new ByteArrayInputStream(unUsuario.getPlanillahuellas());
+        }
+        if(unUsuario.getFoto()!=null){
+            this.foto = createImageFromBytes(unUsuario.getFoto());
+            this.drawPicture();
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,7 +76,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel4 = new javax.swing.JLabel();
+        lblFoto = new javax.swing.JLabel();
         btnFoto = new javax.swing.JButton();
         btnCargarHuella = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -95,9 +111,12 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setText("FOTOGRAFIA");
-
         btnFoto.setText("TOMAR FOTO");
+        btnFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFotoActionPerformed(evt);
+            }
+        });
 
         btnCargarHuella.setText("CARGAR HUELLA");
         btnCargarHuella.addActionListener(new java.awt.event.ActionListener() {
@@ -248,7 +267,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnFoto, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,13 +285,13 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnFoto)
                     .addComponent(btnCargarHuella))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(btnBuscar)
@@ -298,18 +317,23 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private void btnCargarHuellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarHuellaActionPerformed
         jDialogHuella huellaDialog = new jDialogHuella(null, true);
         this.datosHuella = huellaDialog.showDialog();
-    }//GEN-LAST:event_btnCargarHuellaActionPerformed
-
-    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         if(datosHuella!=null){
             this.txtHuella.setText("HUELLA CARGADA");
         }
+        if (foto != null) {
+            this.drawPicture();
+        }
+    }//GEN-LAST:event_btnCargarHuellaActionPerformed
+
+    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
+
     }//GEN-LAST:event_formMouseEntered
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(!this.txtNombre.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
             try {
-                Usuario miUsuario = new Usuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), null);
+                byte[] imageBytes = this.toByteArray(foto);
+                Usuario miUsuario = new Usuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), imageBytes);
                 this.miControlador.altaUsuario(miUsuario);
                 this.setVisible(false);
             } catch (IOException | Notificaciones ex) {
@@ -372,6 +396,11 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         this.cargarTabla();
     }//GEN-LAST:event_formComponentShown
 
+    private void btnFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFotoActionPerformed
+        jDialogWebCam webCamDialog = new jDialogWebCam(null, true);
+        this.foto = webCamDialog.showDialog();
+    }//GEN-LAST:event_btnFotoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActivar;
@@ -384,11 +413,11 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblFoto;
     private javax.swing.JTable tablaUsuariosInactivos;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JPasswordField txtContrasena;
@@ -427,4 +456,34 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         return array;
     }
 
+    public void drawPicture(){
+        Graphics2D bGr = foto.createGraphics();
+        bGr.drawImage(foto, 0, 0 , null);
+        bGr.dispose();
+        BufferedImage auxiliar = foto;
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(Math.toRadians(180), foto.getWidth()/2, foto.getHeight()/2);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        auxiliar = op.filter(foto, null);
+        lblFoto.setIcon(null);
+        lblFoto.setIcon(new ImageIcon(foto.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_DEFAULT)));
+    }
+    
+    public BufferedImage createImageFromBytes(byte[] imageData) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+        try {
+            return ImageIO.read(bais);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    } 
+    
+    public byte[] toByteArray(BufferedImage image) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", baos);
+        byte[] imageBytes = baos.toByteArray();
+        return imageBytes;
+    }
+    
+    
 }

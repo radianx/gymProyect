@@ -6,8 +6,11 @@
 package gimnasio.vista;
 
 import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Cargo;
 import gimnasio.modelo.Obrasocial;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
@@ -246,7 +249,11 @@ public class jInternalObraSocial extends javax.swing.JInternalFrame {
         if(!this.tablaObrasSociales.getSelectionModel().isSelectionEmpty()){
             unaOS = (Obrasocial) this.tablaObrasSociales.getValueAt(this.tablaObrasSociales.getSelectedRow(), 0);
             unaOS.setEstado("INACTIVO");
-            miControlador.bajaObraSocial(unaOS);
+            try {
+                miControlador.bajaObraSocial(unaOS.getNombreobrasocial());
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
             SwingUtilities.invokeLater(new Runnable(){public void run(){
                 cargarTabla();
             }});

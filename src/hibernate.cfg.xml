@@ -75,5 +75,6 @@ Contributor(s):
     <mapping resource="gimnasio/modelo/Usuario.hbm.xml"/>
     <mapping resource="gimnasio/modelo/CargoPersonal.hbm.xml"/>
     <mapping resource="gimnasio/modelo/AsistenciaAlumno.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/HorarioProfesor.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

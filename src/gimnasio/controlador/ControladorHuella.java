@@ -26,13 +26,21 @@ import com.digitalpersona.onetouch.verification.DPFPVerification;
 import com.digitalpersona.onetouch.verification.DPFPVerificationResult;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Usuario;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -44,6 +52,7 @@ import javax.swing.SwingUtilities;
 public class ControladorHuella implements Runnable{
 
     JTextField texto;
+    JLabel label;
     //Varible que permite iniciar el dispositivo de lector de huella conectado
     // con sus distintos metodos.
     private DPFPCapture lector = DPFPGlobal.getCaptureFactory().createCapture();
@@ -73,9 +82,9 @@ public class ControladorHuella implements Runnable{
     public static String TEMPLATE_PROPERTY = "template";
     private ControladorPersistencia miPersistencia;
     
-    
-    public ControladorHuella(ControladorPersistencia persistencia, JTextField texto) {
+    public ControladorHuella(ControladorPersistencia persistencia, JTextField texto, JLabel label) {
         this.texto = texto;
+        this.label = label;
         miPersistencia = persistencia;
     }
 
@@ -207,8 +216,9 @@ public class ControladorHuella implements Runnable{
     
     public void start(){
         lector.startCapture();
-        texto.setText("INICIANDO CAPTURA");
+        texto.setText("-Esperando Huella-");
         EnviarTexto("USANDO");
+        
     }
     
     public void stop(){
@@ -331,6 +341,7 @@ public class ControladorHuella implements Runnable{
 
     public void identificarHuella(DPFPSample sample) throws InterruptedException {
         try {
+            texto.setText("Verificando huella...");
             setVerificacion(true);
             //       Conexion con base de datos, preparar sentencia sql o blabla
             //     Obtenemos ---TODAS---- las huellas de la BD
@@ -360,19 +371,33 @@ public class ControladorHuella implements Runnable{
                     //e indica el nombre de la persona que coincidió.
                     if (result.isVerified()) {
                         //crea la imagen de los datos guardado de las huellas guardadas en la base de datos
-                        //JOptionPane.showMessageDialog(null, "Las huella capturada es de " + nombre, "Verificacion de Huella", JOptionPane.INFORMATION_MESSAGE);
+                        //JOptionPane.showMessageDialog(null, "Las huella capturada es de " + nombre, "Verificacion de Huella", JOptionPane.INFORMATION_MESSAGE);                                              
+                        if(miUsuario.getNombreusuario()!=null){
+                            texto.setText(miUsuario.getNombreusuario());
+                        }
+                        if(miUsuario.getFoto()!=null){
+                            drawPicture(createImageFromBytes(miUsuario.getFoto()));
+                        }
                         verificacionCorrecta(miUsuario);
                         setHuellaVerificada(true);
                         EnviarTexto("CORRECTO");
+
                         setVerificacion(false);
+                        try{
+                            ControladorRele.abrirPuerta();
+                        }catch(InterruptedException ex){
+                            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
+                        }
                         return; //<---- Esto es un break del for..
                     }
+
                 }
             }
             //Si no encuentra alguna huella correspondiente al nombre lo indica con un mensaje
             setVerificacion(false);
             setTemplate(null);
             setHuellaVerificada(false);
+            texto.setText("Huella no Encontrada");
         } catch (Notificaciones e) {
             //Si ocurre un error lo indica en la consola
             System.err.println("Error al identificar huella dactilar." + e.getMessage());
@@ -408,30 +433,6 @@ public class ControladorHuella implements Runnable{
     public void run() {
         this.start();
         this.Iniciar();
-        while(true){
-            try {
-                if (verificando()) {
-                    texto.setText("Verificando huella...");
-                    Thread.sleep(1000);
-                    if (isHuellaVerificada()) {
-                        texto.setText(usuario.getNombreusuario());
-                        Thread.sleep(2000);
-                        texto.setText("");
-                    }
-                    if (!isHuellaVerificada()) {
-                        texto.setText("Huella no Encontrada");
-                        Thread.sleep(2000);
-                        texto.setText("");
-                    }
-                }
-                if (!verificando()) {
-                    texto.setText("Esperando Huella");
-                }
-            } catch (InterruptedException ex) {
-                System.err.println(ex.getMessage());
-            }
-
-        }
     }
 
     public boolean isIniciado() {
@@ -442,5 +443,28 @@ public class ControladorHuella implements Runnable{
         this.iniciado = iniciado;
     }
     
+
+    public void drawPicture(BufferedImage foto){
+        Graphics2D bGr = foto.createGraphics();
+        bGr.drawImage(foto, 0, 0 , null);
+        bGr.dispose();
+        BufferedImage auxiliar = foto;
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(Math.toRadians(180), foto.getWidth()/2, foto.getHeight()/2);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        auxiliar = op.filter(foto, null);
+        label.setText(null);
+        label.setIcon(null);
+        label.setIcon(new ImageIcon(foto.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT)));
+    }
+    
+    public BufferedImage createImageFromBytes(byte[] imageData) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+        try {
+            return ImageIO.read(bais);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }     
     
 }

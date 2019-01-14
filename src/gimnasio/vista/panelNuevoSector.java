@@ -272,7 +272,7 @@ public class panelNuevoSector extends javax.swing.JPanel {
 
     private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
         Sector sector = (Sector) this.tablaSectoresInactivos.getValueAt(this.tablaSectoresInactivos.getSelectedRow(),0);
-        miControlador.bajaSector(sector);
+  //      miControlador.bajaSector(sector);
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 cargarTabla();

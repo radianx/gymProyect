@@ -7,25 +7,27 @@ package gimnasio.controlador;
 
 import com.sun.jna.Native;
 import gimnasio.interfaces.GestorRele;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Family
  */
-public class ControladorRele extends Thread {
+public class ControladorRele {
 
-    GestorRele gestorRele = (GestorRele) Native.load("usb_relay_device", GestorRele.class);
-    int res = gestorRele.usb_relay_init();
-    GestorRele.usb_relay_device_info.ByReference disp = gestorRele.usb_relay_device_enumerate();
-    int handle = gestorRele.usb_relay_device_open(disp);
-    boolean bandera = false;
+    static GestorRele gestorRele = (GestorRele) Native.load("usb_relay_device", GestorRele.class);
+    static int res = gestorRele.usb_relay_init();
+    static GestorRele.usb_relay_device_info.ByReference disp = gestorRele.usb_relay_device_enumerate();
+    static int handle = gestorRele.usb_relay_device_open(disp);
 
-    public ControladorRele() {
-    }
-
-    public void abrirPuerta() throws InterruptedException {
+    public static  void abrirPuerta() throws InterruptedException {
         res = gestorRele.usb_relay_device_open_one_relay_channel(handle, 1);
         Thread.sleep(3000);
         res = gestorRele.usb_relay_device_close_one_relay_channel(handle, 1);
     }
+
+    
 }
