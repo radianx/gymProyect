@@ -42,21 +42,25 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
     }
 
     public void cargarTabla() {
-        modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Nombre");
-        modeloTabla.addColumn("Apellido");
-        modeloTabla.addColumn("Usuario");
-        Object[] fila = new Object[3];
+        try {
+            modeloTabla = new DefaultTableModel();
+            modeloTabla.addColumn("Nombre");
+            modeloTabla.addColumn("Apellido");
+            modeloTabla.addColumn("Usuario");
+            Object[] fila = new Object[3];
 
-        for (Profesor miProfesor : miControlador.getListaProfesores()) {
-            if (miProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = miProfesor;
-                fila[1] = miProfesor.getApellidoprofesor();
-                fila[2] = miProfesor.getUsuario().getNombreusuario();
-                modeloTabla.addRow(fila);
+            for (Profesor miProfesor : miControlador.getListaProfesores()) {
+                if (miProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    fila[0] = miProfesor;
+                    fila[1] = miProfesor.getApellidoprofesor();
+                    fila[2] = miProfesor.getUsuario().getNombreusuario();
+                    modeloTabla.addRow(fila);
+                }
             }
+            this.tablaProfesore.setModel(modeloTabla);
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-        this.tablaProfesore.setModel(modeloTabla);
     }
 
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {

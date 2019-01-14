@@ -11,6 +11,7 @@ import gimnasio.modelo.Alumno;
 import gimnasio.modelo.Clase;
 import gimnasio.modelo.ClaseAlumno;
 import gimnasio.modelo.ClaseProfesor;
+import gimnasio.modelo.Cuota;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Profesormodalidad;
 import java.text.SimpleDateFormat;
@@ -34,63 +35,107 @@ import javax.swing.table.TableRowSorter;
 public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
 
     ControladorPrincipal miControlador;
-    panelClaseAlumno panelNewClaseAlumno;
-    DefaultTableModel modeloTablaPrincipal;
     DefaultTableModel modeloTablaAlumnos;
+    DefaultTableModel modeloTablaCuotasDeAlumno;
+    DefaultTableModel modeloTablaVencimientos;
+    DefaultTableModel modeloTablaCuotasVencidas;
+    
+    Alumno alumnoSeleccionado;
     String text = "";
     
     public jInternalCobroCuotas(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
-        cargarTablaPrincipal();
-        panelNewClaseAlumno = new panelClaseAlumno(miControlador);
-        this.add(panelNewClaseAlumno);
+        cargarTablaAlumnos();
+        cargarTablaCuotasAlumno();
+        cargarTablaVencimientos();
+        cargarTablaCuotasVencidas();
     }
 
-    public void cargarTablaPrincipal(){
-        modeloTablaPrincipal = new DefaultTableModel();
-        modeloTablaPrincipal.addColumn("Clase");
-        modeloTablaPrincipal.addColumn("Profesor");
-        modeloTablaPrincipal.addColumn("Dia");
-        modeloTablaPrincipal.addColumn("Inicio");
-        modeloTablaPrincipal.addColumn("Fin");
-        modeloTablaPrincipal.addColumn("Modalidad");
-        modeloTablaPrincipal.addColumn("Precio");
-        this.tablaPrincipal.setModel(modeloTablaPrincipal);
-        Object[]fila = new Object[7];
-        for(ClaseProfesor claseProfesor:this.miControlador.getListaClaseProfesor()){
-            if(claseProfesor.getEstado().equalsIgnoreCase("ACTIVO")){
-                fila[0] = claseProfesor;
-                fila[1] = claseProfesor.getProfesor().getNombreprofesor() + " " + claseProfesor.getProfesor().getApellidoprofesor();
-                fila[2] = new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(claseProfesor.getInicio());
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(claseProfesor.getInicio());
-                String time = new SimpleDateFormat("HH:mm").format(cal.getTime());
-                fila[3] = time;
-                cal.setTime(claseProfesor.getFin());
-                time = new SimpleDateFormat("HH:mm").format(cal.getTime());
-                fila[4] = time;
-                fila[5] = claseProfesor.getModalidad();
-                for(Profesormodalidad profeModa: claseProfesor.getProfesor().getProfesorModalidads()){
-                    if(profeModa.getModalidad().equals(claseProfesor.getModalidad())){
-                        fila[6] = profeModa.getPreciohora();
-                        break;
-                    }
-                }
+    public void cargarTablaCuotasAlumno(){
+        modeloTablaCuotasDeAlumno = new DefaultTableModel();
+        modeloTablaCuotasDeAlumno.addColumn("Clase");
+        modeloTablaCuotasDeAlumno.addColumn("Fecha Emision");
+        modeloTablaCuotasDeAlumno.addColumn("Vencimiento");
+        modeloTablaCuotasDeAlumno.addColumn("Monto");
+        this.tablaCuotasDeAlumno.setModel(modeloTablaCuotasDeAlumno);
+    }
+    
+    public void cargarTablaVencimientos(){
+        modeloTablaVencimientos = new DefaultTableModel();
+        modeloTablaVencimientos.addColumn("Nombre");
+        modeloTablaVencimientos.addColumn("Apellido");
+        modeloTablaVencimientos.addColumn("Vencimiento");
+        modeloTablaVencimientos.addColumn("Monto");
+        modeloTablaVencimientos.addColumn("Telefono");
+        this.tablaVencimientos.setModel(modeloTablaVencimientos);
+        Object[]fila = new Object[5];
+        for(Cuota cuota:this.miControlador.getListaCuotasAVencer()){
+            if(cuota.getEstado().equalsIgnoreCase("ACTIVO")){
+                fila[0] = cuota.getAlumno();
+                fila[1] = cuota.getAlumno().getApellidoalumno();
+                String time = new SimpleDateFormat("dd/MM/uuuu").format(cuota.getVencimiento());
+                fila[2] = time;
+                fila[3] = cuota.getMonto();
+                fila[4] = cuota.getAlumno().getContacto().getTelefono1();
+                modeloTablaVencimientos.addRow(fila);
             }
         }
     }
     
-    public void cargarTablaAlumnos(ClaseProfesor claseProfe){
+    public void cargarTablaCuotasVencidas(){
+        modeloTablaCuotasVencidas = new DefaultTableModel();
+        modeloTablaCuotasVencidas.addColumn("Nombre");
+        modeloTablaCuotasVencidas.addColumn("Apellido");
+        modeloTablaCuotasVencidas.addColumn("Vencimiento");
+        modeloTablaCuotasVencidas.addColumn("Monto");
+        modeloTablaCuotasVencidas.addColumn("Telefono");
+        this.tablaCuotasVencidas.setModel(modeloTablaCuotasVencidas);
+        Object[]fila = new Object[5];
+        for(Cuota cuota:miControlador.getListaCuotasVencidas()){
+            if(cuota.getEstado().equalsIgnoreCase("ACTIVO")){
+                fila[0] = cuota.getAlumno();
+                fila[1] = cuota.getAlumno().getApellidoalumno();
+                String time = new SimpleDateFormat("dd/MM/uuuu").format(cuota.getVencimiento());
+                fila[2] = time;
+                fila[3] = cuota.getMonto();
+                fila[4] = cuota.getAlumno().getContacto().getTelefono1();
+                modeloTablaCuotasVencidas.addRow(fila);
+            }
+        }
+    }
+    
+    public void cargarTablaCuotasAlumno(Alumno unAlumno){
+        modeloTablaCuotasDeAlumno = new DefaultTableModel();
+        modeloTablaCuotasDeAlumno.addColumn("Clase");
+        modeloTablaCuotasDeAlumno.addColumn("Fecha Emision");
+        modeloTablaCuotasDeAlumno.addColumn("Vencimiento");
+        modeloTablaCuotasDeAlumno.addColumn("Monto");
+        this.tablaCuotasDeAlumno.setModel(modeloTablaCuotasDeAlumno);
+        Object[]fila = new Object[4];
+        for(Cuota cuota:unAlumno.getCuotas()){
+            if(cuota.getEstado().equalsIgnoreCase("ACTIVO")){
+                fila[0] = cuota.getClaseProfesor().getClase();
+                String time = new SimpleDateFormat("dd/MM/uuuu").format(cuota.getAltacuota());
+                fila[1] = time;
+                time = new SimpleDateFormat("dd/MM/uuuu").format(cuota.getVencimiento());
+                fila[2] = time;
+                fila[3] = cuota.getMonto();
+                modeloTablaCuotasDeAlumno.addRow(fila);
+             }
+        }
+    }
+    
+    public void cargarTablaAlumnos(){
         modeloTablaAlumnos = new DefaultTableModel();
         modeloTablaAlumnos.addColumn("Nombre");
         modeloTablaAlumnos.addColumn("Apellido");
         this.tablaAlumnos.setModel(modeloTablaAlumnos);
         Object[] fila = new Object[2];
-        for (ClaseAlumno claseAlumno : claseProfe.getClaseAlumnos()) {
-            if (claseAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = claseAlumno.getAlumno();
-                fila[1] = claseAlumno.getAlumno().getApellidoalumno();
+        for (Alumno unAlumno : miControlador.getListaAlumnos()) {
+            if (unAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
+                fila[0] = unAlumno;
+                fila[1] = unAlumno.getApellidoalumno();
                 modeloTablaAlumnos.addRow(fila);
             }
         }
@@ -107,20 +152,20 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         panelPrincipal = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtAlumno = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaAlumnos = new javax.swing.JTable();
+        tablaCuotasDeAlumno = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablaPrincipal = new javax.swing.JTable();
+        tablaAlumnos = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtSaldo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnCobrar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tablaPrincipal1 = new javax.swing.JTable();
+        tablaVencimientos = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tablaPrincipal2 = new javax.swing.JTable();
+        tablaCuotasVencidas = new javax.swing.JTable();
         btnCuotasVencidas = new javax.swing.JButton();
         btnVencimientos = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -150,17 +195,40 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTextField1.setEditable(false);
-        jTextField1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtAlumno.setEditable(false);
+        txtAlumno.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtAlumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtAlumnoActionPerformed(evt);
             }
         });
 
         jLabel1.setText("Alumno:");
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cuotas de Alumno Seleccionado"));
+
+        tablaCuotasDeAlumno.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tablaCuotasDeAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaCuotasDeAlumnoMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaCuotasDeAlumnoMouseReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaCuotasDeAlumno);
+
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Alumnos"));
 
         tablaAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -181,41 +249,18 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
                 tablaAlumnosMouseReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tablaAlumnos);
-
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Alumnos"));
-
-        tablaPrincipal.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tablaPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaPrincipalMouseClicked(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaPrincipalMouseReleased(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tablaPrincipal);
+        jScrollPane2.setViewportView(tablaAlumnos);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 0, 0));
         jLabel2.setText("SALDO:");
 
-        jTextField2.setEditable(false);
-        jTextField2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(255, 0, 0));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtSaldo.setEditable(false);
+        txtSaldo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtSaldo.setForeground(new java.awt.Color(255, 0, 0));
+        txtSaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtSaldoActionPerformed(evt);
             }
         });
 
@@ -235,13 +280,13 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1)
+                        .addComponent(txtAlumno)
                         .addGap(26, 26, 26)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -255,10 +300,10 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -270,7 +315,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "VENCIMIENTOS", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
 
-        tablaPrincipal1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaVencimientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -281,19 +326,19 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tablaPrincipal1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaVencimientos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaPrincipal1MouseClicked(evt);
+                tablaVencimientosMouseClicked(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaPrincipal1MouseReleased(evt);
+                tablaVencimientosMouseReleased(evt);
             }
         });
-        jScrollPane3.setViewportView(tablaPrincipal1);
+        jScrollPane3.setViewportView(tablaVencimientos);
 
         jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CUOTAS VENCIDAS", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(255, 0, 0))); // NOI18N
 
-        tablaPrincipal2.setModel(new javax.swing.table.DefaultTableModel(
+        tablaCuotasVencidas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -304,15 +349,15 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tablaPrincipal2.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaCuotasVencidas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaPrincipal2MouseClicked(evt);
+                tablaCuotasVencidasMouseClicked(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaPrincipal2MouseReleased(evt);
+                tablaCuotasVencidasMouseReleased(evt);
             }
         });
-        jScrollPane4.setViewportView(tablaPrincipal2);
+        jScrollPane4.setViewportView(tablaCuotasVencidas);
 
         btnCuotasVencidas.setText("GENERAR REPORTE");
 
@@ -399,80 +444,82 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaPrincipal.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
             rowSorter.setRowFilter(null);
-            tablaPrincipal.setRowSorter(rowSorter);
+            tablaAlumnos.setRowSorter(rowSorter);
         } else {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaPrincipal.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            tablaPrincipal.setRowSorter(rowSorter);
+            tablaAlumnos.setRowSorter(rowSorter);
         } 
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaPrincipal.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
             rowSorter.setRowFilter(null);
-            tablaPrincipal.setRowSorter(rowSorter);
+            tablaAlumnos.setRowSorter(rowSorter);
         } else {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaPrincipal.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            tablaPrincipal.setRowSorter(rowSorter);
+            tablaAlumnos.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void panelPrincipalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMouseEntered
-        if(!panelNewClaseAlumno.isVisible()){
-            cambiarPanel(panelNewClaseAlumno, panelPrincipal);
-            this.txtBuscar.grabFocus();
-        }
+
     }//GEN-LAST:event_panelPrincipalMouseEntered
 
     private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
-        this.cargarTablaPrincipal();
+        cargarTablaAlumnos();
+        cargarTablaCuotasAlumno();
+        cargarTablaVencimientos();
+        cargarTablaCuotasVencidas();
     }//GEN-LAST:event_panelPrincipalComponentShown
 
-    private void tablaPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipalMouseClicked
-        if(!tablaPrincipal.getSelectionModel().isSelectionEmpty()){
-            cargarTablaAlumnos((ClaseProfesor) tablaPrincipal.getValueAt(tablaPrincipal.getSelectedRow(), 0));
-        }
-    }//GEN-LAST:event_tablaPrincipalMouseClicked
-
-    private void tablaPrincipalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipalMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaPrincipalMouseReleased
-
-    private void tablaAlumnosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseReleased
-        this.btnEliminar.setEnabled(true);
-    }//GEN-LAST:event_tablaAlumnosMouseReleased
-
     private void tablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseClicked
+        if(!tablaAlumnos.getSelectionModel().isSelectionEmpty()){
+            alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+            this.txtAlumno.setText(alumnoSeleccionado.getNombrealumno() + " " + alumnoSeleccionado.getApellidoalumno());
+            this.cargarTablaCuotasAlumno(alumnoSeleccionado);
+        }
     }//GEN-LAST:event_tablaAlumnosMouseClicked
 
-    private void tablaPrincipal1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipal1MouseClicked
+    private void tablaAlumnosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_tablaPrincipal1MouseClicked
+    }//GEN-LAST:event_tablaAlumnosMouseReleased
 
-    private void tablaPrincipal1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipal1MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaPrincipal1MouseReleased
+    private void tablaCuotasDeAlumnoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCuotasDeAlumnoMouseReleased
 
-    private void tablaPrincipal2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipal2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaPrincipal2MouseClicked
+    }//GEN-LAST:event_tablaCuotasDeAlumnoMouseReleased
 
-    private void tablaPrincipal2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipal2MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaPrincipal2MouseReleased
+    private void tablaCuotasDeAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCuotasDeAlumnoMouseClicked
+    }//GEN-LAST:event_tablaCuotasDeAlumnoMouseClicked
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void tablaVencimientosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVencimientosMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_tablaVencimientosMouseClicked
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void tablaVencimientosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVencimientosMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_tablaVencimientosMouseReleased
+
+    private void tablaCuotasVencidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCuotasVencidasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaCuotasVencidasMouseClicked
+
+    private void tablaCuotasVencidasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCuotasVencidasMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaCuotasVencidasMouseReleased
+
+    private void txtAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlumnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAlumnoActionPerformed
+
+    private void txtSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSaldoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSaldoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -492,14 +539,14 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JTable tablaAlumnos;
-    private javax.swing.JTable tablaPrincipal;
-    private javax.swing.JTable tablaPrincipal1;
-    private javax.swing.JTable tablaPrincipal2;
+    private javax.swing.JTable tablaCuotasDeAlumno;
+    private javax.swing.JTable tablaCuotasVencidas;
+    private javax.swing.JTable tablaVencimientos;
+    private javax.swing.JTextField txtAlumno;
     private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtSaldo;
     // End of variables declaration//GEN-END:variables
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
 		panelActual.setVisible(false);

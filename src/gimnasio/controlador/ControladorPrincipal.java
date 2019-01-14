@@ -72,6 +72,7 @@ public class ControladorPrincipal {
         this.controladorModalidad = new ControladorModalidad(this.miPersistencia);
         this.controladorProfesorModalidad =  new ControladorProfesorModalidad(this.miPersistencia);
         this.controladorClaseAlumno = new ControladorClaseAlumno(this.miPersistencia);
+        this.controladorCuota = new ControladorCuota(this.miPersistencia);
     }      
     
     public ControladorPersistencia getMiPersistencia() {
@@ -255,23 +256,8 @@ public void bajaClaseAlumno(ClaseAlumno unaClaseAlumno) throws Notificaciones{
 
 
 //  <----------------------------------------------------ABM CUOTAS ----------------------------------------------------> 
-public List<Cuota> altaCuota(Alumno unAlumno, Clase unaClase, Double precio, Date altaCuota, Date vencimientoCuota) throws Notificaciones{
-    List<Cuota> cuotasImpagas = new ArrayList<>();
-    for(Cuota unaCuota : this.listaCuotas){
-        if(buscarCuotasImpagas(unAlumno)!=null && buscarCuotasConSaldo(unAlumno)!=null){
-            String estado = "GENERADA";
-            Cuota nuevaCuota = new Cuota(unAlumno, unaClase, precio, estado, altaCuota, vencimientoCuota);
-            this.listaCuotas.add(unaCuota);
-            this.miPersistencia.persistirInstancia(nuevaCuota);
-            break;
-        }else{
-            cuotasImpagas.add(unaCuota);
-        }
-    }
-    if(cuotasImpagas.isEmpty()){
-        cuotasImpagas = null;
-    }
-    return cuotasImpagas;
+public void altaCuota(Cuota unaCuota) throws Notificaciones{
+    this.controladorCuota.altaCuota(unaCuota);
 }
 
 
@@ -431,8 +417,8 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
         return this.miModeloPrincipal.getListaCargoPersonal();
     }
 
-    public List<ClaseProfesor> getListaClaseProfesor(){
-        return this.miModeloPrincipal.getListaClaseProfesor();
+    public List<ClaseProfesor> getListaClaseProfesor() throws Notificaciones{
+        return this.controladorClaseProfesor.getListaClaseProfesor();
     }
     
     public List<AperturaCajaDiaria> getListaAperturaCajaDiaria(){
@@ -457,6 +443,14 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
 
     public void actualizarClaseProfesor(ClaseProfesor claseSeleccionada) throws Notificaciones {
         controladorClaseProfesor.actualizarClaseProfesor(claseSeleccionada);
+    }
+
+    public List<Cuota> getListaCuotasAVencer() {
+        return this.controladorCuota.getListaCuotasAVencer();
+    }
+
+    public List<Cuota> getListaCuotasVencidas() {
+        return this.controladorCuota.getListaCuotasVencidas();
     }
     
     

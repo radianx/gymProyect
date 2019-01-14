@@ -20,6 +20,9 @@
         <property name="estado" type="string">
             <column name="estado" not-null="true" />
         </property>
+        <property name="diasPorSemana" type="int">
+            <column name="diasPorSemana" />
+        </property>
         <set name="asistenciaAlumnos" table="asistencia_alumno" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idclasealumno" not-null="true" />

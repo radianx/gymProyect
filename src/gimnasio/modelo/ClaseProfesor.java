@@ -119,6 +119,11 @@ public class ClaseProfesor  implements java.io.Serializable {
     }
 
     @Override
+    public String toString() {
+        return clase.toString();
+    }
+
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 41 * hash + this.idclaseprofesor;

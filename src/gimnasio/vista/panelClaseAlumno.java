@@ -74,9 +74,9 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         modeloTablaPrincipal.addColumn("Inicio");
         modeloTablaPrincipal.addColumn("Fin");
         modeloTablaPrincipal.addColumn("Modalidad");
-        modeloTablaPrincipal.addColumn("Precio");
         this.tablaPrincipal.setModel(modeloTablaPrincipal);
-        Object[]fila = new Object[7];
+        Object[]fila = new Object[6];
+        try{
         for(ClaseProfesor claseProfesor:this.miControlador.getListaClaseProfesor()){
             if(claseProfesor.getEstado().equalsIgnoreCase("ACTIVO")){
                 fila[0] = claseProfesor;
@@ -90,13 +90,11 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                 time = new SimpleDateFormat("HH:mm").format(cal.getTime());
                 fila[4] = time;
                 fila[5] = claseProfesor.getModalidad();
-                for(Profesormodalidad profeModa: claseProfesor.getProfesor().getProfesorModalidads()){
-                    if(profeModa.getModalidad().equals(claseProfesor.getModalidad())){
-                        fila[6] = profeModa.getPreciohora();
-                        break;
-                    }
-                }
+                modeloTablaPrincipal.addRow(fila);
             }
+        }
+        }catch(Notificaciones ex){
+            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
         }
     }
     
@@ -132,6 +130,8 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         txtBuscarClase = new javax.swing.JTextField();
         btnBuscarClases = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        cmbDiasPorSemana = new javax.swing.JComboBox<>();
 
         setMinimumSize(new java.awt.Dimension(484, 370));
         setPreferredSize(new java.awt.Dimension(484, 370));
@@ -266,6 +266,16 @@ public class panelClaseAlumno extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setText("Dias por Semana:");
+
+        cmbDiasPorSemana.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7" }));
+        cmbDiasPorSemana.setEnabled(false);
+        cmbDiasPorSemana.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDiasPorSemanaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -293,22 +303,28 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnInscribir, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jLabel13)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel14)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(txtAlumno)
                                     .addComponent(txtClase)))
-                            .addComponent(btnInscribir, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE))))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbDiasPorSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtPrecio)))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -319,10 +335,9 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                     .addComponent(jLabel5)
                     .addComponent(txtBuscarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscarAlumno)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(txtBuscarClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBuscarClases)))
+                    .addComponent(jLabel6)
+                    .addComponent(txtBuscarClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarClases))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -333,14 +348,18 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
                             .addComponent(txtAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(cmbDiasPorSemana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13)
                             .addComponent(jLabel14))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                         .addComponent(btnInscribir)
-                        .addGap(0, 166, Short.MAX_VALUE))
+                        .addGap(89, 89, 89))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
@@ -373,6 +392,9 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     private void tablaPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipalMouseClicked
         if(!tablaPrincipal.getSelectionModel().isSelectionEmpty()){
             claseSeleccionada = (ClaseProfesor) tablaPrincipal.getValueAt(tablaPrincipal.getSelectedRow(),0);
+            if(claseSeleccionada.getFin()==null){
+                this.cmbDiasPorSemana.setEnabled(true);
+            }
             this.txtClase.setText(claseSeleccionada.getClase().toString());
         }
     }//GEN-LAST:event_tablaPrincipalMouseClicked
@@ -397,7 +419,8 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         if(!tablaPrincipal.getSelectionModel().isSelectionEmpty()){
             try {
                 Double precio = Double.valueOf(this.txtPrecio.getText());
-                ClaseAlumno claseAlumno = new ClaseAlumno(alumnoSeleccionado, claseSeleccionada, precio, "ACTIVO");
+                int dias = Integer.valueOf(this.cmbDiasPorSemana.getSelectedItem().toString());
+                ClaseAlumno claseAlumno = new ClaseAlumno(alumnoSeleccionado, claseSeleccionada, precio,dias, "ACTIVO");
                 miControlador.altaClaseAlumno(claseAlumno);
                 claseSeleccionada.getClaseAlumnos().add(claseAlumno);
                 miControlador.actualizarClaseProfesor(claseSeleccionada);
@@ -405,9 +428,9 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                 int seleccion = JOptionPane.showOptionDialog(null, "¿Desea generar una Cuota?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
                 switch (seleccion){
                     case 0: 
-                        jInternalCuotas cuotas = new jInternalCuotas(this.miControlador);
+                        jInternalCuotas cuotas = new jInternalCuotas(this.miControlador,claseAlumno.getAlumno(),claseAlumno.getClaseProfesor(),precio);
                         cuotas.setVisible(true);
-                        this.getParent().getParent().getParent().getParent().getParent().getParent().add(cuotas);
+                        this.getParent().getParent().getParent().getParent().getParent().add(cuotas);
                         this.setVisible(false);
                         cuotas.toFront();
                         break;
@@ -452,6 +475,10 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnBuscarAlumnoActionPerformed
 
+    private void cmbDiasPorSemanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDiasPorSemanaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbDiasPorSemanaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarAlumno;
@@ -460,6 +487,8 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnInscribir;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JComboBox<String> cmbDiasPorSemana;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;

@@ -25,6 +25,7 @@ public class ControladorModalidad {
     public void altaModalidad(Modalidad unaModalidad) throws Notificaciones{
         Modalidad miModalidad = buscarModalidad(unaModalidad.getNombremodalidad());
         String estado = "ACTIVO";
+        unaModalidad.setEstado(estado);
         if (miModalidad != null) {
             miModalidad.setEstado(estado);
             miModalidad.setNombremodalidad(unaModalidad.getNombremodalidad());

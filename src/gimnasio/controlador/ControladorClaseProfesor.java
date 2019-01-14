@@ -44,4 +44,9 @@ public class ControladorClaseProfesor {
         listaClaseProfesor = persistencia.getClasesProfesores();
     }
     
+    public List<ClaseProfesor> getListaClaseProfesor() throws Notificaciones{
+
+        listaClaseProfesor = persistencia.getClasesProfesores();
+        return listaClaseProfesor;
+    }
 }

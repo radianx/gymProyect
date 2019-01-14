@@ -50,7 +50,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     
     public panelNuevoAlumno(ControladorPrincipal controlador) {
         this.miControlador =controlador;
-        Locale locale = new Locale("es", "AR");
+        Locale locale = new Locale("es", "ES");
         DatePickerSettings settings = new DatePickerSettings(locale);
         settings.setFormatForDatesCommonEra("dd/MM/yyyy");
         settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");

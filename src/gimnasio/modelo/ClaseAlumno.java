@@ -16,18 +16,21 @@ public class ClaseAlumno  implements java.io.Serializable {
      private ClaseProfesor claseProfesor;
      private String estado;
      private Double precio;
+     private int diasPorSemana;
      private Set asistenciaAlumnos = new HashSet(0);
 
     public ClaseAlumno() {
     }
 
 	
-    public ClaseAlumno(Alumno alumno, ClaseProfesor claseProfesor, Double precio, String estado) {
+    public ClaseAlumno(Alumno alumno, ClaseProfesor claseProfesor, Double precio, int diasPorSemana, String estado) {
         this.alumno = alumno;
         this.claseProfesor = claseProfesor;
         this.precio = precio;
         this.estado = estado;
+        this.diasPorSemana = diasPorSemana;
     }
+    
     public ClaseAlumno(int idclasealumno, Alumno alumno, ClaseProfesor claseProfesor, String estado, Set asistenciaAlumnos) {
        this.idclasealumno = idclasealumno;
        this.alumno = alumno;
@@ -78,6 +81,14 @@ public class ClaseAlumno  implements java.io.Serializable {
 
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public int getDiasPorSemana() {
+        return diasPorSemana;
+    }
+
+    public void setDiasPorSemana(int diasPorSemana) {
+        this.diasPorSemana = diasPorSemana;
     }
 
     

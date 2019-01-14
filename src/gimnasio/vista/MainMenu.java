@@ -93,7 +93,7 @@ public class MainMenu extends javax.swing.JFrame {
         btnModalidad = new javax.swing.JButton();
         btnAsistencia = new javax.swing.JButton();
         btnCobros = new javax.swing.JButton();
-        btnPagos = new javax.swing.JButton();
+        btnClaseALumno = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -226,7 +226,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(btnAsistencia);
 
-        btnCobros.setText("Cobranzas");
+        btnCobros.setText("<html><center>Gestion<br>de Cuotas</center></html>");
         btnCobros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCobrosActionPerformed(evt);
@@ -234,8 +234,13 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(btnCobros);
 
-        btnPagos.setText("Pagos");
-        jPanel2.add(btnPagos);
+        btnClaseALumno.setText("<html><center>Alumnos<br>por Clase</center></");
+        btnClaseALumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClaseALumnoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnClaseALumno);
 
         jButton1.setText("<HTML><center>Modalidades<br>por Profesor</center></HTML>");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -304,14 +309,11 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1043, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1046, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -518,7 +520,9 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMiArchivo1ActionPerformed
 
     private void btnCobrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCobrosActionPerformed
-//        panelInformes.setVisible(true);
+        jInternalCobroCuotas panelCuotas = new jInternalCobroCuotas(this.miControlador);
+        this.jDesktopPane1.add(panelCuotas);
+        panelCuotas.setVisible(true);
     }//GEN-LAST:event_btnCobrosActionPerformed
 
     private void btnAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciaActionPerformed
@@ -616,6 +620,12 @@ public class MainMenu extends javax.swing.JFrame {
         panelProfeMod.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnClaseALumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaseALumnoActionPerformed
+        jInternalClasesAlumno ventanaClaseAlumn = new jInternalClasesAlumno(this.miControlador);
+        this.jDesktopPane1.add(ventanaClaseAlumn);
+        ventanaClaseAlumn.setVisible(true);
+    }//GEN-LAST:event_btnClaseALumnoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -624,11 +634,11 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnAbrirPuerta;
     private javax.swing.JButton btnAlumnos;
     private javax.swing.JButton btnAsistencia;
+    private javax.swing.JButton btnClaseALumno;
     private javax.swing.JButton btnClases;
     private javax.swing.JButton btnClasesProfesor;
     private javax.swing.JButton btnCobros;
     private javax.swing.JButton btnModalidad;
-    private javax.swing.JButton btnPagos;
     private javax.swing.JButton btnProfesores;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JMenuItem itemEliminarClase;

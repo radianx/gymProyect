@@ -5,6 +5,8 @@
  */
 package gimnasio.vista;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Contacto;
@@ -15,6 +17,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -39,6 +42,12 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
     
     public panelNuevoProfesor(ControladorPrincipal controlador) {
         miControlador = controlador;
+        Locale locale = new Locale("es", "ES");
+        DatePickerSettings settings = new DatePickerSettings(locale);
+        settings.setFormatForDatesCommonEra("dd/MM/yyyy");
+        settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");
+        this.datePicker1 = new DatePicker(settings);
+        datePicker1.setDateToToday();
         initComponents();
         cargarTabla();
         cargarCombo();
