@@ -34,16 +34,15 @@ public class ClaseProfesor  implements java.io.Serializable {
         this.estado = estado;
     }
 
-    public ClaseProfesor(int idclaseprofesor, Clase clase, Modalidad modalidad, Profesor profesor, String estado, Set<HorarioProfesor> horarios) {
+    public ClaseProfesor(int idclaseprofesor, Clase clase, Modalidad modalidad, Profesor profesor, String estado, Set<HorarioProfesor> horario) {
         this.idclaseprofesor = idclaseprofesor;
         this.clase = clase;
         this.modalidad = modalidad;
         this.profesor = profesor;
         this.estado = estado;
-        this.horarios = horarios;
+        this.horarios = horario;
     }
-
-   
+        
     public int getIdclaseprofesor() {
         return this.idclaseprofesor;
     }
@@ -108,6 +107,10 @@ public class ClaseProfesor  implements java.io.Serializable {
     
     public void setClaseAlumnos(Set claseAlumnos) {
         this.claseAlumnos = claseAlumnos;
+    }
+    
+    public void addHorarioProfesor(HorarioProfesor horario){
+        this.horarios.add(horario);
     }
 
     @Override

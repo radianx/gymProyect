@@ -52,26 +52,15 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
         modeloTablaPrincipal = new DefaultTableModel();
         modeloTablaPrincipal.addColumn("Clase");
         modeloTablaPrincipal.addColumn("Profesor");
-        modeloTablaPrincipal.addColumn("Dia");
-        modeloTablaPrincipal.addColumn("Inicio");
-        modeloTablaPrincipal.addColumn("Fin");
         modeloTablaPrincipal.addColumn("Modalidad");
         this.tablaPrincipal.setModel(modeloTablaPrincipal);
-        Object[]fila = new Object[6];
+        Object[]fila = new Object[3];
         try{
         for(ClaseProfesor claseProfesor:this.miControlador.getListaClaseProfesor()){
             if(claseProfesor.getEstado().equalsIgnoreCase("ACTIVO")){
                 fila[0] = claseProfesor;
                 fila[1] = claseProfesor.getProfesor().getNombreprofesor() + " " + claseProfesor.getProfesor().getApellidoprofesor();
-                fila[2] = new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(claseProfesor.getInicio());
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(claseProfesor.getInicio());
-                String time = new SimpleDateFormat("HH:mm").format(cal.getTime());
-                fila[3] = time;
-                cal.setTime(claseProfesor.getFin());
-                time = new SimpleDateFormat("HH:mm").format(cal.getTime());
-                fila[4] = time;
-                fila[5] = claseProfesor.getModalidad();
+                fila[2] = claseProfesor.getModalidad();
                 modeloTablaPrincipal.addRow(fila);
             }
         }

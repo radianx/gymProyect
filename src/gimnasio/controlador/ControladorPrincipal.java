@@ -52,6 +52,8 @@ public class ControladorPrincipal {
     private ControladorSectorClase controladorSectoClase;
     private ControladorUsuario controladorUsuario;
     private ControladorUsuarioModulo controladorUsuarioModulo;
+    private ControladorHorarioProfesor controladorHorarioProfesor;
+    private ControladorHorarioAlumno controladorHorarioAlumno;
     
     private ModeloPrincipal miModeloPrincipal;
     
@@ -73,6 +75,8 @@ public class ControladorPrincipal {
         this.controladorProfesorModalidad =  new ControladorProfesorModalidad(this.miPersistencia);
         this.controladorClaseAlumno = new ControladorClaseAlumno(this.miPersistencia);
         this.controladorCuota = new ControladorCuota(this.miPersistencia);
+        this.controladorHorarioProfesor = new ControladorHorarioProfesor(this.miPersistencia);
+        this.controladorHorarioAlumno = new ControladorHorarioAlumno(this.miPersistencia);
     }      
     
     public ControladorPersistencia getMiPersistencia() {
@@ -177,7 +181,7 @@ public class ControladorPrincipal {
     * @return listaAlumnosSinClases puede ser null
     * @throws Notificaciones
     */
-    public List<Alumno> bajaProfesor(int idProfesor) throws Notificaciones {
+//    public List<Alumno> bajaProfesor(int idProfesor) throws Notificaciones {
 //        Profesor unProfesor;
 //        List<Alumno> listaAlumnosSinClases = new ArrayList<>();
 //        String estado = "INACTIVO";
@@ -195,7 +199,7 @@ public class ControladorPrincipal {
 //            listaAlumnosSinClases = null;
 //        }
 //        return listaAlumnosSinClases;
-    }
+//    }
     
     public Profesor buscarProfesor(String nombreProfesor, String apellidoProfesor){
         return this.controladorProfesor.buscarProfesor(nombreProfesor, apellidoProfesor);
@@ -262,10 +266,10 @@ public void altaCuota(Cuota unaCuota) throws Notificaciones{
 
 
 public void altaCuotaConDeuda(Alumno unAlumno, Clase unaClase, Double precio, Date altaCuota, Date vencimientoCuota) throws Notificaciones{
-    String estado = "GENERADA";
-    Cuota nuevaCuota = new Cuota(unAlumno, unaClase, precio, estado, altaCuota, vencimientoCuota);
-    this.listaCuotas.add(nuevaCuota);
-    this.miPersistencia.persistirInstancia(nuevaCuota);
+//    String estado = "GENERADA";
+//    Cuota nuevaCuota = new Cuota(unAlumno, unaClase, precio, estado, altaCuota, vencimientoCuota);
+//    this.listaCuotas.add(nuevaCuota);
+//    this.miPersistencia.persistirInstancia(nuevaCuota);
 }
 
 public void bajaCuota(ClaseAlumno unaClaseAlumno, Date altaCuota){
@@ -451,6 +455,22 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
 
     public List<Cuota> getListaCuotasVencidas() {
         return this.controladorCuota.getListaCuotasVencidas();
+    }
+
+    public void altaHorarioProfesor(HorarioProfesor unHorario)throws Notificaciones {
+        controladorHorarioProfesor.altaHorarioProfesor(unHorario);
+    }
+
+    public List<HorarioProfesor> getListaHorarios() throws Notificaciones {
+        return controladorHorarioProfesor.getListaHorarios();
+    }
+
+    public void bajaHorarioProfesor(HorarioProfesor horarioProfesor) throws Notificaciones {
+        controladorHorarioProfesor.bajaHorarioProfesor(horarioProfesor);
+    }
+
+    public void altaHorarioAlumno(HorarioAlumno unHorario) throws Notificaciones{
+        controladorHorarioAlumno.altaHorarioAlumno(unHorario);
     }
     
     

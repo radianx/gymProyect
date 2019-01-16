@@ -9,12 +9,14 @@ import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Clase;
 import gimnasio.modelo.ClaseProfesor;
+import gimnasio.modelo.HorarioProfesor;
 import gimnasio.modelo.Profesor;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.TextStyle;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,27 +67,31 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
         modeloTablaDias.addColumn("Fin");
         this.tablaClasesActivas.setModel(modeloTablaDias);
         Object[] fila = new Object[4];
-        if(unProfe != null){
-            for(ClaseProfesor claseProfesor:unProfe.getClaseProfesors()){
-                if (claseProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
-                    fila[0] = claseProfesor;
+        List<HorarioProfesor> horarios = null;
+        try {
+            horarios = miControlador.getListaHorarios();
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        if (unProfe != null) {
+            for (ClaseProfesor claseProfesor : unProfe.getClaseProfesors()) {
+                for (HorarioProfesor horarioProfesor :horarios ) {
+                    if (claseProfesor.getEstado().equalsIgnoreCase("ACTIVO")
+                            && horarioProfesor.getClaseProfesor().toString().equalsIgnoreCase(claseProfesor.toString())) {
+                        fila[0] = claseProfesor;
 
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(claseProfesor.getInicio());
-                    String time = new SimpleDateFormat("HH:mm").format(cal.getTime());
-                    
-                    fila[1] = new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(claseProfesor.getInicio());
-                    fila[2] = time;
+                        fila[1] = new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(horarioProfesor.getInicio());
+                        fila[2] = horarioProfesor;
 
-                    cal.setTime(claseProfesor.getFin());
-                    time = new SimpleDateFormat("HH:mm").format(cal.getTime());
-                    fila[3] = time;
+                        fila[3] = horarioProfesor.getFinString();
 
-                    modeloTablaDias.addRow(fila);
+                        modeloTablaDias.addRow(fila);
+                    }
                 }
             }
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -268,9 +274,7 @@ public class jInternalClasesProfesor extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if(!this.tablaClasesActivas.getSelectionModel().isSelectionEmpty()){
             try {
-                ClaseProfesor unaClase = (ClaseProfesor) this.tablaClasesActivas.getValueAt(this.tablaClasesActivas.getSelectedRow(), 0);
-                unaClase.setEstado("INACTIVO");
-                miControlador.bajaClaseProfesor(unaClase);
+                miControlador.bajaHorarioProfesor((HorarioProfesor) tablaClasesActivas.getValueAt(this.tablaClasesActivas.getSelectedRow(),2));
                 SwingUtilities.invokeLater(new Runnable(){public void run(){
                     cargarTablaClases((Profesor) tablaProfesores.getValueAt(tablaProfesores.getSelectedRow(),0));
                 }});

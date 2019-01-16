@@ -13,44 +13,51 @@ import java.util.Objects;
  *
  * @author Family
  */
-public class HorarioProfesor {
-    private int idHorarioProfesor;
-    private ClaseProfesor claseProfesor;
+public class HorarioAlumno {
+    private int idHorarioAlumno;
+    private ClaseAlumno claseAlumno;
     private Date inicio;
     private Date fin;
 
-    public HorarioProfesor() {
+    public HorarioAlumno() {
     }
 
-    public HorarioProfesor(int idHorarioProfesor, ClaseProfesor claseProfesor, Date inicio, Date fin) {
-        this.idHorarioProfesor = idHorarioProfesor;
-        this.claseProfesor = claseProfesor;
+    public HorarioAlumno(int idHorarioAlumno, ClaseAlumno claseAlumno, Date inicio, Date fin) {
+        this.idHorarioAlumno = idHorarioAlumno;
+        this.claseAlumno = claseAlumno;
         this.inicio = inicio;
         this.fin = fin;
     }
 
-    public HorarioProfesor(Date inicio, Date fin) {
+    public HorarioAlumno(Date inicio, Date fin) {
         this.inicio = inicio;
         this.fin = fin;
     }
 
     
     
-    public HorarioProfesor(ClaseProfesor claseProfesor, Date inicio, Date fin) {
-        this.claseProfesor = claseProfesor;
+    public HorarioAlumno(ClaseAlumno claseAlumno, Date inicio, Date fin) {
+        this.claseAlumno = claseAlumno;
         this.inicio = inicio;
         this.fin = fin;
     }
-    
-    
 
-    public int getIdHorarioProfesor() {
-        return idHorarioProfesor;
+    public int getIdHorarioAlumno() {
+        return idHorarioAlumno;
     }
 
-    public void setIdHorarioProfesor(int idHorarioProfesor) {
-        this.idHorarioProfesor = idHorarioProfesor;
+    public void setIdHorarioAlumno(int idHorarioAlumno) {
+        this.idHorarioAlumno = idHorarioAlumno;
     }
+
+    public ClaseAlumno getClaseAlumno() {
+        return claseAlumno;
+    }
+
+    public void setClaseAlumno(ClaseAlumno claseAlumno) {
+        this.claseAlumno = claseAlumno;
+    }
+   
 
     public Date getInicio() {
         return inicio;
@@ -73,13 +80,6 @@ public class HorarioProfesor {
         this.fin = fin;
     }
 
-    public ClaseProfesor getClaseProfesor() {
-        return claseProfesor;
-    }
-
-    public void setClaseProfesor(ClaseProfesor claseProfesor) {
-        this.claseProfesor = claseProfesor;
-    }
 
     @Override
     public String toString() {
@@ -90,7 +90,7 @@ public class HorarioProfesor {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 97 * hash + this.idHorarioProfesor;
+        hash = 97 * hash + this.idHorarioAlumno;
         return hash;
     }
 
@@ -105,7 +105,7 @@ public class HorarioProfesor {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final HorarioProfesor other = (HorarioProfesor) obj;
+        final HorarioAlumno other = (HorarioAlumno) obj;
         if (!Objects.equals(this.inicio, other.inicio)) {
             return false;
         }

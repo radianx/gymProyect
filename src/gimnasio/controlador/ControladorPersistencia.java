@@ -516,4 +516,36 @@ public class ControladorPersistencia {
         }
         return lista;
     }
+
+    public List<HorarioProfesor> getHorariosProfesor() throws Notificaciones {
+        String textoConsulta = "FROM HorarioProfesor";
+        List<HorarioProfesor> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        return lista;
+    }
+
+    public List<HorarioAlumno> getHorariosAlumnos() throws Notificaciones {
+        String textoConsulta = "FROM HorarioAlumno";
+        List<HorarioAlumno> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        return lista;
+    }
 }

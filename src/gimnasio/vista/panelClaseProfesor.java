@@ -11,6 +11,7 @@ import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Clase;
 import gimnasio.modelo.ClaseProfesor;
+import gimnasio.modelo.HorarioProfesor;
 import gimnasio.modelo.Modalidad;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Profesormodalidad;
@@ -22,6 +23,9 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -348,7 +352,27 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if(!txtProfesor.getText().isEmpty()){
+        if(!txtProfesor.getText().isEmpty() && !tablaProfesore.getSelectionModel().isSelectionEmpty()){
+            Profesor unProfesor = (Profesor) tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(), 0);
+            Set<HorarioProfesor> horarios = new HashSet<>();
+            Modalidad unaModalidad = (Modalidad) cmbModalidad.getSelectedItem();
+            Clase unaClase = (Clase) cmbClase.getSelectedItem();
+            
+            for(int i=modeloTablaDias.getRowCount()-1;i>=0;i--){
+                HorarioProfesor unHorarioProfesor = (HorarioProfesor)modeloTablaDias.getValueAt(i, 2);
+                horarios.add(unHorarioProfesor);
+            }
+            
+            ClaseProfesor claseProfesor = new ClaseProfesor(unaClase, unaModalidad, unProfesor,horarios, "ACTIVO");
+            try {
+                this.miControlador.altaClaseProfesor(claseProfesor);
+                for(HorarioProfesor unHorario:horarios){
+                    unHorario.setClaseProfesor(claseProfesor);
+                    miControlador.altaHorarioProfesor(unHorario);
+                }
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, "Database: "+ex.getLocalizedMessage());
+            }
             JOptionPane.showMessageDialog(null, "Guardado con exito");
             this.setVisible(false);
         }else{
@@ -396,10 +420,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     }//GEN-LAST:event_tablaDiasClaseMouseClicked
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if(!tablaProfesore.getSelectionModel().isSelectionEmpty()){
-            Profesor unProfesor = (Profesor) tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(), 0);
             Clase unaClase = (Clase) cmbClase.getSelectedItem();
-            Modalidad unaModalidad = (Modalidad) cmbModalidad.getSelectedItem();
             
             String diaSeleccionado = (String) cmbDia.getSelectedItem();
             LocalDate dia = LocalDate.now();
@@ -417,21 +438,20 @@ public class panelClaseProfesor extends javax.swing.JPanel {
             
             Date inicio = Date.from(instanteInicio);
             Date fin = Date.from(instanteFin);
-            
-            ClaseProfesor unaClaseProfesor = new ClaseProfesor(unaClase, unaModalidad, unProfesor, inicio, fin, "ACTIVO");
-            try{
-                miControlador.altaClaseProfesor(unaClaseProfesor);
-                Object[] fila = new Object[4];
-                fila[0] = unaClaseProfesor;
-                fila[1] = diaSeleccionado;
-                fila[2] = horaInicio.toString();
-                fila[3] = horaFin.toString();
-                this.modeloTablaDias.addRow(fila);
-            }catch(Notificaciones ex){
-                JOptionPane.showMessageDialog(null,ex.getLocalizedMessage());
-            }            
-//AlCubierreDrive.engageHyperSpaceTravel(Destination.ANDROMEDA);
+            HorarioProfesor horarioProfesor = new HorarioProfesor(inicio, fin);
+
+        if (!isHorarioProfesorHere(horarioProfesor) && inicio.before(fin)) {
+            Object[] fila = new Object[4];
+            fila[0] = unaClase;
+            fila[1] = diaSeleccionado;
+            fila[2] = horarioProfesor;
+            fila[3] = horarioProfesor.getFinString();
+            this.modeloTablaDias.addRow(fila);
+        } else{
+            JOptionPane.showMessageDialog(null, "Se esta intentando ingresar un horario invalido");
         }
+
+//AlCubierreDrive.engageHyperSpaceTravel(Destination.ANDROMEDA);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
 
@@ -463,4 +483,13 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtProfesor;
     // End of variables declaration//GEN-END:variables
+
+    private boolean isHorarioProfesorHere(HorarioProfesor unHorarioProfesor) {
+        boolean respuesta = false;
+        for(int i=modeloTablaDias.getRowCount()-1;i>=0;i--){
+                if(unHorarioProfesor.equals((HorarioProfesor)modeloTablaDias.getValueAt(i,2)))
+                    respuesta = true;
+        }
+        return respuesta;
+    }
 }
