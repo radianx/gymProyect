@@ -12,6 +12,7 @@ import gimnasio.controlador.ControladorHuella;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.controlador.ControladorRele;
 import gimnasio.interfaces.GestorRele;
+import gimnasio.modelo.Alumno;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -31,7 +32,17 @@ import javax.swing.JOptionPane;
  * @author adrian
  */
 public class MainMenu extends javax.swing.JFrame {
-    
+
+    public static void iniciarEscaner() {
+         lector.start();
+    }
+
+    public static void abrirCobro(Alumno alumnoSeleccionado) {
+        jInternalCobro cobro = new jInternalCobro(miControlador, alumnoSeleccionado);
+        jDesktopPane1.add(cobro);
+        cobro.setVisible(true);
+    }
+
 //    jInternalLogueo panelLogin = new jInternalLogueo();
 //    jInternalProductos panelProductos = new jInternalProductos();
 //    jInternalInformes panelInformes = new jInternalInformes();
@@ -45,8 +56,8 @@ public class MainMenu extends javax.swing.JFrame {
         this.btnUsuarios.setEnabled(false);
     }
     
-    ControladorPrincipal miControlador;
-    ControladorHuella lector;
+    public static ControladorPrincipal miControlador;
+    public static ControladorHuella lector;
     Thread thread_object;
     /**
      * Creates new form MainMenu
@@ -60,7 +71,8 @@ public class MainMenu extends javax.swing.JFrame {
         this.btnCobros.setEnabled(mostrar);
         this.btnUsuarios.setEnabled(mostrar);
 
-        lector = new ControladorHuella(controlador.getMiPersistencia(),this.txtHabilitado,this.lblFoto);
+        lector = new ControladorHuella(miControlador, controlador.getMiPersistencia(),this.txtHabilitado,this.lblFoto, this.tablaAsistencias);
+        jScrollPane2.getVerticalScrollBar().setValue(jScrollPane2.getVerticalScrollBar().getMaximum());
         thread_object =new Thread(lector);
         thread_object.start();
         
@@ -99,7 +111,7 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tablaAsistencias = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         lblFoto = new javax.swing.JLabel();
         txtHabilitado = new javax.swing.JTextField();
@@ -267,7 +279,7 @@ public class MainMenu extends javax.swing.JFrame {
         jScrollPane2.setMinimumSize(new java.awt.Dimension(400, 110));
         jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 110));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tablaAsistencias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -278,7 +290,7 @@ public class MainMenu extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tablaAsistencias);
 
         jPanel6.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
@@ -598,7 +610,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_formMouseMoved
 
     private void itemNuevaClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNuevaClaseActionPerformed
-        jInternalClasesProfesor panelClases = new jInternalClasesProfesor(this.miControlador);
+        JInternalClasesProfesor panelClases = new JInternalClasesProfesor(this.miControlador);
         this.jDesktopPane1.add(panelClases);
         panelClases.setVisible(true);
     }//GEN-LAST:event_itemNuevaClaseActionPerformed
@@ -610,7 +622,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClasesActionPerformed
 
     private void btnClasesProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasesProfesorActionPerformed
-        jInternalClasesProfesor panelClaseProfesor = new jInternalClasesProfesor(this.miControlador);
+        JInternalClasesProfesor panelClaseProfesor = new JInternalClasesProfesor(this.miControlador);
         this.jDesktopPane1.add(panelClaseProfesor);
         panelClaseProfesor.setVisible(true);
     }//GEN-LAST:event_btnClasesProfesorActionPerformed
@@ -657,7 +669,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemListarClases;
     private javax.swing.JMenuItem itemNuevaClase;
     private javax.swing.JButton jButton1;
-    private javax.swing.JDesktopPane jDesktopPane1;
+    public static javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu2;
@@ -709,10 +721,10 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblFoto;
     private javax.swing.JMenu menuClases;
     private javax.swing.JMenu menuUsuarios;
+    private javax.swing.JTable tablaAsistencias;
     private javax.swing.JTextField txtHabilitado;
     // End of variables declaration//GEN-END:variables
  

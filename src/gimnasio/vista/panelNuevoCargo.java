@@ -263,7 +263,11 @@ public class panelNuevoCargo extends javax.swing.JPanel {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(!this.txtNombreCargo.getText().isEmpty() || !this.txtDescripcion.getText().isEmpty()){
             Cargo unCargo = new Cargo(this.txtNombreCargo.getText(),this.txtDescripcion.getText());
-            miControlador.altaCargo(unCargo);
+            try{
+                miControlador.altaCargo(unCargo);
+            }catch(Notificaciones ex){
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
             SwingUtilities.invokeLater(new Runnable(){public void run(){
                 cargarTabla();
             }});

@@ -46,6 +46,7 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/gimnasio</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">postgres</property>
+    <property name="hibernate.enable_lazy_load_no_trans">true</property>
     <mapping resource="gimnasio/modelo/Saldopagoprofesor.hbm.xml"/>
     <mapping resource="gimnasio/modelo/SectorClase.hbm.xml"/>
     <mapping resource="gimnasio/modelo/UsuarioModulo.hbm.xml"/>

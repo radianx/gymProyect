@@ -47,11 +47,15 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         modeloTabla.addColumn("Apellido");
         modeloTabla.addColumn("Usuario");
         Object[] fila = new Object[3];
-        for(Alumno miAlumno: miControlador.getListaAlumnos()){
-            fila[0] = miAlumno;
-            fila[1] = miAlumno.getApellidoalumno();
-            fila[2] = miAlumno.getUsuario().getNombreusuario();
-            modeloTabla.addRow(fila);
+        try {
+            for (Alumno miAlumno : miControlador.getListaAlumnos()) {
+                fila[0] = miAlumno;
+                fila[1] = miAlumno.getApellidoalumno();
+                fila[2] = miAlumno.getUsuario().getNombreusuario();
+                modeloTabla.addRow(fila);
+            }
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         this.tablaAlumnos.setModel(modeloTabla);
     }

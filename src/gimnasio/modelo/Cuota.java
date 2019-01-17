@@ -24,7 +24,7 @@ public class Cuota  implements java.io.Serializable, java.lang.Comparable<Cuota>
      private Date altacuota;
      private Date vencimiento;
      private String estado;
-     private Set cobroCuotas = new HashSet(0);
+     private Set<CobroCuota> cobroCuotas = new HashSet(0);
 
     public Cuota() {
     }
@@ -108,7 +108,7 @@ public class Cuota  implements java.io.Serializable, java.lang.Comparable<Cuota>
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    public Set getCobroCuotas() {
+    public Set<CobroCuota> getCobroCuotas() {
         return this.cobroCuotas;
     }
     
@@ -148,7 +148,7 @@ public class Cuota  implements java.io.Serializable, java.lang.Comparable<Cuota>
         }
         final Cuota other = (Cuota) obj;
         
-        LocalDate fechaThis = this.getVencimiento().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate fechaThis = Instant.ofEpochMilli(this.getVencimiento().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         Month mesThis = fechaThis.getMonth();
         
         LocalDate fechaOther = Instant.ofEpochMilli(other.getVencimiento().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
@@ -177,9 +177,9 @@ public class Cuota  implements java.io.Serializable, java.lang.Comparable<Cuota>
         int i = -1;
         if(this.equals(o)){
             i = 0;
-        }else if(this.altacuota.before(o.getAltacuota())){
+        }else if(this.vencimiento.before(o.getVencimiento()) && this.monto < o.getMonto()){
             i = -1;
-        }else if(this.altacuota.after(o.getAltacuota())){
+        }else if(this.vencimiento.after(o.getVencimiento()) && this.monto > o.getMonto()){
             i = 1;
         }
         return i;

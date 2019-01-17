@@ -54,6 +54,10 @@ public class ControladorPrincipal {
     private ControladorUsuarioModulo controladorUsuarioModulo;
     private ControladorHorarioProfesor controladorHorarioProfesor;
     private ControladorHorarioAlumno controladorHorarioAlumno;
+    private ControladorAsistenciaAlumno controladorAsistenciaAlumno;
+    private ControladorAsistenciaProfesor controladorAsistenciaProfesor;
+    private ControladorSaldoCuota controladorSaldoCuota;
+    private ControladorCobroCuota controladorCobroCuota;
     
     private ModeloPrincipal miModeloPrincipal;
     
@@ -77,6 +81,11 @@ public class ControladorPrincipal {
         this.controladorCuota = new ControladorCuota(this.miPersistencia);
         this.controladorHorarioProfesor = new ControladorHorarioProfesor(this.miPersistencia);
         this.controladorHorarioAlumno = new ControladorHorarioAlumno(this.miPersistencia);
+        this.controladorAsistenciaAlumno = new ControladorAsistenciaAlumno(this.miPersistencia);
+        this.controladorAsistenciaProfesor = new ControladorAsistenciaProfesor(this.miPersistencia);
+        this.controladorSaldoCuota = new ControladorSaldoCuota(this.miPersistencia);
+        this.controladorCobroCuota = new ControladorCobroCuota(this.miPersistencia);
+    
     }      
     
     public ControladorPersistencia getMiPersistencia() {
@@ -153,7 +162,7 @@ public class ControladorPrincipal {
     
 //  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
     
-    public List<Alumno> getListaAlumnos(){
+    public List<Alumno> getListaAlumnos() throws Notificaciones{
         return this.controladorAlumno.getListaAlumnos();
     }
     
@@ -181,25 +190,9 @@ public class ControladorPrincipal {
     * @return listaAlumnosSinClases puede ser null
     * @throws Notificaciones
     */
-//    public List<Alumno> bajaProfesor(int idProfesor) throws Notificaciones {
-//        Profesor unProfesor;
-//        List<Alumno> listaAlumnosSinClases = new ArrayList<>();
-//        String estado = "INACTIVO";
-//        List<Clase> listaClases = buscarClasesPorProfesor(idProfesor);
-//        if (listaClases != null) {
-//            for (Clase miClase : listaClases) {
-//                listaAlumnosSinClases = bajaClase(miClase);
-//
-//            }
-//        }
-//        unProfesor = this.controladorProfesor.buscarProfesor(idProfesor);
-//        unProfesor.setEstado(estado);
-//        this.miPersistencia.persistirInstancia(unProfesor);
-//        if (listaAlumnosSinClases.isEmpty()) {
-//            listaAlumnosSinClases = null;
-//        }
-//        return listaAlumnosSinClases;
-//    }
+    public void bajaProfesor(int idProfesor) throws Notificaciones {
+        controladorProfesor.bajaProfesor(idProfesor);
+    }
     
     public Profesor buscarProfesor(String nombreProfesor, String apellidoProfesor){
         return this.controladorProfesor.buscarProfesor(nombreProfesor, apellidoProfesor);
@@ -472,6 +465,31 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
     public void altaHorarioAlumno(HorarioAlumno unHorario) throws Notificaciones{
         controladorHorarioAlumno.altaHorarioAlumno(unHorario);
     }
+
+    public List<HorarioAlumno> getListaHorariosAlumno() throws Notificaciones{
+        return controladorHorarioAlumno.getListaHorariosAlumno();
+    }
+
+    public void altaAsistenciaAlumno(AsistenciaAlumno asistencia) throws Notificaciones{
+        controladorAsistenciaAlumno.altaAsistenciaAlumno(asistencia);
+    }
     
+    public void altaAsistenciaProfesor(AsistenciaProfesor asistencia) throws Notificaciones{
+        controladorAsistenciaProfesor.altaAsistenciaProfesor(asistencia);
+    }
+
+    public void guardarSaldoAnterior(SaldoCuota saldoAnterior) throws Notificaciones{
+        controladorSaldoCuota.guardarSaldo(saldoAnterior);
+    }
+
+    public CobroCuota generarCobroCuota(Cuota cuota, Double abono, LocalDate fecha) throws Notificaciones{
+       controladorCuota.actualizarEstadoCuota(cuota);
+       CobroCuota cobroCuota = controladorCobroCuota.generarCobroCuota(cuota, abono, fecha);
+       return cobroCuota; 
+    }
     
+    public void generarNuevoSaldo(CobroCuota cobroCuota, Double saldo) throws Notificaciones{
+        SaldoCuota saldoCuota = new SaldoCuota(cobroCuota, saldo, "GENERADO");
+        controladorSaldoCuota.guardarSaldo(saldoCuota);
+    }
 }

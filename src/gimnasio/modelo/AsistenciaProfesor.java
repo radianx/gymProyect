@@ -9,35 +9,49 @@ import java.util.Date;
  */
 public class AsistenciaProfesor  implements java.io.Serializable {
 
-
-     private AsistenciaProfesorId id;
+     private int idAsistenciaProfesor;
      private ClaseProfesor claseProfesor;
+     private Date ingreso;
      private Date salida;
      private String estado;
 
     public AsistenciaProfesor() {
     }
 
+    public Date getIngreso() {
+        return ingreso;
+    }
+
+    public void setIngreso(Date ingreso) {
+        this.ingreso = ingreso;
+    }
+
+    public AsistenciaProfesor(ClaseProfesor claseProfesor, Date ingreso, String estado) {
+        this.claseProfesor = claseProfesor;
+        this.ingreso = ingreso;
+        this.estado = estado;
+    }
 	
-    public AsistenciaProfesor(AsistenciaProfesorId id, ClaseProfesor claseProfesor, String estado) {
-        this.id = id;
+    public AsistenciaProfesor(int idAsistenciaProfesor, ClaseProfesor claseProfesor, String estado) {
+        this.idAsistenciaProfesor = idAsistenciaProfesor;
         this.claseProfesor = claseProfesor;
         this.estado = estado;
     }
-    public AsistenciaProfesor(AsistenciaProfesorId id, ClaseProfesor claseProfesor, Date salida, String estado) {
-       this.id = id;
+    public AsistenciaProfesor(int idAsistenciaProfesor, ClaseProfesor claseProfesor, Date salida, String estado) {
+       this.idAsistenciaProfesor = idAsistenciaProfesor;
        this.claseProfesor = claseProfesor;
        this.salida = salida;
        this.estado = estado;
     }
-   
-    public AsistenciaProfesorId getId() {
-        return this.id;
+
+    public int getIdAsistenciaProfesor() {
+        return idAsistenciaProfesor;
+    }
+
+    public void setIdAsistenciaProfesor(int idAsistenciaProfesor) {
+        this.idAsistenciaProfesor = idAsistenciaProfesor;
     }
     
-    public void setId(AsistenciaProfesorId id) {
-        this.id = id;
-    }
     public ClaseProfesor getClaseProfesor() {
         return this.claseProfesor;
     }

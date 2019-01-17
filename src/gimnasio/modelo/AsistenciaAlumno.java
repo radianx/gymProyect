@@ -10,7 +10,7 @@ import java.util.Date;
 public class AsistenciaAlumno  implements java.io.Serializable {
 
 
-     private int id;
+     private int idAsistenciaAlumno;
      private ClaseAlumno claseAlumno;
      private Date ingreso;
      private Date salida;
@@ -20,26 +20,27 @@ public class AsistenciaAlumno  implements java.io.Serializable {
     }
 
 	
-    public AsistenciaAlumno(int id, ClaseAlumno claseAlumno, String estado) {
-        this.id = id;
+    public AsistenciaAlumno(ClaseAlumno claseAlumno, Date ingreso, String estado) {
         this.claseAlumno = claseAlumno;
+        this.ingreso = ingreso;
         this.estado = estado;
     }
     
-    public AsistenciaAlumno(int id, ClaseAlumno claseAlumno, Date ingreso, String estado) {
-       this.id = id;
+    public AsistenciaAlumno(int idAsistenciaAlumno, ClaseAlumno claseAlumno, Date ingreso, String estado) {
+       this.idAsistenciaAlumno = idAsistenciaAlumno;
        this.claseAlumno = claseAlumno;
        this.ingreso = ingreso;
        this.estado = estado;
     }
-   
-    public int getId() {
-        return this.id;
+
+    public int getIdAsistenciaAlumno() {
+        return idAsistenciaAlumno;
     }
-    
-    public void setId(int id) {
-        this.id = id;
+
+    public void setIdAsistenciaAlumno(int idAsistenciaAlumno) {
+        this.idAsistenciaAlumno = idAsistenciaAlumno;
     }
+       
     public ClaseAlumno getClaseAlumno() {
         return this.claseAlumno;
     }

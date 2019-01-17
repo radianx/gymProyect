@@ -6,7 +6,7 @@
     <class name="gimnasio.modelo.SaldoCuota" table="saldo_cuota" schema="public" optimistic-lock="version">
         <id name="idsaldocuota" type="int">
             <column name="idsaldocuota" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
         <many-to-one name="cobroCuota" class="gimnasio.modelo.CobroCuota" fetch="select">
             <column name="idcobrocuota" not-null="true" />

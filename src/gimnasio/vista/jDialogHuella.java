@@ -144,7 +144,7 @@ public class jDialogHuella extends javax.swing.JDialog {
             
             if(result.isVerified()){
                 JOptionPane.showMessageDialog(null, "La huella capturada coincide con la de ", "Verificacion de huella", JOptionPane.INFORMATION_MESSAGE);           
-                controlRele.abrirPuerta();
+                //controlRele.abrirPuerta();
             } else{
                 JOptionPane.showMessageDialog(null, "No corresponde la huella con ", "Verificacion de huella", JOptionPane.ERROR_MESSAGE);
             } 

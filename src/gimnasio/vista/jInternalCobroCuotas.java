@@ -11,9 +11,11 @@ import gimnasio.modelo.Alumno;
 import gimnasio.modelo.Clase;
 import gimnasio.modelo.ClaseAlumno;
 import gimnasio.modelo.ClaseProfesor;
+import gimnasio.modelo.CobroCuota;
 import gimnasio.modelo.Cuota;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Profesormodalidad;
+import gimnasio.modelo.SaldoCuota;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -71,10 +73,10 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         this.tablaVencimientos.setModel(modeloTablaVencimientos);
         Object[]fila = new Object[5];
         for(Cuota cuota:this.miControlador.getListaCuotasAVencer()){
-            if(cuota.getEstado().equalsIgnoreCase("ACTIVO")){
+            if(cuota.getEstado().equalsIgnoreCase("GENERADO") || cuota.getEstado().equalsIgnoreCase("SALDO")){
                 fila[0] = cuota.getAlumno();
                 fila[1] = cuota.getAlumno().getApellidoalumno();
-                String time = new SimpleDateFormat("dd/MM/uuuu").format(cuota.getVencimiento());
+                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
                 fila[2] = time;
                 fila[3] = cuota.getMonto();
                 fila[4] = cuota.getAlumno().getContacto().getTelefono1();
@@ -93,10 +95,10 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         this.tablaCuotasVencidas.setModel(modeloTablaCuotasVencidas);
         Object[]fila = new Object[5];
         for(Cuota cuota:miControlador.getListaCuotasVencidas()){
-            if(cuota.getEstado().equalsIgnoreCase("ACTIVO")){
+            if(cuota.getEstado().equalsIgnoreCase("GENERADO")){
                 fila[0] = cuota.getAlumno();
                 fila[1] = cuota.getAlumno().getApellidoalumno();
-                String time = new SimpleDateFormat("dd/MM/uuuu").format(cuota.getVencimiento());
+                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
                 fila[2] = time;
                 fila[3] = cuota.getMonto();
                 fila[4] = cuota.getAlumno().getContacto().getTelefono1();
@@ -113,17 +115,48 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         modeloTablaCuotasDeAlumno.addColumn("Monto");
         this.tablaCuotasDeAlumno.setModel(modeloTablaCuotasDeAlumno);
         Object[]fila = new Object[4];
+        SaldoCuota saldoCuota = null;
         for(Cuota cuota:unAlumno.getCuotas()){
-            if(cuota.getEstado().equalsIgnoreCase("ACTIVO")){
+            if(cuota.getEstado().equalsIgnoreCase("GENERADO")){
                 fila[0] = cuota.getClaseProfesor().getClase();
-                String time = new SimpleDateFormat("dd/MM/uuuu").format(cuota.getAltacuota());
+                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
                 fila[1] = time;
-                time = new SimpleDateFormat("dd/MM/uuuu").format(cuota.getVencimiento());
+                time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
                 fila[2] = time;
                 fila[3] = cuota.getMonto();
+                if(cuota.getCobroCuotas()!=null){
+                    for(CobroCuota cobro:cuota.getCobroCuotas()){
+                        if(cobro.getSaldoCuotas()!=null){
+                            for(SaldoCuota saldo:cobro.getSaldoCuotas()){
+                                saldoCuota = saldo;
+                            }
+                        }
+                    }
+                }
+                modeloTablaCuotasDeAlumno.addRow(fila);
+             }if(cuota.getEstado().equalsIgnoreCase("SALDO")){
+                fila[0] = cuota.getClaseProfesor().getClase();
+                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
+                fila[1] = time;
+                time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
+                fila[2] = time;
+                if(cuota.getCobroCuotas()!=null){
+                    for(CobroCuota cobro:cuota.getCobroCuotas()){
+                        if(cobro.getSaldoCuotas()!=null){
+                            for(SaldoCuota saldo:cobro.getSaldoCuotas()){
+                                if (saldo.getEstado().equalsIgnoreCase("GENERADO")) {
+                                    saldoCuota = saldo;
+                                    fila[3] = "DEUDA: " + saldoCuota.getMontosaldo();
+                                }
+                            }
+                        }
+                    }
+                }
                 modeloTablaCuotasDeAlumno.addRow(fila);
              }
         }
+        if(saldoCuota!=null) txtSaldo.setText(String.valueOf(saldoCuota.getMontosaldo()));
+        else txtSaldo.setText("0");
     }
     
     public void cargarTablaAlumnos(){
@@ -132,12 +165,16 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         modeloTablaAlumnos.addColumn("Apellido");
         this.tablaAlumnos.setModel(modeloTablaAlumnos);
         Object[] fila = new Object[2];
-        for (Alumno unAlumno : miControlador.getListaAlumnos()) {
-            if (unAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = unAlumno;
-                fila[1] = unAlumno.getApellidoalumno();
-                modeloTablaAlumnos.addRow(fila);
+        try {
+            for (Alumno unAlumno : miControlador.getListaAlumnos()) {
+                if (unAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    fila[0] = unAlumno;
+                    fila[1] = unAlumno.getApellidoalumno();
+                    modeloTablaAlumnos.addRow(fila);
+                }
             }
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
     /**
@@ -167,7 +204,6 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaCuotasVencidas = new javax.swing.JTable();
         btnCuotasVencidas = new javax.swing.JButton();
-        btnVencimientos = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnCerrar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -178,7 +214,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("GESTION DE CUOTAS");
         setMinimumSize(new java.awt.Dimension(600, 400));
-        setPreferredSize(new java.awt.Dimension(750, 589));
+        setPreferredSize(new java.awt.Dimension(750, 521));
         getContentPane().setLayout(new java.awt.CardLayout());
 
         panelPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -229,6 +265,11 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tablaCuotasDeAlumno);
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Alumnos"));
+        jScrollPane2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane2MouseClicked(evt);
+            }
+        });
 
         tablaAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -244,6 +285,9 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         tablaAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaAlumnosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tablaAlumnosMouseEntered(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaAlumnosMouseReleased(evt);
@@ -267,6 +311,11 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         jLabel3.setText("<html><b>$</html>");
 
         btnCobrar.setText("COBRAR/SALDAR DEUDA");
+        btnCobrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCobrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -359,9 +408,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         });
         jScrollPane4.setViewportView(tablaCuotasVencidas);
 
-        btnCuotasVencidas.setText("GENERAR REPORTE");
-
-        btnVencimientos.setText("GENERAR REPORTE");
+        btnCuotasVencidas.setText("GENERAR REPORTE MOROSOS");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -372,9 +419,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(btnVencimientos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnCuotasVencidas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -387,13 +432,11 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCuotasVencidas)
-                    .addComponent(btnVencimientos))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCuotasVencidas)
                 .addContainerGap())
         );
 
@@ -521,13 +564,25 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSaldoActionPerformed
 
+    private void jScrollPane2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane2MouseClicked
+
+    private void btnCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCobrarActionPerformed
+        
+        MainMenu.abrirCobro(alumnoSeleccionado);
+    }//GEN-LAST:event_btnCobrarActionPerformed
+
+    private void tablaAlumnosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseEntered
+        this.cargarTablaAlumnos();
+    }//GEN-LAST:event_tablaAlumnosMouseEntered
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnCobrar;
     private javax.swing.JButton btnCuotasVencidas;
-    private javax.swing.JButton btnVencimientos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

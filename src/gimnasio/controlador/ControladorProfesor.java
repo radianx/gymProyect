@@ -80,4 +80,10 @@ public class ControladorProfesor {
         listaProfesores = miPersistencia.getProfesores();
         return this.listaProfesores;
     }
+
+    public void bajaProfesor(int idProfesor) throws Notificaciones {
+        Profesor unProfesor = buscarProfesor(idProfesor);
+        unProfesor.setEstado("INACTIVO");
+        miPersistencia.persistirInstancia(unProfesor);
+    }
 }

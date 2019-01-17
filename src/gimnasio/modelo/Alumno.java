@@ -2,8 +2,11 @@ package gimnasio.modelo;
 // Generated Dec 8, 2018 5:14:35 PM by Hibernate Tools 4.3.1
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -179,6 +182,33 @@ public class Alumno  implements java.io.Serializable {
         return hash;
     }
 
+    public Cuota getLastCuota(){
+        List<Cuota> listaCuotas = new ArrayList<>();
+        listaCuotas.addAll(cuotas);
+        Collections.sort(listaCuotas);
+        Cuota unaCuota = null;
+        try{
+            unaCuota = listaCuotas.get(listaCuotas.size()-1);
+        }catch(ArrayIndexOutOfBoundsException ex){
+            unaCuota = new Cuota();
+        }
+        return unaCuota;
+    }
+
+    public Cuota getUltimaCuotaImpaga(){
+        List<Cuota> listaCuotas = new ArrayList<>();
+        listaCuotas.addAll(cuotas);
+        Collections.sort(listaCuotas);
+        Cuota esaCuota = null;
+        for(Cuota unaCuota:listaCuotas){
+            if(unaCuota.getEstado().equalsIgnoreCase("ADEUDA")){
+                esaCuota = unaCuota;
+                break;
+            }
+        
+        }
+        return esaCuota;
+    }
 
 
 

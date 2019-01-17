@@ -27,12 +27,11 @@ import org.hibernate.service.ServiceRegistry;
 public class ControladorPersistencia {
 
     private static final SessionFactory sessionFactory;
-    private static final Session sesion;
+    private static Session sesion;
 
     static {
         try {
             Configuration configuration = new Configuration();
-       //     configuration.addResource("gimnasio/modelo/Alumno.hbm.xml");
             configuration.configure("hibernate.cfg.xml");
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 
@@ -44,6 +43,7 @@ public class ControladorPersistencia {
             throw new ExceptionInInitializerError(ex);
         }
     }
+    
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
@@ -170,6 +170,19 @@ public class ControladorPersistencia {
             }
             if (this.sesion != null && this.sesion.isOpen()) {
                 this.sesion.close();
+            }
+        }
+    }
+    
+    public void iniciarSesion(){
+        synchronized(this.sesion){
+            
+            if(this.sesion !=null && !this.sesion.isConnected()){
+                sesion = sessionFactory.openSession();
+            }
+            
+            if (this.sesion != null && !this.sesion.isOpen()) {
+                sesion = sessionFactory.openSession();
             }
         }
     }

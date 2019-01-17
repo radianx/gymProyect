@@ -23,7 +23,13 @@ public class SaldoCuota  implements java.io.Serializable {
        this.montosaldo = montosaldo;
        this.estado = estado;
     }
-   
+
+    public SaldoCuota(CobroCuota cobroCuota, Double saldo, String generado) {
+       this.cobroCuota = cobroCuota;
+       this.montosaldo = saldo;
+       this.estado = generado;
+    }
+    
     public int getIdsaldocuota() {
         return this.idsaldocuota;
     }

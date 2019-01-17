@@ -18,11 +18,17 @@ public class CobroCuota  implements java.io.Serializable {
      private Date fechapago;
      private String estado;
      private Set saldopagoprofesors = new HashSet(0);
-     private Set saldoCuotas = new HashSet(0);
+     private Set<SaldoCuota> saldoCuotas = new HashSet(0);
 
     public CobroCuota() {
     }
 
+    public CobroCuota(Cuota cuota, double montocobro, Date fechapago, String estado) {
+        this.cuota = cuota;
+        this.montocobro = montocobro;
+        this.fechapago = fechapago;
+        this.estado = estado;
+    }
 	
     public CobroCuota(int idcobrocuota, Cuota cuota, double montocobro, Date fechapago, String estado) {
         this.idcobrocuota = idcobrocuota;
@@ -83,7 +89,7 @@ public class CobroCuota  implements java.io.Serializable {
     public void setSaldopagoprofesors(Set saldopagoprofesors) {
         this.saldopagoprofesors = saldopagoprofesors;
     }
-    public Set getSaldoCuotas() {
+    public Set<SaldoCuota> getSaldoCuotas() {
         return this.saldoCuotas;
     }
     

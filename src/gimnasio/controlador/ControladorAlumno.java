@@ -77,7 +77,11 @@ public class ControladorAlumno {
         return unAlumno;
     }
 
-    public List<Alumno> getListaAlumnos() {
+    public List<Alumno> getListaAlumnos() throws Notificaciones {
+        miPersistencia.actualizarInstancias();
+        miPersistencia.cerrarSesion();
+        miPersistencia.iniciarSesion();
+        listaAlumnos = miPersistencia.getAlumnos();
         return this.listaAlumnos;
     }
 

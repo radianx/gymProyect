@@ -114,6 +114,8 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             }
             } catch(NullPointerException ex){
                 System.err.println("Cargar Alumnos en la tabla retorna: " + ex.getMessage() + ", lo que probablemente significa que no hay alumnos cargados en la base de datos");
+            } catch(Notificaciones ex){
+                JOptionPane.showMessageDialog(null, ex.getMessage());
             }
             this.tablaAlumnosInactivos.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaAlumnosInactivos.getModel());
@@ -460,8 +462,9 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                 int seleccion = JOptionPane.showOptionDialog(null, "¿Inscribir al alumno a una clase?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
                 switch (seleccion){
                     case 0: 
-                        jInternalClasesProfesor clases = new jInternalClasesProfesor(this.miControlador);
+                        jInternalClasesAlumno clases = new jInternalClasesAlumno(this.miControlador);
                         clases.setVisible(true);
+                        clases.cambiarPanel();
                         this.getParent().getParent().getParent().getParent().getParent().getParent().add(clases);
                         this.setVisible(false);
                         this.limpiarCampos();

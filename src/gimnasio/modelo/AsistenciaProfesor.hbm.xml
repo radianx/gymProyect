@@ -4,18 +4,17 @@
 <!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="gimnasio.modelo.AsistenciaProfesor" table="asistencia_profesor" schema="public" optimistic-lock="version">
-        <composite-id name="id" class="gimnasio.modelo.AsistenciaProfesorId">
-            <key-property name="idclaseprofesor" type="int">
-                <column name="idclaseprofesor" />
-            </key-property>
-            <key-property name="ingreso" type="date">
-                <column name="ingreso" length="13" />
-            </key-property>
-        </composite-id>
+        <id name="idAsistenciaProfesor" type="int">
+            <column name="idAsistenciaProfesor" />
+            <generator class="increment"/>
+        </id>
         <many-to-one name="claseProfesor" class="gimnasio.modelo.ClaseProfesor" update="false" insert="false" fetch="select">
             <column name="idclaseprofesor" not-null="true" />
         </many-to-one>
-        <property name="salida" type="date">
+        <property name="ingreso" type="timestamp">
+            <column name="ingreso" length="13" />
+        </property>
+        <property name="salida" type="timestamp">
             <column name="salida" length="13" />
         </property>
         <property name="estado" type="string">

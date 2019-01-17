@@ -25,6 +25,14 @@ import com.digitalpersona.onetouch.processing.DPFPImageQualityException;
 import com.digitalpersona.onetouch.verification.DPFPVerification;
 import com.digitalpersona.onetouch.verification.DPFPVerificationResult;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Alumno;
+import gimnasio.modelo.AsistenciaProfesor;
+import gimnasio.modelo.ClaseProfesor;
+import gimnasio.modelo.Cuota;
+import gimnasio.modelo.HorarioAlumno;
+import gimnasio.modelo.HorarioProfesor;
+import gimnasio.modelo.AsistenciaAlumno;
+import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Usuario;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -34,7 +42,15 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,8 +58,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -81,11 +99,26 @@ public class ControladorHuella implements Runnable{
     
     public static String TEMPLATE_PROPERTY = "template";
     private ControladorPersistencia miPersistencia;
+    private JTable tabla;
+    private DefaultTableModel modeloTabla;
+    private ControladorPrincipal miControlador;
     
-    public ControladorHuella(ControladorPersistencia persistencia, JTextField texto, JLabel label) {
+    public void cargarTabla(){
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
+        modeloTabla.addColumn("Hora Entrada");
+        modeloTabla.addColumn("Cuota al dia");
+        tabla.setModel(modeloTabla);
+    }
+    
+    public ControladorHuella(ControladorPrincipal miControlador, ControladorPersistencia persistencia, JTextField texto, JLabel label, JTable tablaAsistencias) {
         this.texto = texto;
         this.label = label;
+        this.tabla = tablaAsistencias;
         miPersistencia = persistencia;
+        this.miControlador = miControlador;
+        cargarTabla();
     }
 
     public JTextField getTexto() {
@@ -353,6 +386,7 @@ public class ControladorHuella implements Runnable{
             List<Usuario> usuarios = miPersistencia.getUsuarios();
 
             featuresvertification = extraerCaracteristicas(sample, DPFPDataPurpose.DATA_PURPOSE_VERIFICATION); 
+            DPFPVerificationResult result = null;
             
             for (Usuario miUsuario : usuarios) {
                 if(miUsuario.getPlanillahuellas() !=null){
@@ -365,7 +399,7 @@ public class ControladorHuella implements Runnable{
                     setTemplate(referenceTemplate);
                     // Compara las caracteriticas de la huella recientemente capturda con 
                     // alguna plantilla guardada en la base de datos que coincide con ese tipo
-                    DPFPVerificationResult result = verificador.verify(this.featuresvertification, getTemplate());
+                    result = verificador.verify(this.featuresvertification, getTemplate());
                     //compara las plantilas (actual vs bd)
                     //Si encuentra correspondencia dibuja el mapa
                     //e indica el nombre de la persona que coincidió.
@@ -379,19 +413,27 @@ public class ControladorHuella implements Runnable{
                             drawPicture(createImageFromBytes(miUsuario.getFoto()));
                         }
                         verificacionCorrecta(miUsuario);
+                        boolean acceso = agregarAsistencia(miUsuario);
+                        
                         setHuellaVerificada(true);
                         EnviarTexto("CORRECTO");
 
                         setVerificacion(false);
-                        try{
-                            ControladorRele.abrirPuerta();
-                        }catch(InterruptedException ex){
-                            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
+                        if (acceso) {
+                            try {
+                                ControladorRele.abrirPuerta();
+                            } catch (InterruptedException ex) {
+                                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
+                            }
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Acceso Denegado");
                         }
                         return; //<---- Esto es un break del for..
                     }
-
                 }
+            }
+            if(result !=null && !result.isVerified()){
+                        JOptionPane.showMessageDialog(null, "USUARIO NO REGISTRADO");
             }
             //Si no encuentra alguna huella correspondiente al nombre lo indica con un mensaje
             setVerificacion(false);
@@ -466,5 +508,81 @@ public class ControladorHuella implements Runnable{
             throw new RuntimeException(e);
         }
     }     
+
+    public boolean agregarAsistencia(Usuario miUsuario) {
+        boolean acceso = false;
+        Object[] fila = new Object[4];
+        Alumno miAlumno = null;
+        Profesor miProfesor = null;
+
+        for(Profesor unProfesor:miUsuario.getProfesors()){
+            if (unProfesor.getEstado().equalsIgnoreCase("ACTIVO")){
+                fila[0] = unProfesor.getNombreprofesor();
+                fila[1] = unProfesor.getApellidoprofesor();
+                miProfesor = unProfesor;
+            }
+        }
+
+        for(Alumno unAlumno:miUsuario.getAlumnos()){
+            if (unAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
+                fila[0] = unAlumno.getNombrealumno();
+                fila[1] = unAlumno.getApellidoalumno();
+                miAlumno = unAlumno;
+            }
+        }
+        LocalDateTime hora = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        fila[2] = hora.format(dtf);
+        
+        if(miProfesor != null && miAlumno==null){
+            fila[3] = "Prof.: Autorizado";
+            acceso = true;
+            modeloTabla.addRow(fila);
+            
+        } else if (miAlumno != null) {
+            Cuota ultimaCuota = miAlumno.getLastCuota();
+            List<HorarioAlumno> horarios = null;
+            try{
+                horarios = miControlador.getListaHorariosAlumno();
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+            for (HorarioAlumno unHorario : horarios) {
+                LocalDateTime dia = Instant.ofEpochMilli(unHorario.getInicio().getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+                if (dia.getDayOfWeek() == hora.getDayOfWeek()
+                        && dia.getHour() == hora.getHour()
+                        && hora.getMinute() - 15 <= dia.getHour()
+                        && dia.getHour() <= hora.getMinute() + 15) {
+                    if (ultimaCuota.getEstado().equalsIgnoreCase("PAGADO")) {
+                        fila[3] = "SI";
+                        acceso = true;
+                        AsistenciaAlumno asistencia = new AsistenciaAlumno(unHorario.getClaseAlumno(),new Date(),"ACTIVO");
+                        try{
+                            miControlador.altaAsistenciaAlumno(asistencia);
+                        }catch (Notificaciones ex){
+                            JOptionPane.showMessageDialog(null, ex.getMessage());
+                        }
+                    } else {
+                        fila[3] = "NO";
+                        acceso = false;
+                    }
+                    modeloTabla.addRow(fila);
+                    break;
+                } else{
+                    if(ultimaCuota.getEstado().equalsIgnoreCase("PAGADO")){
+                        fila[3] = "Fuera de Horario";
+                        acceso = false;
+                    }else{
+                        fila[3] = "NO";
+                        acceso = false;
+                    }
+                    modeloTabla.addRow(fila);
+                    break;
+                }
+            }
+        }
+        
+        return acceso;
+    }
     
 }

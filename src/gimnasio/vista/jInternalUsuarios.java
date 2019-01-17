@@ -64,16 +64,12 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         this.addInternalFrameListener(new InternalFrameAdapter() {
             @Override
             public void internalFrameClosing(InternalFrameEvent e) {
-                System.out.println("internalFrameClosing....");
-                MainMenu.detenerEscaner = true;
-                super.internalFrameClosing(e);
             }
          
             @Override
             public void internalFrameClosed(InternalFrameEvent e) {
                 System.out.println("internalFrameClosed....");
-                MainMenu.detenerEscaner = true;
-                super.internalFrameClosed(e);
+                MainMenu.iniciarEscaner();
             }
         });
         

@@ -6,6 +6,7 @@
 package gimnasio.vista;
 
 import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Sector;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -253,7 +254,11 @@ public class panelNuevoSector extends javax.swing.JPanel {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(!this.txtNombreSector.getText().isEmpty()){
             Sector sector = new Sector(this.txtNombreSector.getText(),this.txtDescripcion.getText());
-            miControlador.altaSector(sector);
+            try{
+                miControlador.altaSector(sector);
+            }catch(Notificaciones ex){
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
             SwingUtilities.invokeLater(new Runnable(){public void run(){
                 cargarTabla();
             }});

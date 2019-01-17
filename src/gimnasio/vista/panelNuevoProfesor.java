@@ -448,7 +448,7 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
                 int seleccion = JOptionPane.showOptionDialog(null, "¿Asignar clase al Profesor?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
                 switch (seleccion){
                     case 0: 
-                        jInternalClasesProfesor clases = new jInternalClasesProfesor(this.miControlador);
+                        JInternalClasesProfesor clases = new JInternalClasesProfesor(this.miControlador);
                         clases.setVisible(true);
                         this.getParent().getParent().getParent().getParent().getParent().getParent().add(clases);
                         this.setVisible(false);

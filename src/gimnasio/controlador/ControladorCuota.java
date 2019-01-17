@@ -59,19 +59,11 @@ public class ControladorCuota {
     }
 
     public void altaCuota(Cuota unaCuota) throws Notificaciones {
-        Alumno unAlumno = unaCuota.getAlumno();
-        Set<Cuota> cuotasAlumno = unAlumno.getCuotas();
-        List<Cuota> cuotasOrdenadas = cuotasAlumno.stream().collect(Collectors.toList());
-        
-        Collections.sort(cuotasOrdenadas);
-
-        if(cuotasOrdenadas.contains(unaCuota)){
-            String text = new SimpleDateFormat("MMMM").format(unaCuota.getVencimiento());
-            throw new Notificaciones("La cuota del mes " +text+" ya existe para el alumno " + unAlumno.toString());
-        }else{
             miPersistencia.persistirInstancia(unaCuota);
-        }
+    }
 
+    public void actualizarEstadoCuota(Cuota cuota) throws Notificaciones{
+        miPersistencia.persistirInstancia(cuota);
     }
     
 }
