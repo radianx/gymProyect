@@ -8,6 +8,11 @@ package gimnasio.controlador;
 import gimnasio.modelo.AsistenciaProfesor;
 import java.util.List;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.AsistenciaAlumno;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -24,6 +29,24 @@ public class ControladorAsistenciaProfesor {
     }
     
     public void altaAsistenciaProfesor(AsistenciaProfesor asistencia) throws Notificaciones{
-        persistencia.persistirInstancia(asistencia);
+        listaAsistenciasProfesor = persistencia.getAsistenciaProfesor();
+        if(listaAsistenciasProfesor.contains(asistencia)){
+            asistencia.setSalida(new Date());
+            persistencia.persistirInstancia(asistencia);
+        }else{
+            persistencia.persistirInstancia(asistencia);
+        }
+    }
+
+    public List<AsistenciaProfesor> getAsistenciasDeHoy() throws Notificaciones {
+        listaAsistenciasProfesor = persistencia.getAsistenciaProfesor();
+        List<AsistenciaProfesor> retorno = new ArrayList<>();
+        for(AsistenciaProfesor asistProfe:listaAsistenciasProfesor){
+            LocalDate fecha = asistProfe.getIngreso().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if(fecha.isEqual(LocalDate.now())){
+                retorno.add(asistProfe);
+            }
+        }
+        return retorno;
     }
 }

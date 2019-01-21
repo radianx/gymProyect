@@ -174,17 +174,18 @@ public class ControladorPersistencia {
         }
     }
     
-    public void iniciarSesion(){
-        synchronized(this.sesion){
-            
+    public boolean iniciarSesion(){
+        boolean retorno = false;
             if(this.sesion !=null && !this.sesion.isConnected()){
                 sesion = sessionFactory.openSession();
+                retorno = true;
             }
             
             if (this.sesion != null && !this.sesion.isOpen()) {
                 sesion = sessionFactory.openSession();
+                retorno = true;
             }
-        }
+        return retorno;
     }
 
     /**

@@ -19,10 +19,18 @@ package gimnasio.vista;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Usuario;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
@@ -113,16 +121,13 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         btnBuscar2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         panelPrinCentro = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lblFotografia = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaUsuarios = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaUsuarios1 = new javax.swing.JTable();
-        btnNuevo1 = new javax.swing.JButton();
         panelPrincSur = new javax.swing.JPanel();
         btnCerrar = new javax.swing.JButton();
 
@@ -206,7 +211,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
 
         panelPrincipal2.add(panelPrincNorte2, java.awt.BorderLayout.PAGE_START);
 
-        jLabel2.setText("FOTOGRAFIA");
+        lblFotografia.setText("FOTOGRAFIA");
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -256,31 +261,6 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tablaUsuarios);
 
-        tablaUsuarios1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tablaUsuarios1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaUsuarios1MouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tablaUsuarios1);
-
-        btnNuevo1.setText("NUEVO CARGO");
-        btnNuevo1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevo1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelPrinCentroLayout = new javax.swing.GroupLayout(panelPrinCentro);
         panelPrinCentro.setLayout(panelPrinCentroLayout);
         panelPrinCentroLayout.setHorizontalGroup(
@@ -290,15 +270,8 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
                     .addGroup(panelPrinCentroLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                        .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelPrinCentroLayout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelPrinCentroLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnNuevo1)))
+                        .addGap(4, 4, 4)
+                        .addComponent(lblFotografia, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14))
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -307,14 +280,9 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
             panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrinCentroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelPrinCentroLayout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnNuevo1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(panelPrinCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFotografia, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, Short.MAX_VALUE)
                 .addContainerGap())
@@ -345,21 +313,16 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-    private void btnNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevo1ActionPerformed
-        jInternalCargos cargos = new jInternalCargos(miControlador);
-        this.getParent().add(cargos);
-        cargos.toFront();
-        
-    }//GEN-LAST:event_btnNuevo1ActionPerformed
-
-    private void tablaUsuarios1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuarios1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaUsuarios1MouseClicked
-
     private void tablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseClicked
         this.btnEliminar.setEnabled(true);
         this.btnModificar.setEnabled(true);
         this.btnModificar.grabFocus();
+        if(!tablaUsuarios.getSelectionModel().isSelectionEmpty()){
+            Usuario unUsuario = (Usuario)tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
+            if(unUsuario.getFoto()!=null){
+                drawPicture(createImageFromBytes(unUsuario.getFoto()));
+            }
+        }
     }//GEN-LAST:event_tablaUsuariosMouseClicked
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -453,20 +416,39 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnNuevo1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblFotografia;
     private javax.swing.JPanel panelPrinCentro;
     private javax.swing.JPanel panelPrincNorte2;
     private javax.swing.JPanel panelPrincSur;
     private javax.swing.JPanel panelPrincipal2;
     private javax.swing.JTable tablaUsuarios;
-    private javax.swing.JTable tablaUsuarios1;
     private javax.swing.JTextField txtBuscar2;
     // End of variables declaration//GEN-END:variables
- 
+    
+    public void drawPicture(BufferedImage foto){
+        Graphics2D bGr = foto.createGraphics();
+        bGr.drawImage(foto, 0, 0 , null);
+        bGr.dispose();
+        BufferedImage auxiliar = foto;
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(Math.toRadians(180), foto.getWidth()/2, foto.getHeight()/2);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        auxiliar = op.filter(foto, null);
+        lblFotografia.setText(null);
+        lblFotografia.setIcon(null);
+        lblFotografia.setIcon(new ImageIcon(foto.getScaledInstance(lblFotografia.getWidth(), lblFotografia.getHeight(), Image.SCALE_DEFAULT)));
+    }
+    
+    public BufferedImage createImageFromBytes(byte[] imageData) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+        try {
+            return ImageIO.read(bais);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

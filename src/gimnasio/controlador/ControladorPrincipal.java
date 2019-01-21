@@ -492,4 +492,16 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
         SaldoCuota saldoCuota = new SaldoCuota(cobroCuota, saldo, "GENERADO");
         controladorSaldoCuota.guardarSaldo(saldoCuota);
     }
+
+    public List<Cuota> getCuotasDeAlumno(Alumno unAlumno) throws Notificaciones{
+        return controladorCuota.getCuotasDeAlumno(unAlumno);
+    }
+
+    public List<AsistenciaAlumno> getAsistenciasAlumnoDeHoy() throws Notificaciones {
+        return controladorAsistenciaAlumno.getAsistenciasDeHoy();
+    }
+    
+    public List<AsistenciaProfesor> getAsistenciasProfesorDeHoy() throws Notificaciones{
+        return controladorAsistenciaProfesor.getAsistenciasDeHoy();
+    }
 }

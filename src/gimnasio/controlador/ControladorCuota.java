@@ -65,5 +65,17 @@ public class ControladorCuota {
     public void actualizarEstadoCuota(Cuota cuota) throws Notificaciones{
         miPersistencia.persistirInstancia(cuota);
     }
+
+    public List<Cuota> getCuotasDeAlumno(Alumno unAlumno) throws Notificaciones {
+        listaCuotas = miPersistencia.getCuotas();
+        List<Cuota> retorno = new ArrayList<>();
+        for(Cuota unaCuota: listaCuotas){
+            if(unAlumno.getNombrealumno().equalsIgnoreCase(unaCuota.getAlumno().getNombrealumno())
+                && unAlumno.getApellidoalumno().equalsIgnoreCase(unaCuota.getAlumno().getApellidoalumno())){
+                    retorno.add(unaCuota);
+            }
+        }
+        return retorno;
+    }
     
 }

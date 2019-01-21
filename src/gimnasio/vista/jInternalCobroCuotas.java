@@ -107,7 +107,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         }
     }
     
-    public void cargarTablaCuotasAlumno(Alumno unAlumno){
+    public void cargarTablaCuotasAlumno(Alumno unAlumno) throws Notificaciones{
         modeloTablaCuotasDeAlumno = new DefaultTableModel();
         modeloTablaCuotasDeAlumno.addColumn("Clase");
         modeloTablaCuotasDeAlumno.addColumn("Fecha Emision");
@@ -116,45 +116,45 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         this.tablaCuotasDeAlumno.setModel(modeloTablaCuotasDeAlumno);
         Object[]fila = new Object[4];
         SaldoCuota saldoCuota = null;
-        for(Cuota cuota:unAlumno.getCuotas()){
-            if(cuota.getEstado().equalsIgnoreCase("GENERADO")){
-                fila[0] = cuota.getClaseProfesor().getClase();
-                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
-                fila[1] = time;
-                time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
-                fila[2] = time;
-                fila[3] = cuota.getMonto();
-                if(cuota.getCobroCuotas()!=null){
-                    for(CobroCuota cobro:cuota.getCobroCuotas()){
-                        if(cobro.getSaldoCuotas()!=null){
-                            for(SaldoCuota saldo:cobro.getSaldoCuotas()){
-                                saldoCuota = saldo;
-                            }
-                        }
-                    }
-                }
-                modeloTablaCuotasDeAlumno.addRow(fila);
-             }if(cuota.getEstado().equalsIgnoreCase("SALDO")){
-                fila[0] = cuota.getClaseProfesor().getClase();
-                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
-                fila[1] = time;
-                time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
-                fila[2] = time;
-                if(cuota.getCobroCuotas()!=null){
-                    for(CobroCuota cobro:cuota.getCobroCuotas()){
-                        if(cobro.getSaldoCuotas()!=null){
-                            for(SaldoCuota saldo:cobro.getSaldoCuotas()){
-                                if (saldo.getEstado().equalsIgnoreCase("GENERADO")) {
+            for(Cuota cuota:miControlador.getCuotasDeAlumno(unAlumno)){
+                if(cuota.getEstado().equalsIgnoreCase("GENERADO")){
+                    fila[0] = cuota.getClaseProfesor().getClase();
+                    String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
+                    fila[1] = time;
+                    time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
+                    fila[2] = time;
+                    fila[3] = cuota.getMonto();
+                    if(cuota.getCobroCuotas()!=null){
+                        for(CobroCuota cobro:cuota.getCobroCuotas()){
+                            if(cobro.getSaldoCuotas()!=null){
+                                for(SaldoCuota saldo:cobro.getSaldoCuotas()){
                                     saldoCuota = saldo;
-                                    fila[3] = "DEUDA: " + saldoCuota.getMontosaldo();
                                 }
                             }
                         }
                     }
-                }
-                modeloTablaCuotasDeAlumno.addRow(fila);
-             }
-        }
+                    modeloTablaCuotasDeAlumno.addRow(fila);
+                 }if(cuota.getEstado().equalsIgnoreCase("SALDO")){
+                    fila[0] = cuota.getClaseProfesor().getClase();
+                    String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
+                    fila[1] = time;
+                    time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
+                    fila[2] = time;
+                    if(cuota.getCobroCuotas()!=null){
+                        for(CobroCuota cobro:cuota.getCobroCuotas()){
+                            if(cobro.getSaldoCuotas()!=null){
+                                for(SaldoCuota saldo:cobro.getSaldoCuotas()){
+                                    if (saldo.getEstado().equalsIgnoreCase("GENERADO")) {
+                                        saldoCuota = saldo;
+                                        fila[3] = "DEUDA: " + saldoCuota.getMontosaldo();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    modeloTablaCuotasDeAlumno.addRow(fila);
+                 }
+            }
         if(saldoCuota!=null) txtSaldo.setText(String.valueOf(saldoCuota.getMontosaldo()));
         else txtSaldo.setText("0");
     }
@@ -199,6 +199,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         txtSaldo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnCobrar = new javax.swing.JButton();
+        btnNuevaCuota = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaVencimientos = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -310,10 +311,18 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
 
         jLabel3.setText("<html><b>$</html>");
 
-        btnCobrar.setText("COBRAR/SALDAR DEUDA");
+        btnCobrar.setText("COBRAR DEUDA");
         btnCobrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCobrarActionPerformed(evt);
+            }
+        });
+
+        btnNuevaCuota.setText("NUEVA CUOTA");
+        btnNuevaCuota.setEnabled(false);
+        btnNuevaCuota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaCuotaActionPerformed(evt);
             }
         });
 
@@ -322,43 +331,49 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(btnCobrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(255, 255, 255)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtAlumno)
-                        .addGap(26, 26, 26)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnNuevaCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
-                        .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnCobrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevaCuota))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(9, 9, 9)
                         .addComponent(btnCobrar))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -525,7 +540,12 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         if(!tablaAlumnos.getSelectionModel().isSelectionEmpty()){
             alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
             this.txtAlumno.setText(alumnoSeleccionado.getNombrealumno() + " " + alumnoSeleccionado.getApellidoalumno());
-            this.cargarTablaCuotasAlumno(alumnoSeleccionado);
+            this.btnNuevaCuota.setEnabled(true);
+            try{
+                this.cargarTablaCuotasAlumno(alumnoSeleccionado);
+            }catch(Notificaciones ex){
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         }
     }//GEN-LAST:event_tablaAlumnosMouseClicked
 
@@ -577,12 +597,18 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         this.cargarTablaAlumnos();
     }//GEN-LAST:event_tablaAlumnosMouseEntered
 
+    private void btnNuevaCuotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaCuotaActionPerformed
+        jDialogCuota nuevaCuota = new jDialogCuota(null, true, miControlador, alumnoSeleccionado);
+        nuevaCuota.setVisible(true);
+    }//GEN-LAST:event_btnNuevaCuotaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnCobrar;
     private javax.swing.JButton btnCuotasVencidas;
+    private javax.swing.JButton btnNuevaCuota;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

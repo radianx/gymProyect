@@ -544,7 +544,9 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCobrosActionPerformed
 
     private void btnAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciaActionPerformed
-//        panelTemporal.setVisible(true);
+        jInternalAsistencias asistencias = new jInternalAsistencias(this.miControlador);
+        this.jDesktopPane1.add(asistencias);
+        asistencias.setVisible(true);
     }//GEN-LAST:event_btnAsistenciaActionPerformed
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed

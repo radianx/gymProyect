@@ -25,7 +25,7 @@ public class Alumno  implements java.io.Serializable {
      private Double altura;
      private Date fechanacimiento;
      private String estado;
-     private Set claseAlumnos = new HashSet(0);
+     private Set<ClaseAlumno> claseAlumnos = new HashSet(0);
      private Set<Cuota> cuotas = new HashSet(0);
      private Set inscripcions = new HashSet(0);
 
@@ -126,18 +126,18 @@ public class Alumno  implements java.io.Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    public Set getClaseAlumnos() {
+    public Set<ClaseAlumno> getClaseAlumnos() {
         return this.claseAlumnos;
     }
     
-    public void setClaseAlumnos(Set<Cuota> claseAlumnos) {
+    public void setClaseAlumnos(Set<ClaseAlumno> claseAlumnos) {
         this.claseAlumnos = claseAlumnos;
     }
     public Set<Cuota> getCuotas() {
         return this.cuotas;
     }
     
-    public void setCuotas(Set cuotas) {
+    public void setCuotas(Set<Cuota> cuotas) {
         this.cuotas = cuotas;
     }
     public Set getInscripcions() {

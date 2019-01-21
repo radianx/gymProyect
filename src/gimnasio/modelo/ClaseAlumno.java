@@ -109,11 +109,9 @@ public class ClaseAlumno  implements java.io.Serializable {
         this.horarios = horarios;
     }
 
-    
-    
     @Override
     public String toString() {
-        return claseProfesor.getClase().getTipoclase();
+        return claseProfesor.getClase().getDescripcionclase();
     }
 
     @Override

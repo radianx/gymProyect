@@ -60,13 +60,15 @@ public class jInternalCuotas extends javax.swing.JInternalFrame {
         Date alta = Date.from(altacuota.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date vence = Date.from(vencimiento.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Cuota cuota = new Cuota(alumno, claseProfesor, monto, alta, vence, "GENERADO");
+        alumno.getCuotas().add(cuota);
         try{
             miControlador.altaCuota(cuota);
+            miControlador.altaAlumno(alumno);
         }catch(Notificaciones ex){
             JOptionPane.showMessageDialog(null,ex.getLocalizedMessage());
         }
         Object[]fila = new Object[4];
-        if(alumno.getCuotas().size()>=0) fila[0] = alumno.getCuotas().size();
+        if(alumno.getCuotas().size()>=0) fila[0] = alumno.getCuotas().size()+1;
         else fila[0] = 1;
         fila[1] = cuota.getClaseProfesor().getClase();
         String date = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());

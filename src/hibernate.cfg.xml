@@ -58,8 +58,8 @@ Contributor(s):
     <mapping resource="gimnasio/modelo/Cuota.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Clase.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Inscripcion.hbm.xml"/>
-    <mapping resource="gimnasio/modelo/CajaDiaria.hbm.xml"/>
-    <mapping resource="gimnasio/modelo/ProfesorModalidad.hbm.xml"/>
+    <mapping class="" file="" jar="" package="" resource="gimnasio/modelo/Cajadiaria.hbm.xml"/>
+    <mapping class="" file="" jar="" package="" resource="gimnasio/modelo/Profesormodalidad.hbm.xml"/>
     <mapping resource="gimnasio/modelo/PagoProfesor.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Contacto.hbm.xml"/>
     <mapping resource="gimnasio/modelo/ClaseAlumno.hbm.xml"/>

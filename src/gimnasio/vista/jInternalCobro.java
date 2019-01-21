@@ -41,10 +41,14 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
         initComponents();
         datePicker.setDateToToday();
         this.txtNombreAlumno.setText(elAlumno.getNombrealumno() + " " + elAlumno.getApellidoalumno());
-        cargarTablaCuotas(elAlumno);
+        try{
+            cargarTablaCuotas(elAlumno);
+        }catch(Notificaciones ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 
-    public void cargarTablaCuotas(Alumno unAlumno){
+    public void cargarTablaCuotas(Alumno unAlumno) throws Notificaciones{
         modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("Clase");
         modeloTabla.addColumn("Fecha Emision");
@@ -53,12 +57,12 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
         this.tablaCuotasDeAlumno.setModel(modeloTabla);
         Object[]fila = new Object[4];
         total = 0.0;
-        for(Cuota cuotaAlumno:unAlumno.getCuotas()){
+        for(Cuota cuotaAlumno:controlador.getCuotasDeAlumno(unAlumno)){
             if(cuotaAlumno.getEstado().equalsIgnoreCase("GENERADO")){
                 fila[0] = cuotaAlumno.getClaseProfesor().getClase();
-                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
+                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuotaAlumno.getAltacuota());
                 fila[1] = time;
-                time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
+                time = new SimpleDateFormat("dd/MM/yyyy").format(cuotaAlumno.getVencimiento());
                 fila[2] = time;
                 fila[3] = cuotaAlumno.getMonto();
                 total += cuotaAlumno.getMonto();
@@ -98,8 +102,11 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                 modeloTabla.addRow(fila);
              }
         }
-        if(cuota!=null)this.txtCuota.setText(cuota.getMonto().toString());
-        else this.txtCuota.setText("0.0");
+        if(cuota!=null){
+            this.txtCuota.setText(cuota.getMonto().toString());
+        }else{
+            this.txtCuota.setText("0.0");
+        }
         
         if(saldoAnterior !=null){
             this.txtSaldoAnterior.setText(String.valueOf(saldoAnterior.getMontosaldo()));
@@ -370,6 +377,8 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
         int seleccion = JOptionPane.showOptionDialog(null, "¿Confirma pago de Cuota?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
         if (seleccion == 0) {
             try {
+                jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador,elAlumno);
+                nuevaCuota.setVisible(true);
                 Double abono = Double.valueOf(txtMontoAbonar.getText());
 
                 LocalDate fecha = datePicker.getDate();

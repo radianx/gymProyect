@@ -64,7 +64,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         }
         if(unUsuario.getFoto()!=null){
             this.foto = createImageFromBytes(unUsuario.getFoto());
-            this.drawPicture();
+            this.drawPicture(foto);
         }
     }
     /**
@@ -76,7 +76,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblFoto = new javax.swing.JLabel();
+        label = new javax.swing.JLabel();
         btnFoto = new javax.swing.JButton();
         btnCargarHuella = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -267,7 +267,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnFoto, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-                            .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -285,7 +285,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,6 +399,9 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private void btnFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFotoActionPerformed
         jDialogWebCam webCamDialog = new jDialogWebCam(null, true);
         this.foto = webCamDialog.showDialog();
+        if(foto != null){
+            drawPicture(foto);
+        }
     }//GEN-LAST:event_btnFotoActionPerformed
 
 
@@ -417,7 +420,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblFoto;
+    private javax.swing.JLabel label;
     private javax.swing.JTable tablaUsuariosInactivos;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JPasswordField txtContrasena;
@@ -465,8 +468,8 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         tx.rotate(Math.toRadians(180), foto.getWidth()/2, foto.getHeight()/2);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         auxiliar = op.filter(foto, null);
-        lblFoto.setIcon(null);
-        lblFoto.setIcon(new ImageIcon(foto.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_DEFAULT)));
+        label.setIcon(null);
+        label.setIcon(new ImageIcon(foto.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT)));
     }
     
     public BufferedImage createImageFromBytes(byte[] imageData) {
@@ -485,5 +488,18 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         return imageBytes;
     }
     
+    public void drawPicture(BufferedImage foto){
+        Graphics2D bGr = foto.createGraphics();
+        bGr.drawImage(foto, 0, 0 , null);
+        bGr.dispose();
+        BufferedImage auxiliar = foto;
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(Math.toRadians(180), foto.getWidth()/2, foto.getHeight()/2);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        auxiliar = op.filter(foto, null);
+        label.setText(null);
+        label.setIcon(null);
+        label.setIcon(new ImageIcon(foto.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT)));
+    }
     
 }

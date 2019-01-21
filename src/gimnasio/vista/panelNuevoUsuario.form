@@ -45,7 +45,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btnFoto" pref="145" max="32767" attributes="0"/>
-                          <Component id="lblFoto" max="32767" attributes="0"/>
+                          <Component id="label" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -71,7 +71,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="lblFoto" max="32767" attributes="0"/>
+                  <Component id="label" max="32767" attributes="0"/>
                   <Component id="jPanel2" pref="126" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -95,7 +95,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblFoto">
+    <Component class="javax.swing.JLabel" name="label">
     </Component>
     <Component class="javax.swing.JButton" name="btnFoto">
       <Properties>

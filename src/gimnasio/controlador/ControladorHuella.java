@@ -534,11 +534,37 @@ public class ControladorHuella implements Runnable{
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         fila[2] = hora.format(dtf);
         
-        if(miProfesor != null && miAlumno==null){
-            fila[3] = "Prof.: Autorizado";
-            acceso = true;
-            modeloTabla.addRow(fila);
-            
+        if (miProfesor != null && miAlumno == null) {
+            List<HorarioProfesor> horarios = null;
+            try {
+                horarios = miControlador.getListaHorarios();
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+            for (HorarioProfesor unHorario : horarios) {
+                LocalDateTime dia = Instant.ofEpochMilli(unHorario.getInicio().getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+                if (dia.getDayOfWeek() == hora.getDayOfWeek()
+                        && dia.getHour() == hora.getHour()
+                        && hora.getMinute() - 15 <= dia.getHour()
+                        && dia.getHour() <= hora.getMinute() + 15) {
+                    fila[3] = "SI";
+                    acceso = true;
+                    AsistenciaProfesor asistencia = new AsistenciaProfesor(unHorario.getClaseProfesor(), new Date(), "ACTIVO");
+                    try {
+                        miControlador.altaAsistenciaProfesor(asistencia);
+                    } catch (Notificaciones ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                } else {
+                    fila[3] = "Fuera de Horario";
+                    acceso = false;
+                }
+                modeloTabla.addRow(fila);
+                break;
+            }
+        fila[3] = "Prof.: Autorizado";
+        acceso = true;
+        modeloTabla.addRow(fila);
         } else if (miAlumno != null) {
             Cuota ultimaCuota = miAlumno.getLastCuota();
             List<HorarioAlumno> horarios = null;
