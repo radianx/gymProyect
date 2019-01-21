@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 21, 2019 2:46:07 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="gimnasio.modelo.Movimiento" table="movimiento" schema="public">
+        <id name="idmovimiento" type="int">
+            <column name="idmovimiento" />
+            <generator class="increment"></generator>
+        </id>
+        <many-to-one name="producto" class="gimnasio.modelo.Producto" fetch="select">
+            <column name="idproducto" not-null="false" />
+        </many-to-one>
+        <property name="monto" type="java.lang.Double">
+            <column name="monto" precision="17" scale="17" not-null="true" />
+        </property>
+        <property name="montoCliente" type="java.lang.Double">
+            <column name="monto_cliente" precision="17" scale="17" not-null="false" />
+        </property>
+        <property name="vuelto" type="java.lang.Double">
+            <column name="vuelto" precision="17" scale="17" />
+        </property>
+        <property name="detalle" type="string">
+            <column name="detalle" not-null="true" />
+        </property>
+        <property name="hora" type="timestamp">
+            <column name="hora" length="13" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
+        </property>
+        <many-to-one name="caja" class="gimnasio.modelo.Cajadiaria" fetch="select">
+            <column name="idcaja" not-null="false" />
+        </many-to-one>
+        <many-to-one name="usuario" class="gimnasio.modelo.Usuario" fetch="select">
+            <column name="idusuario" not-null="false" />
+        </many-to-one>
+        <set name="movimientoSet" table="tipo_movimiento" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idtipomovimiento" not-null="true" />
+            </key>
+            <one-to-many class="gimnasio.modelo.TipoMovimiento" />
+        </set>
+    </class>
+</hibernate-mapping>
