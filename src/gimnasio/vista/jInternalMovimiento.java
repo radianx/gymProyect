@@ -69,6 +69,10 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
         btnLimpiar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
 
+        setClosable(true);
+        setTitle("NUEVO MOVIMIENTO");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
+
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         txtNumOperacion.setEditable(false);
@@ -85,8 +89,8 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("MONTO:");
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         txtImporte.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtImporte.addActionListener(new java.awt.event.ActionListener() {
@@ -95,15 +99,15 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel6.setText("Importe Total:");
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel6.setText("Importe Total:");
 
         txtVuelto.setEditable(false);
         txtVuelto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("VUELTO:");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         txtCobro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtCobro.addKeyListener(new java.awt.event.KeyAdapter() {

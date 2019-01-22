@@ -92,7 +92,9 @@ public class jInternalModalidades extends javax.swing.JInternalFrame {
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
 
+        setClosable(true);
         setTitle("GESTION DE MODALIDADES");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         setMinimumSize(new java.awt.Dimension(400, 410));
         setPreferredSize(new java.awt.Dimension(400, 411));
         getContentPane().setLayout(new java.awt.CardLayout());

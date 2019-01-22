@@ -12,7 +12,11 @@ import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
 import gimnasio.modelo.Usuario;
 import java.awt.Dimension;
+import java.awt.Image;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+import java.io.File;
+import java.io.IOException;
 
 /**
  *
@@ -91,6 +95,13 @@ public class MainMenu extends javax.swing.JFrame {
         Dimension desktopSize = jDesktopPane1.getSize();
         
         opcionesDefault();
+        
+        try{
+            Image image = ImageIO.read(new File("src/gimnasio/imagenes/countryIcon.png"));
+            this.setIconImage(image);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
     
     
@@ -173,6 +184,7 @@ public class MainMenu extends javax.swing.JFrame {
         jMICierreCaja = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("SISTEMA DE GESTION COUNTRYGYM");
         setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(920, 600));
         setName("Sistema Country GYM"); // NOI18N

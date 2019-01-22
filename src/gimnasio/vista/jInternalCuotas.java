@@ -94,6 +94,8 @@ public class jInternalCuotas extends javax.swing.JInternalFrame {
         txtClase = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
+        setClosable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);

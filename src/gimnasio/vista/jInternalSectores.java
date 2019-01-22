@@ -90,7 +90,9 @@ public class jInternalSectores extends javax.swing.JInternalFrame {
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
 
+        setClosable(true);
         setTitle("GESTION DE SECTORES");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         getContentPane().setLayout(new java.awt.CardLayout());
 
         panelPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {

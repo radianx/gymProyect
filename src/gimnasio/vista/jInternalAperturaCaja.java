@@ -47,7 +47,9 @@ public class jInternalAperturaCaja extends javax.swing.JInternalFrame {
         timePicker1 = new com.github.lgooddatepicker.components.TimePicker();
         txtMonto = new javax.swing.JTextField();
 
+        setClosable(true);
         setTitle("APERTURA DE CAJA");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 

@@ -52,6 +52,7 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
         setTitle("- ACCSESO AL SISTEMA -");
         setAlignmentX(2.0F);
         setAlignmentY(2.0F);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 

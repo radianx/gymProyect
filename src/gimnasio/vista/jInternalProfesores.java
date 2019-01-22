@@ -90,10 +90,9 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         btnEliminar = new javax.swing.JButton();
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("GESTION DE PROFESORES");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(380, 420));
         setNormalBounds(new java.awt.Rectangle(0, 0, 420, 0));

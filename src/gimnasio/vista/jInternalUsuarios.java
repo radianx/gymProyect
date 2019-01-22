@@ -135,6 +135,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("GESTION DE USUARIOS");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         setMaximumSize(new java.awt.Dimension(430, 430));
         setMinimumSize(new java.awt.Dimension(430, 430));
         setPreferredSize(new java.awt.Dimension(430, 430));

@@ -146,7 +146,9 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         txtSaldoAnterior = new javax.swing.JTextField();
 
+        setClosable(true);
         setTitle("COBRO DE CUOTAS");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
 
         jLabel1.setText("Nombre:");
 
@@ -219,15 +221,15 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Fecha de Pago:");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("CUOTA:");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         txtCuota.setEditable(false);
         txtCuota.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        jLabel8.setText("SALDO ANTERIOR:");
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel8.setText("SALDO ANTERIOR:");
 
         txtSaldoAnterior.setEditable(false);
         txtSaldoAnterior.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

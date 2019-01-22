@@ -50,23 +50,18 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     
     public panelNuevoAlumno(ControladorPrincipal controlador) {
         this.miControlador =controlador;
-        Locale locale = new Locale("es", "ES");
-        DatePickerSettings settings = new DatePickerSettings(locale);
-        settings.setFormatForDatesCommonEra("dd/MM/yyyy");
-        settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");
-        this.datePicker1 = new DatePicker(settings);
-        datePicker1.setDateToToday();
         
         initComponents();
         this.btnActivar.setEnabled(false);
         cargarTabla();
         cargarCombo();
-//        List<String> decoracion = new ArrayList<>();
-//        for(Obrasocial unaOS: miControlador.getListaObraSociales()){
-//            modeloCombo.addElement(unaOS);
-//            decoracion.add(unaOS.getNombreobrasocial());
-//        }
-//        JComboBoxDecorator.decorate(cmbObraSocial,true,decoracion);
+        Locale locale = new Locale("es", "ES");
+        DatePickerSettings settings = new DatePickerSettings(locale);
+        settings.setFormatForDatesCommonEra("dd/MM/yyyy");
+        settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");
+        datePicker1.setSettings(settings);
+        datePicker1.setDateToToday();
+
     }
 
     public void recibirDatos(Alumno unAlumno) throws IOException{

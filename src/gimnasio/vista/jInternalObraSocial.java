@@ -93,6 +93,7 @@ public class jInternalObraSocial extends javax.swing.JInternalFrame {
         setClosable(true);
         setResizable(true);
         setTitle("GESTION DE OBRAS SOCIALES");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         setMinimumSize(new java.awt.Dimension(400, 407));
         setPreferredSize(new java.awt.Dimension(400, 407));
         addMouseListener(new java.awt.event.MouseAdapter() {

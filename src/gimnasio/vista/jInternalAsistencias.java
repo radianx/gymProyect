@@ -5,6 +5,7 @@
  */
 package gimnasio.vista;
 
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
@@ -19,6 +20,7 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -47,7 +49,13 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         cargarTablaAlumnos();
         cargarTablaAsistencias();
         cargarCombo(null);
+        Locale locale = new Locale("es", "ES");
+        DatePickerSettings settings = new DatePickerSettings(locale);
+        settings.setFormatForDatesCommonEra("dd/MM/yyyy");
+        settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");
+        dateTimePicker1.datePicker.setSettings(settings);
         dateTimePicker1.datePicker.setDateToToday();
+
         dateTimePicker1.timePicker.setTimeToNow();
         rowSorterProfesor = new TableRowSorter<>(this.tablaProfesores.getModel());
         tablaProfesores.setRowSorter(rowSorterProfesor);
@@ -185,7 +193,10 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
 
         jButton1.setText("jButton1");
 
+        setClosable(true);
         setTitle("ASISTENCIAS");
+        setDesktopIcon(null);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(630, 500));
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Asistencias del Dia"));

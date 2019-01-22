@@ -42,15 +42,15 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
     
     public panelNuevoProfesor(ControladorPrincipal controlador) {
         miControlador = controlador;
+        initComponents();
+        cargarTabla();
+        cargarCombo();
         Locale locale = new Locale("es", "ES");
         DatePickerSettings settings = new DatePickerSettings(locale);
         settings.setFormatForDatesCommonEra("dd/MM/yyyy");
         settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");
-        this.datePicker1 = new DatePicker(settings);
+        datePicker1.setSettings(settings);
         datePicker1.setDateToToday();
-        initComponents();
-        cargarTabla();
-        cargarCombo();
         this.btnActivar.setEnabled(false);
     }
     

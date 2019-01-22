@@ -118,6 +118,8 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setResizable(true);
+        setTitle("GESTION PROFESORES POR CLASE");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         setMinimumSize(new java.awt.Dimension(600, 400));
         setPreferredSize(new java.awt.Dimension(600, 400));
         getContentPane().setLayout(new java.awt.CardLayout());

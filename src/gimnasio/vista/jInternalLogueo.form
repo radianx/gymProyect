@@ -6,6 +6,9 @@
     <Property name="title" type="java.lang.String" value="- ACCSESO AL SISTEMA -"/>
     <Property name="alignmentX" type="float" value="2.0"/>
     <Property name="alignmentY" type="float" value="2.0"/>
+    <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+      <Image iconType="3" name="/gimnasio/imagenes/countryIcon.png"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>

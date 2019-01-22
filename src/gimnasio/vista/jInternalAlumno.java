@@ -87,6 +87,7 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         setClosable(true);
         setResizable(true);
         setTitle("GESTION DE ALUMNOS");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         setMinimumSize(new java.awt.Dimension(421, 430));
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(421, 430));

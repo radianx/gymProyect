@@ -47,6 +47,10 @@ public class jInternalReportes extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         btnCerrar = new javax.swing.JButton();
 
+        setClosable(true);
+        setTitle("GENERACION DE REPORTES DE MOVIMIENTOS");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
+
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnReporteDia.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -62,8 +66,8 @@ public class jInternalReportes extends javax.swing.JInternalFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnReporteDias.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnReporteDias.setText("<html><center>Generar Reporte<br>por rango de días</center></html>");
+        btnReporteDias.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnReporteDias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReporteDiasActionPerformed(evt);

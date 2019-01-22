@@ -59,6 +59,8 @@ public class jInternalClases extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setResizable(true);
+        setTitle("GESTION DE CLASES");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         setMinimumSize(new java.awt.Dimension(400, 400));
         setPreferredSize(new java.awt.Dimension(400, 400));
         getContentPane().setLayout(new java.awt.CardLayout());
