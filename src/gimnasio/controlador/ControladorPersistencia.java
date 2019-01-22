@@ -562,4 +562,52 @@ public class ControladorPersistencia {
         }
         return lista;
     }
+
+    public List<Personal> getPersonales() throws Notificaciones{
+        String textoConsulta = "FROM Personal";
+        List<Personal> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        return lista;
+    }
+
+    public List<Cajadiaria> getCajaDiarias() throws Notificaciones {
+        String textoConsulta = "FROM Cajadiaria";
+        List<Cajadiaria> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        return lista;
+    }
+
+    public List<Movimiento> getMovimientos() throws Notificaciones {
+        String textoConsulta = "FROM Movimiento";
+        List<Movimiento> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        return lista;
+    }
 }

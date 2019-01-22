@@ -28,7 +28,15 @@ public class Cajadiaria  implements java.io.Serializable {
        this.cierre = cierre;
        this.estado = estado;
     }
+
+    public Cajadiaria(double montoactual, Date apertura, String estado) {
+        this.montoactual = montoactual;
+        this.apertura = apertura;
+        this.estado = estado;
+    }
    
+    
+    
     public int getIdcaja() {
         return this.idcaja;
     }

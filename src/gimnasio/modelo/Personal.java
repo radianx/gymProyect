@@ -26,6 +26,10 @@ public class Personal  implements java.io.Serializable {
     public Personal() {
     }
 
+    public Personal(Usuario usuario, String estado) {
+        this.usuario = usuario;
+        this.estado = estado;
+    }
 	
     public Personal(int idpersonal, Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombrepersonal, String estado) {
         this.idpersonal = idpersonal;

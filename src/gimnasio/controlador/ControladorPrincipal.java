@@ -1,12 +1,31 @@
 
 package gimnasio.controlador;
 
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.CMYKColor;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.sun.org.apache.xpath.internal.operations.Minus;
 import gimnasio.modelo.*;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -58,6 +77,8 @@ public class ControladorPrincipal {
     private ControladorAsistenciaProfesor controladorAsistenciaProfesor;
     private ControladorSaldoCuota controladorSaldoCuota;
     private ControladorCobroCuota controladorCobroCuota;
+    private ControladorCaja controladorCaja;
+    private ControladorMovimiento controladorMovimientos;
     
     private ModeloPrincipal miModeloPrincipal;
     
@@ -85,7 +106,9 @@ public class ControladorPrincipal {
         this.controladorAsistenciaProfesor = new ControladorAsistenciaProfesor(this.miPersistencia);
         this.controladorSaldoCuota = new ControladorSaldoCuota(this.miPersistencia);
         this.controladorCobroCuota = new ControladorCobroCuota(this.miPersistencia);
-    
+        this.controladorPersonal = new ControladorPersonal(this.miPersistencia);
+        this.controladorCaja = new ControladorCaja(this.miPersistencia);
+        this.controladorMovimientos = new ControladorMovimiento(this.miPersistencia);
     }      
     
     public ControladorPersistencia getMiPersistencia() {
@@ -503,5 +526,320 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
     
     public List<AsistenciaProfesor> getAsistenciasProfesorDeHoy() throws Notificaciones{
         return controladorAsistenciaProfesor.getAsistenciasDeHoy();
+    }
+
+    public Usuario buscarUsuario(String text1, String text2) {
+        return controladorUsuario.buscarUsuario(text1, text2);
+    }
+
+    public void altaPersonal(Personal unPersonal) throws Notificaciones {
+        controladorPersonal.altaPersonal(unPersonal);
+    }
+
+    public void altaCaja(Cajadiaria caja) throws Notificaciones {
+        controladorCaja.altaCaja(caja);
+    }
+
+    public boolean hayCajaAbiertaHoy() throws Notificaciones {
+        return controladorCaja.hayCajaAbiertaHoy();
+    }
+
+    public void cerrarCaja() throws Notificaciones{
+        controladorCaja.cerrarCaja();
+    }
+
+    public List<Movimiento> getListaMovimientos()throws Notificaciones {
+        return controladorMovimientos.getListaMovimientos();
+    }
+
+    public Cajadiaria dameCaja() throws Notificaciones {
+        return controladorCaja.dameCaja();
+    }
+
+    public void altaMovimiento(Movimiento unMovimiento) throws Notificaciones {
+        controladorMovimientos.altaMomiviento(unMovimiento);
+    }
+
+    public void generarReporte() throws Notificaciones{
+        Document document = new Document();
+        try{
+            PdfWriter escritor = PdfWriter.getInstance(document, new FileOutputStream("src/gimnasio/imagenes/reporte.pdf"));
+            document.open();
+            
+            try {
+                Image logo = Image.getInstance("src/gimnasio/imagenes/CountryGymLogo.jpg");
+                logo.setAbsolutePosition(450f,800f);
+                logo.scaleAbsolute(100,30);
+                document.add(logo);
+            } catch (BadElementException | IOException ex) {
+                ex.printStackTrace();
+            }
+            document.addTitle("Resumen de Movimientos");
+            
+            Font fuenteGrande = FontFactory.getFont(FontFactory.HELVETICA, 24, Font.BOLD, new CMYKColor(255, 255, 255, 255));
+            Font fuenteNegrita = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, new CMYKColor(255, 255, 255, 255));
+
+            
+            Paragraph titulo = new Paragraph("Resumen de Movimientos", fuenteGrande);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            titulo.setExtraParagraphSpace(20);
+            document.add(titulo);
+            
+            //En el constructor la cantidad de columnas
+            PdfPTable tabla = new PdfPTable(5);
+            tabla.setWidthPercentage(100);
+            tabla.setSpacingBefore(10f);
+            tabla.setSpacingAfter(10f);
+            
+            //Configura ancho de columnas
+            float[] columnWidths = {0.7f, 1f, 3f, 0.55f, 0.5f};
+            tabla.setWidths(columnWidths);
+            
+            PdfPCell celda1 = new PdfPCell(new Paragraph("N° Mov.", fuenteNegrita));
+            celda1.setMinimumHeight(20);
+            celda1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celda1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            
+            PdfPCell celda2 = new PdfPCell(new Paragraph("Fecha",fuenteNegrita));
+            celda2.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celda2.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            
+            PdfPCell celda3 = new PdfPCell(new Paragraph("Detalle",fuenteNegrita));
+            celda3.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celda3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            
+            PdfPCell celda4 = new PdfPCell(new Paragraph("Ingreso",fuenteNegrita));
+            celda4.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celda4.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                  
+            PdfPCell celda5 = new PdfPCell(new Paragraph("Egreso",fuenteNegrita));
+            celda5.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celda5.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            
+            tabla.addCell(celda1);
+            tabla.addCell(celda2);
+            tabla.addCell(celda3);
+            tabla.addCell(celda4);
+            tabla.addCell(celda5);
+            
+            Double totalIngresos = 0.0;
+            Double totalEgresos = 0.0;
+            Double totalGanancia = 0.0;
+            
+            
+            celda1 = new PdfPCell(new Paragraph("-----"));
+            LocalDate hoy = LocalDate.now();
+            celda2 = new PdfPCell(new Paragraph(hoy.format(DateTimeFormatter.ofPattern("dd/MM/uuuu"))));
+            celda3 = new PdfPCell(new Paragraph("APERTURA DE CAJA"));
+            celda4 = new PdfPCell(new Paragraph(String.valueOf(controladorCaja.dameCaja().getMontoactual())));
+            totalIngresos += controladorCaja.dameCaja().getMontoactual();
+            celda5 = new PdfPCell(new Paragraph(""));
+            
+            tabla.addCell(celda1);
+            tabla.addCell(celda2);
+            tabla.addCell(celda3);
+            tabla.addCell(celda4);
+            tabla.addCell(celda5);
+            
+            for(Movimiento unMov:controladorMovimientos.getListaMovimientosDeHoy()){
+                celda1 = new PdfPCell(new Paragraph(unMov.getIdmovimiento().toString()));
+                LocalDate fecha = unMov.getHora().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                celda2 = new PdfPCell(new Paragraph(fecha.format(DateTimeFormatter.ofPattern("dd/MM/uuuu"))));
+                if(unMov.getMonto()>0){
+                    celda3 = new PdfPCell(new Paragraph(unMov.getDetalle()));
+                    celda4 = new PdfPCell(new Paragraph(unMov.getMonto().toString()));
+                    totalIngresos += unMov.getMonto();
+                    celda5 = new PdfPCell(new Paragraph(""));
+                }else if(unMov.getMonto()<0){
+                    Paragraph detalleIdent = new Paragraph(unMov.getDetalle());
+                    celda3 = new PdfPCell(detalleIdent);
+                    celda3.setIndent(50);
+                    celda4 = new PdfPCell(new Paragraph(""));
+                    celda5 = new PdfPCell(new Paragraph(String.valueOf(unMov.getMonto()*-1)));
+                    totalEgresos += unMov.getMonto()*-1;
+                }
+                tabla.addCell(celda1);
+                tabla.addCell(celda2);
+                tabla.addCell(celda3);
+                tabla.addCell(celda4);
+                tabla.addCell(celda5);
+            }
+            totalGanancia = totalIngresos - totalEgresos;
+            
+            PdfPTable tabla2 = new PdfPTable(3);
+            tabla2.setWidthPercentage(100);
+            tabla2.setSpacingBefore(10f);
+            tabla2.setSpacingAfter(10f);
+            
+            //Configura ancho de columnas
+            float[] anchoColumnas = {4.7f, 0.55f, 0.5f};
+            tabla2.setWidths(anchoColumnas);
+            
+            PdfPCell celdaTotal = new PdfPCell(new Paragraph("TOTAL INGRESOS/EGRESOS", fuenteNegrita));
+            PdfPCell celdaIngresos = new PdfPCell(new Paragraph(totalIngresos.toString(), fuenteNegrita));
+            PdfPCell celdaEgresos = new PdfPCell(new Paragraph(totalEgresos.toString(), fuenteNegrita));
+            
+            tabla2.addCell(celdaTotal);
+            tabla2.addCell(celdaIngresos);
+            tabla2.addCell(celdaEgresos);
+            
+            celdaTotal = new PdfPCell(new Paragraph("DIFERENCIA", fuenteNegrita));
+            celdaIngresos = new PdfPCell(new Paragraph(totalGanancia.toString(), fuenteNegrita));
+            celdaIngresos.setColspan(2);
+            
+            tabla2.addCell(celdaTotal);
+            tabla2.addCell(celdaIngresos);
+            
+            document.add(tabla);
+            document.add(tabla2);
+            document.close();
+            escritor.close();
+            File f = new File("src/gimnasio/imagenes/reporte.pdf");
+            try {
+                Desktop.getDesktop().open(f);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }catch(DocumentException | FileNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void generarReporteDias(LocalDate desde, LocalDate hasta) throws Notificaciones {
+        Document document = new Document();
+        try{
+            PdfWriter escritor = PdfWriter.getInstance(document, new FileOutputStream("src/gimnasio/imagenes/reporteDias.pdf"));
+            document.open();
+            
+            try {
+                Image logo = Image.getInstance("src/gimnasio/imagenes/CountryGymLogo.jpg");
+                logo.setAbsolutePosition(450f,800f);
+                logo.scaleAbsolute(100,30);
+                document.add(logo);
+            } catch (BadElementException | IOException ex) {
+                ex.printStackTrace();
+            }
+            document.addTitle("Resumen de Movimientos");
+            
+            Font fuenteGrande = FontFactory.getFont(FontFactory.HELVETICA, 24, Font.BOLD, new CMYKColor(255, 255, 255, 255));
+            Font fuenteNegrita = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, new CMYKColor(255, 255, 255, 255));
+            
+            Paragraph titulo = new Paragraph("Resumen de Movimientos", fuenteGrande);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            titulo.setExtraParagraphSpace(20);
+            document.add(titulo);
+            
+            //En el constructor la cantidad de columnas
+            PdfPTable tabla = new PdfPTable(5);
+            tabla.setWidthPercentage(100);
+            tabla.setSpacingBefore(10f);
+            tabla.setSpacingAfter(10f);
+            
+            //Configura ancho de columnas
+            float[] columnWidths = {0.7f, 1f, 3f, 0.55f, 0.5f};
+            tabla.setWidths(columnWidths);
+            
+            PdfPCell celda1 = new PdfPCell(new Paragraph("N° Mov.", fuenteNegrita));
+            celda1.setMinimumHeight(20);
+            celda1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celda1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            
+            PdfPCell celda2 = new PdfPCell(new Paragraph("Fecha",fuenteNegrita));
+            celda2.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celda2.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            
+            PdfPCell celda3 = new PdfPCell(new Paragraph("Detalle",fuenteNegrita));
+            celda3.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celda3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            
+            PdfPCell celda4 = new PdfPCell(new Paragraph("Ingreso",fuenteNegrita));
+            celda4.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celda4.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                  
+            PdfPCell celda5 = new PdfPCell(new Paragraph("Egreso",fuenteNegrita));
+            celda5.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celda5.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            
+            tabla.addCell(celda1);
+            tabla.addCell(celda2);
+            tabla.addCell(celda3);
+            tabla.addCell(celda4);
+            tabla.addCell(celda5);
+            
+            
+            Double superTotalIngresos = 0.0;
+            Double superTotalEgresos = 0.0;
+            Double superTotalGanancia = 0.0;
+            
+            Double totalIngresos = 0.0;
+            Double totalEgresos = 0.0;
+            Double totalGanancia = 0.0;   
+            
+            LocalDate fechaAnterior = desde;
+            for (Movimiento unMov : controladorMovimientos.getListaMovimientosDe(desde, hasta)) {
+                celda1 = new PdfPCell(new Paragraph(unMov.getIdmovimiento().toString()));
+                LocalDate fecha = unMov.getHora().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                celda2 = new PdfPCell(new Paragraph(fecha.format(DateTimeFormatter.ofPattern("dd/MM/uuuu"))));
+                if(unMov.getMonto()>0){
+                    celda3 = new PdfPCell(new Paragraph(unMov.getDetalle()));
+                    celda4 = new PdfPCell(new Paragraph(unMov.getMonto().toString()));
+                    totalIngresos += unMov.getMonto();
+                    celda5 = new PdfPCell(new Paragraph(""));
+                }else if(unMov.getMonto()<0){
+                    Paragraph detalleIdent = new Paragraph(unMov.getDetalle());
+                    celda3 = new PdfPCell(detalleIdent);
+                    celda3.setIndent(50);
+                    celda4 = new PdfPCell(new Paragraph(""));
+                    celda5 = new PdfPCell(new Paragraph(String.valueOf(unMov.getMonto()*-1)));
+                    totalEgresos += unMov.getMonto()*-1;
+                }
+                tabla.addCell(celda1);
+                tabla.addCell(celda2);
+                tabla.addCell(celda3);
+                tabla.addCell(celda4);
+                tabla.addCell(celda5);
+            }
+            totalGanancia = totalIngresos - totalEgresos;
+
+            PdfPTable tabla2 = new PdfPTable(3);
+            tabla2.setWidthPercentage(100);
+            tabla2.setSpacingBefore(10f);
+            tabla2.setSpacingAfter(10f);
+
+            //Configura ancho de columnas
+            float[] anchoColumnas = {4.7f, 0.55f, 0.5f};
+            tabla2.setWidths(anchoColumnas);
+
+            PdfPCell celdaTotal = new PdfPCell(new Paragraph("TOTAL INGRESOS/EGRESOS", fuenteNegrita));
+            PdfPCell celdaIngresos = new PdfPCell(new Paragraph(totalIngresos.toString(), fuenteNegrita));
+            PdfPCell celdaEgresos = new PdfPCell(new Paragraph(totalEgresos.toString(), fuenteNegrita));
+
+            tabla2.addCell(celdaTotal);
+            tabla2.addCell(celdaIngresos);
+            tabla2.addCell(celdaEgresos);
+
+            celdaTotal = new PdfPCell(new Paragraph("DIFERENCIA", fuenteNegrita));
+            celdaIngresos = new PdfPCell(new Paragraph(totalGanancia.toString(), fuenteNegrita));
+            celdaIngresos.setColspan(2);
+
+            tabla2.addCell(celdaTotal);
+            tabla2.addCell(celdaIngresos);
+
+            //hacertablafinal
+            document.add(tabla);
+            document.add(tabla2);
+            document.close();
+            escritor.close();
+            File f = new File("src/gimnasio/imagenes/reporteDias.pdf");
+            try {
+                Desktop.getDesktop().open(f);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }catch(DocumentException e){
+            e.printStackTrace();
+        }catch(FileNotFoundException e){
+            throw new Notificaciones("Archivo bloqueado: Puede que este abierto un reporte ya generado, cierrelo e intente nuevamente");
+        }
     }
 }

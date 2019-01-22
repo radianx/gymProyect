@@ -608,6 +608,9 @@ public class ControladorHuella implements Runnable{
             }
         }
         
+        if(usuario.getPersonals()!=null){
+            acceso = true;
+        }
         return acceso;
     }
     

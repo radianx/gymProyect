@@ -6,7 +6,7 @@
     <class name="gimnasio.modelo.Cajadiaria" table="caja_diaria" schema="public">
         <id name="idcaja" type="int">
             <column name="idcaja" />
-            <generator class="assigned"></generator>
+            <generator class="increment"></generator>
         </id>
         <property name="montoactual" type="double">
             <column name="montoactual" precision="17" scale="17" not-null="true" />
@@ -21,7 +21,7 @@
             <column name="estado" not-null="true" />
         </property>
         <many-to-one name="personal" class="gimnasio.modelo.Personal" fetch="select">
-            <column name="idpersonal" not-null="true" />
+            <column name="idpersonalapertura" not-null="false" />
         </many-to-one>
     </class>
 </hibernate-mapping>

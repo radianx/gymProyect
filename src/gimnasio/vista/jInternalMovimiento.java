@@ -5,18 +5,39 @@
  */
 package gimnasio.vista;
 
+import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Cajadiaria;
+import gimnasio.modelo.Movimiento;
+import gimnasio.modelo.Usuario;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Family
  */
 public class jInternalMovimiento extends javax.swing.JInternalFrame {
 
+    ControladorPrincipal miControlador;
     /**
      * Creates new form jInternalMovimiento
      */
-    public jInternalMovimiento() {
+    public jInternalMovimiento(ControladorPrincipal controlador) {
+        this.miControlador = controlador;
         initComponents();
-        datePicker.setDateToToday();
+                txtFecha.setDateToToday();
+        try{
+            int cantidadMovimientos = miControlador.getListaMovimientos().size()+1;
+            txtNumOperacion.setText(String.valueOf(cantidadMovimientos));
+        }catch(Notificaciones ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            txtNumOperacion.setText("1");
+        }
+
     }
 
     /**
@@ -28,34 +49,29 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtNumOperacion = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        datePicker = new com.github.lgooddatepicker.components.DatePicker();
+        txtFecha = new com.github.lgooddatepicker.components.DatePicker();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtDetalle = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtImporte = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtVuelto = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtCobro = new javax.swing.JTextField();
+        cmbTipoMovimiento = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jButton4.setText("Generar Reporte Diario");
-        jPanel3.add(jButton4);
-
-        getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_START);
+        btnGuardar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel3.setText("Importe:");
-
-        jTextField3.setEditable(false);
+        txtNumOperacion.setEditable(false);
 
         jLabel1.setText("N° Operacion:");
 
@@ -63,11 +79,53 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Detalle:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtDetalle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtDetalleActionPerformed(evt);
             }
         });
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setText("MONTO:");
+
+        txtImporte.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtImporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImporteActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel6.setText("Importe Total:");
+
+        txtVuelto.setEditable(false);
+        txtVuelto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setText("VUELTO:");
+
+        txtCobro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtCobro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCobroKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCobroKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCobroKeyTyped(evt);
+            }
+        });
+
+        cmbTipoMovimiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ingreso", "Egreso" }));
+        cmbTipoMovimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoMovimientoActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Tipo de Movimiento:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -75,23 +133,38 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 12, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtNumOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtDetalle))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(datePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCobro, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtVuelto, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbTipoMovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,60 +172,247 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(datePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtNumOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
+                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCobro, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(cmbTipoMovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtVuelto, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jButton1.setText("GUARDAR");
-        jPanel2.add(jButton1);
+        btnGuardar.setText("GUARDAR");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnGuardar);
 
-        jButton2.setText("LIMPIAR CAMPOS");
-        jPanel2.add(jButton2);
+        btnLimpiar.setText("LIMPIAR CAMPOS");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnLimpiar);
 
-        jButton3.setText("CERRAR");
-        jPanel2.add(jButton3);
+        btnCerrar.setText("CERRAR");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnCerrar);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDetalleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtDetalleActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if(cmbTipoMovimiento.getSelectedItem().toString().equalsIgnoreCase("Ingreso")){
+            if (!this.txtDetalle.getText().isEmpty()
+                    && !this.txtImporte.getText().isEmpty()
+                    && !this.txtCobro.getText().isEmpty()
+                    && !this.txtVuelto.getText().isEmpty()) {
+                Double monto = Double.valueOf(txtImporte.getText());
+                Double montoCliente = Double.valueOf(txtCobro.getText());
+                Double vuelto = Double.valueOf(txtVuelto.getText());
+                String detalle = txtDetalle.getText();
+                String estado = "ACTIVO";
+                Date hora = Date.from(txtFecha.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                try {
+                    Cajadiaria caja = miControlador.dameCaja();
+                    Usuario unUsuario = MainMenu.usuarioLogueado;
+                    Movimiento unMovimiento = new Movimiento(monto, montoCliente, vuelto, detalle, hora, estado, caja, unUsuario);
+                    miControlador.altaMovimiento(unMovimiento);
+                    int cantidadMovimientos = miControlador.getListaMovimientos().size() + 1;
+                    txtNumOperacion.setText(String.valueOf(cantidadMovimientos));
+                    limpiarCampos();
+                } catch (Notificaciones ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos");
+            }
+        } else if(cmbTipoMovimiento.getSelectedItem().toString().equalsIgnoreCase("Egreso")){
+            if (!this.txtDetalle.getText().isEmpty()
+                    && !this.txtImporte.getText().isEmpty()
+                    && !this.txtCobro.getText().isEmpty()
+                    && !this.txtVuelto.getText().isEmpty()) {
+                Double monto = -Double.valueOf(txtImporte.getText());
+                Double montoCliente = -Double.valueOf(txtCobro.getText());
+                Double vuelto = Double.valueOf(txtVuelto.getText());
+                String detalle = txtDetalle.getText();
+                String estado = "ACTIVO";
+                Date hora = Date.from(txtFecha.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                try {
+                    Cajadiaria caja = miControlador.dameCaja();
+                    Usuario unUsuario = MainMenu.usuarioLogueado;
+                    Movimiento unMovimiento = new Movimiento(monto, montoCliente, vuelto, detalle, hora, estado, caja, unUsuario);
+                    miControlador.altaMovimiento(unMovimiento);
+                    int cantidadMovimientos = miControlador.getListaMovimientos().size() + 1;
+                    txtNumOperacion.setText(String.valueOf(cantidadMovimientos));
+                    limpiarCampos();
+                } catch (Notificaciones ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos");
+            }            
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void txtCobroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCobroKeyPressed
+
+    }//GEN-LAST:event_txtCobroKeyPressed
+
+    private void txtCobroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCobroKeyReleased
+        try{
+            Double i = Double.valueOf(this.txtCobro.getText());
+            Double d = Double.valueOf(this.txtImporte.getText());
+            Double resultado = d - i;
+            Double nuevoSaldo;
+            if(resultado<0){
+                nuevoSaldo = 0.0;
+                txtVuelto.setText(String.valueOf(resultado*-1));
+            }else{
+                nuevoSaldo = resultado;
+                txtVuelto.setText("0");
+            }
+
+        }catch(NumberFormatException e){
+            if(!txtCobro.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar numeros validos");
+                txtCobro.setText("");
+            }
+
+        }
+    }//GEN-LAST:event_txtCobroKeyReleased
+
+    private void txtCobroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCobroKeyTyped
+
+    }//GEN-LAST:event_txtCobroKeyTyped
+
+    private void txtImporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteActionPerformed
+       if(cmbTipoMovimiento.getSelectedItem().toString().equalsIgnoreCase("Ingreso")){
+            if (!this.txtDetalle.getText().isEmpty()
+                    && !this.txtImporte.getText().isEmpty()
+                    && !this.txtCobro.getText().isEmpty()
+                    && !this.txtVuelto.getText().isEmpty()) {
+                Double monto = Double.valueOf(txtImporte.getText());
+                Double montoCliente = Double.valueOf(txtCobro.getText());
+                Double vuelto = Double.valueOf(txtVuelto.getText());
+                String detalle = txtDetalle.getText();
+                String estado = "ACTIVO";
+                Date hora = Date.from(txtFecha.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                try {
+                    Cajadiaria caja = miControlador.dameCaja();
+                    Usuario unUsuario = MainMenu.usuarioLogueado;
+                    Movimiento unMovimiento = new Movimiento(monto, montoCliente, vuelto, detalle, hora, estado, caja, unUsuario);
+                    miControlador.altaMovimiento(unMovimiento);
+                    int cantidadMovimientos = miControlador.getListaMovimientos().size() + 1;
+                    txtNumOperacion.setText(String.valueOf(cantidadMovimientos));
+                    limpiarCampos();
+                } catch (Notificaciones ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos");
+            }
+        } else if(cmbTipoMovimiento.getSelectedItem().toString().equalsIgnoreCase("Egreso")){
+            if (!this.txtDetalle.getText().isEmpty()
+                    && !this.txtImporte.getText().isEmpty()
+                    && !this.txtCobro.getText().isEmpty()
+                    && !this.txtVuelto.getText().isEmpty()) {
+                Double monto = -Double.valueOf(txtImporte.getText());
+                Double montoCliente = -Double.valueOf(txtCobro.getText());
+                Double vuelto = Double.valueOf(txtVuelto.getText());
+                String detalle = txtDetalle.getText();
+                String estado = "ACTIVO";
+                Date hora = Date.from(txtFecha.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                try {
+                    Cajadiaria caja = miControlador.dameCaja();
+                    Usuario unUsuario = MainMenu.usuarioLogueado;
+                    Movimiento unMovimiento = new Movimiento(monto, montoCliente, vuelto, detalle, hora, estado, caja, unUsuario);
+                    miControlador.altaMovimiento(unMovimiento);
+                    int cantidadMovimientos = miControlador.getListaMovimientos().size() + 1;
+                    txtNumOperacion.setText(String.valueOf(cantidadMovimientos));
+                    limpiarCampos();
+                } catch (Notificaciones ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos");
+            }            
+        }
+    }//GEN-LAST:event_txtImporteActionPerformed
+
+    private void cmbTipoMovimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoMovimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbTipoMovimientoActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.github.lgooddatepicker.components.DatePicker datePicker;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JComboBox<String> cmbTipoMovimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField txtCobro;
+    private javax.swing.JTextField txtDetalle;
+    private com.github.lgooddatepicker.components.DatePicker txtFecha;
+    private javax.swing.JTextField txtImporte;
+    private javax.swing.JTextField txtNumOperacion;
+    private javax.swing.JTextField txtVuelto;
     // End of variables declaration//GEN-END:variables
+    public void limpiarCampos() {
+        this.txtCobro.setText("");
+        this.txtDetalle.setText("");
+        this.txtImporte.setText("");
+        this.txtVuelto.setText("");
+    }
 }
+

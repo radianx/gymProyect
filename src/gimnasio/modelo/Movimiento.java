@@ -6,6 +6,9 @@
 package gimnasio.modelo;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Set;
 
@@ -13,7 +16,7 @@ import java.util.Set;
  *
  * @author Family
  */
-public class Movimiento implements Serializable {
+public class Movimiento implements Serializable, Comparable {
 
     private Integer idmovimiento;
 
@@ -40,6 +43,19 @@ public class Movimiento implements Serializable {
     public Movimiento() {
     }
 
+    public Movimiento(Double monto, Double montoCliente, Double vuelto, String detalle, Date hora, String estado, Cajadiaria caja, Usuario usuario) {
+        this.monto = monto;
+        this.montoCliente = montoCliente;
+        this.vuelto = vuelto;
+        this.detalle = detalle;
+        this.hora = hora;
+        this.estado = estado;
+        this.caja = caja;
+        this.usuario = usuario;
+    }
+
+    
+    
     public Movimiento(Integer idmovimiento) {
         this.idmovimiento = idmovimiento;
     }
@@ -155,6 +171,21 @@ public class Movimiento implements Serializable {
     @Override
     public String toString() {
         return "gimnasio.imagenes.Movimiento[ idmovimiento=" + idmovimiento + " ]";
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        int i = 0;
+        Movimiento other = (Movimiento) o;
+        LocalDate fechaThis = Instant.ofEpochMilli(this.getHora().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate fechaOther = Instant.ofEpochMilli(other.getHora().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        if(fechaThis.isBefore(fechaOther)){
+            i = -1;
+        }
+        if(fechaThis.isAfter(fechaOther)){
+            i = 1;
+        }
+        return i;
     }
     
 }

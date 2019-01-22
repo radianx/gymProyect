@@ -5,26 +5,13 @@
  */
 package gimnasio.vista;
 
-
-import com.digitalpersona.onetouch.capture.event.DPFPDataListener;
-import com.sun.jna.Native;
 import gimnasio.controlador.ControladorHuella;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.controlador.ControladorRele;
-import gimnasio.interfaces.GestorRele;
+import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
+import gimnasio.modelo.Usuario;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -33,10 +20,25 @@ import javax.swing.JOptionPane;
  */
 public class MainMenu extends javax.swing.JFrame {
 
+    public static Usuario usuarioLogueado;
+    
     public static void iniciarEscaner() {
          lector.start();
     }
 
+    public static void loguearUsuario(Usuario unUsuario){
+        usuarioLogueado = unUsuario;
+        jDesktopPane1.grabFocus();
+    }
+    
+    public static boolean isUserAdmin(){
+        boolean retorno = false;
+        if(usuarioLogueado.getEstado().equalsIgnoreCase("ADMIN")){
+            retorno = true;
+        }
+        return retorno;
+    }
+    
     public static void abrirCobro(Alumno alumnoSeleccionado) {
         jInternalCobro cobro = new jInternalCobro(miControlador, alumnoSeleccionado);
         jDesktopPane1.add(cobro);
@@ -51,9 +53,12 @@ public class MainMenu extends javax.swing.JFrame {
     public static Boolean detenerEscaner = true;
     
     public void cerrarSesion(){
-        this.btnAsistencia.setEnabled(false);
-        this.btnCobros.setEnabled(false);
-        this.btnUsuarios.setEnabled(false);
+        allOptions(false);
+        usuarioLogueado = null;
+        jInternalLogueo login = new jInternalLogueo(miControlador);
+        jDesktopPane1.add(login);
+        login.setVisible(true);
+        opcionesDefault();
     }
     
     public static ControladorPrincipal miControlador;
@@ -68,7 +73,7 @@ public class MainMenu extends javax.swing.JFrame {
         this.miControlador = controlador;
         initComponents();
         this.btnAsistencia.setEnabled(mostrar);
-        this.btnCobros.setEnabled(mostrar);
+        this.btnCuotas.setEnabled(mostrar);
         this.btnUsuarios.setEnabled(mostrar);
 
         lector = new ControladorHuella(miControlador, controlador.getMiPersistencia(),this.txtHabilitado,this.lblFoto, this.tablaAsistencias);
@@ -76,10 +81,16 @@ public class MainMenu extends javax.swing.JFrame {
         thread_object =new Thread(lector);
         thread_object.start();
         
-        this.setBtnsVisibility(false);
+        jInternalLogueo login = new jInternalLogueo(miControlador);
+        this.jDesktopPane1.add(login);
+        login.setVisible(true);
+        login.grabFocus();
+        
+        this.allOptions(false);
         
         Dimension desktopSize = jDesktopPane1.getSize();
-
+        
+        opcionesDefault();
     }
     
     
@@ -105,9 +116,9 @@ public class MainMenu extends javax.swing.JFrame {
         btnClasesProfesor = new javax.swing.JButton();
         btnModalidad = new javax.swing.JButton();
         btnAsistencia = new javax.swing.JButton();
-        btnCobros = new javax.swing.JButton();
+        btnCuotas = new javax.swing.JButton();
         btnClaseALumno = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnModalidadProfesor = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -120,39 +131,32 @@ public class MainMenu extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuArchivo = new javax.swing.JMenu();
-        menuUsuarios = new javax.swing.JMenu();
+        jMIUsuarios = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMIAlumnos = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        jMIProfesores = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
-        jMenu9 = new javax.swing.JMenu();
-        jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
-        jMenuItem15 = new javax.swing.JMenuItem();
-        menuClases = new javax.swing.JMenu();
+        jMIClases = new javax.swing.JMenu();
         itemNuevaClase = new javax.swing.JMenuItem();
         itemListarClases = new javax.swing.JMenuItem();
         itemEliminarClase = new javax.swing.JMenuItem();
-        jMenu11 = new javax.swing.JMenu();
+        jMIPersonal = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenuItem18 = new javax.swing.JMenuItem();
-        jMenu8 = new javax.swing.JMenu();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMiArchivo1 = new javax.swing.JMenuItem();
+        jMICerrarSesion = new javax.swing.JMenuItem();
+        jMISalir = new javax.swing.JMenuItem();
         jMenuEdicion = new javax.swing.JMenu();
-        jMenuItem19 = new javax.swing.JMenuItem();
-        jMenuItem20 = new javax.swing.JMenuItem();
+        jMIMovimientosCobro = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem25 = new javax.swing.JMenuItem();
         jMenuItem26 = new javax.swing.JMenuItem();
@@ -164,9 +168,9 @@ public class MainMenu extends javax.swing.JFrame {
         jMenu10 = new javax.swing.JMenu();
         jMenuItem23 = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem21 = new javax.swing.JMenuItem();
-        jMenuItem22 = new javax.swing.JMenuItem();
+        jMenuCaja = new javax.swing.JMenu();
+        jMIAperturaCaja = new javax.swing.JMenuItem();
+        jMICierreCaja = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -244,13 +248,13 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(btnAsistencia);
 
-        btnCobros.setText("<html><center>Gestion<br>de Cuotas</center></html>");
-        btnCobros.addActionListener(new java.awt.event.ActionListener() {
+        btnCuotas.setText("<html><center>Gestion<br>de Cuotas</center></html>");
+        btnCuotas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCobrosActionPerformed(evt);
+                btnCuotasActionPerformed(evt);
             }
         });
-        jPanel2.add(btnCobros);
+        jPanel2.add(btnCuotas);
 
         btnClaseALumno.setText("<html><center>Alumnos<br>por Clase</center></");
         btnClaseALumno.addActionListener(new java.awt.event.ActionListener() {
@@ -260,13 +264,13 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(btnClaseALumno);
 
-        jButton1.setText("<HTML><center>Modalidades<br>por Profesor</center></HTML>");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnModalidadProfesor.setText("<HTML><center>Modalidades<br>por Profesor</center></HTML>");
+        btnModalidadProfesor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnModalidadProfesorActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1);
+        jPanel2.add(btnModalidadProfesor);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.EAST);
 
@@ -322,6 +326,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         jDesktopPane1.setBackground(javax.swing.UIManager.getDefaults().getColor("ComboBox.selectionBackground"));
         jDesktopPane1.setMinimumSize(new java.awt.Dimension(500, 450));
+        jDesktopPane1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jDesktopPane1FocusGained(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -338,20 +347,20 @@ public class MainMenu extends javax.swing.JFrame {
 
         jMenuArchivo.setText("Archivo");
 
-        menuUsuarios.setText("Usuarios");
-        menuUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMIUsuarios.setText("Usuarios");
+        jMIUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuUsuariosMouseClicked(evt);
+                jMIUsuariosMouseClicked(evt);
             }
         });
-        menuUsuarios.addActionListener(new java.awt.event.ActionListener() {
+        jMIUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuUsuariosActionPerformed(evt);
+                jMIUsuariosActionPerformed(evt);
             }
         });
 
         jMenuItem3.setText("Listar Usuarios");
-        menuUsuarios.add(jMenuItem3);
+        jMIUsuarios.add(jMenuItem3);
 
         jMenuItem1.setText("Nuevo Usuario");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -359,53 +368,40 @@ public class MainMenu extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        menuUsuarios.add(jMenuItem1);
+        jMIUsuarios.add(jMenuItem1);
 
         jMenuItem2.setText("Eliminar Usuario");
-        menuUsuarios.add(jMenuItem2);
+        jMIUsuarios.add(jMenuItem2);
 
-        jMenuArchivo.add(menuUsuarios);
+        jMenuArchivo.add(jMIUsuarios);
 
-        jMenu2.setText("Alumnos");
+        jMIAlumnos.setText("Alumnos");
 
         jMenuItem4.setText("Listar Alumnos");
-        jMenu2.add(jMenuItem4);
+        jMIAlumnos.add(jMenuItem4);
 
         jMenuItem5.setText("Nuevo Alumno");
-        jMenu2.add(jMenuItem5);
+        jMIAlumnos.add(jMenuItem5);
 
         jMenuItem6.setText("Eliminar Alumno");
-        jMenu2.add(jMenuItem6);
+        jMIAlumnos.add(jMenuItem6);
 
-        jMenuArchivo.add(jMenu2);
+        jMenuArchivo.add(jMIAlumnos);
 
-        jMenu3.setText("Profesores");
+        jMIProfesores.setText("Profesores");
 
         jMenuItem7.setText("Listar Profesores");
-        jMenu3.add(jMenuItem7);
+        jMIProfesores.add(jMenuItem7);
 
         jMenuItem8.setText("Nuevo Profesor");
-        jMenu3.add(jMenuItem8);
+        jMIProfesores.add(jMenuItem8);
 
         jMenuItem9.setText("Eliminar Profesor");
-        jMenu3.add(jMenuItem9);
+        jMIProfesores.add(jMenuItem9);
 
-        jMenuArchivo.add(jMenu3);
+        jMenuArchivo.add(jMIProfesores);
 
-        jMenu9.setText("Cargos");
-
-        jMenuItem13.setText("Listar Cargos");
-        jMenu9.add(jMenuItem13);
-
-        jMenuItem14.setText("Nuevo Cargo");
-        jMenu9.add(jMenuItem14);
-
-        jMenuItem15.setText("Eliminar Cargo");
-        jMenu9.add(jMenuItem15);
-
-        jMenuArchivo.add(jMenu9);
-
-        menuClases.setText("Clases");
+        jMIClases.setText("Clases");
 
         itemNuevaClase.setText("Nueva Clase");
         itemNuevaClase.addActionListener(new java.awt.event.ActionListener() {
@@ -413,61 +409,65 @@ public class MainMenu extends javax.swing.JFrame {
                 itemNuevaClaseActionPerformed(evt);
             }
         });
-        menuClases.add(itemNuevaClase);
+        jMIClases.add(itemNuevaClase);
 
         itemListarClases.setText("Listar Clases");
-        menuClases.add(itemListarClases);
+        jMIClases.add(itemListarClases);
 
         itemEliminarClase.setText("Eliminar Clase");
-        menuClases.add(itemEliminarClase);
+        jMIClases.add(itemEliminarClase);
 
-        jMenuArchivo.add(menuClases);
+        jMenuArchivo.add(jMIClases);
 
-        jMenu11.setText("Personal");
+        jMIPersonal.setText("Personal");
 
         jMenuItem16.setText("Listar Personal");
-        jMenu11.add(jMenuItem16);
+        jMIPersonal.add(jMenuItem16);
 
         jMenuItem17.setText("Nuevo Personal");
-        jMenu11.add(jMenuItem17);
+        jMIPersonal.add(jMenuItem17);
 
         jMenuItem18.setText("Eliminar Personal");
-        jMenu11.add(jMenuItem18);
+        jMIPersonal.add(jMenuItem18);
 
-        jMenuArchivo.add(jMenu11);
-
-        jMenu8.setText("Sectores");
-
-        jMenuItem10.setText("Listar Sectores");
-        jMenu8.add(jMenuItem10);
-
-        jMenuItem11.setText("Nuevo Sector");
-        jMenu8.add(jMenuItem11);
-
-        jMenuItem12.setText("Eliminar Sector");
-        jMenu8.add(jMenuItem12);
-
-        jMenuArchivo.add(jMenu8);
+        jMenuArchivo.add(jMIPersonal);
         jMenuArchivo.add(jSeparator1);
 
-        jMiArchivo1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
-        jMiArchivo1.setText("Cerrar Sesion");
-        jMiArchivo1.addActionListener(new java.awt.event.ActionListener() {
+        jMICerrarSesion.setText("Cerrar Sesion");
+        jMICerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMiArchivo1ActionPerformed(evt);
+                jMICerrarSesionActionPerformed(evt);
             }
         });
-        jMenuArchivo.add(jMiArchivo1);
+        jMenuArchivo.add(jMICerrarSesion);
+
+        jMISalir.setText("Salir");
+        jMISalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMISalirActionPerformed(evt);
+            }
+        });
+        jMenuArchivo.add(jMISalir);
 
         jMenuBar1.add(jMenuArchivo);
 
         jMenuEdicion.setText("Movimientos");
 
-        jMenuItem19.setText("Cobros");
-        jMenuEdicion.add(jMenuItem19);
+        jMIMovimientosCobro.setText("Nuevo Movimiento");
+        jMIMovimientosCobro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIMovimientosCobroActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMIMovimientosCobro);
 
-        jMenuItem20.setText("Pagos");
-        jMenuEdicion.add(jMenuItem20);
+        jMenuItem10.setText("Reportes Movimientos");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItem10);
 
         jMenuBar1.add(jMenuEdicion);
 
@@ -518,30 +518,40 @@ public class MainMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu10);
 
-        jMenu4.setText("Caja");
+        jMenuCaja.setText("Caja");
 
-        jMenuItem21.setText("Apertura de Caja");
-        jMenu4.add(jMenuItem21);
+        jMIAperturaCaja.setText("Apertura de Caja");
+        jMIAperturaCaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIAperturaCajaActionPerformed(evt);
+            }
+        });
+        jMenuCaja.add(jMIAperturaCaja);
 
-        jMenuItem22.setText("Cierre de Caja");
-        jMenu4.add(jMenuItem22);
+        jMICierreCaja.setText("Cierre de Caja");
+        jMICierreCaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMICierreCajaActionPerformed(evt);
+            }
+        });
+        jMenuCaja.add(jMICierreCaja);
 
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(jMenuCaja);
 
         setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMiArchivo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMiArchivo1ActionPerformed
+    private void jMICerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMICerrarSesionActionPerformed
         this.cerrarSesion();
-    }//GEN-LAST:event_jMiArchivo1ActionPerformed
+    }//GEN-LAST:event_jMICerrarSesionActionPerformed
 
-    private void btnCobrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCobrosActionPerformed
+    private void btnCuotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuotasActionPerformed
         jInternalCobroCuotas panelCuotas = new jInternalCobroCuotas(this.miControlador);
         this.jDesktopPane1.add(panelCuotas);
         panelCuotas.setVisible(true);
-    }//GEN-LAST:event_btnCobrosActionPerformed
+    }//GEN-LAST:event_btnCuotasActionPerformed
 
     private void btnAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciaActionPerformed
         jInternalAsistencias asistencias = new jInternalAsistencias(this.miControlador);
@@ -581,19 +591,19 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
-    private void menuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUsuariosActionPerformed
+    private void jMIUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIUsuariosActionPerformed
         lector.stop();
         this.detenerEscaner = false;
         jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
         this.jDesktopPane1.add(panelUsuarios);
         panelUsuarios.setVisible(true);
-    }//GEN-LAST:event_menuUsuariosActionPerformed
+    }//GEN-LAST:event_jMIUsuariosActionPerformed
 
-    private void menuUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuUsuariosMouseClicked
+    private void jMIUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMIUsuariosMouseClicked
         jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
         this.jDesktopPane1.add(panelUsuarios);
         panelUsuarios.setVisible(true);
-    }//GEN-LAST:event_menuUsuariosMouseClicked
+    }//GEN-LAST:event_jMIUsuariosMouseClicked
 
     private void btnAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlumnosActionPerformed
         jInternalAlumno panelAlumnos =  new jInternalAlumno(miControlador);
@@ -635,11 +645,11 @@ public class MainMenu extends javax.swing.JFrame {
         panelModalidad.setVisible(true);
     }//GEN-LAST:event_btnModalidadActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnModalidadProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModalidadProfesorActionPerformed
         jInternalProfesorModalidad panelProfeMod = new jInternalProfesorModalidad(this.miControlador);
         this.jDesktopPane1.add(panelProfeMod);
         panelProfeMod.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnModalidadProfesorActionPerformed
 
     private void btnClaseALumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaseALumnoActionPerformed
         jInternalClasesAlumno ventanaClaseAlumn = new jInternalClasesAlumno(this.miControlador);
@@ -652,6 +662,56 @@ public class MainMenu extends javax.swing.JFrame {
 //        lector.Iniciar();
     }//GEN-LAST:event_formComponentShown
 
+    private void jDesktopPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jDesktopPane1FocusGained
+        setAcceso();
+    }//GEN-LAST:event_jDesktopPane1FocusGained
+
+    private void jMISalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMISalirActionPerformed
+        int seleccion = JOptionPane.showConfirmDialog(null, "¿Desea Cerrar el Sistema?", "Confirmacion", 2);
+        if(seleccion ==0){
+            this.dispose();
+        }
+    }//GEN-LAST:event_jMISalirActionPerformed
+
+    private void jMIAperturaCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAperturaCajaActionPerformed
+        try {
+            if (!miControlador.hayCajaAbiertaHoy()) {
+                jInternalAperturaCaja caja = new jInternalAperturaCaja(miControlador);
+                jDesktopPane1.add(caja);
+                caja.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ya se abrio la caja hoy");
+            }
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_jMIAperturaCajaActionPerformed
+
+    private void jMICierreCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMICierreCajaActionPerformed
+        try{
+            if(miControlador.hayCajaAbiertaHoy()){
+                miControlador.cerrarCaja();
+                JOptionPane.showMessageDialog(null, "Caja cerrada por hoy");
+            }else{
+                JOptionPane.showMessageDialog(null, "La caja no ha sido abierta hoy");
+            }
+        }catch(Notificaciones ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_jMICierreCajaActionPerformed
+
+    private void jMIMovimientosCobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIMovimientosCobroActionPerformed
+        jInternalMovimiento movimientos = new jInternalMovimiento(miControlador);
+        jDesktopPane1.add(movimientos);
+        movimientos.setVisible(true);
+    }//GEN-LAST:event_jMIMovimientosCobroActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        jInternalReportes reportes = new jInternalReportes(miControlador);
+        jDesktopPane1.add(reportes);
+        reportes.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -663,43 +723,39 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnClaseALumno;
     private javax.swing.JButton btnClases;
     private javax.swing.JButton btnClasesProfesor;
-    private javax.swing.JButton btnCobros;
+    private javax.swing.JButton btnCuotas;
     private javax.swing.JButton btnModalidad;
+    private javax.swing.JButton btnModalidadProfesor;
     private javax.swing.JButton btnProfesores;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JMenuItem itemEliminarClase;
     private javax.swing.JMenuItem itemListarClases;
     private javax.swing.JMenuItem itemNuevaClase;
-    private javax.swing.JButton jButton1;
     public static javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JMenu jMIAlumnos;
+    private javax.swing.JMenuItem jMIAperturaCaja;
+    private javax.swing.JMenuItem jMICerrarSesion;
+    private javax.swing.JMenuItem jMICierreCaja;
+    private javax.swing.JMenu jMIClases;
+    private javax.swing.JMenuItem jMIMovimientosCobro;
+    private javax.swing.JMenu jMIPersonal;
+    private javax.swing.JMenu jMIProfesores;
+    private javax.swing.JMenuItem jMISalir;
+    private javax.swing.JMenu jMIUsuarios;
     private javax.swing.JMenu jMenu10;
-    private javax.swing.JMenu jMenu11;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenu jMenuArchivo;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuCaja;
     private javax.swing.JMenu jMenuEdicion;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
-    private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
-    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem20;
-    private javax.swing.JMenuItem jMenuItem21;
-    private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
@@ -714,7 +770,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
-    private javax.swing.JMenuItem jMiArchivo1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -724,18 +779,95 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel lblFoto;
-    private javax.swing.JMenu menuClases;
-    private javax.swing.JMenu menuUsuarios;
     private javax.swing.JTable tablaAsistencias;
     private javax.swing.JTextField txtHabilitado;
     // End of variables declaration//GEN-END:variables
  
-    public void setBtnsVisibility(boolean b) {
-        this.btnAsistencia.setEnabled(!b);
-        this.btnCobros.setEnabled(!b);
-        this.btnUsuarios.setEnabled(!b);
-        this.jMenuArchivo.setEnabled(!b);
-        this.jMenuEdicion.setEnabled(!b);
+    public void setAcceso() {
+        if (usuarioLogueado != null) {
+            if (usuarioLogueado.getEstado().equalsIgnoreCase("ADMIN")) {
+                allOptions(true);
+            }
+            if (usuarioLogueado.getEstado().equalsIgnoreCase("OPERADOR")) {
+                operadorOptions(true);
+            }
+            if (usuarioLogueado.getEstado().equalsIgnoreCase("ACTIVO")) {
+                allOptions(false);
+                JOptionPane.showMessageDialog(null, "Usuario sin permisos operativos");
+                jInternalLogueo login = new jInternalLogueo(miControlador);
+                this.jDesktopPane1.add(login);
+                login.setVisible(true);
+            }
+        }else{
+            opcionesDefault();
+        } 
+    }
+    
+    public void opcionesDefault(){
+            this.jMenuArchivo.setEnabled(true);  
+            this.jMIUsuarios.setEnabled(false);
+            this.jMIAlumnos.setEnabled(false);
+            this.jMIProfesores.setEnabled(false);
+            this.jMIClases.setEnabled(false);
+            this.jMIPersonal.setEnabled(false);
+            this.jMICerrarSesion.setEnabled(false);
+            this.jMISalir.setEnabled(true);
+    }
+    
+    public void operadorOptions(boolean estado){
+        allOptions(estado);
+        this.jMenuCaja.setEnabled(false);
+    }
+    
+    public void allOptions(boolean estado){
+        this.btnAbrirPuerta.setEnabled(estado);
+        this.btnAlumnos.setEnabled(estado);
+        this.btnAsistencia.setEnabled(estado);
+        this.btnClaseALumno.setEnabled(estado);
+        this.btnClases.setEnabled(estado);
+        this.btnClasesProfesor.setEnabled(estado);
+        this.btnCuotas.setEnabled(estado);
+        this.btnModalidad.setEnabled(estado);
+        this.btnModalidadProfesor.setEnabled(estado);
+        this.btnProfesores.setEnabled(estado);
+        this.btnUsuarios.setEnabled(estado);
+        this.jMICerrarSesion.setEnabled(estado);
+        this.jMIAlumnos.setEnabled(estado);
+        this.jMIProfesores.setEnabled(estado);
+        this.jMenuCaja.setEnabled(estado);
+        this.jMenu5.setEnabled(estado);
+        this.jMenu6.setEnabled(estado);
+        this.jMenu7.setEnabled(estado);
+        this.jMenuCaja.setEnabled(estado);
+        this.jMenu10.setEnabled(estado);
+        this.jMIPersonal.setEnabled(estado);
+        this.jMenuArchivo.setEnabled(estado);
+        this.jMenuBar1.setEnabled(estado);
+        this.jMenuEdicion.setEnabled(estado);
+        this.jMenuItem1.setEnabled(estado);
+        this.jMenuItem2.setEnabled(estado);
+        this.jMenuItem3.setEnabled(estado);
+        this.jMenuItem4.setEnabled(estado);
+        this.jMenuItem5.setEnabled(estado);
+        this.jMenuItem6.setEnabled(estado);
+        this.jMenuItem7.setEnabled(estado);
+        this.jMenuItem8.setEnabled(estado);
+        this.jMenuItem9.setEnabled(estado);
+        this.jMIAperturaCaja.setEnabled(estado);
+        this.jMICierreCaja.setEnabled(estado);
+        this.jMenuItem16.setEnabled(estado);
+        this.jMenuItem17.setEnabled(estado);
+        this.jMenuItem18.setEnabled(estado);
+        this.jMIMovimientosCobro.setEnabled(estado);
+        this.jMIAperturaCaja.setEnabled(estado);
+        this.jMICierreCaja.setEnabled(estado);
+        this.jMenuItem23.setEnabled(estado);
+        this.jMenuItem24.setEnabled(estado);
+        this.jMenuItem25.setEnabled(estado);
+        this.jMenuItem26.setEnabled(estado);
+        this.jMenuItem27.setEnabled(estado);
+        this.jMenuItem28.setEnabled(estado);
+        this.jMenuItem29.setEnabled(estado);
     }
     
 }

@@ -5,7 +5,11 @@
  */
 package gimnasio.vista;
 
+import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.modelo.Usuario;
+import java.awt.event.KeyEvent;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,29 +22,14 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
      */
     private String usuario;
     private String pass;
-    public jInternalLogueo() {
+    private ControladorPrincipal controlador;
+    
+    public jInternalLogueo(ControladorPrincipal controlador) {
+        this.controlador = controlador;
         initComponents();
-    }
-
-    public JButton getAceptar(){
-        return this.jBtnAceptar;
-    }
-    public JButton getCancelar(){
-        return this.jBtnCancelar;
+        this.grabFocus();
     }
     
-    public String getUsuario(){
-        return jTextUsuario.getText();
-    }
-    
-    public String getPass(){
-        char[] charList = jTxtContrasena.getPassword();
-        String passPosta = "";
-        for (Character c : charList){
-            passPosta += c;
-        }
-        return passPosta;
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,20 +38,81 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        jBtnCancelar = new javax.swing.JButton();
-        jBtnAceptar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextUsuario = new javax.swing.JTextField();
-        jTxtContrasena = new javax.swing.JPasswordField();
+        txtContrasena = new javax.swing.JPasswordField();
+        txtUsuario = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jBtnAceptar = new javax.swing.JButton();
+        jBtnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("- ACCSESO AL SISTEMA -");
         setAlignmentX(2.0F);
         setAlignmentY(2.0F);
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel1.setText("Usuario:");
+
+        jLabel2.setText("Contraseña:");
+
+        txtContrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtContrasenaActionPerformed(evt);
+            }
+        });
+        txtContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtContrasenaKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(2, 2, 2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtUsuario)
+                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jBtnAceptar.setText("Ingresar");
+        jBtnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAceptarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jBtnAceptar);
 
         jBtnCancelar.setText("Cancelar");
         jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -70,85 +120,51 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
                 jBtnCancelarActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 14;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 25, 30, 0);
-        getContentPane().add(jBtnCancelar, gridBagConstraints);
+        jPanel2.add(jBtnCancelar);
 
-        jBtnAceptar.setText("Aceptar");
-        jBtnAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnAceptarActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 19;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 84, 30, 12);
-        getContentPane().add(jBtnAceptar, gridBagConstraints);
-
-        jLabel1.setText("Usuario:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(30, 25, 0, 0);
-        getContentPane().add(jLabel1, gridBagConstraints);
-
-        jLabel2.setText("Contraseña:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 25, 0, 0);
-        getContentPane().add(jLabel2, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 124;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(22, 18, 0, 12);
-        getContentPane().add(jTextUsuario, gridBagConstraints);
-
-        jTxtContrasena.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTxtContrasenaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 124;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 18, 0, 12);
-        getContentPane().add(jTxtContrasena, gridBagConstraints);
+        getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptarActionPerformed
- 
+        if(!this.txtUsuario.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()){
+            Usuario unUsuario = controlador.buscarUsuario(txtUsuario.getText(), new String(txtContrasena.getPassword()));
+            if(unUsuario == null){
+                JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
+                this.txtUsuario.setText("");
+                this.txtContrasena.setText("");
+            }else{
+                MainMenu.loguearUsuario(unUsuario);
+                JOptionPane.showMessageDialog(null, "Logueado con exito");
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_jBtnAceptarActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
-        this.setVisible(false);
-//      this.mainmenu.getJbutton().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
-    private void jTxtContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtContrasenaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTxtContrasenaActionPerformed
+    private void txtContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContrasenaActionPerformed
+            if (!this.txtUsuario.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
+                Usuario unUsuario = controlador.buscarUsuario(txtUsuario.getText(), new String(txtContrasena.getPassword()));
+                if (unUsuario == null) {
+                    JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
+                    this.txtUsuario.setText("");
+                    this.txtContrasena.setText("");
+                } else {
+                    MainMenu.loguearUsuario(unUsuario);
+                    JOptionPane.showMessageDialog(null, "Logueado con exito");
+                    this.dispose();
+                }
+            }
+    }//GEN-LAST:event_txtContrasenaActionPerformed
+
+    private void txtContrasenaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContrasenaKeyTyped
+        if(evt.equals(KeyEvent.VK_ENTER)){
+        }
+    }//GEN-LAST:event_txtContrasenaKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -156,7 +172,9 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextUsuario;
-    private javax.swing.JPasswordField jTxtContrasena;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPasswordField txtContrasena;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

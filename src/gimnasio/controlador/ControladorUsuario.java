@@ -28,13 +28,10 @@ public class ControladorUsuario {
 
     public void altaUsuario(Usuario usuario) throws Notificaciones {
         Usuario unUsuario = buscarUsuarioAlta(usuario.getNombreusuario());
-        String estado = "ACTIVO";
-        usuario.setEstado(estado);
         if (unUsuario == null) {
             this.listaUsuarios.add(usuario);
             this.miPersistencia.persistirInstancia(usuario);
         } else {
-            unUsuario.setEstado(estado);
             unUsuario.setContrasenia(usuario.getContrasenia());
             unUsuario.setPlanillahuellas(usuario.getPlanillahuellas());
             unUsuario.setFoto(usuario.getFoto());

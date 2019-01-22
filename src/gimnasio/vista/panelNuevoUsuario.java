@@ -7,9 +7,11 @@ package gimnasio.vista;
 
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Personal;
 import gimnasio.modelo.Usuario;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ItemEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -53,7 +55,12 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         initComponents();
         this.btnActivar.setEnabled(false);
         cargarTabla();
-
+        
+        if(MainMenu.isUserAdmin()){
+            this.checkPersonal.setEnabled(true);
+        }else{
+            this.checkPersonal.setEnabled(false);
+        }
     }
 
     public void recibirDatos(Usuario unUsuario) throws IOException{
@@ -96,10 +103,13 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
+        checkPersonal = new javax.swing.JCheckBox();
+        cmbTipoUsuario = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("DATOS DEL USUARIO"));
-        setMinimumSize(new java.awt.Dimension(400, 400));
-        setPreferredSize(new java.awt.Dimension(420, 300));
+        setMinimumSize(new java.awt.Dimension(420, 400));
+        setPreferredSize(new java.awt.Dimension(420, 400));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);
@@ -252,6 +262,23 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
 
         btnBuscar.setText("Buscar");
 
+        checkPersonal.setText("Es Personal");
+        checkPersonal.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkPersonalItemStateChanged(evt);
+            }
+        });
+        checkPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPersonalActionPerformed(evt);
+            }
+        });
+
+        cmbTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Administrador", "Operador" }));
+        cmbTipoUsuario.setEnabled(false);
+
+        jLabel4.setText("Tipo de Usuario:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -268,16 +295,19 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnFoto, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
                             .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(98, 98, 98)
-                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnBuscar)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel5)
+                        .addGap(98, 98, 98)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(checkPersonal)
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbTipoUsuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -291,13 +321,18 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnFoto)
                     .addComponent(btnCargarHuella))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(checkPersonal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(btnBuscar)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -330,19 +365,47 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseEntered
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    if(!checkPersonal.isSelected()){
         if(!this.txtNombre.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
             try {
                 byte[] imageBytes = this.toByteArray(foto);
-                Usuario miUsuario = new Usuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), imageBytes);
+                Usuario miUsuario = new Usuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), imageBytes, "ACTIVO");
                 this.miControlador.altaUsuario(miUsuario);
                 this.setVisible(false);
             } catch (IOException | Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 System.err.print(Arrays.toString(ex.getStackTrace()));
-}
+            }
         }else{
             JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos. ");
         }
+    }else if(checkPersonal.isSelected()){
+        if(!this.txtNombre.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
+            try {
+                byte[] imageBytes = this.toByteArray(foto);
+                String seleccion = String.valueOf(this.cmbTipoUsuario.getSelectedItem());
+                if(seleccion.equalsIgnoreCase("ADMINISTRADOR")){
+                    seleccion = "ADMIN";
+                }
+                if(seleccion.equalsIgnoreCase("OPERADOR")){
+                    seleccion = "OPERADOR";
+                }
+                if(seleccion.equalsIgnoreCase("NORMAL")){
+                    seleccion = "ACTIVO";
+                }
+                Usuario miUsuario = new Usuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), imageBytes,seleccion);
+                Personal unPersonal = new Personal(miUsuario, "ACTIVO");
+                this.miControlador.altaPersonal(unPersonal);
+                this.miControlador.altaUsuario(miUsuario);
+                this.setVisible(false);
+            } catch (IOException | Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                System.err.print(Arrays.toString(ex.getStackTrace()));
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos. ");
+        }    
+    }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -404,6 +467,19 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnFotoActionPerformed
 
+    private void checkPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPersonalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkPersonalActionPerformed
+
+    private void checkPersonalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkPersonalItemStateChanged
+        if(evt.getStateChange() == ItemEvent.SELECTED) {
+            this.cmbTipoUsuario.setEnabled(true);
+        } else {
+            this.cmbTipoUsuario.setEnabled(false);
+            this.cmbTipoUsuario.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_checkPersonalItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActivar;
@@ -413,9 +489,12 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private javax.swing.JButton btnFoto;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JCheckBox checkPersonal;
+    private javax.swing.JComboBox<String> cmbTipoUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
