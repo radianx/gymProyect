@@ -438,11 +438,27 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
         try {
             if (usuarioSeleccionado != null) {
                 Date fecha = Date.from(this.datePicker1.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                Contacto unContacto = new Contacto(txtDireccion.getText(), txtTelefono1.getText(), txtTelefono2.getText(), txtEmail.getText(), txtTelefonoEmergencia.getText());
+                String nombre = txtNombre.getText();
+                String apellido = txtApellido.getText();
+                String direccion = txtDireccion.getText();
+                String telefono1 = txtTelefono1.getText();
+                String telefono2 = txtTelefono2.getText();
+                String email = txtEmail.getText();
+                String telefonoEmer = txtTelefonoEmergencia.getText();
+                Double peso = 0.0;
+                Double altura = 0.0;
+                if (!txtPeso.getText().isEmpty()) {
+                    peso = Double.valueOf(this.txtPeso.getText());
+                }
+                if(!txtAltura.getText().isEmpty()){
+                    altura = Double.valueOf(this.txtAltura.getText());
+                }
+                Contacto unContacto = new Contacto(direccion, telefono1,telefono2,email,telefonoEmer);
+                
                 unContacto.setEstado("ACTIVO");
                 Obrasocial unaOS = (Obrasocial) this.modeloCombo.getSelectedItem();
                 miControlador.altaContacto(unContacto);
-                Profesor unProfesor = new Profesor( unContacto, unaOS, usuarioSeleccionado, this.txtNombre.getText(), this.txtApellido.getText(), Double.valueOf(this.txtPeso.getText()), Double.valueOf(this.txtAltura.getText()), fecha,"ACTIVO");
+                Profesor unProfesor = new Profesor( unContacto, unaOS, usuarioSeleccionado, nombre, apellido, peso, altura, fecha,"ACTIVO");
                 miControlador.altaProfesor(unProfesor);
                 String[] opciones ={"SI","NO","CANCELAR"};
                 int seleccion = JOptionPane.showOptionDialog(null, "¿Asignar clase al Profesor?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);

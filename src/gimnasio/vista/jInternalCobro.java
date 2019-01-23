@@ -5,6 +5,7 @@
  */
 package gimnasio.vista;
 
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.modelo.Alumno;
 import gimnasio.modelo.CobroCuota;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,6 +41,11 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
         this.controlador = miControlador;
         elAlumno = unAlumno;
         initComponents();
+        Locale locale = new Locale("es", "ES");
+        DatePickerSettings settings = new DatePickerSettings(locale);
+        settings.setFormatForDatesCommonEra("dd/MM/yyyy");
+        settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");
+        datePicker.setSettings(settings);
         datePicker.setDateToToday();
         this.txtNombreAlumno.setText(elAlumno.getNombrealumno() + " " + elAlumno.getApellidoalumno());
         try{

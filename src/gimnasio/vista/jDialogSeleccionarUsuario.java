@@ -46,7 +46,7 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
                         modeloTabla.addRow(fila);
                     }
                 }
-            } catch (NullPointerException ex) {
+            } catch (NullPointerException | Notificaciones ex) {
                 System.err.println("Error al cargar usuarios: " + ex.getMessage());
                 ex.printStackTrace();
             }

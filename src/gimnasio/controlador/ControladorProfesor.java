@@ -77,6 +77,7 @@ public class ControladorProfesor {
     }
 
     public List<Profesor> getListaProfesores() throws Notificaciones {
+        miPersistencia.actualizarInstancias();
         listaProfesores = miPersistencia.getProfesores();
         return this.listaProfesores;
     }

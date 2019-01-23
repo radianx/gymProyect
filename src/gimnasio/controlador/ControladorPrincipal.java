@@ -13,7 +13,6 @@ import com.itextpdf.text.pdf.CMYKColor;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.sun.org.apache.xpath.internal.operations.Minus;
 import gimnasio.modelo.*;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import java.awt.Desktop;
@@ -42,10 +41,6 @@ import javax.swing.JOptionPane;
  * @author Family
  */
 public class ControladorPrincipal {
-    
-    
-// private LectorHuella miLector = new LectorHuella();
-
 
 //  <-----------------CONTROLADORES EXTRA-------------------------->
     private ControladorRele miRele = new ControladorRele();
@@ -118,40 +113,7 @@ public class ControladorPrincipal {
     public void setMiPersistencia(ControladorPersistencia miPersistencia) {
         this.miPersistencia = miPersistencia;
     }
-  
-    
-    /*
-        
-        
-        try {
-            this.listaAlumnos = miPersistencia.getAlumnos();
-            this.listaAsistenciaAlumno = miPersistencia.getAsistenciaAlumno();
-            this.listaAsistenciaProfesor = miPersistencia.getAsistenciaProfesor();
-            this.listaCargos = miPersistencia.getCargos();
-            this.listaClases = miPersistencia.getClases();
-//            this.listaClaseAlumno = miPersistencia.getClaseAlumno();
-            this.listaCuotas = miPersistencia.getCuotas();
-            this.listaCobroCuota = miPersistencia.getCobroCuota();
-            this.listaModalidades = miPersistencia.getModalidades();
-            this.listaModulos = miPersistencia.getModulos();
-            this.listaPagoProfesores = miPersistencia.getPagoProfesores();
-            this.listaProfesores = miPersistencia.getProfesores();
-            this.listaProfesorModalidad = miPersistencia.getProfesorModalidad();
-            this.listaSaldoCuota = miPersistencia.getSaldoCuota();
-            this.listaSaldoPagoProfesores = miPersistencia.getSaldoPagoProfesores();
-            this.listaSectores = miPersistencia.getSectores();
-            
-            this.listaObraSociales = miPersistencia.getObraSociales();
-//            this.listaContactos = miPersistencia.getContactos();
-            
-            
-        } catch (Notificaciones ex) {
-            Logger.getLogger(ControladorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    */
-    
-    
+       
     public static Date parseDate (String date){
         try {
             return new SimpleDateFormat("dd-mm-yyyy").parse(date);
@@ -171,7 +133,7 @@ public class ControladorPrincipal {
      
      
 //  <----------------------------------------------------ABM USUARIOS----------------------------------------------------> 
-    public List<Usuario> getListaUsuarios(){
+    public List<Usuario> getListaUsuarios()throws Notificaciones{
         return this.controladorUsuario.getListaUsuarios();
     }    
     
@@ -489,8 +451,8 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
         controladorHorarioAlumno.altaHorarioAlumno(unHorario);
     }
 
-    public List<HorarioAlumno> getListaHorariosAlumno() throws Notificaciones{
-        return controladorHorarioAlumno.getListaHorariosAlumno();
+    public List<HorarioAlumno> getListaHorariosAlumno(Alumno unAlumno) throws Notificaciones{
+        return controladorHorarioAlumno.getListaHorariosAlumno(unAlumno);
     }
 
     public void altaAsistenciaAlumno(AsistenciaAlumno asistencia) throws Notificaciones{
@@ -840,6 +802,22 @@ public void bajaObraSocial(String nombreObra) throws Notificaciones{
             e.printStackTrace();
         }catch(FileNotFoundException e){
             throw new Notificaciones("Archivo bloqueado: Puede que este abierto un reporte ya generado, cierrelo e intente nuevamente");
+        }
+    }
+
+    public List<ClaseAlumno> getListaClasesSinHorario(Alumno miAlumno) {
+        return controladorHorarioAlumno.getListaClasesSinHorario(miAlumno);
+    }
+
+    public Alumno buscarAlumnoFromDB(Alumno miAlumno) throws Notificaciones {
+        return controladorAlumno.buscarAlumnoFromDB(miAlumno);
+    }
+
+    public void refrescarInstancia(Usuario usuario) {
+        try{
+            miPersistencia.refrescar(usuario);
+        }catch(Notificaciones ex){
+            ex.printStackTrace();
         }
     }
 }

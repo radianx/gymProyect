@@ -25,6 +25,7 @@ public class panelNuevaClase extends javax.swing.JPanel {
 
     ControladorPrincipal miControlador;
     String text = "";
+    Clase claseRecibida = null;
     
     public panelNuevaClase(ControladorPrincipal controlador) {
         miControlador = controlador;
@@ -284,8 +285,17 @@ public class panelNuevaClase extends javax.swing.JPanel {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if(!this.txtNombreClase.getText().isEmpty()){
             try {
-                Clase clase = new Clase(this.txtNombreClase.getText(),this.txtTipoClase.getText(), Integer.parseInt(this.txtAlumnosMax.getText()));
-                miControlador.altaClase(clase);
+                if(claseRecibida==null){
+                    claseRecibida = new Clase(this.txtNombreClase.getText(),this.txtTipoClase.getText(), Integer.parseInt(this.txtAlumnosMax.getText()));
+                    miControlador.altaClase(claseRecibida);
+                }else{
+                    claseRecibida.setDescripcionclase(txtNombreClase.getText());
+                    claseRecibida.setTipoclase(txtTipoClase.getText());
+                    claseRecibida.setAlumnosmaximo(Integer.parseInt(this.txtAlumnosMax.getText()));
+                    
+                    miControlador.altaClase(claseRecibida);
+                }
+                
                 SwingUtilities.invokeLater(new Runnable(){public void run(){
                     CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
                 }});
@@ -325,6 +335,7 @@ public class panelNuevaClase extends javax.swing.JPanel {
     }
 
     public void recibirDatos(Clase clase) {
+        claseRecibida = clase;
         this.txtAlumnosMax.setText(String.valueOf(clase.getAlumnosmaximo()));
         this.txtNombreClase.setText(clase.getDescripcionclase());
         this.txtTipoClase.setText(clase.getTipoclase());

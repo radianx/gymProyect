@@ -5,6 +5,7 @@
  */
 package gimnasio.vista;
 
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,6 +38,11 @@ public class jDialogCuota extends javax.swing.JDialog {
         alumno = unAlumno;
         initComponents();
         this.txtAlumno.setText(alumno.getNombrealumno() + " " + alumno.getApellidoalumno());
+        Locale locale = new Locale("es", "ES");
+        DatePickerSettings settings = new DatePickerSettings(locale);
+        settings.setFormatForDatesCommonEra("dd/MM/yyyy");
+        settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");
+        datePicker1.setSettings(settings);
         this.datePicker1.setDateToToday();
         cargarTabla(alumno);
     }

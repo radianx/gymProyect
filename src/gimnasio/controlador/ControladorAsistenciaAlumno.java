@@ -30,8 +30,10 @@ public class ControladorAsistenciaAlumno {
     public void altaAsistenciaAlumno(AsistenciaAlumno asistencia) throws Notificaciones{
         listaAsistenciasAlumnos = persistencia.getAsistenciaAlumno();
         if(listaAsistenciasAlumnos.contains(asistencia)){
-            asistencia.setSalida(new Date());
-            persistencia.persistirInstancia(asistencia);
+            int i = listaAsistenciasAlumnos.indexOf(asistencia);
+            AsistenciaAlumno unaAsistencia = listaAsistenciasAlumnos.get(i);
+            unaAsistencia.setSalida(new Date());
+            persistencia.persistirInstancia(unaAsistencia);
         }else{
             persistencia.persistirInstancia(asistencia);
         }

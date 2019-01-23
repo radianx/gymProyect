@@ -118,6 +118,28 @@ public class ControladorPersistencia {
         return resultado;
     }
 
+    
+    public void refrescar(Object o) throws Notificaciones{
+       synchronized (this.sesion) {
+            /*
+			 * Se comprueba la conexión.
+             */
+            this.comprobarConexion();
+
+            Transaction t = this.sesion.getTransaction();
+
+            try {
+                t.begin();
+                this.sesion.refresh(o);
+                t.commit();
+
+            } catch (Exception e) {
+                t.rollback();
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+    }
+
     /**
      * Permite guardar las modificaciones realizadas a cualquier instancia que
      * se haya cargado desde la base de datos.

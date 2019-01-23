@@ -85,4 +85,16 @@ public class ControladorAlumno {
         return this.listaAlumnos;
     }
 
+    public Alumno buscarAlumnoFromDB(Alumno unAlu) throws Notificaciones{
+        Alumno retorno = null;
+        listaAlumnos = miPersistencia.getAlumnos();
+        int i = listaAlumnos.indexOf(unAlu);
+        try{
+            retorno = listaAlumnos.get(i);  
+        }catch(ArrayIndexOutOfBoundsException ex){
+            throw new Notificaciones("No hay alumno asociado a la huella");
+        }
+        return retorno;
+    }
+
 }

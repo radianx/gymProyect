@@ -60,7 +60,7 @@ public class jInternalProfesorModalidad extends javax.swing.JInternalFrame {
             Object[] fila = new Object[2];
 
             try {
-                for (Profesormodalidad miProfeMod: miControlador.getListaProfeModalidades()) {
+                for (Profesormodalidad miProfeMod: unProfesor.getProfesorModalidads()) {
                     if (miProfeMod.getEstado().equalsIgnoreCase("ACTIVO")) {
                         fila[0] = miProfeMod;
                         fila[1] = miProfeMod.getPreciohora();

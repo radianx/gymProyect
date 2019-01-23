@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -95,19 +96,7 @@ public class MainMenu extends javax.swing.JFrame {
         Dimension desktopSize = jDesktopPane1.getSize();
         
         opcionesDefault();
-        
-        try{
-            Image image = ImageIO.read(new File("src/gimnasio/imagenes/countryIcon.png"));
-            this.setIconImage(image);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
     }
-    
-    
-//    public jInternalLogueo getjInternalLogueo(){
-//     return this.panelLogin;
-//    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -688,7 +677,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void jMIAperturaCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAperturaCajaActionPerformed
         try {
             if (!miControlador.hayCajaAbiertaHoy()) {
-                jInternalAperturaCaja caja = new jInternalAperturaCaja(miControlador);
+                 JInternalAperturaCaja caja = new JInternalAperturaCaja(miControlador);
                 jDesktopPane1.add(caja);
                 caja.setVisible(true);
             } else {

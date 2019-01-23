@@ -27,26 +27,17 @@ public class ControladorClase {
         
     public Clase buscarClase(Clase clase) {
         Clase unaClase = null;
-        int i = listaClases.lastIndexOf(clase);
-        if(i >= 0){
+        if(listaClases.contains(clase)){
+            int i = listaClases.indexOf(clase);
             unaClase = listaClases.get(i);
         }
         return unaClase;
     }
 
     public void altaClase(Clase clase) throws Notificaciones {
-        String estado = "ACTIVO";
-        Clase unaClase = buscarClase(clase);
-        if (unaClase != null) {
-            unaClase.setEstado(estado);
-            unaClase.setAlumnosmaximo(clase.getAlumnosmaximo());
-            unaClase.setTipoclase(clase.getTipoclase());
-            this.miPersistencia.persistirInstancia(unaClase);
-            this.listaClases = miPersistencia.getClases();
-        } else {
-            this.miPersistencia.persistirInstancia(clase);
-            this.listaClases.add(clase);
-        }
+        clase.setEstado("ACTIVO");
+        this.miPersistencia.persistirInstancia(clase);
+        this.listaClases = miPersistencia.getClases();
     }
 
     public void bajaClase(Clase unaClase) throws Notificaciones {

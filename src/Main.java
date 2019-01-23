@@ -15,6 +15,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -47,6 +48,8 @@ public class Main {
         ControladorPrincipal miControlador = new ControladorPrincipal(miModelo);
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         MainMenu menuPrincipal = new MainMenu(miControlador);
+        ImageIcon image = new ImageIcon("src/gimnasio/imagenes/countryIcon.png");
+        menuPrincipal.setIconImage(image.getImage());
         menuPrincipal.setLocationByPlatform(true);
         menuPrincipal.setVisible(true);
     }

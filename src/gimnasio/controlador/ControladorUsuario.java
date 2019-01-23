@@ -88,7 +88,9 @@ public class ControladorUsuario {
         return unUsuario;
     }
 
-    public List<Usuario> getListaUsuarios() {
+    public List<Usuario> getListaUsuarios() throws Notificaciones {
+        miPersistencia.actualizarInstancias();
+        listaUsuarios = miPersistencia.getUsuarios();
         return this.listaUsuarios;
     }
 

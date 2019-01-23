@@ -101,7 +101,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
                         modeloTabla.addRow(fila);
                     }
                 }
-            } catch (NullPointerException ex) {
+            } catch (NullPointerException |Notificaciones ex) {
                 System.err.println("Error al cargar usuarios: " + ex.getMessage());
             }
             this.tablaUsuarios.setModel(modeloTabla);

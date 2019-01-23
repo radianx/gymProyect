@@ -2,7 +2,14 @@ package gimnasio.modelo;
 // Generated Dec 8, 2018 5:14:35 PM by Hibernate Tools 4.3.1
 
 
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,7 +25,7 @@ public class ClaseAlumno  implements java.io.Serializable {
      private Double precio;
      private int diasPorSemana;
      private Set<HorarioAlumno> horarios = new HashSet(0);
-     private Set asistenciaAlumnos = new HashSet(0);
+     private Set<AsistenciaAlumno> asistenciaAlumnos = new HashSet(0);
 
     public ClaseAlumno() {
     }
@@ -41,7 +48,7 @@ public class ClaseAlumno  implements java.io.Serializable {
         this.diasPorSemana = dias;
     }
     
-    public ClaseAlumno(int idclasealumno, Alumno alumno, ClaseProfesor claseProfesor, String estado, Set asistenciaAlumnos) {
+    public ClaseAlumno(int idclasealumno, Alumno alumno, ClaseProfesor claseProfesor, String estado, Set<AsistenciaAlumno> asistenciaAlumnos) {
        this.idclasealumno = idclasealumno;
        this.alumno = alumno;
        this.claseProfesor = claseProfesor;
@@ -77,11 +84,11 @@ public class ClaseAlumno  implements java.io.Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    public Set getAsistenciaAlumnos() {
+    public Set<AsistenciaAlumno> getAsistenciaAlumnos() {
         return this.asistenciaAlumnos;
     }
     
-    public void setAsistenciaAlumnos(Set asistenciaAlumnos) {
+    public void setAsistenciaAlumnos(Set<AsistenciaAlumno> asistenciaAlumnos) {
         this.asistenciaAlumnos = asistenciaAlumnos;
     }
 
@@ -140,6 +147,19 @@ public class ClaseAlumno  implements java.io.Serializable {
             return false;
         }
         return true;
+    }
+
+    public List<AsistenciaAlumno> getAsistenciasPorSemana() {
+        LocalDate lunes = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+        LocalDate domingo = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+        List<AsistenciaAlumno> asistenciasPorSemana = new ArrayList<>();
+        for(AsistenciaAlumno asistenciaAlu:this.asistenciaAlumnos){
+            LocalDate ingreso =  Instant.ofEpochMilli(asistenciaAlu.getIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if(ingreso.isAfter(lunes.minusDays(1)) && ingreso.isBefore(domingo.plusDays(1))){
+                asistenciasPorSemana.add(asistenciaAlu);
+            }
+        }
+        return asistenciasPorSemana;
     }
 
     

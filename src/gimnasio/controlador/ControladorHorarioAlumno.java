@@ -6,7 +6,10 @@
 package gimnasio.controlador;
 
 import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Alumno;
+import gimnasio.modelo.ClaseAlumno;
 import gimnasio.modelo.HorarioAlumno;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,8 +30,23 @@ public class ControladorHorarioAlumno {
         this.miPersistencia.persistirInstancia(unHorario);
     }
 
-    public List<HorarioAlumno> getListaHorariosAlumno() throws Notificaciones {
-        this.listaHorariosAlumnos = miPersistencia.getHorariosAlumnos();
-        return listaHorariosAlumnos;
+    public List<HorarioAlumno> getListaHorariosAlumno(Alumno unAlumno) {
+        List<HorarioAlumno> retorno = new ArrayList<>();
+        for(ClaseAlumno claseAlu:unAlumno.getClaseAlumnos()){
+            for(HorarioAlumno horario:claseAlu.getHorarios()){
+                retorno.add(horario);
+            }
+        }
+        return retorno;
+    }
+    
+    public List<ClaseAlumno> getListaClasesSinHorario(Alumno unAlumno) {
+        List<ClaseAlumno> retorno = new ArrayList<>();
+        for(ClaseAlumno claseAlu:unAlumno.getClaseAlumnos()){
+            if(claseAlu.getHorarios().isEmpty()){
+                retorno.add(claseAlu);
+            }
+        }
+        return retorno;
     }
 }

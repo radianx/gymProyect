@@ -526,10 +526,15 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void tablaPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrincipalMouseClicked
+
         if (!tablaPrincipal.getSelectionModel().isSelectionEmpty()) {
             claseSeleccionada = (ClaseProfesor) tablaPrincipal.getValueAt(tablaPrincipal.getSelectedRow(), 0);
             this.cargarTablaHorarios(claseSeleccionada.getProfesor());
             this.txtClase.setText(claseSeleccionada.toString());
+            
+            if(claseSeleccionada.getClase().getDescripcionclase().equalsIgnoreCase("Maquina")){
+                this.cmbDiasPorSemana.setEnabled(true);
+            }
         }
     }//GEN-LAST:event_tablaPrincipalMouseClicked
 

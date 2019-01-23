@@ -519,7 +519,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                     modeloTabla.addRow(fila);
                 }
                 }
-            } catch (NullPointerException ex){
+            } catch (NullPointerException| Notificaciones ex){
                 System.err.println("No se puedo cargar usuarios: "+ex.getMessage());
             }
             this.tablaUsuariosInactivos.setModel(modeloTabla);

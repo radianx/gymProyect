@@ -312,7 +312,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
 
         jLabel3.setText("<html><b>$</html>");
 
-        btnCobrar.setText("COBRAR DEUDA");
+        btnCobrar.setText("COBRAR CUOTA");
         btnCobrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCobrarActionPerformed(evt);

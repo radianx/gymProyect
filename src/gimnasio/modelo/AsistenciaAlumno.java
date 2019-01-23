@@ -12,7 +12,6 @@ import java.util.Objects;
  */
 public class AsistenciaAlumno  implements java.io.Serializable {
 
-
      private int idAsistenciaAlumno;
      private ClaseAlumno claseAlumno;
      private Date ingreso;
@@ -28,14 +27,16 @@ public class AsistenciaAlumno  implements java.io.Serializable {
         this.ingreso = ingreso;
         this.estado = estado;
     }
-    
-    public AsistenciaAlumno(int idAsistenciaAlumno, ClaseAlumno claseAlumno, Date ingreso, String estado) {
-       this.idAsistenciaAlumno = idAsistenciaAlumno;
-       this.claseAlumno = claseAlumno;
-       this.ingreso = ingreso;
-       this.estado = estado;
+
+    public AsistenciaAlumno(int idAsistenciaAlumno, ClaseAlumno claseAlumno, Date ingreso, Date salida, String estado) {
+        this.idAsistenciaAlumno = idAsistenciaAlumno;
+        this.claseAlumno = claseAlumno;
+        this.ingreso = ingreso;
+        this.salida = salida;
+        this.estado = estado;
     }
 
+    
     public int getIdAsistenciaAlumno() {
         return idAsistenciaAlumno;
     }
@@ -107,13 +108,17 @@ public class AsistenciaAlumno  implements java.io.Serializable {
             return false;
         }
         
+        if(!Objects.equals(this.claseAlumno.getAlumno(), other.claseAlumno.getAlumno())){
+            return false;
+        }
+        
         LocalDateTime fechaYhoraThis = LocalDateTime.ofInstant(this.ingreso.toInstant(), ZoneId.systemDefault());
         LocalDateTime fechaYhoraOther = LocalDateTime.ofInstant(other.ingreso.toInstant(), ZoneId.systemDefault());
-        if(fechaYhoraThis.isAfter(fechaYhoraOther.plusMinutes(15))){
+        if(fechaYhoraThis.isBefore(fechaYhoraOther)){
             return false;
-        }else{
-            return true;
         }
+        
+        return true;
     }
 }
 

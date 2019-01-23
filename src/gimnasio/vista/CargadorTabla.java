@@ -419,16 +419,16 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
     
     public static void clasesActivas(JTable tabla, ControladorPrincipal controlador){
         DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Tipo");
-        modeloTabla.addColumn("Alumnos Maximos");
         modeloTabla.addColumn("Descripcion");
+        modeloTabla.addColumn("Alumnos Maximos");
+        modeloTabla.addColumn("Tipo");
         Object[] fila = new Object[3];
         
         for (Clase clase : controlador.getListaClases()) {
             if (clase.getEstado().equalsIgnoreCase("ACTIVO")) {
                 fila[0] = clase;
                 fila[1] = clase.getAlumnosmaximo();
-                fila[2] = clase.getDescripcionclase();
+                fila[2] = clase.getTipoclase();
                 modeloTabla.addRow(fila);
             }
         }

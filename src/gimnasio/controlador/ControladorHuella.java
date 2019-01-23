@@ -32,6 +32,7 @@ import gimnasio.modelo.Cuota;
 import gimnasio.modelo.HorarioAlumno;
 import gimnasio.modelo.HorarioProfesor;
 import gimnasio.modelo.AsistenciaAlumno;
+import gimnasio.modelo.ClaseAlumno;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Usuario;
 import java.awt.Graphics2D;
@@ -67,43 +68,43 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Family
  */
-public class ControladorHuella implements Runnable{
+public class ControladorHuella implements Runnable {
 
     JTextField texto;
     JLabel label;
     //Varible que permite iniciar el dispositivo de lector de huella conectado
     // con sus distintos metodos.
     private DPFPCapture lector = DPFPGlobal.getCaptureFactory().createCapture();
-    
+
     //Varible que permite establecer las capturas de la huellas, para determina sus caracteristicas
     // y poder estimar la creacion de un template de la huella para luego poder guardarla
     private DPFPEnrollment reclutador = DPFPGlobal.getEnrollmentFactory().createEnrollment();
-    
+
     //Esta variable tambien captura una huella del lector y crea sus caracteristcas para auntetificarla
     // o verificarla con alguna guarda en la BD 
     private DPFPVerification verificador = DPFPGlobal.getVerificationFactory().createVerification();
-    
+
     //Variable que para crear el template de la huella luego de que se hallan creado las caracteriticas
     // necesarias de la huella si no ha ocurrido ningun problema
     private DPFPTemplate planilla;
-    
+
     //Esta es una variable comun y aburrida que indica el estado, no tiene nada especial
     private String estado;
 
     private boolean huellaVerificada = false;
     private boolean verificacion = false;
-    
-    private boolean iniciado =false;
-    
+
+    private boolean iniciado = false;
+
     private Usuario usuario;
-    
+
     public static String TEMPLATE_PROPERTY = "template";
     private ControladorPersistencia miPersistencia;
     private JTable tabla;
     private DefaultTableModel modeloTabla;
     private ControladorPrincipal miControlador;
-    
-    public void cargarTabla(){
+
+    public void cargarTabla() {
         modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("Nombre");
         modeloTabla.addColumn("Apellido");
@@ -111,7 +112,7 @@ public class ControladorHuella implements Runnable{
         modeloTabla.addColumn("Cuota al dia");
         tabla.setModel(modeloTabla);
     }
-    
+
     public ControladorHuella(ControladorPrincipal miControlador, ControladorPersistencia persistencia, JTextField texto, JLabel label, JTable tablaAsistencias) {
         this.texto = texto;
         this.label = label;
@@ -129,7 +130,6 @@ public class ControladorHuella implements Runnable{
         this.texto = texto;
     }
 
-    
     public DPFPCapture getLector() {
         return lector;
     }
@@ -162,8 +162,6 @@ public class ControladorHuella implements Runnable{
         this.planilla = planilla;
     }
 
-    
-    
     public void Iniciar() {
         this.iniciado = true;
         System.out.println("Inciando escaner de huella");
@@ -173,7 +171,7 @@ public class ControladorHuella implements Runnable{
                 SwingUtilities.invokeLater(() -> {
                     EnviarTexto("CAPTURA");
                     try {
- //                       ProcesarCaptura(e.getSample());
+                        //                       ProcesarCaptura(e.getSample());
                         identificarHuella(e.getSample());
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -235,71 +233,68 @@ public class ControladorHuella implements Runnable{
     public String getEstado() {
         return this.estado;
     }
-    
+
 //   -----METODO QUE DIBUJA UNA HUELLA EN PANTALLA----
 //    public void DibujarHuella(Image image){
 //        this.lblHuella.setIcon(new ImageIcon(
 //            image.getScaledInstance(this.lblHuella.getWidth(), lblHuella.getHeight(), Image.SCALE_DEFAULT)));
 //        repaint();
 //    }
-
-    public void EstadoHuellas(){
+    public void EstadoHuellas() {
         EnviarTexto("FALTAN HUELLAS" + reclutador.getFeaturesNeeded());
     }
-    
-    public void start(){
+
+    public void start() {
         lector.startCapture();
         texto.setText("-Esperando Huella-");
         EnviarTexto("USANDO");
-        
+
     }
-    
-    public void stop(){
+
+    public void stop() {
         lector.stopCapture();
         this.iniciado = false;
         System.out.println("Detiendo captura de huellas");
         texto.setText("CAPTURA DETENIDA");
         EnviarTexto("DETENIDO");
     }
-  
-    public DPFPTemplate getTemplate(){
+
+    public DPFPTemplate getTemplate() {
         return planilla;
     }
-    
-    public void setTemplate(DPFPTemplate template){
+
+    public void setTemplate(DPFPTemplate template) {
         DPFPTemplate old = this.planilla;
         this.planilla = template;
- //       firePropertyChange(TEMPLATE_PROPERTY, old, template); <--- Esta linea es para control del componente visual
+        //       firePropertyChange(TEMPLATE_PROPERTY, old, template); <--- Esta linea es para control del componente visual
     }
 
-    
-    
-    public void ProcesarCaptura(DPFPSample sample) throws Exception{
-    // Procesar la muestra de la huella y crear un conjunto de características con el propósito de inscripción.
+    public void ProcesarCaptura(DPFPSample sample) throws Exception {
+        // Procesar la muestra de la huella y crear un conjunto de características con el propósito de inscripción.
         featuresinscripcion = extraerCaracteristicas(sample, DPFPDataPurpose.DATA_PURPOSE_ENROLLMENT);
-    // Procesar la muestra de la huella y crear un conjunto de características con el propósito de verificacion.
+        // Procesar la muestra de la huella y crear un conjunto de características con el propósito de verificacion.
         featuresvertification = extraerCaracteristicas(sample, DPFPDataPurpose.DATA_PURPOSE_VERIFICATION);
-    
-    // Comprobar la calidad de la muestra de la huella y lo añade a su reclutador si es bueno    
-        if(featuresinscripcion != null){
-            try{
+
+        // Comprobar la calidad de la muestra de la huella y lo añade a su reclutador si es bueno    
+        if (featuresinscripcion != null) {
+            try {
                 System.out.println("Las caracteristicas de la huella han sido creadas");
-                
+
                 reclutador.addFeatures(featuresinscripcion); // Agregar las caracteristicas de la huella a la plantilla a crear
-                
-                Image image = CrearImagenHuella(sample);      
-            } catch(DPFPImageQualityException ex){
-                System.out.println("Error: "+ex.getMessage());
-            } finally{
+
+                Image image = CrearImagenHuella(sample);
+            } catch (DPFPImageQualityException ex) {
+                System.out.println("Error: " + ex.getMessage());
+            } finally {
                 EstadoHuellas();
                 //comprueba si la plantilla se creo
-                switch(reclutador.getTemplateStatus()){
+                switch (reclutador.getTemplateStatus()) {
                     case TEMPLATE_STATUS_READY://informe de exito y detiene la captura de huellas
                         stop();
                         setTemplate(reclutador.getTemplate());
                         EnviarTexto("REGISTRO");
                         break;
-                    
+
                     case TEMPLATE_STATUS_FAILED://informe de fallo y luego reinicio
                         reclutador.clear();
                         stop();
@@ -311,16 +306,15 @@ public class ControladorHuella implements Runnable{
             }
         }
     }
-    
-    
- /*
+
+    /*
   * Guarda los datos de la huella digital actual en la base de datos
-  */    
-    public void guardarHuella(){
-    // Obtiene los datos del template de la huella actual
+     */
+    public void guardarHuella() {
+        // Obtiene los datos del template de la huella actual
         ByteArrayInputStream planilla = new ByteArrayInputStream(this.planilla.serialize());
         Integer tamanoHuella = this.planilla.serialize().length;
-    //pregunta el nombre de la persona a la cual corresponde dicha huella
+        //pregunta el nombre de la persona a la cual corresponde dicha huella
         String nombre = JOptionPane.showInputDialog("Nombre: ");
 //        try{
 //            //Aqui tiene que ir la persistencia
@@ -342,7 +336,7 @@ public class ControladorHuella implements Runnable{
 //     con.desconectar();
 //    }
     }
-    
+
     public void verificarHuella(String nom) {
 //             try {
 //    //Establece los valores para la sentencia SQL
@@ -383,13 +377,13 @@ public class ControladorHuella implements Runnable{
             //            PreparedStatement identificarStmt = c.prepareStatement("SELECT nombre,huella FROM personal");
             //          ResultSet rs = identificarStmt.executeQuery();
             //  Se recorre la lista de la base de datos
-            List<Usuario> usuarios = miPersistencia.getUsuarios();
+            List<Usuario> usuarios = miControlador.getListaUsuarios();
 
-            featuresvertification = extraerCaracteristicas(sample, DPFPDataPurpose.DATA_PURPOSE_VERIFICATION); 
+            featuresvertification = extraerCaracteristicas(sample, DPFPDataPurpose.DATA_PURPOSE_VERIFICATION);
             DPFPVerificationResult result = null;
-            
+
             for (Usuario miUsuario : usuarios) {
-                if(miUsuario.getPlanillahuellas() !=null){
+                if (miUsuario.getPlanillahuellas() != null) {
                     //Lee la plantilla de la base de datos
                     byte templateBuffer[] = miUsuario.getPlanillahuellas();
                     String nombre = miUsuario.getNombreusuario();
@@ -406,15 +400,15 @@ public class ControladorHuella implements Runnable{
                     if (result.isVerified()) {
                         //crea la imagen de los datos guardado de las huellas guardadas en la base de datos
                         //JOptionPane.showMessageDialog(null, "Las huella capturada es de " + nombre, "Verificacion de Huella", JOptionPane.INFORMATION_MESSAGE);                                              
-                        if(miUsuario.getNombreusuario()!=null){
+                        if (miUsuario.getNombreusuario() != null) {
                             texto.setText(miUsuario.getNombreusuario());
                         }
-                        if(miUsuario.getFoto()!=null){
+                        if (miUsuario.getFoto() != null) {
                             drawPicture(createImageFromBytes(miUsuario.getFoto()));
                         }
                         verificacionCorrecta(miUsuario);
                         boolean acceso = agregarAsistencia(miUsuario);
-                        
+
                         setHuellaVerificada(true);
                         EnviarTexto("CORRECTO");
 
@@ -425,15 +419,15 @@ public class ControladorHuella implements Runnable{
                             } catch (InterruptedException ex) {
                                 JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
                             }
-                        }else{
+                        } else {
                             JOptionPane.showMessageDialog(null, "Acceso Denegado");
                         }
                         return; //<---- Esto es un break del for..
                     }
                 }
             }
-            if(result !=null && !result.isVerified()){
-                        JOptionPane.showMessageDialog(null, "USUARIO NO REGISTRADO");
+            if (result != null && !result.isVerified()) {
+                JOptionPane.showMessageDialog(null, "USUARIO NO REGISTRADO");
             }
             //Si no encuentra alguna huella correspondiente al nombre lo indica con un mensaje
             setVerificacion(false);
@@ -448,29 +442,29 @@ public class ControladorHuella implements Runnable{
 
     private void verificacionCorrecta(Usuario miUsuario) {
         this.usuario = miUsuario;
+        miControlador.refrescarInstancia(usuario);
     }
 
     public boolean isHuellaVerificada() {
         return huellaVerificada;
     }
 
-    public boolean verificando(){
+    public boolean verificando() {
         return verificacion;
     }
-    
-    public void setVerificacion(boolean verificacion){
+
+    public void setVerificacion(boolean verificacion) {
         this.verificacion = verificacion;
     }
-    
+
     public void setHuellaVerificada(boolean huellaVerificada) {
         this.huellaVerificada = huellaVerificada;
     }
-    
-    public Usuario getDuenioHuella(){
+
+    public Usuario getDuenioHuella() {
         return this.usuario;
     }
-    
-    
+
     @Override
     public void run() {
         this.start();
@@ -484,22 +478,21 @@ public class ControladorHuella implements Runnable{
     public void setIniciado(boolean iniciado) {
         this.iniciado = iniciado;
     }
-    
 
-    public void drawPicture(BufferedImage foto){
+    public void drawPicture(BufferedImage foto) {
         Graphics2D bGr = foto.createGraphics();
-        bGr.drawImage(foto, 0, 0 , null);
+        bGr.drawImage(foto, 0, 0, null);
         bGr.dispose();
         BufferedImage auxiliar = foto;
         AffineTransform tx = new AffineTransform();
-        tx.rotate(Math.toRadians(180), foto.getWidth()/2, foto.getHeight()/2);
+        tx.rotate(Math.toRadians(180), foto.getWidth() / 2, foto.getHeight() / 2);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         auxiliar = op.filter(foto, null);
         label.setText(null);
         label.setIcon(null);
         label.setIcon(new ImageIcon(foto.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT)));
     }
-    
+
     public BufferedImage createImageFromBytes(byte[] imageData) {
         ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
         try {
@@ -507,7 +500,7 @@ public class ControladorHuella implements Runnable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }     
+    }
 
     public boolean agregarAsistencia(Usuario miUsuario) {
         boolean acceso = false;
@@ -515,25 +508,30 @@ public class ControladorHuella implements Runnable{
         Alumno miAlumno = null;
         Profesor miProfesor = null;
 
-        for(Profesor unProfesor:miUsuario.getProfesors()){
-            if (unProfesor.getEstado().equalsIgnoreCase("ACTIVO")){
+        for (Profesor unProfesor : miUsuario.getProfesors()) {
+            if (unProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
                 fila[0] = unProfesor.getNombreprofesor();
                 fila[1] = unProfesor.getApellidoprofesor();
                 miProfesor = unProfesor;
             }
         }
 
-        for(Alumno unAlumno:miUsuario.getAlumnos()){
+        for (Alumno unAlumno : miUsuario.getAlumnos()) {
             if (unAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
                 fila[0] = unAlumno.getNombrealumno();
                 fila[1] = unAlumno.getApellidoalumno();
                 miAlumno = unAlumno;
             }
         }
+        try{
+            miAlumno = miControlador.buscarAlumnoFromDB(miAlumno);
+        }catch(Notificaciones ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
         LocalDateTime hora = LocalDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         fila[2] = hora.format(dtf);
-        
+
         if (miProfesor != null && miAlumno == null) {
             List<HorarioProfesor> horarios = null;
             try {
@@ -562,56 +560,101 @@ public class ControladorHuella implements Runnable{
                 modeloTabla.addRow(fila);
                 break;
             }
-        fila[3] = "Prof.: Autorizado";
-        acceso = true;
-        modeloTabla.addRow(fila);
         } else if (miAlumno != null) {
             Cuota ultimaCuota = miAlumno.getLastCuota();
-            List<HorarioAlumno> horarios = null;
-            try{
-                horarios = miControlador.getListaHorariosAlumno();
-            } catch (Notificaciones ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
-            }
-            for (HorarioAlumno unHorario : horarios) {
-                LocalDateTime dia = Instant.ofEpochMilli(unHorario.getInicio().getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
-                if (dia.getDayOfWeek() == hora.getDayOfWeek()
-                        && dia.getHour() == hora.getHour()
-                        && hora.getMinute() - 15 <= dia.getHour()
-                        && dia.getHour() <= hora.getMinute() + 15) {
-                    if (ultimaCuota.getEstado().equalsIgnoreCase("PAGADO")) {
-                        fila[3] = "SI";
-                        acceso = true;
-                        AsistenciaAlumno asistencia = new AsistenciaAlumno(unHorario.getClaseAlumno(),new Date(),"ACTIVO");
-                        try{
-                            miControlador.altaAsistenciaAlumno(asistencia);
-                        }catch (Notificaciones ex){
-                            JOptionPane.showMessageDialog(null, ex.getMessage());
+            if (ultimaCuota.getEstado() != null) {
+                if (ultimaCuota.getEstado().equalsIgnoreCase("PAGADO")) {
+                    List<HorarioAlumno> horarios = null;
+                    List<ClaseAlumno> clasesSinHorario = null;
+                    try {
+                        horarios = miControlador.getListaHorariosAlumno(miAlumno);
+                        clasesSinHorario = miControlador.getListaClasesSinHorario(miAlumno);
+                    } catch (Notificaciones ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+
+                    if (miAlumno.getClaseAlumnos() != null) {
+                        if (!horarios.isEmpty()) {
+                            for (HorarioAlumno unHorario : horarios) {
+                                LocalDateTime dia = Instant.ofEpochMilli(unHorario.getInicio().getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+                                if (dia.getDayOfWeek() == hora.getDayOfWeek()
+                                        && dia.getHour() == hora.getHour()
+                                        && hora.getMinute() - 15 <= dia.getHour()
+                                        && dia.getHour() <= hora.getMinute() + 15) {
+
+                                    fila[3] = "SI";
+                                    acceso = true;
+                                    AsistenciaAlumno asistencia = new AsistenciaAlumno(unHorario.getClaseAlumno(), new Date(), "ACTIVO");
+                                    try {
+                                        miControlador.altaAsistenciaAlumno(asistencia);
+                                    } catch (Notificaciones ex) {
+                                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                                    }
+                                } else {
+                                    fila[3] = "NO";
+                                    acceso = false;
+                                }
+                            }
+                        } else {
+                            if (!clasesSinHorario.isEmpty()) {
+                                if (clasesSinHorario.size() > 1) {
+                                    JOptionPane.showMessageDialog(null, "El Alumno requiere asistencia manual, conceder acceso");
+                                    fila[3] = "Acceso Manual";
+                                    acceso = false;
+                                } else {
+                                    if (verificarIngreso(clasesSinHorario.get(0))) {
+                                        fila[3] = "SI";
+                                        acceso = true;
+                                        AsistenciaAlumno asistencia = new AsistenciaAlumno(clasesSinHorario.get(0), new Date(), "ACTIVO");
+                                        try {
+                                            miControlador.altaAsistenciaAlumno(asistencia);
+                                            
+                                        } catch (Notificaciones ex) {
+                                            JOptionPane.showMessageDialog(null, ex.getMessage());
+                                            ex.printStackTrace();
+                                        }
+                                    } else {
+                                        fila[3] = "Si pero excede dias";
+                                        acceso = false;
+                                    }
+                                }
+                            }else{
+                                System.out.println("Usted ha llegado al principio del fondo del agujero de gusano");
+                            }
                         }
-                    } else {
-                        fila[3] = "NO";
-                        acceso = false;
                     }
-                    modeloTabla.addRow(fila);
-                    break;
-                } else{
-                    if(ultimaCuota.getEstado().equalsIgnoreCase("PAGADO")){
-                        fila[3] = "Fuera de Horario";
-                        acceso = false;
-                    }else{
-                        fila[3] = "NO";
-                        acceso = false;
-                    }
-                    modeloTabla.addRow(fila);
-                    break;
+                } else {
+                    fila[3] = "NO";
+                    acceso = false;
                 }
+
+                if (!usuario.getPersonals().isEmpty()) {
+                    fila[3] = "Personal Autorizado";
+                    acceso = true;
+                }
+                
+            } else {
+                fila[3] = "NO";
+                acceso = false;
             }
-        }
-        
-        if(usuario.getPersonals()!=null){
-            acceso = true;
+            modeloTabla.addRow(fila);
         }
         return acceso;
     }
+
     
+    /*
+    * verificar ingreso retorna true si puede ingresar
+    */
+    public boolean verificarIngreso(ClaseAlumno claseAlu) {
+        boolean retorno = false;
+        List<AsistenciaAlumno> asistenciasSemana = claseAlu.getAsistenciasPorSemana();
+        System.out.println("Puede asistir: " + claseAlu.getDiasPorSemana() + " veces");
+        System.out.println("Asistio: " + asistenciasSemana.size() + " veces");
+        if (claseAlu.getDiasPorSemana() >= asistenciasSemana.size()) {
+            retorno = true;
+        }
+        return retorno;
+    }
+
 }

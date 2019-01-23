@@ -188,6 +188,9 @@ public class Alumno  implements java.io.Serializable {
         Collections.sort(listaCuotas);
         Cuota unaCuota = null;
         try{
+            for(Cuota cuota:listaCuotas){
+                System.out.println(cuota + " estado: " + cuota.getEstado());
+            }
             unaCuota = listaCuotas.get(listaCuotas.size()-1);
         }catch(ArrayIndexOutOfBoundsException ex){
             unaCuota = new Cuota();
