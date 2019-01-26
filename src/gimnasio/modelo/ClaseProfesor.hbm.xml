@@ -8,19 +8,19 @@
             <column name="idclaseprofesor" />
             <generator class="increment" />
         </id>
-        <many-to-one name="clase" class="gimnasio.modelo.Clase" fetch="select">
+        <many-to-one name="clase" class="gimnasio.modelo.Clase" fetch="select" cascade="all">
             <column name="idclase" not-null="true" />
         </many-to-one>
-        <many-to-one name="modalidad" class="gimnasio.modelo.Modalidad" fetch="select">
+        <many-to-one name="modalidad" class="gimnasio.modelo.Modalidad" fetch="select" cascade="all">
             <column name="idmodalidad" not-null="true" />
         </many-to-one>
-        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" fetch="select">
+        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" fetch="select" cascade="all">
             <column name="idprofesor" not-null="true" />
         </many-to-one>
 
-        <set name="horarios" table="horario_profesor" inverse="true" lazy="true" fetch="select">
+        <set name="horarios" table="horario_profesor" fetch="select" cascade="all">
             <key>
-                <column name="idHorarioProfesor" not-null="true" />
+                <column name="idHorario" not-null="true" />
             </key>
             <one-to-many class="gimnasio.modelo.HorarioProfesor" />
         </set>
@@ -28,19 +28,19 @@
         <property name="estado" type="string">
             <column name="estado" not-null="true" />
         </property>
-        <set name="asistenciaProfesors" table="asistencia_profesor" inverse="true" lazy="true" fetch="select">
+        <set name="asistenciaProfesors" table="asistencia_profesor" inverse="true" lazy="true" fetch="select" cascade="all">
             <key>
                 <column name="idclaseprofesor" not-null="true" />
             </key>
             <one-to-many class="gimnasio.modelo.AsistenciaProfesor" />
         </set>
-        <set name="sectorClases" table="sector_clase" inverse="true" lazy="true" fetch="select">
+        <set name="sectorClases" table="sector_clase" inverse="true" lazy="true" fetch="select" cascade="all">
             <key>
                 <column name="idclaseprofesor" not-null="true" />
             </key>
             <one-to-many class="gimnasio.modelo.SectorClase" />
         </set>
-        <set name="claseAlumnos" table="clase_alumno" inverse="true" lazy="true" fetch="select">
+        <set name="claseAlumnos" table="clase_alumno" inverse="true" lazy="true" fetch="select" cascade="all">
             <key>
                 <column name="idclaseprofesor" not-null="true" />
             </key>

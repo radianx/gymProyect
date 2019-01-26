@@ -13,11 +13,15 @@ import gimnasio.modelo.Contacto;
 import gimnasio.modelo.Obrasocial;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Usuario;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -33,6 +37,7 @@ import javax.swing.table.TableRowSorter;
 public class panelNuevoProfesor extends javax.swing.JPanel {
 
     DefaultTableModel modeloTabla;
+    Profesor profesorSeleccionado = null;
     Usuario usuarioSeleccionado;
     DefaultComboBoxModel modeloCombo;
     TableRowSorter<TableModel> rowSorter;
@@ -58,16 +63,31 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
         modeloCombo = new DefaultComboBoxModel();
         final String nuevo = "---NUEVA OBRA SOCIAL---";
         this.modeloCombo.addElement( nuevo );
-        for(Obrasocial miObraSocial: miControlador.getListaObrasSociales()){
-            if(miObraSocial.getEstado().equalsIgnoreCase("ACTIVO")){
-                this.modeloCombo.addElement(miObraSocial);
+        try {
+            for(Obrasocial miObraSocial: miControlador.getListaObrasSociales()){
+                if(miObraSocial.getEstado().equalsIgnoreCase("ACTIVO")){
+                    this.modeloCombo.addElement(miObraSocial);
+                }
             }
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null,"error al leer obras sociales desde la base de datos");
         }
         this.cmbObraSocial.setModel(modeloCombo);
 
     }
     
-
+    public void reCargarCombo(){
+        try{
+            for (Obrasocial miObraSocial : miControlador.getListaObrasSociales()) {
+                if (miObraSocial.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    this.modeloCombo.addElement(miObraSocial);
+                }
+            }
+        }catch(Notificaciones ex){
+            JOptionPane.showMessageDialog(null, "error al leer obras sociales desde la base de datos");
+        }
+    }
+    
     public void cargarTabla() {
         try {
             modeloTabla = new DefaultTableModel();
@@ -129,6 +149,7 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
         txtUsuario = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         cmbObraSocial = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
@@ -136,7 +157,15 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
         btnCerrar = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(400, 400));
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
         addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);
             }
@@ -225,6 +254,13 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setText("Recargar Lista");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -277,7 +313,9 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cmbObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -291,7 +329,7 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
                         .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)))
-                .addGap(2, 2, 2))
+                .addGap(7, 7, 7))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,10 +365,11 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(cmbObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbObraSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -458,8 +497,20 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
                 unContacto.setEstado("ACTIVO");
                 Obrasocial unaOS = (Obrasocial) this.modeloCombo.getSelectedItem();
                 miControlador.altaContacto(unContacto);
-                Profesor unProfesor = new Profesor( unContacto, unaOS, usuarioSeleccionado, nombre, apellido, peso, altura, fecha,"ACTIVO");
-                miControlador.altaProfesor(unProfesor);
+                if(profesorSeleccionado==null){
+                    System.out.println("DANDO DE ALTA NUEVO PROFESOR");
+                    Profesor unProfesor = new Profesor(unContacto, unaOS, usuarioSeleccionado, nombre, apellido, peso, altura, fecha, "ACTIVO");
+                    miControlador.altaProfesor(unProfesor);
+                }else{
+                    profesorSeleccionado.setAltura(altura);
+                    profesorSeleccionado.setApellidoprofesor(apellido);
+                    profesorSeleccionado.setContacto(unContacto);
+                    profesorSeleccionado.setFechanacimiento(fecha);
+                    profesorSeleccionado.setNombreprofesor(nombre);
+                    profesorSeleccionado.setObrasocial(unaOS);
+                    profesorSeleccionado.setPeso(peso);
+                    miControlador.altaProfesor(profesorSeleccionado);
+                }
                 String[] opciones ={"SI","NO","CANCELAR"};
                 int seleccion = JOptionPane.showOptionDialog(null, "¿Asignar clase al Profesor?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
                 switch (seleccion){
@@ -483,6 +534,8 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
             }
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar profesor: " + ex.getMessage());
+        } catch(ClassCastException ex){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar  una obra social");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -508,6 +561,7 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         this.setVisible(false);
+        profesorSeleccionado = null;
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void cmbObraSocialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbObraSocialActionPerformed
@@ -524,9 +578,20 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseEntered
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        cargarCombo();
-        cargarTabla();
+
     }//GEN-LAST:event_formComponentShown
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+
+    }//GEN-LAST:event_formFocusGained
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+     
+    }//GEN-LAST:event_formMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cargarCombo();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -538,6 +603,7 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
     private javax.swing.JButton btnUsuario;
     private javax.swing.JComboBox<String> cmbObraSocial;
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -579,11 +645,13 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
         this.txtBuscar.setText("");
         this.datePicker1.setText("");
         this.btnActivar.setEnabled(false);
-        this.cmbObraSocial.setSelectedItem("---NUEVA OBRA SOCIAL---");
         this.usuarioSeleccionado = null;
     }
     
     public void recibirDatos(Profesor unProfesor){
+        profesorSeleccionado = unProfesor;
+        LocalDate fecha = Instant.ofEpochMilli(unProfesor.getFechanacimiento().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        this.datePicker1.setDate(fecha);
         this.txtNombre.setText(unProfesor.getNombreprofesor());
         this.txtApellido.setText(unProfesor.getApellidoprofesor());
         this.txtAltura.setText(unProfesor.getAltura().toString());

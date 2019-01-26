@@ -95,8 +95,8 @@ public class jDialogHuella extends javax.swing.JDialog {
             try{
                 txtArea.append("\nHuella detectada.\n");
                 reclutador.addFeatures(featuresinscripcion);
-            } catch(DPFPImageQualityException ex){
-                txtArea.append("\nError: " + ex.getMessage());
+            } catch(DPFPImageQualityException |IllegalStateException ex){
+                System.out.println("Aqui no paso nada");
             } finally{
                 EstadoHuellas(); //comprueba si se creo la plantilla con exito
                 switch(reclutador.getTemplateStatus()){

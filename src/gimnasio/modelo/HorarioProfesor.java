@@ -14,16 +14,17 @@ import java.util.Objects;
  * @author Family
  */
 public class HorarioProfesor {
-    private int idHorarioProfesor;
+    private int idHorario;
     private ClaseProfesor claseProfesor;
     private Date inicio;
     private Date fin;
+    private String estado;
 
     public HorarioProfesor() {
     }
 
-    public HorarioProfesor(int idHorarioProfesor, ClaseProfesor claseProfesor, Date inicio, Date fin) {
-        this.idHorarioProfesor = idHorarioProfesor;
+    public HorarioProfesor(int idHorario, ClaseProfesor claseProfesor, Date inicio, Date fin) {
+        this.idHorario = idHorario;
         this.claseProfesor = claseProfesor;
         this.inicio = inicio;
         this.fin = fin;
@@ -44,12 +45,12 @@ public class HorarioProfesor {
     
     
 
-    public int getIdHorarioProfesor() {
-        return idHorarioProfesor;
+    public int getIdHorario() {
+        return idHorario;
     }
 
-    public void setIdHorarioProfesor(int idHorarioProfesor) {
-        this.idHorarioProfesor = idHorarioProfesor;
+    public void setIdHorario(int idHorario) {
+        this.idHorario = idHorario;
     }
 
     public Date getInicio() {
@@ -90,7 +91,7 @@ public class HorarioProfesor {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 97 * hash + this.idHorarioProfesor;
+        hash = 97 * hash + this.idHorario;
         return hash;
     }
 
@@ -119,6 +120,16 @@ public class HorarioProfesor {
         
         return true;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+
     
     
     

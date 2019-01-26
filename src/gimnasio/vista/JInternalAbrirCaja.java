@@ -10,6 +10,7 @@ import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Cajadiaria;
 import gimnasio.modelo.Usuario;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -19,13 +20,13 @@ import javax.swing.JOptionPane;
  *
  * @author Family
  */
-public class JInternalAperturaCaja extends javax.swing.JInternalFrame {
+public class JInternalAbrirCaja extends javax.swing.JInternalFrame {
 
     ControladorPrincipal miControlador;
     /**
      * Creates new form jInternalAperturaCaja
      */
-    public JInternalAperturaCaja(ControladorPrincipal controlador) {
+    public JInternalAbrirCaja(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
         this.timePicker1.setTimeToNow();
@@ -123,11 +124,12 @@ public class JInternalAperturaCaja extends javax.swing.JInternalFrame {
     private void btnAbrirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCajaActionPerformed
         if (!txtMonto.getText().isEmpty()) {
             Double monto = Double.valueOf(txtMonto.getText());
-            Date fecha = Date.from(timePicker1.getTime().atDate(LocalDate.now())
+            Date fecha = Date.from(LocalDateTime.now()
                     .atZone(ZoneId.systemDefault()).toInstant());
-            Cajadiaria caja = new Cajadiaria(monto, fecha, "ACTIVO");
+            Cajadiaria caja = new Cajadiaria(monto, fecha, MainMenu.getUsuario().getNombreusuario());
             try {
                 miControlador.altaCaja(caja);
+                MainMenu.cajaAbierta(true);
                 JOptionPane.showMessageDialog(null, "Caja abierta con exito");
                 this.dispose();
             } catch (Notificaciones ex) {
@@ -141,9 +143,9 @@ public class JInternalAperturaCaja extends javax.swing.JInternalFrame {
     private void txtMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoActionPerformed
         if (!txtMonto.getText().isEmpty()) {
             Double monto = Double.valueOf(txtMonto.getText());
-            Date fecha = Date.from(timePicker1.getTime().atDate(LocalDate.now())
+            Date fecha = Date.from(LocalDateTime.now()
                     .atZone(ZoneId.systemDefault()).toInstant());
-            Cajadiaria caja = new Cajadiaria(monto, fecha, "ACTIVO");
+            Cajadiaria caja = new Cajadiaria(monto, fecha, MainMenu.getUsuario().getNombreusuario());
             try {
                 miControlador.altaCaja(caja);
                 JOptionPane.showMessageDialog(null, "Caja abierta con exito");

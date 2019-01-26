@@ -8,7 +8,7 @@
             <column name="idhorarioalumno" />
             <generator class="increment" />
         </id>
-        <many-to-one name="claseAlumno" class="gimnasio.modelo.ClaseAlumno" fetch="select">
+        <many-to-one name="claseAlumno" class="gimnasio.modelo.ClaseAlumno" fetch="select" cascade="all">
             <column name="idclasealumno" not-null="true" />
         </many-to-one>
         <property name="inicio" type="timestamp">
@@ -16,6 +16,9 @@
         </property>
         <property name="fin" type="timestamp">
             <column name="fin" length="13" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado"/>
         </property>
     </class>
 </hibernate-mapping>

@@ -13,7 +13,7 @@ public class Clase  implements java.io.Serializable {
      private Integer alumnosmaximo;
      private String descripcionclase;
      private String estado;
-     private Set cuotas = new HashSet(0);
+//     private Set cuotas = new HashSet(0);
      private Set<ClaseProfesor> claseProfesors = new HashSet(0);
 
     public Clase() {
@@ -73,13 +73,13 @@ public class Clase  implements java.io.Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    public Set getCuotas() {
-        return this.cuotas;
-    }
-    
-    public void setCuotas(Set cuotas) {
-        this.cuotas = cuotas;
-    }
+//    public Set getCuotas() {
+//        return this.cuotas;
+//    }
+//    
+//    public void setCuotas(Set cuotas) {
+//        this.cuotas = cuotas;
+//    }
     public Set<ClaseProfesor> getClaseProfesors() {
         return this.claseProfesors;
     }

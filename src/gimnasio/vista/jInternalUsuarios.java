@@ -96,7 +96,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
 
             try {
                 for (Usuario miUsuario : miControlador.getListaUsuarios()) {
-                    if (miUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    if (!miUsuario.getEstado().equalsIgnoreCase("INACTIVO")) {
                         fila[0] = miUsuario;
                         modeloTabla.addRow(fila);
                     }
@@ -131,9 +131,6 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         panelPrincSur = new javax.swing.JPanel();
         btnCerrar = new javax.swing.JButton();
 
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
         setTitle("GESTION DE USUARIOS");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         setMaximumSize(new java.awt.Dimension(430, 430));
@@ -352,20 +349,22 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formMouseEntered
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if(!this.tablaUsuarios.getSelectionModel().isSelectionEmpty()){
-        Usuario unUsuario = (Usuario)this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
-        tablaUsuarios.clearSelection();
-        try {
-            this.miControlador.bajaUsuario(unUsuario.getIdusuario());
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-        }else{
+        if (!this.tablaUsuarios.getSelectionModel().isSelectionEmpty()) {
+            Usuario unUsuario = (Usuario) this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
+            tablaUsuarios.clearSelection();
+            try {
+                this.miControlador.bajaUsuario(unUsuario.getIdusuario());
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un usario para Eliminarlo");
         }
-        SwingUtilities.invokeLater(new Runnable(){public void run(){
-            cargarTabla();
-        }});
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                cargarTabla();
+            }
+        });
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtBuscar2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscar2KeyTyped

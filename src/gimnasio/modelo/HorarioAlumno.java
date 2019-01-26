@@ -18,6 +18,7 @@ public class HorarioAlumno {
     private ClaseAlumno claseAlumno;
     private Date inicio;
     private Date fin;
+    private String estado;
 
     public HorarioAlumno() {
     }
@@ -118,6 +119,14 @@ public class HorarioAlumno {
         }
         
         return true;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
     

@@ -71,14 +71,16 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
     
     public void cargarTablaAlumnos(ClaseProfesor claseProfe){
         modeloTablaAlumnos = new DefaultTableModel();
+        modeloTablaAlumnos.addColumn("Clase");
         modeloTablaAlumnos.addColumn("Nombre");
         modeloTablaAlumnos.addColumn("Apellido");
         this.tablaAlumnos.setModel(modeloTablaAlumnos);
-        Object[] fila = new Object[2];
+        Object[] fila = new Object[3];
         for (ClaseAlumno claseAlumno : claseProfe.getClaseAlumnos()) {
             if (claseAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = claseAlumno.getAlumno();
-                fila[1] = claseAlumno.getAlumno().getApellidoalumno();
+                fila[0] = claseAlumno;
+                fila[1] = claseAlumno.getAlumno();
+                fila[2] = claseAlumno.getAlumno().getApellidoalumno();
                 modeloTablaAlumnos.addRow(fila);
             }
         }
@@ -105,7 +107,7 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
         tablaAlumnos = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        btnDesinscribir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaPrincipal = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
@@ -167,13 +169,13 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
         });
         jPanel5.add(btnNuevo);
 
-        btnEliminar.setText("<HTML><CENTER>DESINSCRIBIR<BR>ALUMNO</CENTER></HTML>");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnDesinscribir.setText("<HTML><CENTER>DESINSCRIBIR<BR>ALUMNO</CENTER></HTML>");
+        btnDesinscribir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnDesinscribirActionPerformed(evt);
             }
         });
-        jPanel5.add(btnEliminar);
+        jPanel5.add(btnDesinscribir);
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Clases"));
 
@@ -268,12 +270,11 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
         cambiarPanel(this.panelPrincipal, panelNewClaseAlumno);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    private void btnDesinscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesinscribirActionPerformed
         if(!this.tablaAlumnos.getSelectionModel().isSelectionEmpty()){
             try {
-                Alumno unAlumno = (Alumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0);
-                unAlumno.setEstado("INACTIVO");
-                miControlador.bajaAlumno(unAlumno.getIdalumno());
+                ClaseAlumno claseAlumno = (ClaseAlumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0);
+                miControlador.bajaClaseAlumno(claseAlumno);
                 SwingUtilities.invokeLater(new Runnable(){public void run(){
                     cargarTablaAlumnos((ClaseProfesor) tablaPrincipal.getValueAt(tablaPrincipal.getSelectedRow(),0));
                 }});
@@ -283,7 +284,7 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Debe seleccionar una clase para eliminarla");
         }
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }//GEN-LAST:event_btnDesinscribirActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         this.dispose();        // TODO add your handling code here:
@@ -337,7 +338,7 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaPrincipalMouseReleased
 
     private void tablaAlumnosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseReleased
-        this.btnEliminar.setEnabled(true);
+        this.btnDesinscribir.setEnabled(true);
     }//GEN-LAST:event_tablaAlumnosMouseReleased
 
     private void tablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseClicked
@@ -347,7 +348,7 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnDesinscribir;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;

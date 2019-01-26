@@ -59,6 +59,12 @@ public class panelNuevaClase extends javax.swing.JPanel {
         btnActivar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
 
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                formMouseEntered(evt);
+            }
+        });
+
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Clases Desactivadas"));
@@ -308,6 +314,10 @@ public class panelNuevaClase extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null,"Debe ingresar el nombre para una Clase.");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
+        CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
+    }//GEN-LAST:event_formMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

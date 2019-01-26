@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 /**
  *
@@ -35,16 +36,14 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     ControladorPrincipal miControlador;
     panelClaseProfesor panelNewClaseProfesor;
     DefaultTableModel modeloTablaDias;
+    DefaultTableModel modeloTabla;
+    TableRowSorter<TableModel> rowSorter;
     String text = "";
     
     public JInternalClasesProfesor(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
-        try {
-            CargadorTabla.profesoresActivos(this.tablaProfesores, miControlador);
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
-        }
+        cargarTabla();
         cargarTablaDias();
         panelNewClaseProfesor = new panelClaseProfesor(miControlador);
         this.add(panelNewClaseProfesor);
@@ -59,6 +58,31 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         this.tablaClasesActivas.setModel(modeloTablaDias);
     }
     
+    public void cargarTabla() {
+        try {
+            modeloTabla = new DefaultTableModel();
+            modeloTabla.addColumn("Nombre");
+            modeloTabla.addColumn("Apellido");
+            modeloTabla.addColumn("Usuario");
+            Object[] fila = new Object[3];
+
+            for (Profesor miProfesor : miControlador.getListaProfesores()) {
+                if (miProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    fila[0] = miProfesor;
+                    fila[1] = miProfesor.getApellidoprofesor();
+                    fila[2] = miProfesor.getUsuario().getNombreusuario();
+                    modeloTabla.addRow(fila);
+                }
+            }
+            this.tablaProfesores.setModel(modeloTabla);
+            rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
+            tablaProfesores.setRowSorter(rowSorter);
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
     public void cargarTablaClases(Profesor unProfe){
         modeloTablaDias = new DefaultTableModel();
         modeloTablaDias.addColumn("Clase");
@@ -67,28 +91,27 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         modeloTablaDias.addColumn("Fin");
         this.tablaClasesActivas.setModel(modeloTablaDias);
         Object[] fila = new Object[4];
-        List<HorarioProfesor> horarios = null;
         try {
-            horarios = miControlador.getListaHorarios();
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-        if (unProfe != null) {
-            for (ClaseProfesor claseProfesor : unProfe.getClaseProfesors()) {
-                for (HorarioProfesor horarioProfesor :horarios ) {
-                    if (claseProfesor.getEstado().equalsIgnoreCase("ACTIVO")
-                            && horarioProfesor.getClaseProfesor().toString().equalsIgnoreCase(claseProfesor.toString())) {
-                        fila[0] = claseProfesor;
+            if (unProfe != null) {
+                for (ClaseProfesor claseProfesor : unProfe.getClaseProfesors()) {
+                    for (HorarioProfesor horarioProfesor : miControlador.getListaHorarios()) {
+                        if (horarioProfesor.getClaseProfesor().getIdclaseprofesor() == claseProfesor.getIdclaseprofesor()
+                                && claseProfesor.getEstado().equalsIgnoreCase("ACTIVO") && horarioProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+                            fila[0] = claseProfesor;
 
-                        fila[1] = new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(horarioProfesor.getInicio());
-                        fila[2] = horarioProfesor;
+                            fila[1] = new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(horarioProfesor.getInicio());
+                            fila[2] = horarioProfesor;
 
-                        fila[3] = horarioProfesor.getFinString();
+                            fila[3] = horarioProfesor.getFinString();
 
-                        modeloTablaDias.addRow(fila);
+                            modeloTablaDias.addRow(fila);
+                        }
                     }
                 }
             }
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -282,6 +305,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
                 }});
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
+                ex.printStackTrace();
             }
         }else{
             JOptionPane.showMessageDialog(null, "Debe seleccionar una clase para eliminarla");
@@ -326,11 +350,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_panelPrincipalMouseEntered
 
     private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
-        try {
-            CargadorTabla.profesoresActivos(tablaProfesores, miControlador);
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
-        }
+        this.cargarTabla();
     }//GEN-LAST:event_panelPrincipalComponentShown
 
     private void tablaProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseClicked
@@ -351,11 +371,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaClasesActivasMouseClicked
 
     private void tablaProfesoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseEntered
-        try {
-            CargadorTabla.profesoresActivos(tablaProfesores, miControlador);
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
-        }
+        cargarTabla();
     }//GEN-LAST:event_tablaProfesoresMouseEntered
 
 

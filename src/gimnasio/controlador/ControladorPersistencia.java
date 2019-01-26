@@ -7,6 +7,8 @@ package gimnasio.controlador;
 
 import gimnasio.modelo.*;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import java.util.Calendar;
+import java.util.Date;
 
 import java.util.HashSet;
 import java.util.List;
@@ -625,6 +627,26 @@ public class ControladorPersistencia {
             this.comprobarConexion();
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
+                lista = consulta.list();
+            } catch (Exception e) {
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+        return lista;
+    }
+
+    public List<IngresosPuerta> getIngresosPuerta() throws Notificaciones {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_YEAR, -365);
+        Date d = c.getTime();
+        
+        List<IngresosPuerta> lista = null;
+
+        synchronized (this.sesion) {
+            this.comprobarConexion();
+            try {
+                Query consulta = this.sesion.createQuery("SELECT a FROM IngresosPuerta a WHERE a.horaIngreso > :param")
+                        .setParameter("param", d);
                 lista = consulta.list();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());

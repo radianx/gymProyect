@@ -26,7 +26,7 @@
             </key>
             <one-to-many class="gimnasio.modelo.Saldopagoprofesor" />
         </set>
-        <set name="saldoCuotas" table="saldo_cuota" inverse="true" lazy="true" fetch="select">
+        <set name="saldoCuotas" table="saldo_cuota" inverse="true" lazy="true" fetch="select" cascade="all">
             <key>
                 <column name="idcobrocuota" not-null="true" />
             </key>

@@ -8,10 +8,10 @@
             <column name="idprofesormodalidad" />
             <generator class="increment" />
         </id>
-        <many-to-one name="modalidad" class="gimnasio.modelo.Modalidad" fetch="select">
+        <many-to-one name="modalidad" class="gimnasio.modelo.Modalidad" fetch="select" cascade="all">
             <column name="idmodalidad" not-null="true" />
         </many-to-one>
-        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" fetch="select">
+        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" fetch="select" cascade="all">
             <column name="idprofesor" not-null="true" />
         </many-to-one>
         <property name="preciohora" type="java.lang.Double">
@@ -20,11 +20,5 @@
         <property name="estado" type="string">
             <column name="estado" />
         </property>
-        <set name="clases" table="clase" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="idprofesormodalidad" not-null="true" />
-            </key>
-            <one-to-many class="gimnasio.modelo.Clase" />
-        </set>
     </class>
 </hibernate-mapping>

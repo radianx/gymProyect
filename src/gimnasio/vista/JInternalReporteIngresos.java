@@ -5,26 +5,22 @@
  */
 package gimnasio.vista;
 
-import com.itextpdf.text.DocumentException;
 import gimnasio.controlador.ControladorPrincipal;
-import gimnasio.herramientas.excepciones.Notificaciones;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Family
  */
-public class jInternalReportes extends javax.swing.JInternalFrame {
+public class JInternalReporteIngresos extends javax.swing.JInternalFrame {
 
-    ControladorPrincipal miControlador;
     /**
-     * Creates new form jInternalReportes
+     * Creates new form JInternalReporteIngresos
      */
-    public jInternalReportes(ControladorPrincipal controlador) {
-        miControlador = controlador;
+    ControladorPrincipal miControlador;
+    public JInternalReporteIngresos(ControladorPrincipal miControlador) {
+        this.miControlador = miControlador;
         initComponents();
     }
 
@@ -38,37 +34,47 @@ public class jInternalReportes extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        btnReporteDia = new javax.swing.JButton();
+        btnIngresosEgresosHoy = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         pickerDesde = new com.github.lgooddatepicker.components.DatePicker();
         pickerHasta = new com.github.lgooddatepicker.components.DatePicker();
         btnReporteDias = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        btnCerrar = new javax.swing.JButton();
 
         setClosable(true);
-        setTitle("GENERACION DE REPORTES DE MOVIMIENTOS");
+        setTitle("REPORTES DE INGRESOS CON HUELLA");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
+        setMinimumSize(new java.awt.Dimension(400, 200));
+        setPreferredSize(new java.awt.Dimension(400, 200));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        btnReporteDia.setText("Generar Reporte Diario");
-        btnReporteDia.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnReporteDia.addActionListener(new java.awt.event.ActionListener() {
+        btnIngresosEgresosHoy.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnIngresosEgresosHoy.setText("GENERAR REPORTE DE INGRESOS Y EGRESOS");
+        btnIngresosEgresosHoy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReporteDiaActionPerformed(evt);
+                btnIngresosEgresosHoyActionPerformed(evt);
             }
         });
-        jPanel3.add(btnReporteDia);
+        jPanel3.add(btnIngresosEgresosHoy);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.NORTH);
 
+        jButton2.setText("CERRAR");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton2);
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
+
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnReporteDias.setText("<html><center>Generar Reporte<br>por rango de días</center></html>");
         btnReporteDias.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnReporteDias.setText("<html><center>Generar Reporte<br>por rango de días</center></html>");
         btnReporteDias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReporteDiasActionPerformed(evt);
@@ -85,64 +91,48 @@ public class jInternalReportes extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pickerHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pickerDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(56, 56, 56)
-                .addComponent(btnReporteDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                        .addComponent(pickerDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pickerHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnReporteDias, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnReporteDias, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(pickerDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
+                            .addComponent(jLabel1)
+                            .addComponent(pickerDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(pickerHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(btnReporteDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel2))))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel4, java.awt.BorderLayout.CENTER);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        btnCerrar.setText("CERRAR");
-        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnCerrar);
-
-        getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnReporteDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteDiaActionPerformed
-        try {
-            miControlador.generarReporteDiario();
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        } catch (DocumentException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-    }//GEN-LAST:event_btnReporteDiaActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnIngresosEgresosHoyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresosEgresosHoyActionPerformed
+        this.miControlador.generarReporteIngresosEgresosHoy();
+    }//GEN-LAST:event_btnIngresosEgresosHoyActionPerformed
 
     private void btnReporteDiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteDiasActionPerformed
         if (pickerDesde.getDate() != null && pickerHasta.getDate() != null) {
@@ -150,11 +140,7 @@ public class jInternalReportes extends javax.swing.JInternalFrame {
             LocalDate hasta = pickerHasta.getDate();
 
             if (desde.isBefore(hasta)) {
-                try {
-                    miControlador.generarReporteDias(desde, hasta);
-                } catch (Notificaciones ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage());
-                }
+                    miControlador.generarReporteIngresosPorDia(desde, hasta);
             } else {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un rango de fechas valido.");
             }
@@ -163,15 +149,11 @@ public class jInternalReportes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnReporteDiasActionPerformed
 
-    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCerrarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton btnReporteDia;
+    private javax.swing.JButton btnIngresosEgresosHoy;
     private javax.swing.JButton btnReporteDias;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;

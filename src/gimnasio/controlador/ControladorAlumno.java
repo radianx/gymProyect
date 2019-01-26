@@ -24,33 +24,13 @@ public class ControladorAlumno {
     }
 
     public void altaAlumno(Alumno alumno) throws Notificaciones {
-        Alumno unAlumno = buscarAlumnoAlta(alumno.getNombrealumno(), alumno.getApellidoalumno());
-        String estado = "ACTIVO";
-        if (unAlumno != null) {
-            unAlumno.setEstado(estado);
-            unAlumno.setNombrealumno(alumno.getNombrealumno());
-            unAlumno.setApellidoalumno(alumno.getApellidoalumno());
-            unAlumno.setPeso(alumno.getPeso());
-            unAlumno.setAltura(alumno.getAltura());
-            unAlumno.setFechanacimiento(alumno.getFechanacimiento());
-            this.miPersistencia.persistirInstancia(unAlumno);
-            this.listaAlumnos = miPersistencia.getAlumnos();
-        } else {
-            this.miPersistencia.persistirInstancia(alumno);
-            this.miPersistencia.getAlumnos();
-        }
+        this.miPersistencia.persistirInstancia(alumno);
+        listaAlumnos = miPersistencia.getAlumnos();
     }
 
-    public void bajaAlumno(int idAlumno) throws Notificaciones {
-        Alumno miAlumno = buscarAlumnoBaja(idAlumno);
+    public void bajaAlumno(Alumno miAlumno) throws Notificaciones {
         String estado = "INACTIVO";
         miAlumno.setEstado(estado);
-        int i = this.listaAlumnos.lastIndexOf(miAlumno);
-        if(i != -1){
-            this.listaAlumnos.set(i, miAlumno);
-        }else{
-            throw new Notificaciones("Lista de Alumnos no actualizada");
-        }
 
         miPersistencia.persistirInstancia(miAlumno);
     }
@@ -79,8 +59,6 @@ public class ControladorAlumno {
 
     public List<Alumno> getListaAlumnos() throws Notificaciones {
         miPersistencia.actualizarInstancias();
-        miPersistencia.cerrarSesion();
-        miPersistencia.iniciarSesion();
         listaAlumnos = miPersistencia.getAlumnos();
         return this.listaAlumnos;
     }

@@ -28,21 +28,8 @@ public class ControladorProfesor {
     }
     
     public void altaProfesor(Profesor profesor) throws Notificaciones {
-        String estado = "ACTIVO";
-        Profesor unProfesor = buscarProfesor(profesor.getNombreprofesor(), profesor.getApellidoprofesor());
-        if (unProfesor != null) {
-            unProfesor.setEstado(estado);
-            unProfesor.setNombreprofesor(profesor.getNombreprofesor());
-            unProfesor.setApellidoprofesor(profesor.getApellidoprofesor());
-            unProfesor.setPeso(profesor.getPeso());
-            unProfesor.setAltura(profesor.getAltura());
-            unProfesor.setFechanacimiento(profesor.getFechanacimiento());
-            this.miPersistencia.persistirInstancia(unProfesor);
-            this.listaProfesores = miPersistencia.getProfesores();
-        } else {
             this.miPersistencia.persistirInstancia(profesor);
-            this.miPersistencia.getProfesores();
-        }
+            this.listaProfesores = this.miPersistencia.getProfesores();
     }
 
     public Profesor buscarProfesor(String nombreProfesor, String apellidoProfesor){

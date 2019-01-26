@@ -58,6 +58,8 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
                 }
             }
             this.tablaProfesore.setModel(modeloTabla);
+            rowSorter = new TableRowSorter<>(this.tablaProfesore.getModel());
+            tablaProfesore.setRowSorter(rowSorter);
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }

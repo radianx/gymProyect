@@ -34,8 +34,8 @@ public class ControladorClaseAlumno {
     }
     
     public void bajaClaseAlumno(ClaseAlumno claseAlumno) throws Notificaciones{
-        listaClaseAlumno.remove(claseAlumno);
         miPersistencia.persistirInstancia(claseAlumno);
+        this.listaClaseAlumno = miPersistencia.getClasesAlumno();
     }
     
     public List<ClaseAlumno> getListaClaseAlumno() throws Notificaciones{

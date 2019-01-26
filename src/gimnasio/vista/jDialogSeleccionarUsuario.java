@@ -41,7 +41,7 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
 
             try {
                 for (Usuario unUsuario : miControlador.getListaUsuarios()) {
-                    if (unUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    if (!unUsuario.getEstado().equalsIgnoreCase("INACTIVO")) {
                         fila[0] = unUsuario;
                         modeloTabla.addRow(fila);
                     }
@@ -92,6 +92,9 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
         tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaUsuariosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseEntered(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaUsuariosMouseReleased(evt);
@@ -219,6 +222,10 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
             System.err.println("seleccion nula");
         }
     }//GEN-LAST:event_tablaUsuariosMouseClicked
+
+    private void tablaUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseEntered
+        cargarTabla();
+    }//GEN-LAST:event_tablaUsuariosMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

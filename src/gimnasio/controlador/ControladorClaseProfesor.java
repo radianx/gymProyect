@@ -29,6 +29,7 @@ public class ControladorClaseProfesor {
             throw new Notificaciones("La clase " + unaClaseProfesor.getClase() + " ya se encuentra asignada al profesor " + unaClaseProfesor.getProfesor());
         }else{
             persistencia.persistirInstancia(unaClaseProfesor);
+            persistencia.actualizarInstancias();
             this.listaClaseProfesor.add(unaClaseProfesor);
         }        
     }

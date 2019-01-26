@@ -45,35 +45,39 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
      */
     ControladorPrincipal miControlador;
     DefaultTableModel modeloTabla;
+    Usuario usuarioModificar = null;
     ByteArrayInputStream datosHuella = null;
     BufferedImage foto = null;
     TableRowSorter<TableModel> rowSorter;
     String text = "";
-    
+
     public panelNuevoUsuario(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
         this.btnActivar.setEnabled(false);
         cargarTabla();
-        
-        if(MainMenu.isUserAdmin()){
+
+        if (MainMenu.isUserAdmin()) {
             this.checkPersonal.setEnabled(true);
-        }else{
+        } else {
             this.checkPersonal.setEnabled(false);
         }
     }
 
-    public void recibirDatos(Usuario unUsuario) throws IOException{
+    public void recibirDatos(Usuario unUsuario) throws IOException {
+        this.usuarioModificar = unUsuario;
         this.txtNombre.setText(unUsuario.getNombreusuario());
         this.txtContrasena.setText(unUsuario.getContrasenia());
-        if(unUsuario.getPlanillahuellas()!=null){
+        if (unUsuario.getPlanillahuellas() != null) {
             this.datosHuella = new ByteArrayInputStream(unUsuario.getPlanillahuellas());
+            this.txtHuella.setText("HUELLA CARGADA");
         }
-        if(unUsuario.getFoto()!=null){
+        if (unUsuario.getFoto() != null) {
             this.foto = createImageFromBytes(unUsuario.getFoto());
             this.drawPicture(foto);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -352,7 +356,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private void btnCargarHuellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarHuellaActionPerformed
         jDialogHuella huellaDialog = new jDialogHuella(null, true);
         this.datosHuella = huellaDialog.showDialog();
-        if(datosHuella!=null){
+        if (datosHuella != null) {
             this.txtHuella.setText("HUELLA CARGADA");
         }
         if (foto != null) {
@@ -365,51 +369,76 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseEntered
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-    if(!checkPersonal.isSelected()){
-        if(!this.txtNombre.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
-            try {
-                byte[] imageBytes = this.toByteArray(foto);
-                Usuario miUsuario = new Usuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), imageBytes, "ACTIVO");
-                this.miControlador.altaUsuario(miUsuario);
-                this.setVisible(false);
-            } catch (IOException | Notificaciones ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
-                System.err.print(Arrays.toString(ex.getStackTrace()));
+        if (!checkPersonal.isSelected()) {
+            if (!this.txtNombre.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
+                try {
+                    byte[] imageBytes = this.toByteArray(foto);
+                    if(this.usuarioModificar == null){
+                        Usuario miUsuario = new Usuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), imageBytes, "ACTIVO");                               
+                        this.miControlador.altaUsuario(miUsuario);
+                        System.out.println("Registro de nuevo usuario de tipo no personal");
+                    } else {
+                        Usuario miUsuario = usuarioModificar;
+                        miUsuario.setContrasenia(String.valueOf(txtContrasena.getPassword()));
+                        miUsuario.setEstado("ACTIVO");
+                        miUsuario.setFoto(imageBytes);
+                        miUsuario.setNombreusuario(txtNombre.getText());
+                        miUsuario.setPlanillahuellas(this.convertir(datosHuella));
+                        miControlador.altaUsuario(miUsuario);
+                    }
+                    this.setVisible(false);
+                } catch (IOException | Notificaciones ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                    System.err.print(Arrays.toString(ex.getStackTrace()));
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos. ");
             }
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos. ");
+        } else if (checkPersonal.isSelected()) {
+            if (!this.txtNombre.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
+                try {
+                    byte[] imageBytes = this.toByteArray(foto);
+                    String seleccion = String.valueOf(this.cmbTipoUsuario.getModel().getSelectedItem());
+                    System.out.println("antes: " + seleccion);
+                    if (seleccion.equalsIgnoreCase("ADMINISTRADOR")) {
+                        seleccion = "ADMIN";
+                    }
+                    if (seleccion.equalsIgnoreCase("OPERADOR")) {
+                        seleccion = "OPERADOR";
+                    }
+                    if (seleccion.equalsIgnoreCase("NORMAL")) {
+                        seleccion = "NORMAL";
+                    }
+                    System.out.println("despues: "+ seleccion);
+                    
+                    if(this.usuarioModificar == null){
+                        System.out.println("Registro de nuevo usuario de tipo personal");
+                        Usuario miUsuario = new Usuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), imageBytes, seleccion);                               
+                        System.out.println("usuario generado con estado: "+miUsuario.getEstado());
+                        this.miControlador.altaUsuario(miUsuario);
+                    } else {
+                        Usuario miUsuario = usuarioModificar;
+                        miUsuario.setContrasenia(String.valueOf(txtContrasena.getPassword()));
+                        miUsuario.setEstado(seleccion);
+                        miUsuario.setFoto(imageBytes);
+                        miUsuario.setNombreusuario(txtNombre.getText());
+                        miUsuario.setPlanillahuellas(this.convertir(datosHuella));
+                        miControlador.altaUsuario(miUsuario);
+                    }
+                    this.setVisible(false);
+                } catch (IOException | Notificaciones ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                    System.err.print(Arrays.toString(ex.getStackTrace()));
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos. ");
+            }
         }
-    }else if(checkPersonal.isSelected()){
-        if(!this.txtNombre.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
-            try {
-                byte[] imageBytes = this.toByteArray(foto);
-                String seleccion = String.valueOf(this.cmbTipoUsuario.getSelectedItem());
-                if(seleccion.equalsIgnoreCase("ADMINISTRADOR")){
-                    seleccion = "ADMIN";
-                }
-                if(seleccion.equalsIgnoreCase("OPERADOR")){
-                    seleccion = "OPERADOR";
-                }
-                if(seleccion.equalsIgnoreCase("NORMAL")){
-                    seleccion = "ACTIVO";
-                }
-                Usuario miUsuario = new Usuario(this.txtNombre.getText(), String.valueOf(this.txtContrasena.getPassword()), this.convertir(datosHuella), imageBytes,seleccion);
-                Personal unPersonal = new Personal(miUsuario, "ACTIVO");
-                this.miControlador.altaPersonal(unPersonal);
-                this.miControlador.altaUsuario(miUsuario);
-                this.setVisible(false);
-            } catch (IOException | Notificaciones ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
-                System.err.print(Arrays.toString(ex.getStackTrace()));
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos. ");
-        }    
-    }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         this.setVisible(false);
+        this.usuarioModificar = null;
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void tablaUsuariosInactivosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosInactivosMouseClicked
@@ -427,14 +456,17 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
             unUsuario.setNombreusuario(txtNombre.getText());
             unUsuario.setContrasenia(new String(this.txtContrasena.getPassword()));
             unUsuario.setPlanillahuellas(convertir(this.datosHuella));
+            unUsuario.setEstado("ACTIVO");
             miControlador.altaUsuario(unUsuario);
-            SwingUtilities.invokeLater(new Runnable(){public void run(){
-                           cargarTabla(); 
-            }});
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    cargarTabla();
+                }
+            });
             this.btnActivar.setEnabled(false);
             this.setVisible(false);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar el usuario: "+ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al actualizar el usuario: " + ex.getMessage());
         }
     }//GEN-LAST:event_btnActivarActionPerformed
 
@@ -444,9 +476,9 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         text = this.txtBuscar.getText();
-        if(text.trim().length() == 0){
+        if (text.trim().length() == 0) {
             rowSorter.setRowFilter(null);
-        } else{
+        } else {
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
@@ -462,7 +494,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private void btnFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFotoActionPerformed
         jDialogWebCam webCamDialog = new jDialogWebCam(null, true);
         this.foto = webCamDialog.showDialog();
-        if(foto != null){
+        if (foto != null) {
             drawPicture(foto);
         }
     }//GEN-LAST:event_btnFotoActionPerformed
@@ -472,7 +504,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_checkPersonalActionPerformed
 
     private void checkPersonalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkPersonalItemStateChanged
-        if(evt.getStateChange() == ItemEvent.SELECTED) {
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
             this.cmbTipoUsuario.setEnabled(true);
         } else {
             this.cmbTipoUsuario.setEnabled(false);
@@ -507,50 +539,50 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
-    public void cargarTabla(){
-            modeloTabla = new DefaultTableModel();
-            modeloTabla.addColumn("Nombre");
-            Object[] fila = new Object[1];
+    public void cargarTabla() {
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Nombre");
+        Object[] fila = new Object[1];
 
-            try{
-                for (Usuario miUsuario : miControlador.getListaUsuarios()) {
+        try {
+            for (Usuario miUsuario : miControlador.getListaUsuarios()) {
                 if (miUsuario.getEstado().equalsIgnoreCase("INACTIVO")) {
                     fila[0] = miUsuario;
                     modeloTabla.addRow(fila);
                 }
-                }
-            } catch (NullPointerException| Notificaciones ex){
-                System.err.println("No se puedo cargar usuarios: "+ex.getMessage());
             }
-            this.tablaUsuariosInactivos.setModel(modeloTabla);
-            rowSorter = new TableRowSorter<>(this.tablaUsuariosInactivos.getModel());
-            tablaUsuariosInactivos.setRowSorter(rowSorter);
+        } catch (NullPointerException | Notificaciones ex) {
+            System.err.println("No se puedo cargar usuarios: " + ex.getMessage());
+        }
+        this.tablaUsuariosInactivos.setModel(modeloTabla);
+        rowSorter = new TableRowSorter<>(this.tablaUsuariosInactivos.getModel());
+        tablaUsuariosInactivos.setRowSorter(rowSorter);
     }
-    
-    public byte[] convertir(ByteArrayInputStream bais) throws IOException{
+
+    public byte[] convertir(ByteArrayInputStream bais) throws IOException {
         byte[] array = null;
-        try{
+        try {
             array = new byte[bais.available()];
             bais.read(array);
-        }catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             JOptionPane.showMessageDialog(null, "Advertencia: Cargando usuario Sin huella");
         }
         return array;
     }
 
-    public void drawPicture(){
+    public void drawPicture() {
         Graphics2D bGr = foto.createGraphics();
-        bGr.drawImage(foto, 0, 0 , null);
+        bGr.drawImage(foto, 0, 0, null);
         bGr.dispose();
         BufferedImage auxiliar = foto;
         AffineTransform tx = new AffineTransform();
-        tx.rotate(Math.toRadians(180), foto.getWidth()/2, foto.getHeight()/2);
+        tx.rotate(Math.toRadians(180), foto.getWidth() / 2, foto.getHeight() / 2);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         auxiliar = op.filter(foto, null);
         label.setIcon(null);
         label.setIcon(new ImageIcon(foto.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT)));
     }
-    
+
     public BufferedImage createImageFromBytes(byte[] imageData) {
         ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
         try {
@@ -558,27 +590,30 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    } 
-    
+    }
+
     public byte[] toByteArray(BufferedImage image) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, "png", baos);
-        byte[] imageBytes = baos.toByteArray();
+        byte[] imageBytes = null;
+        if (image != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", baos);
+            imageBytes = baos.toByteArray();
+        }
         return imageBytes;
     }
-    
-    public void drawPicture(BufferedImage foto){
+
+    public void drawPicture(BufferedImage foto) {
         Graphics2D bGr = foto.createGraphics();
-        bGr.drawImage(foto, 0, 0 , null);
+        bGr.drawImage(foto, 0, 0, null);
         bGr.dispose();
         BufferedImage auxiliar = foto;
         AffineTransform tx = new AffineTransform();
-        tx.rotate(Math.toRadians(180), foto.getWidth()/2, foto.getHeight()/2);
+        tx.rotate(Math.toRadians(180), foto.getWidth() / 2, foto.getHeight() / 2);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         auxiliar = op.filter(foto, null);
         label.setText(null);
         label.setIcon(null);
         label.setIcon(new ImageIcon(foto.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT)));
     }
-    
+
 }

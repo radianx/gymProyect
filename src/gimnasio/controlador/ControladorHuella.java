@@ -33,6 +33,7 @@ import gimnasio.modelo.HorarioAlumno;
 import gimnasio.modelo.HorarioProfesor;
 import gimnasio.modelo.AsistenciaAlumno;
 import gimnasio.modelo.ClaseAlumno;
+import gimnasio.modelo.IngresosPuerta;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Usuario;
 import java.awt.Graphics2D;
@@ -70,6 +71,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ControladorHuella implements Runnable {
 
+    public static boolean salida;
+    
     JTextField texto;
     JLabel label;
     //Varible que permite iniciar el dispositivo de lector de huella conectado
@@ -106,10 +109,9 @@ public class ControladorHuella implements Runnable {
 
     public void cargarTabla() {
         modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Nombre");
-        modeloTabla.addColumn("Apellido");
+        modeloTabla.addColumn("Usuario");
         modeloTabla.addColumn("Hora Entrada");
-        modeloTabla.addColumn("Cuota al dia");
+        modeloTabla.addColumn("Tipo Usuario");
         tabla.setModel(modeloTabla);
     }
 
@@ -384,16 +386,24 @@ public class ControladorHuella implements Runnable {
 
             for (Usuario miUsuario : usuarios) {
                 if (miUsuario.getPlanillahuellas() != null) {
-                    //Lee la plantilla de la base de datos
                     byte templateBuffer[] = miUsuario.getPlanillahuellas();
                     String nombre = miUsuario.getNombreusuario();
-                    //Crea una nueva plantilla a partir de la guardada en la base de datos               
                     DPFPTemplate referenceTemplate = DPFPGlobal.getTemplateFactory().createTemplate(templateBuffer);
-                    //Envia la plantilla creada al objeto contendor de Template del componente de huella digital
+
                     setTemplate(referenceTemplate);
+                    result = verificador.verify(this.featuresvertification, getTemplate());
+                    boolean acceso = false;
+
+                    if (miUsuario.getEstado().equalsIgnoreCase("INACTIVO")) {
+                        texto.setText(miUsuario.getNombreusuario() + " DESACTIVADO");
+                    }
+                    
+                    //Lee la plantilla de la base de datos
+                    //Envia la plantilla creada al objeto contendor de Template del componente de huella digital
+
                     // Compara las caracteriticas de la huella recientemente capturda con 
                     // alguna plantilla guardada en la base de datos que coincide con ese tipo
-                    result = verificador.verify(this.featuresvertification, getTemplate());
+
                     //compara las plantilas (actual vs bd)
                     //Si encuentra correspondencia dibuja el mapa
                     //e indica el nombre de la persona que coincidió.
@@ -407,7 +417,30 @@ public class ControladorHuella implements Runnable {
                             drawPicture(createImageFromBytes(miUsuario.getFoto()));
                         }
                         verificacionCorrecta(miUsuario);
-                        boolean acceso = agregarAsistencia(miUsuario);
+                        acceso = false;
+
+                        if (miUsuario.getEstado().equalsIgnoreCase("ADMIN")
+                                || miUsuario.getEstado().equalsIgnoreCase("OPERADOR")
+                                || miUsuario.getEstado().equalsIgnoreCase("NORMAL")) {
+                            texto.setText(miUsuario.getNombreusuario());
+                            try {
+                                ControladorRele.abrirPuerta();
+
+                                Object[] fila = new Object[3];
+                                fila[0] = miUsuario;
+                                Date ahora = new Date();
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+                                fila[1] = sdf.format(ahora);
+                                fila[2] = miUsuario.getEstado();
+                                modeloTabla.insertRow(0,fila);
+                                miControlador.nuevoIngresoPuerta(ahora, miUsuario, modeloTabla, tabla);
+                                break;
+                            } catch (InterruptedException ex) {
+                                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
+                            }
+                        } else {
+                            acceso = agregarAsistencia(miUsuario);
+                        }
 
                         setHuellaVerificada(true);
                         EnviarTexto("CORRECTO");
@@ -416,24 +449,22 @@ public class ControladorHuella implements Runnable {
                         if (acceso) {
                             try {
                                 ControladorRele.abrirPuerta();
+                                break;
                             } catch (InterruptedException ex) {
                                 JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
                             }
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Acceso Denegado");
                         }
-                        return; //<---- Esto es un break del for..
                     }
                 }
             }
             if (result != null && !result.isVerified()) {
                 JOptionPane.showMessageDialog(null, "USUARIO NO REGISTRADO");
+                texto.setText("Huella no Encontrada");
             }
             //Si no encuentra alguna huella correspondiente al nombre lo indica con un mensaje
             setVerificacion(false);
             setTemplate(null);
             setHuellaVerificada(false);
-            texto.setText("Huella no Encontrada");
         } catch (Notificaciones e) {
             //Si ocurre un error lo indica en la consola
             System.err.println("Error al identificar huella dactilar." + e.getMessage());

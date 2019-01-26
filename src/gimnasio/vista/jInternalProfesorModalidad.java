@@ -30,6 +30,7 @@ public class jInternalProfesorModalidad extends javax.swing.JInternalFrame {
 
     ControladorPrincipal miControlador;
     DefaultTableModel modeloTabla;
+    DefaultTableModel modeloTablaProfesor;
     DefaultComboBoxModel modeloCombo;
     TableRowSorter<TableModel> rowSorter;
     Profesor profesorSeleccionado;
@@ -43,7 +44,7 @@ public class jInternalProfesorModalidad extends javax.swing.JInternalFrame {
         modeloTabla.addColumn("Precio");
         this.tablaModalidadProfesor.setModel(modeloTabla);
         try {
-            CargadorTabla.profesoresActivos(tablaProfesores, controlador);
+            cargarTabla();
             this.cargarComboModalidades();
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
@@ -156,6 +157,9 @@ public class jInternalProfesorModalidad extends javax.swing.JInternalFrame {
         tablaProfesores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaProfesoresMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tablaProfesoresMouseEntered(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaProfesoresMouseReleased(evt);
@@ -363,11 +367,7 @@ public class jInternalProfesorModalidad extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_panelPrincipalMouseEntered
 
     private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
-        try {
-            CargadorTabla.profesoresActivos(tablaProfesores, miControlador);
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
-        }
+        cargarTabla();
     }//GEN-LAST:event_panelPrincipalComponentShown
 
     private void tablaModalidadProfesorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaModalidadProfesorMouseClicked
@@ -380,12 +380,16 @@ public class jInternalProfesorModalidad extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         try {
+            if(!this.txtPrecio.getText().isEmpty()){
             double precio = Double.valueOf(txtPrecio.getText());
             Modalidad unaModalidad = (Modalidad)cmbModalidad.getSelectedItem();
             Profesormodalidad profeMod = new Profesormodalidad(profesorSeleccionado, unaModalidad, precio, "ACTIVO");
             this.miControlador.altaProfesorPorModalidad(profeMod);
-            CargadorTabla.profesoresActivos(tablaProfesores, miControlador);
+            cargarTabla();
             this.cargarTablaModalidad(profesorSeleccionado);
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe ingresar un precio de sugerencia\n(puede ser 0)");
+            }
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
         }
@@ -402,6 +406,10 @@ public class jInternalProfesorModalidad extends javax.swing.JInternalFrame {
         }
             
     }//GEN-LAST:event_btnQuitarActionPerformed
+
+    private void tablaProfesoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseEntered
+
+    }//GEN-LAST:event_tablaProfesoresMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -427,4 +435,27 @@ public class jInternalProfesorModalidad extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtSeleccion;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarTabla() {
+        this.modeloTablaProfesor = new DefaultTableModel();
+        modeloTablaProfesor.addColumn("Nombre");
+        modeloTablaProfesor.addColumn("Apellido");
+        modeloTablaProfesor.addColumn("Usuario");
+        Object[] fila = new Object[3];
+    try{
+        for (Profesor miProfesor : miControlador.getListaProfesores()) {
+            if (miProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+                fila[0] = miProfesor;
+                fila[1] = miProfesor.getApellidoprofesor();
+                fila[2] = miProfesor.getUsuario().getNombreusuario();
+                modeloTablaProfesor.addRow(fila);
+            }
+        }
+    }catch(Notificaciones ex){
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
+        this.tablaProfesores.setModel(modeloTablaProfesor);
+        this.rowSorter = new TableRowSorter<>(tablaProfesores.getModel());
+        tablaProfesores.setRowSorter(rowSorter);
+    }
 }

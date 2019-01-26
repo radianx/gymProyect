@@ -23,6 +23,7 @@ import javax.swing.table.TableRowSorter;
  */
 public class jInternalAlumno extends javax.swing.JInternalFrame {
 
+
     /**
      * Creates new form jInternalAlumno
      */
@@ -49,10 +50,12 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         Object[] fila = new Object[3];
         try {
             for (Alumno miAlumno : miControlador.getListaAlumnos()) {
-                fila[0] = miAlumno;
-                fila[1] = miAlumno.getApellidoalumno();
-                fila[2] = miAlumno.getUsuario().getNombreusuario();
-                modeloTabla.addRow(fila);
+                if (miAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    fila[0] = miAlumno;
+                    fila[1] = miAlumno.getApellidoalumno();
+                    fila[2] = miAlumno.getUsuario().getNombreusuario();
+                    modeloTabla.addRow(fila);
+                }
             }
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -138,6 +141,11 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         panelPrincipal.add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Alumnos"));
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseEntered(evt);
+            }
+        });
 
         tablaAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -221,7 +229,7 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
             if (!this.tablaAlumnos.getSelectionModel().isSelectionEmpty()) {
                 Alumno unAlumno = (Alumno) this.tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
                 tablaAlumnos.clearSelection();
-                this.miControlador.bajaAlumno(unAlumno.getIdalumno());
+                this.miControlador.bajaAlumno(unAlumno);
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
                         cargarTabla();
@@ -248,6 +256,7 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     private void panelPadreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPadreMouseEntered
         if (!this.panelNewAlumno.isVisible()) {
             cambiarPanel(panelNewAlumno, panelPrincipal);
+            cargarTabla();
         }
     }//GEN-LAST:event_panelPadreMouseEntered
 
@@ -267,6 +276,10 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
         this.cargarTabla();
     }//GEN-LAST:event_panelPrincipalComponentShown
+
+    private void jScrollPane1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseEntered
+        cargarTabla();
+    }//GEN-LAST:event_jScrollPane1MouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

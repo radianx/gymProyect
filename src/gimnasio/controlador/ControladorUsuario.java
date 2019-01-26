@@ -27,24 +27,15 @@ public class ControladorUsuario {
     }
 
     public void altaUsuario(Usuario usuario) throws Notificaciones {
-        Usuario unUsuario = buscarUsuarioAlta(usuario.getNombreusuario());
-        if (unUsuario == null) {
-            this.listaUsuarios.add(usuario);
-            this.miPersistencia.persistirInstancia(usuario);
-        } else {
-            unUsuario.setContrasenia(usuario.getContrasenia());
-            unUsuario.setPlanillahuellas(usuario.getPlanillahuellas());
-            unUsuario.setFoto(usuario.getFoto());
-            this.miPersistencia.persistirInstancia(unUsuario);
-            this.listaUsuarios = miPersistencia.getUsuarios();
-
-        }
+        this.miPersistencia.persistirInstancia(usuario);
+        this.listaUsuarios = miPersistencia.getUsuarios();
     }
 
     public void bajaUsuario(int idUsuario) throws Notificaciones {
         Usuario unUsuario = buscarUsuarioBaja(idUsuario);
         String estado = "INACTIVO";
         unUsuario.setEstado(estado);
+        unUsuario.setPlanillahuellas(null);
         int i = this.listaUsuarios.lastIndexOf(unUsuario);
         if(i != -1){
             this.listaUsuarios.set(i, unUsuario);

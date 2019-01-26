@@ -11,10 +11,10 @@
         <property name="montoactual" type="double">
             <column name="montoactual" precision="17" scale="17" not-null="true" />
         </property>
-        <property name="apertura" type="date">
+        <property name="apertura" type="timestamp">
             <column name="apertura" length="13" />
         </property>
-        <property name="cierre" type="date">
+        <property name="cierre" type="timestamp">
             <column name="cierre" length="13" />
         </property>
         <property name="estado" type="string">

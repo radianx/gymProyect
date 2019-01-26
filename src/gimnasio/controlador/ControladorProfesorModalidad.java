@@ -39,7 +39,9 @@ public class ControladorProfesorModalidad {
             throw new Notificaciones(profesorModalidad.getProfesor()+" ya tiene asignado/a la modalidad "+profesorModalidad.getModalidad());
         }else{
             miPersistencia.persistirInstancia(profesorModalidad);
-            listaProfesorModalidad.add(profesorModalidad);
+            miPersistencia.actualizarInstancias();
+            miPersistencia.refrescar(profesorModalidad);
+            listaProfesorModalidad = miPersistencia.getProfesorModalidad();
         }
     }
     

@@ -52,16 +52,12 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     public panelClaseProfesor(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
-        try {
             cargarComboClases();
             cargarTablaDiasClases();
 
-            CargadorTabla.profesoresActivos(this.tablaProfesore, miControlador);
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, "PanelClaseProfesor: "+ex.getMessage());
-        }
-        rowSorter = new TableRowSorter<>(this.tablaProfesore.getModel());
-        tablaProfesore.setRowSorter(rowSorter);
+            cargarTabla();
+        rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
+        tablaProfesores.setRowSorter(rowSorter);
     }
     
     public void cargarComboClases(){
@@ -78,7 +74,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         ArrayList<Modalidad> listaModalidades = new ArrayList<>();
         for(Profesormodalidad profeModa: unProfe.getProfesorModalidads()){
             if(profeModa.getModalidad().getEstado().equalsIgnoreCase("ACTIVO")){
-                listaModalidades.add(profeModa.getModalidad());
+                listaModalidades.add(profeModa.getModalidad()); // aca se mostraria promociones
             }
         }
         modeloComboModalidades = new DefaultComboBoxModel(listaModalidades.toArray());
@@ -119,7 +115,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tablaProfesore = new javax.swing.JTable();
+        tablaProfesores = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar3 = new javax.swing.JButton();
         cmbClase = new javax.swing.JComboBox<>();
@@ -179,7 +175,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
 
         jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleccionar Profesor"));
 
-        tablaProfesore.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProfesores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -190,12 +186,12 @@ public class panelClaseProfesor extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tablaProfesore.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaProfesores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaProfesoreMouseClicked(evt);
+                tablaProfesoresMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(tablaProfesore);
+        jScrollPane4.setViewportView(tablaProfesores);
 
         txtBuscar.setMinimumSize(new java.awt.Dimension(109, 20));
         txtBuscar.setPreferredSize(new java.awt.Dimension(150, 20));
@@ -287,13 +283,10 @@ public class panelClaseProfesor extends javax.swing.JPanel {
                                     .addComponent(cmbModalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                        .addComponent(jLabel15)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cmbDia, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(cmbClase, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbDia, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbClase, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -352,8 +345,8 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if(!txtProfesor.getText().isEmpty() && !tablaProfesore.getSelectionModel().isSelectionEmpty()){
-            Profesor unProfesor = (Profesor) tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(), 0);
+        if(!txtProfesor.getText().isEmpty() && !tablaProfesores.getSelectionModel().isSelectionEmpty()){
+            Profesor unProfesor = (Profesor) tablaProfesores.getValueAt(tablaProfesores.getSelectedRow(), 0);
             Set<HorarioProfesor> horarios = new HashSet<>();
             Modalidad unaModalidad = (Modalidad) cmbModalidad.getSelectedItem();
             Clase unaClase = (Clase) cmbClase.getSelectedItem();
@@ -365,13 +358,16 @@ public class panelClaseProfesor extends javax.swing.JPanel {
             
             ClaseProfesor claseProfesor = new ClaseProfesor(unaClase, unaModalidad, unProfesor,horarios, "ACTIVO");
             try {
-                this.miControlador.altaClaseProfesor(claseProfesor);
                 for(HorarioProfesor unHorario:horarios){
                     unHorario.setClaseProfesor(claseProfesor);
+                    unHorario.setEstado("ACTIVO");
                     miControlador.altaHorarioProfesor(unHorario);
                 }
+                this.miControlador.altaClaseProfesor(claseProfesor);
+
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, "Database: "+ex.getLocalizedMessage());
+                ex.printStackTrace();
             }
             JOptionPane.showMessageDialog(null, "Guardado con exito");
             this.setVisible(false);
@@ -381,30 +377,25 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        this.txtBuscar.setText("");
-        this.txtProfesor.setText("");
-        int cantidadFilas = modeloTablaDias.getRowCount();
-        for(int i = cantidadFilas -1; i>= 0; i--){
-            modeloTablaDias.removeRow(i);
-        }
-        this.tablaProfesore.clearSelection();
+        this.limpiarCampos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         this.setVisible(false);
+        this.limpiarCampos();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-    private void tablaProfesoreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoreMouseClicked
-        if(!tablaProfesore.getSelectionModel().isSelectionEmpty()){
+    private void tablaProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseClicked
+        if(!tablaProfesores.getSelectionModel().isSelectionEmpty()){
             try {
-                Profesor unProfe = (Profesor) tablaProfesore.getValueAt(tablaProfesore.getSelectedRow(),0);
+                Profesor unProfe = (Profesor) tablaProfesores.getValueAt(tablaProfesores.getSelectedRow(),0);
                 this.txtProfesor.setText(unProfe.getNombreprofesor() + " " + unProfe.getApellidoprofesor());
                 cargarComboModalidades(unProfe);
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
             }
         }
-    }//GEN-LAST:event_tablaProfesoreMouseClicked
+    }//GEN-LAST:event_tablaProfesoresMouseClicked
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         String text = this.txtBuscar.getText();
@@ -477,7 +468,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable tablaDiasClase;
-    private javax.swing.JTable tablaProfesore;
+    private javax.swing.JTable tablaProfesores;
     private com.github.lgooddatepicker.components.TimePicker timePicker1;
     private com.github.lgooddatepicker.components.TimePicker timePicker2;
     private javax.swing.JTextField txtBuscar;
@@ -491,5 +482,38 @@ public class panelClaseProfesor extends javax.swing.JPanel {
                     respuesta = true;
         }
         return respuesta;
+    }
+    
+    private void cargarTabla() {
+        this.modeloTablaProfesor = new DefaultTableModel();
+        modeloTablaProfesor.addColumn("Nombre");
+        modeloTablaProfesor.addColumn("Apellido");
+        modeloTablaProfesor.addColumn("Usuario");
+        Object[] fila = new Object[3];
+    try{
+        for (Profesor miProfesor : miControlador.getListaProfesores()) {
+            if (miProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+                fila[0] = miProfesor;
+                fila[1] = miProfesor.getApellidoprofesor();
+                fila[2] = miProfesor.getUsuario().getNombreusuario();
+                modeloTablaProfesor.addRow(fila);
+            }
+        }
+    }catch(Notificaciones ex){
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
+        this.tablaProfesores.setModel(modeloTablaProfesor);
+        this.rowSorter = new TableRowSorter<>(tablaProfesores.getModel());
+        tablaProfesores.setRowSorter(rowSorter);
+    }
+
+    private void limpiarCampos() {
+        this.txtBuscar.setText("");
+        this.txtProfesor.setText("");
+        int cantidadFilas = modeloTablaDias.getRowCount();
+        for (int i = cantidadFilas - 1; i >= 0; i--) {
+            modeloTablaDias.removeRow(i);
+        }
+        this.tablaProfesores.clearSelection();
     }
 }

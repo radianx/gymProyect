@@ -4,11 +4,11 @@
 <!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="gimnasio.modelo.HorarioProfesor" table="horario_profesor" schema="public" optimistic-lock="version">
-        <id name="idHorarioProfesor" type="int">
+        <id name="idHorario" type="int">
             <column name="idHorario" />
             <generator class="increment" />
         </id>
-        <many-to-one name="claseProfesor" class="gimnasio.modelo.ClaseProfesor" fetch="select">
+        <many-to-one name="claseProfesor" class="gimnasio.modelo.ClaseProfesor" fetch="select" cascade="all">
             <column name="idclaseprofesor" not-null="true" />
         </many-to-one>
         <property name="inicio" type="timestamp">
@@ -16,6 +16,9 @@
         </property>
         <property name="fin" type="timestamp">
             <column name="fin" length="13" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado"/>
         </property>
     </class>
 </hibernate-mapping>

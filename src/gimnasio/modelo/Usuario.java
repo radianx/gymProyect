@@ -124,23 +124,22 @@ public class Usuario  implements java.io.Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        boolean retorno = false;
         if(this == obj){
-            retorno = true;
+            return true;
         }
         if(obj == null){
-            retorno = false;
+            return false;
         }else{
                 if(getClass() != obj.getClass()){
-                    retorno = false;
+                    return false;
                 }
                 Usuario comparador = (Usuario)obj;
-                if(this.getIdusuario() == comparador.getIdusuario()){
-                    retorno = true;
+                if(this.getIdusuario() != comparador.getIdusuario()){
+                    return false;
                 }
         }
         
-        return retorno;
+        return true;
     }
 
     @Override

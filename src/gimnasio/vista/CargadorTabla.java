@@ -49,7 +49,7 @@ public abstract class CargadorTabla {
         Object[] fila = new Object[1];
 
         for (Usuario miUsuario : controlador.getListaUsuarios()) {
-            if (miUsuario.getEstado().equalsIgnoreCase("ACTIVO")) {
+            if (!miUsuario.getEstado().equalsIgnoreCase("INACTIVO")) {
                 fila[0] = miUsuario;
                 modeloTabla.addRow(fila);
             }
@@ -770,116 +770,7 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
         tabla.setRowSorter(rowSorter);                
     }       
-    
-    public static void personalActivo(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Nombre Personal");
-        modeloTabla.addColumn("Telefono");
-        modeloTabla.addColumn("Email");
-        modeloTabla.addColumn("Direccion");
-        modeloTabla.addColumn("Obra Social");
-        modeloTabla.addColumn("Usuario");
-        Object[] fila = new Object[6];
-
-        for (Personal personal : controlador.getListaPersonal()) {
-            if (personal.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = personal;
-                fila[1] = personal.getContacto().getTelefono1();
-                fila[2] = personal.getContacto().getEmail1();
-                fila[3] = personal.getContacto().getDireccion();
-                if(personal.getObrasocial()!=null){
-                    fila[4] = personal.getObrasocial();
-                }else{
-                    fila[4] = "NO";
-                }
-                fila[5] = personal.getUsuario().getNombreusuario();
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }       
-    
-    public static void personalInactivo(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Nombre Personal");
-        modeloTabla.addColumn("Telefono");
-        modeloTabla.addColumn("Email");
-        modeloTabla.addColumn("Direccion");
-        modeloTabla.addColumn("Obra Social");
-        modeloTabla.addColumn("Usuario");
-        Object[] fila = new Object[6];
-
-        for (Personal personal : controlador.getListaPersonal()) {
-            if (personal.getEstado().equalsIgnoreCase("INACTIVO")) {
-                fila[0] = personal;
-                fila[1] = personal.getContacto().getTelefono1();
-                fila[2] = personal.getContacto().getEmail1();
-                fila[3] = personal.getContacto().getDireccion();
-                if(personal.getObrasocial()!=null){
-                    fila[4] = personal.getObrasocial();
-                }else{
-                    fila[4] = "NO";
-                }
-                fila[5] = personal.getUsuario().getNombreusuario();
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }    
-    
-    
-    public static void cargoPersonalActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Cargo");
-        modeloTabla.addColumn("Nombre");
-        modeloTabla.addColumn("Apellido");
-        Object[] fila = new Object[3];
-
-        for (CargoPersonal cargopersonal : controlador.getListaCargoPersonal()) {
-            if (cargopersonal.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = cargopersonal;
-                fila[1] = cargopersonal.getPersonal().getNombrepersonal();
-                fila[2] = cargopersonal.getPersonal().getApellidopersonal();
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }        
-
-    public static void cargoPersonalInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Cargo");
-        modeloTabla.addColumn("Nombre");
-        modeloTabla.addColumn("Apellido");
-        Object[] fila = new Object[3];
-
-        for (CargoPersonal cargopersonal : controlador.getListaCargoPersonal()) {
-            if (cargopersonal.getEstado().equalsIgnoreCase("INACTIVO")) {
-                fila[0] = cargopersonal;
-                fila[1] = cargopersonal.getPersonal().getNombrepersonal();
-                fila[2] = cargopersonal.getPersonal().getApellidopersonal();
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }        
-
+   
     public static void claseProfesorActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
 
         DefaultTableModel modeloTabla = new DefaultTableModel();
@@ -935,8 +826,6 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
         for (AperturaCajaDiaria aperturaCajaDiaria : controlador.getListaAperturaCajaDiaria()) {
             if (aperturaCajaDiaria.getEstado().equalsIgnoreCase("ACTIVO")) {
                 fila[0] = aperturaCajaDiaria;
-                fila[1] = aperturaCajaDiaria.getPersonal().getNombrepersonal();
-                fila[2] = aperturaCajaDiaria.getPersonal().getApellidopersonal();
                 modeloTabla.addRow(fila);
             }
         }
@@ -950,15 +839,11 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
 
         DefaultTableModel modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("Fecha");
-        modeloTabla.addColumn("Nombre");
-        modeloTabla.addColumn("Apellido");
         Object[] fila = new Object[3];
 
         for (AperturaCajaDiaria aperturaCajaDiaria : controlador.getListaAperturaCajaDiaria()) {
             if (aperturaCajaDiaria.getEstado().equalsIgnoreCase("INACTIVO")) {
                 fila[0] = aperturaCajaDiaria;
-                fila[1] = aperturaCajaDiaria.getPersonal().getNombrepersonal();
-                fila[2] = aperturaCajaDiaria.getPersonal().getApellidopersonal();
                 modeloTabla.addRow(fila);
             }
         }

@@ -50,7 +50,8 @@ public class ControladorObraSocial {
         return unaObraSocial;
     }
 
-    public List<Obrasocial> getObrasSociales() {
+    public List<Obrasocial> getObrasSociales() throws Notificaciones {
+        listaObraSociales = miPersistencia.getObraSociales();
         return this.listaObraSociales;
     }
 

@@ -137,12 +137,12 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevoActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnEliminar">
+                <Component class="javax.swing.JButton" name="btnDesinscribir">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="&lt;HTML&gt;&lt;CENTER&gt;DESINSCRIBIR&lt;BR&gt;ALUMNO&lt;/CENTER&gt;&lt;/HTML&gt;"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDesinscribirActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

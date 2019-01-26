@@ -32,7 +32,7 @@
         <many-to-one name="caja" class="gimnasio.modelo.Cajadiaria" fetch="select">
             <column name="idcaja" not-null="false" />
         </many-to-one>
-        <many-to-one name="usuario" class="gimnasio.modelo.Usuario" fetch="select">
+        <many-to-one name="usuario" class="gimnasio.modelo.Usuario" fetch="select" cascade="all">
             <column name="idusuario" not-null="false" />
         </many-to-one>
         <set name="movimientoSet" table="tipo_movimiento" inverse="true" lazy="true" fetch="select">

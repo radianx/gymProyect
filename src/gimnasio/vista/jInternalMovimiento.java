@@ -10,6 +10,7 @@ import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Cajadiaria;
 import gimnasio.modelo.Movimiento;
 import gimnasio.modelo.Usuario;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
@@ -250,9 +251,9 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
                 Double vuelto = Double.valueOf(txtVuelto.getText());
                 String detalle = txtDetalle.getText();
                 String estado = "ACTIVO";
-                Date hora = Date.from(txtFecha.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date hora = Date.from(txtFecha.getDate().atTime(LocalTime.now()).atZone(ZoneId.systemDefault()).toInstant());
                 try {
-                    Cajadiaria caja = miControlador.dameCaja();
+                    Cajadiaria caja = miControlador.dameCajaActual();
                     Usuario unUsuario = MainMenu.usuarioLogueado;
                     Movimiento unMovimiento = new Movimiento(monto, montoCliente, vuelto, detalle, hora, estado, caja, unUsuario);
                     miControlador.altaMovimiento(unMovimiento);
@@ -275,9 +276,9 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
                 Double vuelto = Double.valueOf(txtVuelto.getText());
                 String detalle = txtDetalle.getText();
                 String estado = "ACTIVO";
-                Date hora = Date.from(txtFecha.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date hora = Date.from(txtFecha.getDate().atTime(LocalTime.now()).atZone(ZoneId.systemDefault()).toInstant());
                 try {
-                    Cajadiaria caja = miControlador.dameCaja();
+                    Cajadiaria caja = miControlador.dameCajaActual();
                     Usuario unUsuario = MainMenu.usuarioLogueado;
                     Movimiento unMovimiento = new Movimiento(monto, montoCliente, vuelto, detalle, hora, estado, caja, unUsuario);
                     miControlador.altaMovimiento(unMovimiento);
@@ -341,7 +342,7 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
                 String estado = "ACTIVO";
                 Date hora = Date.from(txtFecha.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 try {
-                    Cajadiaria caja = miControlador.dameCaja();
+                    Cajadiaria caja = miControlador.dameCajaActual();
                     Usuario unUsuario = MainMenu.usuarioLogueado;
                     Movimiento unMovimiento = new Movimiento(monto, montoCliente, vuelto, detalle, hora, estado, caja, unUsuario);
                     miControlador.altaMovimiento(unMovimiento);
@@ -366,7 +367,7 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
                 String estado = "ACTIVO";
                 Date hora = Date.from(txtFecha.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 try {
-                    Cajadiaria caja = miControlador.dameCaja();
+                    Cajadiaria caja = miControlador.dameCajaActual();
                     Usuario unUsuario = MainMenu.usuarioLogueado;
                     Movimiento unMovimiento = new Movimiento(monto, montoCliente, vuelto, detalle, hora, estado, caja, unUsuario);
                     miControlador.altaMovimiento(unMovimiento);

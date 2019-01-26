@@ -44,10 +44,10 @@ public class ControladorMovimiento {
         for(Movimiento unMov:listaMovimientos){
             LocalDate fecha = LocalDate.now();
             LocalDate fechaMov = Instant.ofEpochMilli(unMov.getHora().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-            if(fecha.isEqual(fechaMov)){
+            if(fechaMov.isAfter(fecha.minusDays(1)) && fechaMov.isBefore(fecha.plusDays(1))){
                 retorno.add(unMov);
             }
-        }
+        }    
         return retorno;
     }
 

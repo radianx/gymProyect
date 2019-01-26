@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="gimnasio.modelo.IngresosPuerta" table="ingresos_puerta" schema="public" optimistic-lock="version">
+        <id name="idIngresoPuerta" type="int">
+            <column name="idIngresoPuerta" />
+            <generator class="increment"/>
+        </id>
+        <property name="horaIngreso" type="timestamp">
+            <column name="horaIngreso" length="13"/>
+        </property>
+        <property name="horaEgreso" type="timestamp">
+            <column name="horaEgreso" length="13" />
+        </property>
+        <many-to-one name="usuario" class="gimnasio.modelo.Usuario" fetch="select">
+            <column name="idUsuario" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

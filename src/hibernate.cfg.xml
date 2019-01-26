@@ -83,5 +83,6 @@ Contributor(s):
     <mapping resource="gimnasio/modelo/Producto.hbm.xml"/>
     <mapping resource="gimnasio/modelo/Rubro.hbm.xml"/>
     <mapping resource="gimnasio/modelo/TipoMovimiento.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/IngresosPuerta.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

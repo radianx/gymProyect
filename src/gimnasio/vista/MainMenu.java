@@ -26,6 +26,7 @@ import javax.swing.ImageIcon;
 public class MainMenu extends javax.swing.JFrame {
 
     public static Usuario usuarioLogueado;
+    public static boolean cajaAbierta = false;
     
     public static void iniciarEscaner() {
          lector.start();
@@ -34,6 +35,10 @@ public class MainMenu extends javax.swing.JFrame {
     public static void loguearUsuario(Usuario unUsuario){
         usuarioLogueado = unUsuario;
         jDesktopPane1.grabFocus();
+    }
+    
+    public static Usuario getUsuario(){
+        return usuarioLogueado;
     }
     
     public static boolean isUserAdmin(){
@@ -48,6 +53,10 @@ public class MainMenu extends javax.swing.JFrame {
         jInternalCobro cobro = new jInternalCobro(miControlador, alumnoSeleccionado);
         jDesktopPane1.add(cobro);
         cobro.setVisible(true);
+    }
+
+    public static void cajaAbierta(boolean b) {
+        cajaAbierta = b;
     }
 
 //    jInternalLogueo panelLogin = new jInternalLogueo();
@@ -159,8 +168,6 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem25 = new javax.swing.JMenuItem();
-        jMenuItem26 = new javax.swing.JMenuItem();
-        jMenuItem27 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem28 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -186,6 +193,11 @@ public class MainMenu extends javax.swing.JFrame {
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -474,14 +486,13 @@ public class MainMenu extends javax.swing.JFrame {
 
         jMenu5.setText("Asistencia");
 
-        jMenuItem25.setText("Listar Asistencias");
+        jMenuItem25.setText("Reporte Asistencias");
+        jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem25ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem25);
-
-        jMenuItem26.setText("Nueva Asistencia");
-        jMenu5.add(jMenuItem26);
-
-        jMenuItem27.setText("Eliminar Asistencia");
-        jMenu5.add(jMenuItem27);
 
         jMenuBar1.add(jMenu5);
 
@@ -677,9 +688,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void jMIAperturaCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAperturaCajaActionPerformed
         try {
             if (!miControlador.hayCajaAbiertaHoy()) {
-                 JInternalAperturaCaja caja = new JInternalAperturaCaja(miControlador);
+                JInternalAbrirCaja caja = new JInternalAbrirCaja(miControlador);
                 jDesktopPane1.add(caja);
                 caja.setVisible(true);
+                cajaAbierta = true;
             } else {
                 JOptionPane.showMessageDialog(null, "Ya se abrio la caja hoy");
             }
@@ -690,21 +702,23 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void jMICierreCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMICierreCajaActionPerformed
         try{
-            if(miControlador.hayCajaAbiertaHoy()){
-                miControlador.cerrarCaja();
-                JOptionPane.showMessageDialog(null, "Caja cerrada por hoy");
-            }else{
-                JOptionPane.showMessageDialog(null, "La caja no ha sido abierta hoy");
-            }
+            miControlador.cerrarCaja();
+            cajaAbierta = false;
+            JOptionPane.showMessageDialog(null, "Caja cerrada");
         }catch(Notificaciones ex){
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_jMICierreCajaActionPerformed
 
     private void jMIMovimientosCobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIMovimientosCobroActionPerformed
-        jInternalMovimiento movimientos = new jInternalMovimiento(miControlador);
-        jDesktopPane1.add(movimientos);
-        movimientos.setVisible(true);
+        if(cajaAbierta==true){
+            jInternalMovimiento movimientos = new jInternalMovimiento(miControlador);
+            jDesktopPane1.add(movimientos);
+            movimientos.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "La caja se encuentra cerrada.");
+        }
+
     }//GEN-LAST:event_jMIMovimientosCobroActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
@@ -712,6 +726,16 @@ public class MainMenu extends javax.swing.JFrame {
         jDesktopPane1.add(reportes);
         reportes.setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        miControlador.cerrarPersistencia();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
+        JInternalReporteIngresos reporteIngreso = new JInternalReporteIngresos(miControlador);
+        jDesktopPane1.add(reporteIngreso);
+        reporteIngreso.setVisible(true);
+    }//GEN-LAST:event_jMenuItem25ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -760,8 +784,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
-    private javax.swing.JMenuItem jMenuItem26;
-    private javax.swing.JMenuItem jMenuItem27;
     private javax.swing.JMenuItem jMenuItem28;
     private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
@@ -865,8 +887,6 @@ public class MainMenu extends javax.swing.JFrame {
         this.jMenuItem23.setEnabled(estado);
         this.jMenuItem24.setEnabled(estado);
         this.jMenuItem25.setEnabled(estado);
-        this.jMenuItem26.setEnabled(estado);
-        this.jMenuItem27.setEnabled(estado);
         this.jMenuItem28.setEnabled(estado);
         this.jMenuItem29.setEnabled(estado);
     }

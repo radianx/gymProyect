@@ -12,11 +12,7 @@ public class Personal  implements java.io.Serializable {
 
 
      private int idpersonal;
-     private Contacto contacto;
-     private Obrasocial obrasocial;
      private Usuario usuario;
-     private String nombrepersonal;
-     private String apellidopersonal;
      private String estado;
      private Set cajaDiarias = new HashSet(0);
      private Set cierreCajaDiarias = new HashSet(0);
@@ -30,27 +26,11 @@ public class Personal  implements java.io.Serializable {
         this.usuario = usuario;
         this.estado = estado;
     }
-	
-    public Personal(int idpersonal, Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombrepersonal, String estado) {
+
+    public Personal(int idpersonal, Usuario usuario, String estado) {
         this.idpersonal = idpersonal;
-        this.contacto = contacto;
-        this.obrasocial = obrasocial;
         this.usuario = usuario;
-        this.nombrepersonal = nombrepersonal;
         this.estado = estado;
-    }
-    public Personal(int idpersonal, Contacto contacto, Obrasocial obrasocial, Usuario usuario, String nombrepersonal, String apellidopersonal, String estado, Set cajaDiarias, Set cierreCajaDiarias, Set aperturaCajaDiarias, Set cargoPersonals) {
-       this.idpersonal = idpersonal;
-       this.contacto = contacto;
-       this.obrasocial = obrasocial;
-       this.usuario = usuario;
-       this.nombrepersonal = nombrepersonal;
-       this.apellidopersonal = apellidopersonal;
-       this.estado = estado;
-       this.cajaDiarias = cajaDiarias;
-       this.cierreCajaDiarias = cierreCajaDiarias;
-       this.aperturaCajaDiarias = aperturaCajaDiarias;
-       this.cargoPersonals = cargoPersonals;
     }
    
     public int getIdpersonal() {
@@ -60,40 +40,13 @@ public class Personal  implements java.io.Serializable {
     public void setIdpersonal(int idpersonal) {
         this.idpersonal = idpersonal;
     }
-    public Contacto getContacto() {
-        return this.contacto;
-    }
     
-    public void setContacto(Contacto contacto) {
-        this.contacto = contacto;
-    }
-    public Obrasocial getObrasocial() {
-        return this.obrasocial;
-    }
-    
-    public void setObrasocial(Obrasocial obrasocial) {
-        this.obrasocial = obrasocial;
-    }
     public Usuario getUsuario() {
         return this.usuario;
     }
     
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-    public String getNombrepersonal() {
-        return this.nombrepersonal;
-    }
-    
-    public void setNombrepersonal(String nombrepersonal) {
-        this.nombrepersonal = nombrepersonal;
-    }
-    public String getApellidopersonal() {
-        return this.apellidopersonal;
-    }
-    
-    public void setApellidopersonal(String apellidopersonal) {
-        this.apellidopersonal = apellidopersonal;
     }
     public String getEstado() {
         return this.estado;
@@ -133,7 +86,7 @@ public class Personal  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return nombrepersonal + " " + apellidopersonal;
+        return usuario.toString();
     }
 
 

@@ -20,13 +20,13 @@
         <property name="estado" type="string">
             <column name="estado" not-null="true" />
         </property>
-        <set name="cuotas" table="cuota" inverse="true" lazy="true" fetch="select">
+<!--        <set name="cuotas" table="cuota" fetch="select" cascade="all">
             <key>
                 <column name="idclase" not-null="true" />
             </key>
             <one-to-many class="gimnasio.modelo.Cuota" />
-        </set>
-        <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" fetch="select">
+        </set>!-->
+        <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" fetch="select" cascade="all">
             <key>
                 <column name="idclase" not-null="true" />
             </key>

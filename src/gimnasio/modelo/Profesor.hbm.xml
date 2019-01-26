@@ -41,13 +41,13 @@
             </key>
             <one-to-many class="gimnasio.modelo.PagoProfesor" />
         </set>
-        <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" fetch="select">
+        <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" fetch="select" cascade="all">
             <key>
                 <column name="idprofesor" not-null="true" />
             </key>
             <one-to-many class="gimnasio.modelo.ClaseProfesor" />
         </set>
-        <set name="profesorModalidads" table="profesor_modalidad" inverse="true" lazy="true" fetch="select">
+        <set name="profesorModalidads" table="profesor_modalidad" inverse="true" lazy="true" fetch="select" cascade="all">
             <key>
                 <column name="idprofesor" not-null="true" />
             </key>
