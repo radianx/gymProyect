@@ -40,20 +40,10 @@ public class ControladorCaja {
     public boolean hayCajaAbiertaHoy() throws Notificaciones{
         boolean retorno = false;
         listaCajaDiaria = miPersistencia.getCajaDiarias();
-        LocalDate fecha = LocalDate.now();
-        LocalDate fechaCaja;
-        int conteo = 0;
         for(Cajadiaria caja:listaCajaDiaria){
-            if(caja.getApertura()!=null){
-                fechaCaja = Instant.ofEpochMilli(caja.getApertura().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-
-                if (fecha.isEqual(fechaCaja)) {
-                    conteo += 1;
-                }
-                if (conteo > 1) {
-                    retorno = true;
-                    break;
-                }
+            if(caja.getCierre()==null){
+                retorno = true;
+                break;
             }
         }
         return retorno;
@@ -87,6 +77,7 @@ public class ControladorCaja {
                 cajas.add(caja);
             }
         }
+        Collections.sort(cajas);
         return cajas;
     }
     
@@ -94,24 +85,15 @@ public class ControladorCaja {
         List<Cajadiaria> cajas = new ArrayList<>();
         listaCajaDiaria = miPersistencia.getCajaDiarias();
         LocalDate hoy = LocalDate.now();
-        Cajadiaria caja1 = listaCajaDiaria.get(listaCajaDiaria.size()-1);
-        if(caja1.getApertura()!=null){
-            LocalDate fechaCaja1 = Instant.ofEpochMilli(caja1.getApertura().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-            if(fechaCaja1.isEqual(hoy)){
-            cajas.add(caja1);
+        Collections.sort(listaCajaDiaria);
+        LocalDate diaCaja;
+        for(Cajadiaria caja:listaCajaDiaria){
+            diaCaja = Instant.ofEpochMilli(caja.getApertura().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if(diaCaja.isEqual(hoy)){
+                cajas.add(caja);
             }
         }
-
         
-        if(listaCajaDiaria.size()>1){
-            Cajadiaria caja2 = listaCajaDiaria.get(listaCajaDiaria.size() - 2);
-            if (caja2.getApertura() != null) {
-                LocalDate fechaCaja2 = Instant.ofEpochMilli(caja2.getApertura().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-                if (fechaCaja2.isEqual(hoy)) {
-                    cajas.add(caja2);
-                }
-            }
-        }
         Collections.reverse(cajas);
         return cajas;
     }
@@ -120,6 +102,29 @@ public class ControladorCaja {
         listaCajaDiaria = miPersistencia.getCajaDiarias();
         Collections.sort(listaCajaDiaria);
         return listaCajaDiaria.get(listaCajaDiaria.size()-1);
+    }
+
+    public void cerrarTodasLasCajas() throws Notificaciones{
+        listaCajaDiaria = miPersistencia.getCajaDiarias();
+        for(Cajadiaria unaCaja:listaCajaDiaria){
+            if(unaCaja.getCierre()==null){
+                LocalDate fecha = Instant.ofEpochMilli(unaCaja.getApertura().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                Instant instante = Instant.from(fecha.atTime(23, 59,59).atZone(ZoneId.systemDefault()));
+                Date horaCierre = Date.from(instante);
+                unaCaja.setCierre(horaCierre);
+                miPersistencia.persistirInstancia(unaCaja);
+            }
+        }
+    }
+
+    public List<Cajadiaria> dameCajasSinCerrar() {
+        List<Cajadiaria> retorno = new ArrayList<>();
+        for(Cajadiaria unaCaja:listaCajaDiaria){
+            if(unaCaja.getCierre()==null){
+                retorno.add(unaCaja);
+            }
+        }
+        return retorno;
     }
     
 }

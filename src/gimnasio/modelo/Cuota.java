@@ -2,6 +2,7 @@ package gimnasio.modelo;
 // Generated Dec 8, 2018 5:14:35 PM by Hibernate Tools 4.3.1
 
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
@@ -126,7 +127,8 @@ public class Cuota  implements java.io.Serializable, java.lang.Comparable<Cuota>
     
     @Override
     public String toString() {
-        return alumno.getNombrealumno() + " " + alumno.getApellidoalumno();
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(this.getAltacuota());
+        return date;
     }
 
     @Override

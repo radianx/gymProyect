@@ -6,6 +6,7 @@ import gimnasio.herramientas.excepciones.Notificaciones;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JTable;
@@ -187,7 +188,18 @@ public class ControladorPrincipal {
     }
 
     public void bajaClaseAlumno(ClaseAlumno unaClaseAlumno) throws Notificaciones {
+        System.out.println("ControladorPrincipal bajaClaseAlumno");
+        Alumno unAlumno = unaClaseAlumno.getAlumno();
+        System.out.println("Alumno detectado: "+ unAlumno);
+        for(HorarioAlumno horario:controladorHorarioAlumno.getListaHorariosAlumno(unaClaseAlumno)){
+            System.out.println("For HorarioAlumno");
+            if(horario.getClaseAlumno().toString().equalsIgnoreCase(unaClaseAlumno.toString())){
+                controladorHorarioAlumno.bajaHorario(horario);
+                System.out.println("Dando de baja horario: "+horario);
+            }
+        }
         this.controladorClaseAlumno.bajaClaseAlumno(unaClaseAlumno);
+        this.miPersistencia.actualizarInstancias();
     }
 
 //  <----------------------------------------------------ABM CUOTAS ----------------------------------------------------> 
@@ -277,10 +289,6 @@ public class ControladorPrincipal {
         return this.controladorClase.getListaClases();
     }
 
-    public List<Cargo> getListaCargos() {
-        return this.miModeloPrincipal.getListaCargos();
-    }
-
     public List<Modalidad> getListaModalidades() throws Notificaciones {
         return this.controladorModalidad.getListaModalidades();
     }
@@ -289,73 +297,38 @@ public class ControladorPrincipal {
         return this.controladorProfesor.getListaProfesores();
     }
 
-    public List<Sector> getListaSectores() {
-        return this.miModeloPrincipal.getListaSectores();
-    }
-
-    public List<ClaseAlumno> getListaClasesAlumnos() {
-        return this.miModeloPrincipal.getListaClaseAlumno();
+    public List<ClaseAlumno> getListaClasesAlumnos() throws Notificaciones {
+        return this.controladorClaseAlumno.getListaClaseAlumno();
     }
 
     public List<Profesormodalidad> getListaProfesorModalidades() {
-        return this.miModeloPrincipal.getListaProfesorModalidad();
+        return this.controladorProfesorModalidad.getListaProfesorModalidad();
     }
 
-    public List<AsistenciaAlumno> getListaAsistenciaAlumno() {
-        return this.miModeloPrincipal.getListaAsistenciaAlumno();
+    public List<Cuota> getListaCuotas() throws Notificaciones {
+        return this.controladorCuota.getListaCuotas();
     }
 
-    public List<Cuota> getListaCuotas() {
-        return this.miModeloPrincipal.getListaCuotas();
-    }
-
-    public List<CobroCuota> getListaCobroCuota() {
-        return this.miModeloPrincipal.getListaCobroCuota();
-    }
-
-    public List<SaldoCuota> getListaSaldoCuota() {
-        return this.miModeloPrincipal.getListaSaldoCuota();
-    }
-
-    public List<PagoProfesor> getListaPagoProfesores() {
-        return this.miModeloPrincipal.getListaPagoProfesores();
-
-    }
-
-    public List<Saldopagoprofesor> getListaSaldoPagoProfesores() {
-        return this.miModeloPrincipal.getListaSaldoPagoProfesores();
-    }
-
-    public List<Modulo> getListaModulos() {
-        return this.miModeloPrincipal.getListaModulos();
-    }
-
-    public List<Personal> getListaPersonal() {
-        return this.miModeloPrincipal.getListaPersonal();
-    }
-
-    public List<CargoPersonal> getListaCargoPersonal() {
-        return this.miModeloPrincipal.getListaCargoPersonal();
-    }
 
     public List<ClaseProfesor> getListaClaseProfesor() throws Notificaciones {
         return this.controladorClaseProfesor.getListaClaseProfesor();
-    }
-
-    public List<AperturaCajaDiaria> getListaAperturaCajaDiaria() {
-        return this.miModeloPrincipal.getListaAperturaCajaDiaria();
-    }
-
-    public List<SectorClase> getListaSectorClase() {
-        return this.miModeloPrincipal.getListaSectorClase();
     }
 
     public void altaClaseProfesor(ClaseProfesor unaClaseProfesor) throws Notificaciones {
         controladorClaseProfesor.altaClaseProfesor(unaClaseProfesor);
     }
 
-    public void bajaClaseProfesor(ClaseProfesor unaClase) throws Notificaciones {
+    public List<ClaseAlumno> bajaClaseProfesor(ClaseProfesor unaClase) throws Notificaciones {
+        List<ClaseAlumno> alumnosSinClase = new ArrayList<>();
         controladorClaseProfesor.bajaClaseProfesor(unaClase);
+        for (ClaseAlumno claseAlu : this.controladorClaseAlumno.getListaClaseAlumno()) {
+            System.out.println(claseAlu);
+            if(claseAlu.getClaseProfesor().getIdclaseprofesor() == unaClase.getIdclaseprofesor()){
+                alumnosSinClase.add(claseAlu);
+                System.out.println("Agregado");
+            }
+        }
+        return alumnosSinClase;
     }
 
     public List<Profesormodalidad> getListaProfeModalidades() {
@@ -390,12 +363,19 @@ public class ControladorPrincipal {
         controladorHorarioAlumno.altaHorarioAlumno(unHorario);
     }
 
-    public List<HorarioAlumno> getListaHorariosAlumno(Alumno unAlumno) throws Notificaciones {
-        return controladorHorarioAlumno.getListaHorariosAlumno(unAlumno);
+    public List<HorarioAlumno> getListaHorariosAlumno(ClaseAlumno clase) throws Notificaciones {
+        List<HorarioAlumno> refrescar = controladorHorarioAlumno.getListaHorariosAlumno(clase);
+        List<HorarioAlumno> retorno = new ArrayList<>();
+        for(HorarioAlumno horario:refrescar){
+            miPersistencia.refrescar(horario);
+            retorno.add(horario);
+        }
+        return retorno;
     }
 
-    public void altaAsistenciaAlumno(AsistenciaAlumno asistencia) throws Notificaciones {
-        controladorAsistenciaAlumno.altaAsistenciaAlumno(asistencia);
+    public void altaAsistenciaAlumno(ClaseAlumno asistencia, Date fecha) throws Notificaciones {
+        
+        controladorAsistenciaAlumno.altaAsistenciaAlumno(asistencia, fecha);
     }
 
     public void altaAsistenciaProfesor(AsistenciaProfesor asistencia) throws Notificaciones {
@@ -498,10 +478,37 @@ public class ControladorPrincipal {
     }
 
     public void generarReporteIngresosEgresosHoy() {
-        controladorReporte.generarReporteAsistencias(controladorIngresosPuerta.getListaIngresosPuerta(LocalDate.now(),LocalDate.now()));
+        controladorReporte.generarReporteAsistencias(LocalDate.now(), LocalDate.now(),controladorIngresosPuerta.getListaIngresosPuerta(LocalDate.now(),LocalDate.now()));
     }
     
     public void generarReporteIngresosPorDia(LocalDate desde, LocalDate hasta){
-        controladorReporte.generarReporteAsistencias(controladorIngresosPuerta.getListaIngresosPuerta(desde, hasta));
+        controladorReporte.generarReporteAsistencias(desde, hasta, controladorIngresosPuerta.getListaIngresosPuerta(desde, hasta));
     }
+
+    public void cerrarTodasLasCajas() throws Notificaciones {
+        controladorCaja.cerrarTodasLasCajas();
+    }
+
+    public List<Cajadiaria> dameCajasSinCerrar() throws Notificaciones{
+        return controladorCaja.dameCajasSinCerrar();
+    }
+
+    public List<ClaseProfesor> dameClaseProfesor(String text) throws Notificaciones{
+        return controladorClaseProfesor.dameClaseProfesor(text);
+    }
+    
+    public void actualizarInstancia(Object o) throws Notificaciones{
+        
+        miPersistencia.actualizarInstancias(o);
+    }
+
+    public void generarReporteMorosos() {
+        this.controladorReporte.generarReporteMorosos();
+    }
+
+    public List<AsistenciaAlumno> getListaAsistenciaAlumno() throws Notificaciones {
+       return this.controladorAsistenciaAlumno.getListaAsistenciaAlumno();
+    }
+
+    
 }

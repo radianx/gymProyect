@@ -48,17 +48,17 @@ public class jInternalCargos extends javax.swing.JInternalFrame {
             modeloTablaActivos.addColumn("Descripcion");
             Object[] fila = new Object[2];
 
-            try {
-                for (Cargo unCargo : miControlador.getListaCargos()) {
-                    if (unCargo.getEstado().equalsIgnoreCase("ACTIVO")) {
-                        fila[0] = unCargo;
-                        fila[1] = unCargo.getDescripcioncargo();
-                        modeloTablaActivos.addRow(fila);
-                    }
-                }
-            } catch (NullPointerException ex) {
-                System.err.println("Error al cargar Cargos: " + ex.getMessage());
-            }
+//            try {
+//                for (Cargo unCargo : miControlador.getListaCargos()) {
+//                    if (unCargo.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                        fila[0] = unCargo;
+//                        fila[1] = unCargo.getDescripcioncargo();
+//                        modeloTablaActivos.addRow(fila);
+//                    }
+//                }
+//            } catch (NullPointerException ex) {
+//                System.err.println("Error al cargar Cargos: " + ex.getMessage());
+//            }
             this.tablaCargosActivos.setModel(modeloTablaActivos);
             rowSorterActivos = new TableRowSorter<>(this.tablaCargosActivos.getModel());
             tablaCargosActivos.setRowSorter(rowSorterActivos);

@@ -2,6 +2,7 @@ package gimnasio.modelo;
 // Generated Dec 8, 2018 5:14:35 PM by Hibernate Tools 4.3.1
 
 
+import gimnasio.herramientas.excepciones.Notificaciones;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -175,13 +176,24 @@ public class Alumno  implements java.io.Serializable {
         Collections.sort(listaCuotas);
         Cuota esaCuota = null;
         for(Cuota unaCuota:listaCuotas){
-            if(unaCuota.getEstado().equalsIgnoreCase("ADEUDA")){
+            if(unaCuota.getEstado().equalsIgnoreCase("ADEUDA")
+                    || unaCuota.getEstado().equalsIgnoreCase("SALDO")){
                 esaCuota = unaCuota;
                 break;
             }
-        
         }
         return esaCuota;
+    }
+    
+    public Cuota getUltimaCuota() throws Notificaciones{
+        List<Cuota> listaCuotas = new ArrayList<>();
+        listaCuotas.addAll(cuotas);
+        Collections.sort(listaCuotas);
+        int i = listaCuotas.size();
+        if(i==0){
+            throw new Notificaciones("No posee cuotas");
+        }
+        return listaCuotas.get(i-1);
     }
 
 

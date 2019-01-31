@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -36,13 +38,16 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
         miControlador = controlador;
         initComponents();
         cargarTabla();
-        rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
-        tablaAlumnos.setRowSorter(rowSorter);
+        
         panelNewAlumno = new panelNuevoAlumno(miControlador);
         this.panelPadre.add(panelNewAlumno);
+        rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
+        tablaAlumnos.setRowSorter(rowSorter);
+        
     }
 
     public void cargarTabla(){
+        System.out.println("Cargando Tabla de Alumnos...");
         modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("Nombre");
         modeloTabla.addColumn("Apellido");
@@ -61,6 +66,8 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         this.tablaAlumnos.setModel(modeloTabla);
+        rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
+        tablaAlumnos.setRowSorter(rowSorter);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -254,10 +261,10 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void panelPadreMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPadreMouseEntered
-        if (!this.panelNewAlumno.isVisible()) {
-            cambiarPanel(panelNewAlumno, panelPrincipal);
-            cargarTabla();
-        }
+//        if (!this.panelNewAlumno.isVisible()) {
+//            cambiarPanel(panelNewAlumno, panelPrincipal);
+//            cargarTabla();
+//        }
     }//GEN-LAST:event_panelPadreMouseEntered
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -274,11 +281,12 @@ public class jInternalAlumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
-        this.cargarTabla();
+        System.out.println("Component Shown:");
+        cargarTabla();
     }//GEN-LAST:event_panelPrincipalComponentShown
 
     private void jScrollPane1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseEntered
-        cargarTabla();
+
     }//GEN-LAST:event_jScrollPane1MouseEntered
 
 

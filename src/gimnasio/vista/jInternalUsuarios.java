@@ -68,18 +68,6 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         this.jPanel1.add(panelNewUser);
         tablaUsuarios.clearSelection();
         this.cargarTabla();
-
-        this.addInternalFrameListener(new InternalFrameAdapter() {
-            @Override
-            public void internalFrameClosing(InternalFrameEvent e) {
-            }
-         
-            @Override
-            public void internalFrameClosed(InternalFrameEvent e) {
-                System.out.println("internalFrameClosed....");
-                MainMenu.iniciarEscaner();
-            }
-        });
         
     }
     
@@ -104,6 +92,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
             } catch (NullPointerException |Notificaciones ex) {
                 System.err.println("Error al cargar usuarios: " + ex.getMessage());
             }
+
             this.tablaUsuarios.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaUsuarios.getModel());
             tablaUsuarios.setRowSorter(rowSorter);
@@ -400,9 +389,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jPanel1MouseEntered
 
     private void tablaUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseEntered
-        tablaUsuarios.clearSelection();
-        this.cargarTabla();
-        this.modeloTabla.fireTableDataChanged();
+
     }//GEN-LAST:event_tablaUsuariosMouseEntered
 
     private void jPanel1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel1ComponentShown

@@ -68,6 +68,7 @@ public class ControladorPersistencia {
             try {
                 t.begin();
                 this.sesion.saveOrUpdate(instancia);
+                this.sesion.flush();
                 t.commit();
 
                 /*
@@ -133,6 +134,7 @@ public class ControladorPersistencia {
             try {
                 t.begin();
                 this.sesion.refresh(o);
+                sesion.flush();
                 t.commit();
 
             } catch (Exception e) {
@@ -196,20 +198,6 @@ public class ControladorPersistencia {
                 this.sesion.close();
             }
         }
-    }
-    
-    public boolean iniciarSesion(){
-        boolean retorno = false;
-            if(this.sesion !=null && !this.sesion.isConnected()){
-                sesion = sessionFactory.openSession();
-                retorno = true;
-            }
-            
-            if (this.sesion != null && !this.sesion.isOpen()) {
-                sesion = sessionFactory.openSession();
-                retorno = true;
-            }
-        return retorno;
     }
 
     /**
@@ -653,5 +641,36 @@ public class ControladorPersistencia {
             }
         }
         return lista;
+    }
+
+    public void actualizarInstancias(Object o) throws Notificaciones {
+      boolean resultado = false;
+
+        /*
+		 * Se sincroniza la sesión.
+         */
+        synchronized (this.sesion) {
+            /*
+			 * Se comprueba la conexión.
+             */
+            this.comprobarConexion();
+
+            Transaction t = this.sesion.getTransaction();
+
+            try {
+                t.begin();
+                this.sesion.evict(o);
+                this.sesion.update(o);
+                this.sesion.flush();
+                t.commit();
+
+                resultado = true;
+
+            } catch (Exception e) {
+                t.rollback();
+                throw new Notificaciones(e.getMessage());
+            }
+        }
+
     }
 }

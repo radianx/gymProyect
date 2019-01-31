@@ -46,7 +46,6 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
         txtUsuario = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jBtnAceptar = new javax.swing.JButton();
-        jBtnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("- ACCSESO AL SISTEMA -");
@@ -115,14 +114,6 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
         });
         jPanel2.add(jBtnAceptar);
 
-        jBtnCancelar.setText("Cancelar");
-        jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnCancelarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jBtnCancelar);
-
         getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
 
         pack();
@@ -142,10 +133,6 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_jBtnAceptarActionPerformed
-
-    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void txtContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContrasenaActionPerformed
             if (!this.txtUsuario.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
@@ -170,7 +157,6 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAceptar;
-    private javax.swing.JButton jBtnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

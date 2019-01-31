@@ -8,7 +8,7 @@
             <column name="idhorarioalumno" />
             <generator class="increment" />
         </id>
-        <many-to-one name="claseAlumno" class="gimnasio.modelo.ClaseAlumno" fetch="select" cascade="all">
+        <many-to-one name="claseAlumno" class="gimnasio.modelo.ClaseAlumno" lazy="false" cascade="all">
             <column name="idclasealumno" not-null="true" />
         </many-to-one>
         <property name="inicio" type="timestamp">

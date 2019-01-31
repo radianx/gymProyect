@@ -51,6 +51,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -106,6 +107,7 @@ public class ControladorHuella implements Runnable {
     private JTable tabla;
     private DefaultTableModel modeloTabla;
     private ControladorPrincipal miControlador;
+    private ControladorAcceso controladorAcceso;
 
     public void cargarTabla() {
         modeloTabla = new DefaultTableModel();
@@ -121,6 +123,7 @@ public class ControladorHuella implements Runnable {
         this.tabla = tablaAsistencias;
         miPersistencia = persistencia;
         this.miControlador = miControlador;
+        controladorAcceso = new ControladorAcceso(miControlador);
         cargarTabla();
     }
 
@@ -416,50 +419,11 @@ public class ControladorHuella implements Runnable {
                         if (miUsuario.getFoto() != null) {
                             drawPicture(createImageFromBytes(miUsuario.getFoto()));
                         }
-                        verificacionCorrecta(miUsuario);
-                        acceso = false;
 
-                        if (miUsuario.getEstado().equalsIgnoreCase("ADMIN")
-                                || miUsuario.getEstado().equalsIgnoreCase("OPERADOR")
-                                || miUsuario.getEstado().equalsIgnoreCase("NORMAL")) {
-                            texto.setText(miUsuario.getNombreusuario());
-                            try {
-                                ControladorRele.abrirPuerta();
+                        controladorAcceso.verificarAcceso(texto, modeloTabla, tabla, miUsuario);
 
-                                Object[] fila = new Object[3];
-                                fila[0] = miUsuario;
-                                Date ahora = new Date();
-                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-                                fila[1] = sdf.format(ahora);
-                                fila[2] = miUsuario.getEstado();
-                                modeloTabla.insertRow(0,fila);
-                                miControlador.nuevoIngresoPuerta(ahora, miUsuario, modeloTabla, tabla);
-                                break;
-                            } catch (InterruptedException ex) {
-                                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
-                            }
-                        } else {
-                            acceso = agregarAsistencia(miUsuario);
-                        }
-
-                        setHuellaVerificada(true);
-                        EnviarTexto("CORRECTO");
-
-                        setVerificacion(false);
-                        if (acceso) {
-                            try {
-                                ControladorRele.abrirPuerta();
-                                break;
-                            } catch (InterruptedException ex) {
-                                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
-                            }
-                        }
                     }
                 }
-            }
-            if (result != null && !result.isVerified()) {
-                JOptionPane.showMessageDialog(null, "USUARIO NO REGISTRADO");
-                texto.setText("Huella no Encontrada");
             }
             //Si no encuentra alguna huella correspondiente al nombre lo indica con un mensaje
             setVerificacion(false);
@@ -532,147 +496,6 @@ public class ControladorHuella implements Runnable {
             throw new RuntimeException(e);
         }
     }
-
-    public boolean agregarAsistencia(Usuario miUsuario) {
-        boolean acceso = false;
-        Object[] fila = new Object[4];
-        Alumno miAlumno = null;
-        Profesor miProfesor = null;
-
-        for (Profesor unProfesor : miUsuario.getProfesors()) {
-            if (unProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = unProfesor.getNombreprofesor();
-                fila[1] = unProfesor.getApellidoprofesor();
-                miProfesor = unProfesor;
-            }
-        }
-
-        for (Alumno unAlumno : miUsuario.getAlumnos()) {
-            if (unAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = unAlumno.getNombrealumno();
-                fila[1] = unAlumno.getApellidoalumno();
-                miAlumno = unAlumno;
-            }
-        }
-        try{
-            miAlumno = miControlador.buscarAlumnoFromDB(miAlumno);
-        }catch(Notificaciones ex){
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-        LocalDateTime hora = LocalDateTime.now();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-        fila[2] = hora.format(dtf);
-
-        if (miProfesor != null && miAlumno == null) {
-            List<HorarioProfesor> horarios = null;
-            try {
-                horarios = miControlador.getListaHorarios();
-            } catch (Notificaciones ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
-            }
-            for (HorarioProfesor unHorario : horarios) {
-                LocalDateTime dia = Instant.ofEpochMilli(unHorario.getInicio().getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
-                if (dia.getDayOfWeek() == hora.getDayOfWeek()
-                        && dia.getHour() == hora.getHour()
-                        && hora.getMinute() - 15 <= dia.getHour()
-                        && dia.getHour() <= hora.getMinute() + 15) {
-                    fila[3] = "SI";
-                    acceso = true;
-                    AsistenciaProfesor asistencia = new AsistenciaProfesor(unHorario.getClaseProfesor(), new Date(), "ACTIVO");
-                    try {
-                        miControlador.altaAsistenciaProfesor(asistencia);
-                    } catch (Notificaciones ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage());
-                    }
-                } else {
-                    fila[3] = "Fuera de Horario";
-                    acceso = false;
-                }
-                modeloTabla.addRow(fila);
-                break;
-            }
-        } else if (miAlumno != null) {
-            Cuota ultimaCuota = miAlumno.getLastCuota();
-            if (ultimaCuota.getEstado() != null) {
-                if (ultimaCuota.getEstado().equalsIgnoreCase("PAGADO")) {
-                    List<HorarioAlumno> horarios = null;
-                    List<ClaseAlumno> clasesSinHorario = null;
-                    try {
-                        horarios = miControlador.getListaHorariosAlumno(miAlumno);
-                        clasesSinHorario = miControlador.getListaClasesSinHorario(miAlumno);
-                    } catch (Notificaciones ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage());
-                    }
-
-                    if (miAlumno.getClaseAlumnos() != null) {
-                        if (!horarios.isEmpty()) {
-                            for (HorarioAlumno unHorario : horarios) {
-                                LocalDateTime dia = Instant.ofEpochMilli(unHorario.getInicio().getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
-                                if (dia.getDayOfWeek() == hora.getDayOfWeek()
-                                        && dia.getHour() == hora.getHour()
-                                        && hora.getMinute() - 15 <= dia.getHour()
-                                        && dia.getHour() <= hora.getMinute() + 15) {
-
-                                    fila[3] = "SI";
-                                    acceso = true;
-                                    AsistenciaAlumno asistencia = new AsistenciaAlumno(unHorario.getClaseAlumno(), new Date(), "ACTIVO");
-                                    try {
-                                        miControlador.altaAsistenciaAlumno(asistencia);
-                                    } catch (Notificaciones ex) {
-                                        JOptionPane.showMessageDialog(null, ex.getMessage());
-                                    }
-                                } else {
-                                    fila[3] = "NO";
-                                    acceso = false;
-                                }
-                            }
-                        } else {
-                            if (!clasesSinHorario.isEmpty()) {
-                                if (clasesSinHorario.size() > 1) {
-                                    JOptionPane.showMessageDialog(null, "El Alumno requiere asistencia manual, conceder acceso");
-                                    fila[3] = "Acceso Manual";
-                                    acceso = false;
-                                } else {
-                                    if (verificarIngreso(clasesSinHorario.get(0))) {
-                                        fila[3] = "SI";
-                                        acceso = true;
-                                        AsistenciaAlumno asistencia = new AsistenciaAlumno(clasesSinHorario.get(0), new Date(), "ACTIVO");
-                                        try {
-                                            miControlador.altaAsistenciaAlumno(asistencia);
-                                            
-                                        } catch (Notificaciones ex) {
-                                            JOptionPane.showMessageDialog(null, ex.getMessage());
-                                            ex.printStackTrace();
-                                        }
-                                    } else {
-                                        fila[3] = "Si pero excede dias";
-                                        acceso = false;
-                                    }
-                                }
-                            }else{
-                                System.out.println("Usted ha llegado al principio del fondo del agujero de gusano");
-                            }
-                        }
-                    }
-                } else {
-                    fila[3] = "NO";
-                    acceso = false;
-                }
-
-                if (!usuario.getPersonals().isEmpty()) {
-                    fila[3] = "Personal Autorizado";
-                    acceso = true;
-                }
-                
-            } else {
-                fila[3] = "NO";
-                acceso = false;
-            }
-            modeloTabla.addRow(fila);
-        }
-        return acceso;
-    }
-
     
     /*
     * verificar ingreso retorna true si puede ingresar

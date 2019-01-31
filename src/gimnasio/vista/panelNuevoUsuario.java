@@ -76,6 +76,10 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
             this.foto = createImageFromBytes(unUsuario.getFoto());
             this.drawPicture(foto);
         }
+        if(unUsuario.getEstado().equalsIgnoreCase("NORMAL")
+                || unUsuario.getEstado().equalsIgnoreCase("OPERARIO")
+                || unUsuario.getEstado().equalsIgnoreCase("ADMIN"))
+            this.checkPersonal.setSelected(true);
     }
 
     /**
@@ -354,6 +358,7 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnCargarHuellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarHuellaActionPerformed
+        MainMenu.detenerLector();
         jDialogHuella huellaDialog = new jDialogHuella(null, true);
         this.datosHuella = huellaDialog.showDialog();
         if (datosHuella != null) {
@@ -387,6 +392,8 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                         miControlador.altaUsuario(miUsuario);
                     }
                     this.setVisible(false);
+                    jInternalUsuarios usuarios = (jInternalUsuarios) this.getParent().getParent().getParent().getParent().getParent();
+                    usuarios.cargarTabla();
                 } catch (IOException | Notificaciones ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                     System.err.print(Arrays.toString(ex.getStackTrace()));

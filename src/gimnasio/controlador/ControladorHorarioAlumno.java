@@ -28,15 +28,25 @@ public class ControladorHorarioAlumno {
     
     public void altaHorarioAlumno(HorarioAlumno unHorario) throws Notificaciones{
         this.miPersistencia.persistirInstancia(unHorario);
+        this.listaHorariosAlumnos = miPersistencia.getHorariosAlumnos();
+        this.miPersistencia.actualizarInstancias();
     }
 
-    public List<HorarioAlumno> getListaHorariosAlumno(Alumno unAlumno) {
+    public List<HorarioAlumno> getListaHorariosAlumno(ClaseAlumno clase) throws Notificaciones {
+        listaHorariosAlumnos = miPersistencia.getHorariosAlumnos();
         List<HorarioAlumno> retorno = new ArrayList<>();
-        for(ClaseAlumno claseAlu:unAlumno.getClaseAlumnos()){
-            for(HorarioAlumno horario:claseAlu.getHorarios()){
+        System.out.println("ControladorHorarioAlumno getListaHorariosAlumno");
+        System.out.println("For claseAlumno: " + clase);
+        for (HorarioAlumno horario : this.listaHorariosAlumnos) {
+            System.out.println("For horarioAlumno: " + horario);
+            if (horario.getEstado().equalsIgnoreCase("ACTIVO")
+                    && horario.getClaseAlumno().getIdclasealumno() == clase.getIdclasealumno()) {
+                System.out.println("Agregando...");
                 retorno.add(horario);
             }
         }
+
+        miPersistencia.actualizarInstancias();
         return retorno;
     }
     
@@ -48,5 +58,10 @@ public class ControladorHorarioAlumno {
             }
         }
         return retorno;
+    }
+
+    public void bajaHorario(HorarioAlumno horario) throws Notificaciones {
+        horario.setEstado("INACTIVO");
+        miPersistencia.persistirInstancia(horario);
     }
 }

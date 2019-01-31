@@ -7,6 +7,7 @@ package gimnasio.controlador;
 
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.ClaseProfesor;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,14 +25,14 @@ public class ControladorClaseProfesor {
     }
 
     public void altaClaseProfesor(ClaseProfesor unaClaseProfesor) throws Notificaciones {
-        int i = listaClaseProfesor.lastIndexOf(unaClaseProfesor);
-        if(i>=0){
-            throw new Notificaciones("La clase " + unaClaseProfesor.getClase() + " ya se encuentra asignada al profesor " + unaClaseProfesor.getProfesor());
-        }else{
+//        int i = listaClaseProfesor.lastIndexOf(unaClaseProfesor);
+//        if(i>=0){
+//            throw new Notificaciones("La clase " + unaClaseProfesor.getClase() + " ya se encuentra asignada al profesor " + unaClaseProfesor.getProfesor());
+//        }else{
             persistencia.persistirInstancia(unaClaseProfesor);
             persistencia.actualizarInstancias();
             this.listaClaseProfesor.add(unaClaseProfesor);
-        }        
+//        }        
     }
     
     public void bajaClaseProfesor(ClaseProfesor unaClase) throws Notificaciones {
@@ -46,8 +47,32 @@ public class ControladorClaseProfesor {
     }
     
     public List<ClaseProfesor> getListaClaseProfesor() throws Notificaciones{
-
         listaClaseProfesor = persistencia.getClasesProfesores();
-        return listaClaseProfesor;
+        List<ClaseProfesor> retorno = new ArrayList<>();
+        listaClaseProfesor.stream().filter((claseProfe) -> (claseProfe.getEstado().equalsIgnoreCase("ACTIVO"))).forEachOrdered((claseProfe) -> {
+            retorno.add(claseProfe);
+        });
+        return retorno;
     }
+
+    public List<ClaseProfesor> dameClaseProfesor(String text) throws Notificaciones {
+        List<ClaseProfesor> clases = buscarClaseProfe(text);
+        return clases;
+    }
+
+    private List<ClaseProfesor> buscarClaseProfe(String text) throws Notificaciones {
+        List<ClaseProfesor> retorno = new ArrayList<>();
+        listaClaseProfesor = persistencia.getClasesProfesores();
+        persistencia.actualizarInstancias();
+        System.out.println("\nControladorClaseProfesor buscarClaseProfe");
+        for(ClaseProfesor unaClase:listaClaseProfesor){
+            System.out.println("for unaClase: "+unaClase);
+            if(unaClase.toString().equalsIgnoreCase(text) && unaClase.getEstado().equalsIgnoreCase("ACTIVO")){
+                retorno.add(unaClase);
+                System.out.println("Agregando.");
+            }
+        }
+        return retorno;
+    }
+
 }

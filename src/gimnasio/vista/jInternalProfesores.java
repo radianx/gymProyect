@@ -35,6 +35,7 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
         cargarTabla();
         this.btnEliminar.setEnabled(false);
         this.btnModificar.setEnabled(false);
+        
         panelNewProfe = new panelNuevoProfesor(miControlador);
         this.panelPrincipal.add(panelNewProfe);
         rowSorter = new TableRowSorter<>(this.tablaProfesore.getModel());
@@ -258,9 +259,9 @@ public class jInternalProfesores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        if (!panelNewProfe.isVisible()) {
-            this.jPanel1.setVisible(true);
-        }
+//        if (!panelNewProfe.isVisible()) {
+//            this.jPanel1.setVisible(true);
+//        }
     }//GEN-LAST:event_formMouseEntered
 
     private void jPanel1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel1ComponentShown

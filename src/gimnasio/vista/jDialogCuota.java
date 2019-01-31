@@ -12,6 +12,7 @@ import gimnasio.modelo.Alumno;
 import gimnasio.modelo.ClaseAlumno;
 import gimnasio.modelo.Cuota;
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
@@ -32,18 +33,55 @@ public class jDialogCuota extends javax.swing.JDialog {
     /**
      * Creates new form jDialogCuota
      */
-    public jDialogCuota(java.awt.Frame parent, boolean modal, ControladorPrincipal controlador, Alumno unAlumno) {
+    public jDialogCuota(java.awt.Frame parent, boolean modal, ControladorPrincipal controlador, Alumno unAlumno){
         super(parent, modal);
         miControlador = controlador;
         alumno = unAlumno;
         initComponents();
         this.txtAlumno.setText(alumno.getNombrealumno() + " " + alumno.getApellidoalumno());
+        
         Locale locale = new Locale("es", "ES");
         DatePickerSettings settings = new DatePickerSettings(locale);
         settings.setFormatForDatesCommonEra("dd/MM/yyyy");
         settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");
         datePicker1.setSettings(settings);
-        this.datePicker1.setDateToToday();
+        LocalDate fecha;
+        try {
+            Cuota cuota = unAlumno.getUltimaCuota();
+            Date fechaVencimiento = cuota.getVencimiento();
+            fecha = Instant.ofEpochMilli(fechaVencimiento.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        }catch(Notificaciones ex){
+            fecha = LocalDate.now();
+        }
+        this.datePicker1.setDate(fecha);
+        cargarTabla(alumno);
+    }
+    
+    
+    
+    
+    public jDialogCuota(java.awt.Frame parent, boolean modal, ControladorPrincipal controlador, Alumno unAlumno, Cuota cuota, Double monto){
+        super(parent, modal);
+        miControlador = controlador;
+        alumno = unAlumno;
+        initComponents();
+        this.txtAlumno.setText(alumno.getNombrealumno() + " " + alumno.getApellidoalumno());
+        this.txtMonto.setText(String.valueOf(monto));
+        
+        Locale locale = new Locale("es", "ES");
+        DatePickerSettings settings = new DatePickerSettings(locale);
+        settings.setFormatForDatesCommonEra("dd/MM/yyyy");
+        settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");
+        datePicker1.setSettings(settings);
+        LocalDate fecha;
+        try {
+            cuota = unAlumno.getUltimaCuota();
+            Date fechaVencimiento = cuota.getVencimiento();
+            fecha = Instant.ofEpochMilli(fechaVencimiento.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        }catch(Notificaciones ex){
+            fecha = LocalDate.now();
+        }
+        this.datePicker1.setDate(fecha);
         cargarTabla(alumno);
     }
 
@@ -203,9 +241,10 @@ public class jDialogCuota extends javax.swing.JDialog {
             ClaseAlumno claseAlu = (ClaseAlumno) tablaClasesAlumno.getValueAt(tablaClasesAlumno.getSelectedRow(),0);
             Double monto = Double.valueOf(this.txtMonto.getText());
             Date fecha = Date.from(this.datePicker1.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            LocalDate vence = LocalDate.now().plusMonths(1).with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+            LocalDate vence = datePicker1.getDate().plusMonths(1).with(TemporalAdjusters.next(DayOfWeek.MONDAY));
             Date vencimiento = Date.from(vence.atStartOfDay(ZoneId.systemDefault()).toInstant());
             Cuota unaCuota = new Cuota(alumno,claseAlu.getClaseProfesor(),monto,fecha,vencimiento, "GENERADO");
+            
             alumno.getCuotas().add(unaCuota);
             try{
                 miControlador.altaCuota(unaCuota);

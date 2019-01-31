@@ -46,17 +46,17 @@ public class jInternalSectores extends javax.swing.JInternalFrame {
             modeloTabla.addColumn("Descripcion");
             Object[] fila = new Object[2];
 
-            try {
-                for (Sector miSector : miControlador.getListaSectores()) {
-                    if (miSector.getEstado().equalsIgnoreCase("ACTIVO")) {
-                        fila[0] = miSector;
-                        fila[1] = miSector.getDescripcionsector();
-                        modeloTabla.addRow(fila);
-                    }
-                }
-            } catch (NullPointerException ex) {
-                System.err.println("Error al cargar Sectores: " + ex.getMessage());
-            }
+//            try {
+//                for (Sector miSector : miControlador.getListaSectores()) {
+//                    if (miSector.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                        fila[0] = miSector;
+//                        fila[1] = miSector.getDescripcionsector();
+//                        modeloTabla.addRow(fila);
+//                    }
+//                }
+//            } catch (NullPointerException ex) {
+//                System.err.println("Error al cargar Sectores: " + ex.getMessage());
+//            }
             this.tablaSectores.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaSectores.getModel());
             tablaSectores.setRowSorter(rowSorter);

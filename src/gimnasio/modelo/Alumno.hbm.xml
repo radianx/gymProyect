@@ -35,19 +35,19 @@
         <property name="estado" type="string">
             <column name="estado" not-null="true" />
         </property>
-        <set name="claseAlumnos" table="clase_alumno" inverse="true" lazy="true" fetch="select" cascade="all">
+        <set name="claseAlumnos" table="clase_alumno" inverse="true" lazy="false" cascade="all-delete-orphan">
             <key>
                 <column name="idalumno" not-null="true" />
             </key>
             <one-to-many class="gimnasio.modelo.ClaseAlumno" />
         </set>
-        <set name="cuotas" table="cuota" inverse="true" lazy="true" fetch="select" cascade="all">
+        <set name="cuotas" table="cuota" inverse="true" lazy="false" cascade="all">
             <key>
                 <column name="idalumno" not-null="true" />
             </key>
             <one-to-many class="gimnasio.modelo.Cuota" />
         </set>
-        <set name="inscripcions" table="inscripcion" inverse="true" lazy="true" fetch="select" cascade="all">
+        <set name="inscripcions" table="inscripcion" inverse="true" lazy="false" cascade="all">
             <key>
                 <column name="idalumno" not-null="true" />
             </key>

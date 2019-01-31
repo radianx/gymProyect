@@ -39,16 +39,16 @@ public class panelNuevoSector extends javax.swing.JPanel {
             modeloTabla.addColumn("Nombre");
             Object[] fila = new Object[1];
 
-            try {
-                for (Sector miSector : miControlador.getListaSectores()) {
-                    if (miSector.getEstado().equalsIgnoreCase("INACTIVO")) {
-                        fila[0] = miSector;
-                        modeloTabla.addRow(fila);
-                    }
-                }
-            } catch (NullPointerException ex) {
-                System.err.println("Cargar la tabla retorna: " + ex.getMessage() + ", lo que probablemente significa que no hay sectores cargados en la base de datos");
-            }
+//            try {
+//                for (Sector miSector : miControlador.getListaSectores()) {
+//                    if (miSector.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                        fila[0] = miSector;
+//                        modeloTabla.addRow(fila);
+//                    }
+//                }
+//            } catch (NullPointerException ex) {
+//                System.err.println("Cargar la tabla retorna: " + ex.getMessage() + ", lo que probablemente significa que no hay sectores cargados en la base de datos");
+//            }
             this.tablaSectoresInactivos.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaSectoresInactivos.getModel());
             tablaSectoresInactivos.setRowSorter(rowSorter);

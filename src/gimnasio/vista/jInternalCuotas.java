@@ -34,6 +34,7 @@ public class jInternalCuotas extends javax.swing.JInternalFrame {
     private LocalDate vencimiento;
     private DefaultTableModel modeloTabla;
     private ControladorPrincipal miControlador;
+    private Cuota cuota;
     /**
      * Creates new form jInternalCuotas
      */
@@ -56,25 +57,22 @@ public class jInternalCuotas extends javax.swing.JInternalFrame {
         modeloTabla.addColumn("Clase");
         modeloTabla.addColumn("Alta Cuota");
         modeloTabla.addColumn("Vencimiento");
+        modeloTabla.addColumn("Monto");
         this.tabla.setModel(modeloTabla);
         Date alta = Date.from(altacuota.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date vence = Date.from(vencimiento.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Cuota cuota = new Cuota(alumno, claseProfesor, monto, alta, vence, "GENERADO");
+        cuota = new Cuota(alumno, claseProfesor, monto, alta, vence, "GENERADO");
         alumno.getCuotas().add(cuota);
-        try{
-            miControlador.altaCuota(cuota);
-            miControlador.altaAlumno(alumno);
-        }catch(Notificaciones ex){
-            JOptionPane.showMessageDialog(null,ex.getLocalizedMessage());
-        }
-        Object[]fila = new Object[4];
-        if(alumno.getCuotas().size()>=0) fila[0] = alumno.getCuotas().size()+1;
+
+        Object[]fila = new Object[5];
+        if(alumno.getCuotas().size()>=0) fila[0] = alumno.getCuotas().size();
         else fila[0] = 1;
         fila[1] = cuota.getClaseProfesor().getClase();
         String date = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
         fila[2] = date;
         date = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
         fila[3] = date;
+        fila[4] = cuota.getMonto();
         modeloTabla.addRow(fila);
     }
     /**
@@ -95,6 +93,7 @@ public class jInternalCuotas extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
 
         setClosable(true);
+        setTitle("GENERACION DE CUOTA");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -172,6 +171,15 @@ public class jInternalCuotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formComponentShown
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try{
+            cuota.setAlumno(alumno);
+            alumno.getCuotas().add(cuota);
+            miControlador.altaCuota(cuota);
+            miControlador.altaAlumno(alumno);
+        }catch(Notificaciones ex){
+            JOptionPane.showMessageDialog(null,ex.getLocalizedMessage());
+            ex.printStackTrace();
+        }
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 

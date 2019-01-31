@@ -40,17 +40,17 @@ public class panelNuevoCargo extends javax.swing.JPanel {
             modeloTabla.addColumn("Descripcion");
             Object[] fila = new Object[2];
             
-            try{
-            for (Cargo miCargo : miControlador.getListaCargos()) {
-                if (miCargo.getEstado().equalsIgnoreCase("INACTIVO")) {
-                    fila[0] = miCargo;
-                    fila[1] = miCargo.getDescripcioncargo();
-                    modeloTabla.addRow(fila);
-                }
-            }
-            } catch(NullPointerException ex){
-                System.err.println("Cargar la tabla retorna: "+ex.getMessage()+", lo que probablemente significa que no hay cargos cargados en la base de datos");
-            }
+//            try{
+//            for (Cargo miCargo : miControlador.getListaCargos()) {
+//                if (miCargo.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                    fila[0] = miCargo;
+//                    fila[1] = miCargo.getDescripcioncargo();
+//                    modeloTabla.addRow(fila);
+//                }
+//            }
+//            } catch(NullPointerException ex){
+//                System.err.println("Cargar la tabla retorna: "+ex.getMessage()+", lo que probablemente significa que no hay cargos cargados en la base de datos");
+//            }
             this.tablaCargosInactivos.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaCargosInactivos.getModel());
             tablaCargosInactivos.setRowSorter(rowSorter);

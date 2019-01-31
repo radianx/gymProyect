@@ -135,6 +135,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             } catch(Notificaciones ex){
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
+            
             this.tablaAlumnosInactivos.setModel(modeloTabla);
             rowSorter = new TableRowSorter<>(this.tablaAlumnosInactivos.getModel());
             tablaAlumnosInactivos.setRowSorter(rowSorter);
@@ -522,6 +523,10 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                     alumnoSeleccionado.setPeso(peso);
                     miControlador.altaAlumno(alumnoSeleccionado);
                 }
+                
+                jInternalAlumno usuarios = (jInternalAlumno) this.getParent().getParent().getParent().getParent().getParent();
+                usuarios.cargarTabla();
+                
                 String[] opciones ={"SI","NO","CANCELAR"};
                 int seleccion = JOptionPane.showOptionDialog(null, "¿Inscribir al alumno a una clase?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
                 switch (seleccion){

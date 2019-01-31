@@ -516,9 +516,8 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
             if (seleccion instanceof Alumno) {
                 Alumno unAlumno = (Alumno) seleccion;
                 ClaseAlumno claseAlumno = (ClaseAlumno) cmbClases.getSelectedItem();
-                AsistenciaAlumno unaAsistenciaAlumno = new AsistenciaAlumno(claseAlumno, fecha, "ACTIVO");
                 try{
-                    miControlador.altaAsistenciaAlumno(unaAsistenciaAlumno);
+                    miControlador.altaAsistenciaAlumno(claseAlumno ,fecha);
                 }catch(Notificaciones ex){
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }

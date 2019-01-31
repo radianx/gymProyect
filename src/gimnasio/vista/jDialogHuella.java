@@ -282,12 +282,14 @@ public class jDialogHuella extends javax.swing.JDialog {
         guardarHuella();
         this.setVisible(false);
         this.stop();
+        MainMenu.iniciarEscaner();
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.setVisible(false);
         this.stop();
+        MainMenu.iniciarEscaner();
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

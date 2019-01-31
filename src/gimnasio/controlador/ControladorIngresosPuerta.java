@@ -33,6 +33,7 @@ public class ControladorIngresosPuerta {
     }
 
     public List<IngresosPuerta> getListaIngresosPuerta(LocalDate desde, LocalDate hasta) {
+        listaIngresosPuerta = miPersistencia.getIngresosPuerta();
         List<IngresosPuerta> retorno = new ArrayList<>();
         LocalDate fechaIngreso;
         if(desde.isEqual(hasta)){
@@ -50,6 +51,7 @@ public class ControladorIngresosPuerta {
                 }
             }
         }
+        Collections.sort(retorno);
         return retorno;
     }
 
@@ -83,8 +85,6 @@ public class ControladorIngresosPuerta {
             Usuario miUsuario = (Usuario) modeloTabla.getValueAt(i, 0);
             if (ingresoPuerta != null && esEgreso) {
                 if (miUsuario.getIdusuario() == ingresoPuerta.getUsuario().getIdusuario()) {
-                    System.out.println("INTENTANDO ELIMINAR USUARIO: " +miUsuario.toString());
-                    System.out.println("fila numero: "+i);
                     modeloTabla.removeRow(i);
                     modeloTabla.fireTableStructureChanged();
                     tabla.repaint();

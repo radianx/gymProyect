@@ -137,26 +137,44 @@ public class jInternalReportes extends javax.swing.JInternalFrame {
     private void btnReporteDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteDiaActionPerformed
         try {
             miControlador.generarReporteDiario();
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        } catch (DocumentException ex) {
+        } catch (Notificaciones | DocumentException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_btnReporteDiaActionPerformed
 
     private void btnReporteDiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteDiasActionPerformed
         if (pickerDesde.getDate() != null && pickerHasta.getDate() != null) {
-            LocalDate desde = pickerDesde.getDate();
-            LocalDate hasta = pickerHasta.getDate();
-
-            if (desde.isBefore(hasta)) {
-                try {
-                    miControlador.generarReporteDias(desde, hasta);
-                } catch (Notificaciones ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage());
+            try {
+                LocalDate desde = pickerDesde.getDate();
+                LocalDate hasta = pickerHasta.getDate();
+                if (!miControlador.hayCajaAbiertaHoy()) {
+                    if (desde.isBefore(hasta)) {
+                        try {
+                            miControlador.generarReporteDias(desde, hasta);
+                        } catch (Notificaciones ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage());
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Debe ingresar un rango de fechas valido.");
+                    }
+                }else{
+                    String[] opciones ={"SI","CERRAR MANUALMENTE","CANCELAR"};
+                    int seleccion = JOptionPane.showOptionDialog(null,"Hay Cajas abiertas, ¿Desea cerrarlas automáticamente?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+                    switch (seleccion){
+                        case 0:
+                            miControlador.cerrarTodasLasCajas();
+                            miControlador.generarReporteDias(desde, hasta);
+                            break;
+                        case 1: //salio por el no
+                            JOptionCajasAbiertas cajasAbiertas = new JOptionCajasAbiertas(null, true, miControlador);
+                            cajasAbiertas.setVisible(true);
+                            break;
+                        case 3: //no hacer nada --> hacer algo?
+                            break;
+                    }
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Debe ingresar un rango de fechas valido.");
+            } catch (Notificaciones ex) {
+                Logger.getLogger(jInternalReportes.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Debe ingresar un rango de fechas.");

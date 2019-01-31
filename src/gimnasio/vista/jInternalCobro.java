@@ -12,6 +12,8 @@ import gimnasio.modelo.CobroCuota;
 import gimnasio.modelo.Cuota;
 import gimnasio.modelo.SaldoCuota;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.ClaseAlumno;
+import gimnasio.modelo.ClaseProfesor;
 import java.util.List;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
@@ -386,8 +388,6 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
         int seleccion = JOptionPane.showOptionDialog(null, "¿Confirma pago de Cuota?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
         if (seleccion == 0) {
             try {
-                jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador,elAlumno);
-                nuevaCuota.setVisible(true);
                 Double abono = Double.valueOf(txtMontoAbonar.getText());
 
                 LocalDate fecha = datePicker.getDate();
@@ -408,6 +408,25 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                     if (nuevoSaldo > 0) {
                         generarNuevoSaldo(unCobroCuota, nuevoSaldo);
                     }
+                    
+                    int select = JOptionPane.showOptionDialog(null, "¿Generar proxima Cuota?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+                    if(select==0){
+                        jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono);
+                        nuevaCuota.setVisible(true);
+                    }
+                    if(select==1){
+                        int sel = JOptionPane.showOptionDialog(null, "¿Desinscribir al alumno de la clase?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+                        if(sel==0){
+                            ClaseProfesor cp = cuota.getClaseProfesor();
+                            for(ClaseAlumno ca:cp.getClaseAlumnos()){
+                                if(ca.getAlumno().equals(elAlumno)){
+                                    controlador.bajaClaseAlumno(ca);
+                                    System.out.println("Dando de baja al alumno de la clase: "+ ca);
+                                }
+                            }
+                        }
+                    }
+
                 } catch (Notificaciones ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }

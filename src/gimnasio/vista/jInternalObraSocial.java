@@ -39,7 +39,7 @@ public class jInternalObraSocial extends javax.swing.JInternalFrame {
         this.add(panelNewOS);
         this.btnEliminar.setEnabled(false);
         this.btnModificar.setEnabled(false);
-    
+        cargarTabla();
     }
 
     public void cargarTabla() {

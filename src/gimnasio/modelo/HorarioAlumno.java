@@ -41,6 +41,7 @@ public class HorarioAlumno {
         this.claseAlumno = claseAlumno;
         this.inicio = inicio;
         this.fin = fin;
+        claseAlumno.getHorarios().add(this);
     }
 
     public int getIdHorarioAlumno() {
@@ -127,6 +128,11 @@ public class HorarioAlumno {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getInicioString() {
+        String text = new SimpleDateFormat("HH:mm").format(this.inicio);
+        return text;
     }
     
     

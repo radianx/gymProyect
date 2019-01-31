@@ -8,10 +8,10 @@
             <column name="idclasealumno" />
             <generator class="increment" />
         </id>
-        <many-to-one name="alumno" class="gimnasio.modelo.Alumno" fetch="select" cascade="all">
+        <many-to-one name="alumno" class="gimnasio.modelo.Alumno" lazy="false" cascade="all">
             <column name="idalumno" not-null="true" />
         </many-to-one>
-        <many-to-one name="claseProfesor" class="gimnasio.modelo.ClaseProfesor" fetch="select" cascade="all">
+        <many-to-one name="claseProfesor" class="gimnasio.modelo.ClaseProfesor" lazy="false" cascade="all">
             <column name="idclaseprofesor" not-null="true" />
         </many-to-one>
         <property name="precio" type="java.lang.Double">
@@ -23,7 +23,7 @@
         <property name="diasPorSemana" type="int">
             <column name="diasPorSemana" />
         </property>
-        <set name="asistenciaAlumnos" table="asistencia_alumno" inverse="true" lazy="true" fetch="select" cascade="all">
+        <set name="asistenciaAlumnos" table="asistencia_alumno" inverse="true" lazy="false" cascade="all">
             <key>
                 <column name="idclasealumno" not-null="true" />
             </key>

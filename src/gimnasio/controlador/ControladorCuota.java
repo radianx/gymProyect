@@ -69,13 +69,22 @@ public class ControladorCuota {
     public List<Cuota> getCuotasDeAlumno(Alumno unAlumno) throws Notificaciones {
         listaCuotas = miPersistencia.getCuotas();
         List<Cuota> retorno = new ArrayList<>();
+        System.out.println("ControladorCuota GetCuotasDeAlumno");
         for(Cuota unaCuota: listaCuotas){
+            System.out.println("For Cuotas of Alumno");
             if(unAlumno.getNombrealumno().equalsIgnoreCase(unaCuota.getAlumno().getNombrealumno())
                 && unAlumno.getApellidoalumno().equalsIgnoreCase(unaCuota.getAlumno().getApellidoalumno())){
                     retorno.add(unaCuota);
+                    System.out.println("Cuota agregada");
             }
         }
+        Collections.sort(retorno);
         return retorno;
+    }
+
+    public List<Cuota> getListaCuotas() throws Notificaciones{
+        listaCuotas = miPersistencia.getCuotas();
+        return listaCuotas;
     }
     
 }

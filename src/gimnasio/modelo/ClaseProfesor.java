@@ -117,5 +117,40 @@ public class ClaseProfesor  implements java.io.Serializable {
     public String toString() {
         return clase.toString();
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 43 * hash + this.idclaseprofesor;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ClaseProfesor other = (ClaseProfesor) obj;
+        if (this.idclaseprofesor != other.idclaseprofesor) {
+            return false;
+        }
+        if (!Objects.equals(this.clase, other.clase)) {
+            return false;
+        }
+        if (!Objects.equals(this.modalidad, other.modalidad)) {
+            return false;
+        }
+        if (!Objects.equals(this.profesor, other.profesor)) {
+            return false;
+        }
+        return true;
+    }
+    
     
 }

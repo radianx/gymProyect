@@ -22,14 +22,14 @@ import javax.swing.table.TableRowSorter;
 public class jInternalClases extends javax.swing.JInternalFrame {
 
     ControladorPrincipal miControlador;
-    panelNuevaClase panelNewClase;
+    PanelNuevaClase panelNewClase;
     String text = "";
     
     public jInternalClases(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
         CargadorTabla.clasesActivas(tablaClasesActivas, miControlador);
-        panelNewClase = new panelNuevaClase(miControlador);
+        panelNewClase = new PanelNuevaClase(miControlador);
         this.add(panelNewClase);
     }
 

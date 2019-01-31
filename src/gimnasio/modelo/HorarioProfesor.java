@@ -7,6 +7,7 @@ package gimnasio.modelo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -19,6 +20,7 @@ public class HorarioProfesor {
     private Date inicio;
     private Date fin;
     private String estado;
+    private String promocion;
 
     public HorarioProfesor() {
     }
@@ -84,8 +86,9 @@ public class HorarioProfesor {
 
     @Override
     public String toString() {
-        String text = new SimpleDateFormat("HH:mm").format(this.inicio);
-        return text;
+        SimpleDateFormat formato =  new SimpleDateFormat("EEEE", new Locale("es","ES"));
+        String fecha = formato.format(this.inicio);
+        return fecha;
     }
 
     @Override
@@ -127,6 +130,19 @@ public class HorarioProfesor {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getPromocion() {
+        return promocion;
+    }
+
+    public void setPromocion(String promocion) {
+        this.promocion = promocion;
+    }
+
+    public String getInicioString() {
+        String text = new SimpleDateFormat("HH:mm").format(this.inicio);
+        return text;
     }
 
 

@@ -224,7 +224,7 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_tablaUsuariosMouseClicked
 
     private void tablaUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseEntered
-        cargarTabla();
+
     }//GEN-LAST:event_tablaUsuariosMouseEntered
 
 

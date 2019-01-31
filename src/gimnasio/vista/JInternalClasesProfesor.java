@@ -8,18 +8,24 @@ package gimnasio.vista;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Clase;
+import gimnasio.modelo.ClaseAlumno;
 import gimnasio.modelo.ClaseProfesor;
 import gimnasio.modelo.HorarioProfesor;
+import gimnasio.modelo.Modalidad;
 import gimnasio.modelo.Profesor;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
@@ -34,86 +40,83 @@ import javax.swing.table.TableRowSorter;
 public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
 
     ControladorPrincipal miControlador;
+    panelClaseProfesorHorario panelClaseProfesorHorario;
     panelClaseProfesor panelNewClaseProfesor;
-    DefaultTableModel modeloTablaDias;
-    DefaultTableModel modeloTabla;
+    DefaultTableModel modeloTablaHorarios;
+    DefaultTableModel modeloTablaClaseProfesor;
     TableRowSorter<TableModel> rowSorter;
     String text = "";
+    
+    public Profesor profesorSeleccionado;
+    public Clase claseSeleccionada;
+    public Modalidad modalidadSeleccionada;
+    public ClaseProfesor claseProfesor;
     
     public JInternalClasesProfesor(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
-        cargarTabla();
-        cargarTablaDias();
-        panelNewClaseProfesor = new panelClaseProfesor(miControlador);
+        cargarTablaClaseProfesores();
+        cargarTablaHorarios();
+        panelClaseProfesorHorario = new panelClaseProfesorHorario(miControlador);
+        panelNewClaseProfesor = new panelClaseProfesor(miControlador, panelClaseProfesorHorario);
+
+        this.add(panelClaseProfesorHorario);
         this.add(panelNewClaseProfesor);
     }
 
-    public void cargarTablaDias(){
-        modeloTablaDias = new DefaultTableModel();
-        modeloTablaDias.addColumn("Clase");
-        modeloTablaDias.addColumn("Dia");
-        modeloTablaDias.addColumn("Inicio");
-        modeloTablaDias.addColumn("Fin");
-        this.tablaClasesActivas.setModel(modeloTablaDias);
+    public void cargarTablaHorarios(){
+        modeloTablaHorarios = new DefaultTableModel();
+        modeloTablaHorarios.addColumn("Dia");
+        modeloTablaHorarios.addColumn("Inicio");
+        modeloTablaHorarios.addColumn("Fin");
+        modeloTablaHorarios.addColumn("Es Promocion");
+        this.tablaHorarios.setModel(modeloTablaHorarios);
     }
     
-    public void cargarTabla() {
+    public void cargarTablaHorarios(ClaseProfesor claseProfesor){
+        modeloTablaHorarios = new DefaultTableModel();
+        modeloTablaHorarios.addColumn("Dia");
+        modeloTablaHorarios.addColumn("Inicio");
+        modeloTablaHorarios.addColumn("Fin");
+        modeloTablaHorarios.addColumn("Es Promocion");
+        Object[] fila = new Object[4];
+        for(HorarioProfesor unHorario:claseProfesor.getHorarios()){
+            if(unHorario.getEstado().equalsIgnoreCase("ACTIVO")){
+                fila[0] = unHorario;
+                fila[1] = unHorario.getInicioString();
+                fila[2] = unHorario.getFinString();
+                fila[3] = unHorario.getPromocion();
+                modeloTablaHorarios.addRow(fila);
+            }
+        }
+        this.tablaHorarios.setModel(modeloTablaHorarios);
+    }
+    
+    public void cargarTablaClaseProfesores() {
         try {
-            modeloTabla = new DefaultTableModel();
-            modeloTabla.addColumn("Nombre");
-            modeloTabla.addColumn("Apellido");
-            modeloTabla.addColumn("Usuario");
+            modeloTablaClaseProfesor = new DefaultTableModel();
+            modeloTablaClaseProfesor.addColumn("Clase");
+            modeloTablaClaseProfesor.addColumn("Nombre");
+            modeloTablaClaseProfesor.addColumn("Apellido");
             Object[] fila = new Object[3];
 
-            for (Profesor miProfesor : miControlador.getListaProfesores()) {
-                if (miProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
-                    fila[0] = miProfesor;
-                    fila[1] = miProfesor.getApellidoprofesor();
-                    fila[2] = miProfesor.getUsuario().getNombreusuario();
-                    modeloTabla.addRow(fila);
+            for (ClaseProfesor claseProfe : miControlador.getListaClaseProfesor()) {
+                if (claseProfe.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    fila[0] = claseProfe;
+                    fila[1] = claseProfe.getProfesor();
+                    fila[2] = claseProfe.getProfesor().getApellidoprofesor();
+                    modeloTablaClaseProfesor.addRow(fila);
                 }
             }
-            this.tablaProfesores.setModel(modeloTabla);
-            rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
-            tablaProfesores.setRowSorter(rowSorter);
+            this.tablaClasesProfesores.setModel(modeloTablaClaseProfesor);
+            rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
+            tablaClasesProfesores.setRowSorter(rowSorter);
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
         }
     }
     
-    public void cargarTablaClases(Profesor unProfe){
-        modeloTablaDias = new DefaultTableModel();
-        modeloTablaDias.addColumn("Clase");
-        modeloTablaDias.addColumn("Dia");
-        modeloTablaDias.addColumn("Inicio");
-        modeloTablaDias.addColumn("Fin");
-        this.tablaClasesActivas.setModel(modeloTablaDias);
-        Object[] fila = new Object[4];
-        try {
-            if (unProfe != null) {
-                for (ClaseProfesor claseProfesor : unProfe.getClaseProfesors()) {
-                    for (HorarioProfesor horarioProfesor : miControlador.getListaHorarios()) {
-                        if (horarioProfesor.getClaseProfesor().getIdclaseprofesor() == claseProfesor.getIdclaseprofesor()
-                                && claseProfesor.getEstado().equalsIgnoreCase("ACTIVO") && horarioProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
-                            fila[0] = claseProfesor;
-
-                            fila[1] = new SimpleDateFormat("EEEE", new Locale("es", "ES")).format(horarioProfesor.getInicio());
-                            fila[2] = horarioProfesor;
-
-                            fila[3] = horarioProfesor.getFinString();
-
-                            modeloTablaDias.addRow(fila);
-                        }
-                    }
-                }
-            }
-        } catch (Notificaciones ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-            ex.printStackTrace();
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -126,13 +129,16 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
 
         panelPrincipal = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaClasesActivas = new javax.swing.JTable();
-        jPanel5 = new javax.swing.JPanel();
-        btnNuevo = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablaProfesores = new javax.swing.JTable();
+        tablaClasesProfesores = new javax.swing.JTable();
+        btnNuevo = new javax.swing.JButton();
+        btnEliminarClase = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaHorarios = new javax.swing.JTable();
+        btnNuevo1 = new javax.swing.JButton();
+        btnEliminarHorario = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnCerrar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -143,8 +149,8 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("GESTION PROFESORES POR CLASE");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
-        setMinimumSize(new java.awt.Dimension(600, 400));
-        setPreferredSize(new java.awt.Dimension(600, 400));
+        setMinimumSize(new java.awt.Dimension(600, 426));
+        setPreferredSize(new java.awt.Dimension(600, 426));
         getContentPane().setLayout(new java.awt.CardLayout());
 
         panelPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -159,9 +165,11 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         });
         panelPrincipal.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Clases de Profesor"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        tablaClasesActivas.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Clases y Profesores"));
+
+        tablaClasesProfesores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -172,17 +180,18 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tablaClasesActivas.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaClasesProfesores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaClasesActivasMouseClicked(evt);
+                tablaClasesProfesoresMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tablaClasesProfesoresMouseEntered(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaClasesActivasMouseReleased(evt);
+                tablaClasesProfesoresMouseReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tablaClasesActivas);
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jScrollPane2.setViewportView(tablaClasesProfesores);
 
         btnNuevo.setText("<HTML><CENTER>NUEVA<BR>CLASE</CENTER></HTML>");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -190,19 +199,19 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
                 btnNuevoActionPerformed(evt);
             }
         });
-        jPanel5.add(btnNuevo);
 
-        btnEliminar.setText("<HTML><CENTER>ELIMINAR<BR>CLASE</CENTER></HTML>");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarClase.setText("<HTML><CENTER>ELIMINAR<BR>CLASE</CENTER></HTML>");
+        btnEliminarClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnEliminarClaseActionPerformed(evt);
             }
         });
-        jPanel5.add(btnEliminar);
 
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Profesores"));
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        tablaProfesores.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Horarios de Clase"));
+
+        tablaHorarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -213,18 +222,87 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tablaProfesores.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaHorarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaProfesoresMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                tablaProfesoresMouseEntered(evt);
+                tablaHorariosMouseClicked(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaProfesoresMouseReleased(evt);
+                tablaHorariosMouseReleased(evt);
             }
         });
-        jScrollPane2.setViewportView(tablaProfesores);
+        jScrollPane1.setViewportView(tablaHorarios);
+
+        btnNuevo1.setText("<HTML><CENTER>MODIFICAR<BR>HORARIO</CENTER></HTML>");
+        btnNuevo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevo1ActionPerformed(evt);
+            }
+        });
+
+        btnEliminarHorario.setText("<HTML><CENTER>ELIMINAR<BR>HORARIO</CENTER></HTML>");
+        btnEliminarHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarHorarioActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(112, Short.MAX_VALUE)
+                .addComponent(btnNuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminarHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEliminarClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)))
+                .addGap(10, 10, 10)
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -232,24 +310,15 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelPrincipal.add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -282,7 +351,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         });
         jPanel1.add(txtBuscar);
 
-        btnBuscar.setText("Buscar Profesor");
+        btnBuscar.setText("BUSCAR");
         jPanel1.add(btnBuscar);
 
         panelPrincipal.add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -293,24 +362,42 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        cambiarPanel(this.panelPrincipal, panelNewClaseProfesor);
+        panelNewClaseProfesor.reLoad();
+        String[] opciones = {"SI", "NO"};
+        int seleccion = JOptionPane.showOptionDialog(null,
+                "¿La clase va a ser de Horario Libre?",
+                "Seleccione una opcion",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE
+                , null, opciones, opciones[0]);
+        if(seleccion==1){
+            cambiarPanel(this.panelPrincipal, panelNewClaseProfesor);
+        }
+        if(seleccion==0){
+            panelNewClaseProfesor.cargarLibre();
+            cambiarPanel(this.panelPrincipal, panelNewClaseProfesor);
+        }
     }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if(!this.tablaClasesActivas.getSelectionModel().isSelectionEmpty()){
+    private void btnEliminarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClaseActionPerformed
+        if(!this.tablaClasesProfesores.getSelectionModel().isSelectionEmpty()){
             try {
-                miControlador.bajaHorarioProfesor((HorarioProfesor) tablaClasesActivas.getValueAt(this.tablaClasesActivas.getSelectedRow(),2));
+                List<ClaseAlumno> alumnosSinClase = miControlador.bajaClaseProfesor((ClaseProfesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(),0));
+                for(ClaseAlumno alu:alumnosSinClase){
+                    System.out.println(alu);
+                }
                 SwingUtilities.invokeLater(new Runnable(){public void run(){
-                    cargarTablaClases((Profesor) tablaProfesores.getValueAt(tablaProfesores.getSelectedRow(),0));
+                    cargarTablaClaseProfesores();
+                    cargarTablaHorarios();
                 }});
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 ex.printStackTrace();
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar una clase para eliminarla");
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Horario para eliminar");
         }
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }//GEN-LAST:event_btnEliminarClaseActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         this.dispose();        // TODO add your handling code here:
@@ -319,26 +406,26 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
             rowSorter.setRowFilter(null);
-            tablaProfesores.setRowSorter(rowSorter);
+            tablaClasesProfesores.setRowSorter(rowSorter);
         } else {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            tablaProfesores.setRowSorter(rowSorter);
+            tablaClasesProfesores.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
             rowSorter.setRowFilter(null);
-            tablaProfesores.setRowSorter(rowSorter);
+            tablaClasesProfesores.setRowSorter(rowSorter);
         } else {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaProfesores.getModel());
+            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            tablaProfesores.setRowSorter(rowSorter);
+            tablaClasesProfesores.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
@@ -350,45 +437,77 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_panelPrincipalMouseEntered
 
     private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
-        this.cargarTabla();
+
     }//GEN-LAST:event_panelPrincipalComponentShown
 
-    private void tablaProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseClicked
-        if(!tablaProfesores.getSelectionModel().isSelectionEmpty()){
-            cargarTablaClases((Profesor) tablaProfesores.getValueAt(tablaProfesores.getSelectedRow(), 0));
+    private void tablaClasesProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesProfesoresMouseClicked
+        if(!tablaClasesProfesores.getSelectionModel().isSelectionEmpty()){
+            claseProfesor = (ClaseProfesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(),0);
+            this.cargarTablaHorarios(claseProfesor);
+            profesorSeleccionado = (Profesor)tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(),1);
+            this.modalidadSeleccionada = claseProfesor.getModalidad();
+            claseSeleccionada = claseProfesor.getClase();
         }
-    }//GEN-LAST:event_tablaProfesoresMouseClicked
+    }//GEN-LAST:event_tablaClasesProfesoresMouseClicked
 
-    private void tablaProfesoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseReleased
+    private void tablaClasesProfesoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesProfesoresMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_tablaProfesoresMouseReleased
+    }//GEN-LAST:event_tablaClasesProfesoresMouseReleased
 
-    private void tablaClasesActivasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesActivasMouseReleased
-        this.btnEliminar.setEnabled(true);
-    }//GEN-LAST:event_tablaClasesActivasMouseReleased
+    private void tablaHorariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaHorariosMouseReleased
+        this.btnEliminarClase.setEnabled(true);
+    }//GEN-LAST:event_tablaHorariosMouseReleased
 
-    private void tablaClasesActivasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesActivasMouseClicked
-    }//GEN-LAST:event_tablaClasesActivasMouseClicked
+    private void tablaHorariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaHorariosMouseClicked
+    }//GEN-LAST:event_tablaHorariosMouseClicked
 
-    private void tablaProfesoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseEntered
-        cargarTabla();
-    }//GEN-LAST:event_tablaProfesoresMouseEntered
+    private void tablaClasesProfesoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesProfesoresMouseEntered
+        cargarTablaClaseProfesores();
+    }//GEN-LAST:event_tablaClasesProfesoresMouseEntered
+
+    private void btnEliminarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarHorarioActionPerformed
+        if(!tablaHorarios.getSelectionModel().isSelectionEmpty()){
+            try {
+                miControlador.bajaHorarioProfesor((HorarioProfesor) tablaHorarios.getValueAt(tablaHorarios.getSelectedRow(),0));
+                modeloTablaHorarios.removeRow(tablaHorarios.getSelectedRow());
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarHorarioActionPerformed
+
+    private void btnNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevo1ActionPerformed
+        if(profesorSeleccionado != null && modalidadSeleccionada != null && claseSeleccionada != null){
+        cambiarPanel(panelPrincipal, panelClaseProfesorHorario);
+        List<HorarioProfesor> horarios = new ArrayList<>();
+        for(int i = 0; i<modeloTablaHorarios.getRowCount();i++){
+            horarios.add((HorarioProfesor) tablaHorarios.getValueAt(i, 0));
+        }
+        panelClaseProfesorHorario.recibirDatos(claseProfesor,profesorSeleccionado, modalidadSeleccionada, claseSeleccionada, horarios);
+        }else{
+            JOptionPane.showMessageDialog(null, "Seleccione una clase para agregar un horario");
+        }
+    }//GEN-LAST:event_btnNuevo1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnEliminarClase;
+    private javax.swing.JButton btnEliminarHorario;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnNuevo1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelPrincipal;
-    private javax.swing.JTable tablaClasesActivas;
-    private javax.swing.JTable tablaProfesores;
+    private javax.swing.JTable tablaClasesProfesores;
+    private javax.swing.JTable tablaHorarios;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
@@ -396,4 +515,5 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
                 panelCambio.setVisible(true);
 		// this.pack();
     }
+
 }

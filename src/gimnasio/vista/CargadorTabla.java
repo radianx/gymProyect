@@ -75,49 +75,49 @@ public abstract class CargadorTabla {
         tabla.setRowSorter(rowSorter);
     }
     
-    public static void cargosActivos(JTable tabla, ControladorPrincipal controlador) throws Notificaciones{
-            DefaultTableModel modeloTabla = new DefaultTableModel();
-            modeloTabla.addColumn("Nombre");
-            modeloTabla.addColumn("Descripcion");
-            Object[] fila = new Object[2];
-
-            try {
-                for (Cargo unCargo : controlador.getListaCargos()) {
-                    if (unCargo.getEstado().equalsIgnoreCase("ACTIVO")) {
-                        fila[0] = unCargo;
-                        fila[1] = unCargo.getDescripcioncargo();
-                        modeloTabla.addRow(fila);
-                    }
-                }
-            } catch (NullPointerException ex) {
-                System.err.println("Error al cargar Cargos: " + ex.getMessage());
-            }
-            tabla.setModel(modeloTabla);
-            TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-            tabla.setRowSorter(rowSorter);
-    }
-    
-    public static void cargosInactivos(JTable tabla, ControladorPrincipal controlador) throws Notificaciones{
-            DefaultTableModel modeloTabla = new DefaultTableModel();
-            modeloTabla.addColumn("Nombre");
-            modeloTabla.addColumn("Descripcion");
-            Object[] fila = new Object[2];
-
-            try {
-                for (Cargo unCargo : controlador.getListaCargos()) {
-                    if (unCargo.getEstado().equalsIgnoreCase("INACTIVO")) {
-                        fila[0] = unCargo;
-                        fila[1] = unCargo.getDescripcioncargo();
-                        modeloTabla.addRow(fila);
-                    }
-                }
-            } catch (NullPointerException ex) {
-                System.err.println("Error al cargar Cargos: " + ex.getMessage());
-            }
-            tabla.setModel(modeloTabla);
-            TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-            tabla.setRowSorter(rowSorter);
-    }
+//    public static void cargosActivos(JTable tabla, ControladorPrincipal controlador) throws Notificaciones{
+//            DefaultTableModel modeloTabla = new DefaultTableModel();
+//            modeloTabla.addColumn("Nombre");
+//            modeloTabla.addColumn("Descripcion");
+//            Object[] fila = new Object[2];
+//
+//            try {
+//                for (Cargo unCargo : controlador.getListaCargos()) {
+//                    if (unCargo.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                        fila[0] = unCargo;
+//                        fila[1] = unCargo.getDescripcioncargo();
+//                        modeloTabla.addRow(fila);
+//                    }
+//                }
+//            } catch (NullPointerException ex) {
+//                System.err.println("Error al cargar Cargos: " + ex.getMessage());
+//            }
+//            tabla.setModel(modeloTabla);
+//            TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//            tabla.setRowSorter(rowSorter);
+//    }
+//    
+//    public static void cargosInactivos(JTable tabla, ControladorPrincipal controlador) throws Notificaciones{
+//            DefaultTableModel modeloTabla = new DefaultTableModel();
+//            modeloTabla.addColumn("Nombre");
+//            modeloTabla.addColumn("Descripcion");
+//            Object[] fila = new Object[2];
+//
+//            try {
+//                for (Cargo unCargo : controlador.getListaCargos()) {
+//                    if (unCargo.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                        fila[0] = unCargo;
+//                        fila[1] = unCargo.getDescripcioncargo();
+//                        modeloTabla.addRow(fila);
+//                    }
+//                }
+//            } catch (NullPointerException ex) {
+//                System.err.println("Error al cargar Cargos: " + ex.getMessage());
+//            }
+//            tabla.setModel(modeloTabla);
+//            TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//            tabla.setRowSorter(rowSorter);
+//    }
     
     public static void modalidadesActivas(JTable tabla, ControladorPrincipal controlador) throws Notificaciones {
         DefaultTableModel modeloTabla = new DefaultTableModel();
@@ -231,43 +231,43 @@ public abstract class CargadorTabla {
             tabla.setRowSorter(rowSorter);
     }
     
-    public static void sectoresActivos(JTable tabla, ControladorPrincipal controlador){
-            DefaultTableModel modeloTabla = new DefaultTableModel();
-            modeloTabla.addColumn("Nombre");
-            modeloTabla.addColumn("Descripcion");
-            Object[] fila = new Object[2];
-
-                for (Sector miSector : controlador.getListaSectores()) {
-                    if (miSector.getEstado().equalsIgnoreCase("ACTIVO")) {
-                        fila[0] = miSector;
-                        fila[1] = miSector.getDescripcionsector();
-                        modeloTabla.addRow(fila);
-                    }
-                }
-                
-            tabla.setModel(modeloTabla);
-            TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-            tabla.setRowSorter(rowSorter);
-    }
-    
-    public static void sectoresInactivos(JTable tabla, ControladorPrincipal controlador){
-            DefaultTableModel modeloTabla = new DefaultTableModel();
-            modeloTabla.addColumn("Nombre");
-            modeloTabla.addColumn("Descripcion");
-            Object[] fila = new Object[2];
-
-                for (Sector miSector : controlador.getListaSectores()) {
-                    if (miSector.getEstado().equalsIgnoreCase("INACTIVO")) {
-                        fila[0] = miSector;
-                        fila[1] = miSector.getDescripcionsector();
-                        modeloTabla.addRow(fila);
-                    }
-                }
-                
-            tabla.setModel(modeloTabla);
-            TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-            tabla.setRowSorter(rowSorter);
-    }    
+//    public static void sectoresActivos(JTable tabla, ControladorPrincipal controlador){
+//            DefaultTableModel modeloTabla = new DefaultTableModel();
+//            modeloTabla.addColumn("Nombre");
+//            modeloTabla.addColumn("Descripcion");
+//            Object[] fila = new Object[2];
+//
+//                for (Sector miSector : controlador.getListaSectores()) {
+//                    if (miSector.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                        fila[0] = miSector;
+//                        fila[1] = miSector.getDescripcionsector();
+//                        modeloTabla.addRow(fila);
+//                    }
+//                }
+//                
+//            tabla.setModel(modeloTabla);
+//            TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//            tabla.setRowSorter(rowSorter);
+//    }
+//    
+//    public static void sectoresInactivos(JTable tabla, ControladorPrincipal controlador){
+//            DefaultTableModel modeloTabla = new DefaultTableModel();
+//            modeloTabla.addColumn("Nombre");
+//            modeloTabla.addColumn("Descripcion");
+//            Object[] fila = new Object[2];
+//
+//                for (Sector miSector : controlador.getListaSectores()) {
+//                    if (miSector.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                        fila[0] = miSector;
+//                        fila[1] = miSector.getDescripcionsector();
+//                        modeloTabla.addRow(fila);
+//                    }
+//                }
+//                
+//            tabla.setModel(modeloTabla);
+//            TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//            tabla.setRowSorter(rowSorter);
+//    }    
     
     public static void alumnosActivos(JTable tabla, ControladorPrincipal controlador) throws Notificaciones{
         DefaultTableModel modeloTabla = new DefaultTableModel();
@@ -309,7 +309,7 @@ public abstract class CargadorTabla {
         tabla.setRowSorter(rowSorter);
     }    
 
-    public static void clasesAlumnosActivos(JTable tabla, ControladorPrincipal controlador){
+    public static void clasesAlumnosActivos(JTable tabla, ControladorPrincipal controlador) throws Notificaciones{
         DefaultTableModel modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("Clase");
         modeloTabla.addColumn("Nombre Alumno");
@@ -341,7 +341,7 @@ public abstract class CargadorTabla {
         tabla.setRowSorter(rowSorter);
     }
     
-public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal controlador){
+public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal controlador) throws Notificaciones{
         DefaultTableModel modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("Clase");
         modeloTabla.addColumn("Nombre Alumno");
@@ -459,44 +459,44 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
                 
     }
          
-    public static void asistenciaAlumnosActivos(JTable tabla, ControladorPrincipal controlador){
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Alumno");
-        modeloTabla.addColumn("Hora");
-        Object[] fila = new Object[2];
-        String patron = "HH:mm dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-        for (AsistenciaAlumno asistenciaAlumno : controlador.getListaAsistenciaAlumno()) {
-            if (asistenciaAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = asistenciaAlumno;
-                fila[1] = f.format(asistenciaAlumno.getSalida());
-                modeloTabla.addRow(fila);
-            }
-        }
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);            
-    } 
-     
-    public static void asistenciaAlumnosInactivos(JTable tabla, ControladorPrincipal controlador){
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Alumno");
-        modeloTabla.addColumn("Hora");
-        Object[] fila = new Object[2];
-        String patron = "HH:mm dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-        for (AsistenciaAlumno asistenciaAlumno : controlador.getListaAsistenciaAlumno()) {
-            if (asistenciaAlumno.getEstado().equalsIgnoreCase("INACTIVO")) {
-                fila[0] = asistenciaAlumno;
-                fila[1] = f.format(asistenciaAlumno.getSalida());
-                modeloTabla.addRow(fila);
-            }
-        }
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);
-                
-    } 
+//    public static void asistenciaAlumnosActivos(JTable tabla, ControladorPrincipal controlador){
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Alumno");
+//        modeloTabla.addColumn("Hora");
+//        Object[] fila = new Object[2];
+//        String patron = "HH:mm dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//        for (AsistenciaAlumno asistenciaAlumno : controlador.getListaAsistenciaAlumno()) {
+//            if (asistenciaAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                fila[0] = asistenciaAlumno;
+//                fila[1] = f.format(asistenciaAlumno.getSalida());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);            
+//    } 
+//     
+//    public static void asistenciaAlumnosInactivos(JTable tabla, ControladorPrincipal controlador){
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Alumno");
+//        modeloTabla.addColumn("Hora");
+//        Object[] fila = new Object[2];
+//        String patron = "HH:mm dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//        for (AsistenciaAlumno asistenciaAlumno : controlador.getListaAsistenciaAlumno()) {
+//            if (asistenciaAlumno.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                fila[0] = asistenciaAlumno;
+//                fila[1] = f.format(asistenciaAlumno.getSalida());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);
+//                
+//    } 
     
     public static void cuotasActivas(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{
         
@@ -552,224 +552,224 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
         tabla.setRowSorter(rowSorter);                
     }         
     
-    public static void cobroCuotaActivas(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Alumno");
-        modeloTabla.addColumn("Cuota");
-        modeloTabla.addColumn("Fecha de Pago");
-        Object[] fila = new Object[3];
-        String patron = "dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-        for (CobroCuota cobroCuota : controlador.getListaCobroCuota()) {
-            if (cobroCuota.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = cobroCuota;
-                fila[1] = cobroCuota.getMontocobro();
-                fila[2] = f.format(cobroCuota.getFechapago());
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }    
+//    public static void cobroCuotaActivas(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Alumno");
+//        modeloTabla.addColumn("Cuota");
+//        modeloTabla.addColumn("Fecha de Pago");
+//        Object[] fila = new Object[3];
+//        String patron = "dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//        for (CobroCuota cobroCuota : controlador.getListaCobroCuota()) {
+//            if (cobroCuota.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                fila[0] = cobroCuota;
+//                fila[1] = cobroCuota.getMontocobro();
+//                fila[2] = f.format(cobroCuota.getFechapago());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }    
+//    
+//    public static void cobroCuotaInactivas(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Alumno");
+//        modeloTabla.addColumn("Cuota");
+//        modeloTabla.addColumn("Fecha de Pago");
+//        Object[] fila = new Object[3];
+//        String patron = "dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//        for (CobroCuota cobroCuota : controlador.getListaCobroCuota()) {
+//            if (cobroCuota.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                fila[0] = cobroCuota;
+//                fila[1] = cobroCuota.getMontocobro();
+//                fila[2] = f.format(cobroCuota.getFechapago());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }    
     
-    public static void cobroCuotaInactivas(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Alumno");
-        modeloTabla.addColumn("Cuota");
-        modeloTabla.addColumn("Fecha de Pago");
-        Object[] fila = new Object[3];
-        String patron = "dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-        for (CobroCuota cobroCuota : controlador.getListaCobroCuota()) {
-            if (cobroCuota.getEstado().equalsIgnoreCase("INACTIVO")) {
-                fila[0] = cobroCuota;
-                fila[1] = cobroCuota.getMontocobro();
-                fila[2] = f.format(cobroCuota.getFechapago());
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }    
-    
-    public static void saldoCuotasActivas(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Alumno");
-        modeloTabla.addColumn("Saldo");
-        modeloTabla.addColumn("Cuota");
-        Object[] fila = new Object[3];
-        String patron = "dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-        for (SaldoCuota saldoCuota : controlador.getListaSaldoCuota()) {
-            if (saldoCuota.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = saldoCuota;
-                fila[1] = saldoCuota.getMontosaldo();
-                fila[2] = f.format(saldoCuota.getCobroCuota().getCuota().getAltacuota());
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }        
-    
-    public static void saldoCuotasInactivas(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Alumno");
-        modeloTabla.addColumn("Saldo");
-        modeloTabla.addColumn("Cuota");
-        Object[] fila = new Object[3];
-        String patron = "dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-        for (SaldoCuota saldoCuota : controlador.getListaSaldoCuota()) {
-            if (saldoCuota.getEstado().equalsIgnoreCase("INACTIVO")) {
-                fila[0] = saldoCuota;
-                fila[1] = saldoCuota.getMontosaldo();
-                fila[2] = f.format(saldoCuota.getCobroCuota().getCuota().getAltacuota());
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }    
+//    public static void saldoCuotasActivas(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Alumno");
+//        modeloTabla.addColumn("Saldo");
+//        modeloTabla.addColumn("Cuota");
+//        Object[] fila = new Object[3];
+//        String patron = "dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//        for (SaldoCuota saldoCuota : controlador.getListaSaldoCuota()) {
+//            if (saldoCuota.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                fila[0] = saldoCuota;
+//                fila[1] = saldoCuota.getMontosaldo();
+//                fila[2] = f.format(saldoCuota.getCobroCuota().getCuota().getAltacuota());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }        
+//    
+//    public static void saldoCuotasInactivas(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Alumno");
+//        modeloTabla.addColumn("Saldo");
+//        modeloTabla.addColumn("Cuota");
+//        Object[] fila = new Object[3];
+//        String patron = "dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//        for (SaldoCuota saldoCuota : controlador.getListaSaldoCuota()) {
+//            if (saldoCuota.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                fila[0] = saldoCuota;
+//                fila[1] = saldoCuota.getMontosaldo();
+//                fila[2] = f.format(saldoCuota.getCobroCuota().getCuota().getAltacuota());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }    
 
  
-    public static void pagoProfesorActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-        
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Profesor");
-        modeloTabla.addColumn("Monto Pagado");
-        modeloTabla.addColumn("Fecha de Pago");
-        Object[] fila = new Object[3];
-        String patron = "dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-        for (PagoProfesor pagoProfesor : controlador.getListaPagoProfesores()) {
-            if (pagoProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = pagoProfesor;
-                fila[1] = pagoProfesor.getMontopago();
-                fila[2] = f.format(pagoProfesor.getFechapago());
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }       
+//    public static void pagoProfesorActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//        
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Profesor");
+//        modeloTabla.addColumn("Monto Pagado");
+//        modeloTabla.addColumn("Fecha de Pago");
+//        Object[] fila = new Object[3];
+//        String patron = "dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//        for (PagoProfesor pagoProfesor : controlador.getListaPagoProfesores()) {
+//            if (pagoProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                fila[0] = pagoProfesor;
+//                fila[1] = pagoProfesor.getMontopago();
+//                fila[2] = f.format(pagoProfesor.getFechapago());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }       
+//    
+//    public static void pagoProfesorInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//        
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Profesor");
+//        modeloTabla.addColumn("Monto Pagado");
+//        modeloTabla.addColumn("Fecha de Pago");
+//        Object[] fila = new Object[3];
+//        String patron = "dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//        for (PagoProfesor pagoProfesor : controlador.getListaPagoProfesores()) {
+//            if (pagoProfesor.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                fila[0] = pagoProfesor;
+//                fila[1] = pagoProfesor.getMontopago();
+//                fila[2] = f.format(pagoProfesor.getFechapago());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }           
     
-    public static void pagoProfesorInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-        
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Profesor");
-        modeloTabla.addColumn("Monto Pagado");
-        modeloTabla.addColumn("Fecha de Pago");
-        Object[] fila = new Object[3];
-        String patron = "dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-        for (PagoProfesor pagoProfesor : controlador.getListaPagoProfesores()) {
-            if (pagoProfesor.getEstado().equalsIgnoreCase("INACTIVO")) {
-                fila[0] = pagoProfesor;
-                fila[1] = pagoProfesor.getMontopago();
-                fila[2] = f.format(pagoProfesor.getFechapago());
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }           
+//    public static void saldoPagoProfesorActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Profesor");
+//        modeloTabla.addColumn("Monto Saldo");
+//        modeloTabla.addColumn("Cuota");
+//        Object[] fila = new Object[3];
+//        String patron = "dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//        for (Saldopagoprofesor saldoPagoProfesor : controlador.getListaSaldoPagoProfesores()) {
+//            if (saldoPagoProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                fila[0] = saldoPagoProfesor;
+//                fila[1] = saldoPagoProfesor.getMontosaldo();
+//                fila[2] = f.format(saldoPagoProfesor.getPagoProfesor().getFechapago());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }            
+//    
+//    public static void saldoPagoProfesorInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Profesor");
+//        modeloTabla.addColumn("Monto Saldo");
+//        modeloTabla.addColumn("Cuota");
+//        Object[] fila = new Object[3];
+//        String patron = "dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//        for (Saldopagoprofesor saldoPagoProfesor : controlador.getListaSaldoPagoProfesores()) {
+//            if (saldoPagoProfesor.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                fila[0] = saldoPagoProfesor;
+//                fila[1] = saldoPagoProfesor.getMontosaldo();
+//                fila[2] = f.format(saldoPagoProfesor.getPagoProfesor().getFechapago());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }  
     
-    public static void saldoPagoProfesorActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Profesor");
-        modeloTabla.addColumn("Monto Saldo");
-        modeloTabla.addColumn("Cuota");
-        Object[] fila = new Object[3];
-        String patron = "dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-        for (Saldopagoprofesor saldoPagoProfesor : controlador.getListaSaldoPagoProfesores()) {
-            if (saldoPagoProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = saldoPagoProfesor;
-                fila[1] = saldoPagoProfesor.getMontosaldo();
-                fila[2] = f.format(saldoPagoProfesor.getPagoProfesor().getFechapago());
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }            
-    
-    public static void saldoPagoProfesorInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Profesor");
-        modeloTabla.addColumn("Monto Saldo");
-        modeloTabla.addColumn("Cuota");
-        Object[] fila = new Object[3];
-        String patron = "dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-        for (Saldopagoprofesor saldoPagoProfesor : controlador.getListaSaldoPagoProfesores()) {
-            if (saldoPagoProfesor.getEstado().equalsIgnoreCase("INACTIVO")) {
-                fila[0] = saldoPagoProfesor;
-                fila[1] = saldoPagoProfesor.getMontosaldo();
-                fila[2] = f.format(saldoPagoProfesor.getPagoProfesor().getFechapago());
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }  
-    
-    public static void modulosActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Nombre Modulo");
-        modeloTabla.addColumn("Sistema");
-        Object[] fila = new Object[2];
-
-        for (Modulo modulo : controlador.getListaModulos()) {
-            if (modulo.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = modulo;
-                fila[1] = modulo.getSistema().getPropietario();
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }      
-    
-    public static void modulosInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Nombre Modulo");
-        modeloTabla.addColumn("Sistema");
-        Object[] fila = new Object[2];
-
-        for (Modulo modulo : controlador.getListaModulos()) {
-            if (modulo.getEstado().equalsIgnoreCase("INACTIVO")) {
-                fila[0] = modulo;
-                fila[1] = modulo.getSistema().getPropietario();
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }       
+//    public static void modulosActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Nombre Modulo");
+//        modeloTabla.addColumn("Sistema");
+//        Object[] fila = new Object[2];
+//
+//        for (Modulo modulo : controlador.getListaModulos()) {
+//            if (modulo.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                fila[0] = modulo;
+//                fila[1] = modulo.getSistema().getPropietario();
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }      
+//    
+//    public static void modulosInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Nombre Modulo");
+//        modeloTabla.addColumn("Sistema");
+//        Object[] fila = new Object[2];
+//
+//        for (Modulo modulo : controlador.getListaModulos()) {
+//            if (modulo.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                fila[0] = modulo;
+//                fila[1] = modulo.getSistema().getPropietario();
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }       
    
     public static void claseProfesorActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
 
@@ -815,101 +815,101 @@ public static void clasesAlumnosInactivos(JTable tabla, ControladorPrincipal con
         tabla.setRowSorter(rowSorter);                
     } 
 
-    public static void aperturaCajaDiariaActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Fecha");
-        modeloTabla.addColumn("Nombre");
-        modeloTabla.addColumn("Apellido");
-        Object[] fila = new Object[3];
-
-        for (AperturaCajaDiaria aperturaCajaDiaria : controlador.getListaAperturaCajaDiaria()) {
-            if (aperturaCajaDiaria.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = aperturaCajaDiaria;
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    } 
+//    public static void aperturaCajaDiariaActivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Fecha");
+//        modeloTabla.addColumn("Nombre");
+//        modeloTabla.addColumn("Apellido");
+//        Object[] fila = new Object[3];
+//
+//        for (AperturaCajaDiaria aperturaCajaDiaria : controlador.getListaAperturaCajaDiaria()) {
+//            if (aperturaCajaDiaria.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                fila[0] = aperturaCajaDiaria;
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    } 
+//    
+//    public static void aperturaCajaDiariaInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
+//
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Fecha");
+//        Object[] fila = new Object[3];
+//
+//        for (AperturaCajaDiaria aperturaCajaDiaria : controlador.getListaAperturaCajaDiaria()) {
+//            if (aperturaCajaDiaria.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                fila[0] = aperturaCajaDiaria;
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter);                
+//    }     
     
-    public static void aperturaCajaDiariaInactivos(JTable tabla, ControladorPrincipal controlador)throws Notificaciones{ 
-
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Fecha");
-        Object[] fila = new Object[3];
-
-        for (AperturaCajaDiaria aperturaCajaDiaria : controlador.getListaAperturaCajaDiaria()) {
-            if (aperturaCajaDiaria.getEstado().equalsIgnoreCase("INACTIVO")) {
-                fila[0] = aperturaCajaDiaria;
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter);                
-    }     
-    
-    public static void sectorClaseActivos(JTable tabla, ControladorPrincipal controlador){
-        
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Sector");
-        modeloTabla.addColumn("Clase");
-        modeloTabla.addColumn("Profesor");
-        modeloTabla.addColumn("Fecha Inicio");
-        modeloTabla.addColumn("Fecha Fin");
-        Object[] fila = new Object[5];
-        
-        String patron = "HH:mm dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-
-        for (SectorClase sectorClase : controlador.getListaSectorClase()) {
-            if (sectorClase.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = sectorClase;
-                fila[1] = sectorClase.getClaseProfesor().getClase();
-                fila[2] = sectorClase.getClaseProfesor().getProfesor();
-                fila[3] = f.format(sectorClase.getInicio());
-                fila[4] = f.format(sectorClase.getFin());
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter); 
-    }
-    
-    public static void sectorClaseInactivos(JTable tabla, ControladorPrincipal controlador){
-        
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Sector");
-        modeloTabla.addColumn("Clase");
-        modeloTabla.addColumn("Profesor");
-        modeloTabla.addColumn("Fecha Inicio");
-        modeloTabla.addColumn("Fecha Fin");
-        Object[] fila = new Object[5];
-        
-        String patron = "HH:mm dd/MM/yyyy";
-        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
-
-        for (SectorClase sectorClase : controlador.getListaSectorClase()) {
-            if (sectorClase.getEstado().equalsIgnoreCase("INACTIVO")) {
-                fila[0] = sectorClase;
-                fila[1] = sectorClase.getClaseProfesor().getClase();
-                fila[2] = sectorClase.getClaseProfesor().getProfesor();
-                fila[3] = f.format(sectorClase.getInicio());
-                fila[4] = f.format(sectorClase.getFin());
-                modeloTabla.addRow(fila);
-            }
-        }
-        
-        tabla.setModel(modeloTabla);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
-        tabla.setRowSorter(rowSorter); 
-    }
+//    public static void sectorClaseActivos(JTable tabla, ControladorPrincipal controlador){
+//        
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Sector");
+//        modeloTabla.addColumn("Clase");
+//        modeloTabla.addColumn("Profesor");
+//        modeloTabla.addColumn("Fecha Inicio");
+//        modeloTabla.addColumn("Fecha Fin");
+//        Object[] fila = new Object[5];
+//        
+//        String patron = "HH:mm dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//
+//        for (SectorClase sectorClase : controlador.getListaSectorClase()) {
+//            if (sectorClase.getEstado().equalsIgnoreCase("ACTIVO")) {
+//                fila[0] = sectorClase;
+//                fila[1] = sectorClase.getClaseProfesor().getClase();
+//                fila[2] = sectorClase.getClaseProfesor().getProfesor();
+//                fila[3] = f.format(sectorClase.getInicio());
+//                fila[4] = f.format(sectorClase.getFin());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter); 
+//    }
+//    
+//    public static void sectorClaseInactivos(JTable tabla, ControladorPrincipal controlador){
+//        
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//        modeloTabla.addColumn("Sector");
+//        modeloTabla.addColumn("Clase");
+//        modeloTabla.addColumn("Profesor");
+//        modeloTabla.addColumn("Fecha Inicio");
+//        modeloTabla.addColumn("Fecha Fin");
+//        Object[] fila = new Object[5];
+//        
+//        String patron = "HH:mm dd/MM/yyyy";
+//        SimpleDateFormat f  = new SimpleDateFormat(patron, new Locale("es", "AR"));
+//
+//        for (SectorClase sectorClase : controlador.getListaSectorClase()) {
+//            if (sectorClase.getEstado().equalsIgnoreCase("INACTIVO")) {
+//                fila[0] = sectorClase;
+//                fila[1] = sectorClase.getClaseProfesor().getClase();
+//                fila[2] = sectorClase.getClaseProfesor().getProfesor();
+//                fila[3] = f.format(sectorClase.getInicio());
+//                fila[4] = f.format(sectorClase.getFin());
+//                modeloTabla.addRow(fila);
+//            }
+//        }
+//        
+//        tabla.setModel(modeloTabla);
+//        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tabla.getModel());
+//        tabla.setRowSorter(rowSorter); 
+//    }
 
     
     
