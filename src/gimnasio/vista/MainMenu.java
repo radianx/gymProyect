@@ -143,6 +143,7 @@ public class MainMenu extends javax.swing.JFrame {
         btnClasesProfesor = new javax.swing.JButton();
         btnModalidad = new javax.swing.JButton();
         btnAsistencia = new javax.swing.JButton();
+        btnIngresos = new javax.swing.JButton();
         btnAlumnosCuotas = new javax.swing.JButton();
         btnCuotas = new javax.swing.JButton();
         btnClaseALumno = new javax.swing.JButton();
@@ -176,6 +177,7 @@ public class MainMenu extends javax.swing.JFrame {
         itemNuevaClase = new javax.swing.JMenuItem();
         itemListarClases = new javax.swing.JMenuItem();
         itemEliminarClase = new javax.swing.JMenuItem();
+        jmiModalidades = new javax.swing.JMenuItem();
         jMIPersonal = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
@@ -281,6 +283,14 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnAsistencia);
+
+        btnIngresos.setText("<html><center>Ingresos<br>por Puerta</center></html>");
+        btnIngresos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresosActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnIngresos);
 
         btnAlumnosCuotas.setText("<HTML><CENTER>Clases y Cuotas<BR>de Alumnos</CENTER></HTML>");
         btnAlumnosCuotas.addActionListener(new java.awt.event.ActionListener() {
@@ -466,6 +476,14 @@ public class MainMenu extends javax.swing.JFrame {
 
         itemEliminarClase.setText("Eliminar Clase");
         jMIClases.add(itemEliminarClase);
+
+        jmiModalidades.setText("Modalidades de Clase");
+        jmiModalidades.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiModalidadesActionPerformed(evt);
+            }
+        });
+        jMIClases.add(jmiModalidades);
 
         jMenuArchivo.add(jMIClases);
 
@@ -686,18 +704,6 @@ public class MainMenu extends javax.swing.JFrame {
         panelClaseProfesor.setVisible(true);
     }//GEN-LAST:event_btnClasesProfesorActionPerformed
 
-    private void btnModalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModalidadActionPerformed
-        jInternalModalidades panelModalidad = new jInternalModalidades(this.miControlador);
-        this.jDesktopPane1.add(panelModalidad);
-        panelModalidad.setVisible(true);
-    }//GEN-LAST:event_btnModalidadActionPerformed
-
-    private void btnModalidadProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModalidadProfesorActionPerformed
-        jInternalProfesorModalidad panelProfeMod = new jInternalProfesorModalidad(this.miControlador);
-        this.jDesktopPane1.add(panelProfeMod);
-        panelProfeMod.setVisible(true);
-    }//GEN-LAST:event_btnModalidadProfesorActionPerformed
-
     private void btnClaseALumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaseALumnoActionPerformed
         jInternalClasesAlumno ventanaClaseAlumn = new jInternalClasesAlumno(this.miControlador);
         this.jDesktopPane1.add(ventanaClaseAlumn);
@@ -784,6 +790,30 @@ public class MainMenu extends javax.swing.JFrame {
         alumnoCuota.setVisible(true);
     }//GEN-LAST:event_btnAlumnosCuotasActionPerformed
 
+    private void btnModalidadProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModalidadProfesorActionPerformed
+        jInternalProfesorModalidad panelProfeMod = new jInternalProfesorModalidad(this.miControlador);
+        this.jDesktopPane1.add(panelProfeMod);
+        panelProfeMod.setVisible(true);
+    }//GEN-LAST:event_btnModalidadProfesorActionPerformed
+
+    private void btnModalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModalidadActionPerformed
+        jInternalModalidades panelModalidad = new jInternalModalidades(this.miControlador);
+        this.jDesktopPane1.add(panelModalidad);
+        panelModalidad.setVisible(true);
+    }//GEN-LAST:event_btnModalidadActionPerformed
+
+    private void jmiModalidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiModalidadesActionPerformed
+        jInternalModalidades panelModalidad = new jInternalModalidades(this.miControlador);
+        this.jDesktopPane1.add(panelModalidad);
+        panelModalidad.setVisible(true);
+    }//GEN-LAST:event_jmiModalidadesActionPerformed
+
+    private void btnIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresosActionPerformed
+        JInternalPuerta panelPuerta = new JInternalPuerta(this.miControlador);
+        this.jDesktopPane1.add(panelPuerta);
+        panelPuerta.setVisible(true);
+    }//GEN-LAST:event_btnIngresosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -797,6 +827,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnClases;
     private javax.swing.JButton btnClasesProfesor;
     private javax.swing.JButton btnCuotas;
+    private javax.swing.JButton btnIngresos;
     private javax.swing.JButton btnModalidad;
     private javax.swing.JButton btnModalidadProfesor;
     private javax.swing.JButton btnProfesores;
@@ -850,6 +881,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JMenuItem jmiModalidades;
     private javax.swing.JLabel lblFoto;
     private javax.swing.JTable tablaAsistencias;
     private javax.swing.JTextField txtHabilitado;
@@ -905,6 +937,7 @@ public class MainMenu extends javax.swing.JFrame {
         this.btnUsuarios.setEnabled(estado);
         this.btnAlumnosCuotas.setEnabled(estado);
         this.btnPromociones.setEnabled(estado);
+        this.btnIngresos.setEnabled(estado);
         this.jMICerrarSesion.setEnabled(estado);
         this.jMIAlumnos.setEnabled(estado);
         this.jMIProfesores.setEnabled(estado);

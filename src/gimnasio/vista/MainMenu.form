@@ -105,6 +105,14 @@
                     <Property name="text" type="java.lang.String" value="Eliminar Clase"/>
                   </Properties>
                 </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jmiModalidades">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Modalidades de Clase"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiModalidadesActionPerformed"/>
+                  </Events>
+                </MenuItem>
               </SubComponents>
             </Menu>
             <Menu class="javax.swing.JMenu" name="jMIPersonal">
@@ -375,6 +383,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAsistenciaActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnIngresos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;Ingresos&lt;br&gt;por Puerta&lt;/center&gt;&lt;/html&gt;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIngresosActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAlumnosCuotas">

@@ -539,5 +539,9 @@ public class ControladorPrincipal {
         miPersistencia.persistirInstancia(claseProfesor);   
     }
 
+    public List<IngresosPuerta> getListaIngresosPuertaHoy() throws Notificaciones {
+        return controladorIngresosPuerta.getListaIngresosPuerta(LocalDate.now(),LocalDate.now());
+    }
+
     
 }
