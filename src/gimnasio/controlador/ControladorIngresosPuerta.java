@@ -32,7 +32,7 @@ public class ControladorIngresosPuerta {
         this.listaIngresosPuerta = miPersistencia.getIngresosPuerta();
     }
 
-    public List<IngresosPuerta> getListaIngresosPuerta(LocalDate desde, LocalDate hasta) {
+    public List<IngresosPuerta> getListaIngresosPuerta(LocalDate desde, LocalDate hasta) throws Notificaciones {
         listaIngresosPuerta = miPersistencia.getIngresosPuerta();
         List<IngresosPuerta> retorno = new ArrayList<>();
         LocalDate fechaIngreso;

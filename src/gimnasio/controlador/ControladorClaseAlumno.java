@@ -24,16 +24,19 @@ public class ControladorClaseAlumno {
     }
 
     public void altaClaseAlumno(ClaseAlumno claseAlumno) throws Notificaciones {
-        int i = listaClaseAlumno.lastIndexOf(claseAlumno);
-        if(i>=0){
-            throw new Notificaciones("Ya existe un registro de alumno en esa clase");
-        }else{
-            miPersistencia.persistirInstancia(claseAlumno);
-            this.listaClaseAlumno.add(claseAlumno);
+        listaClaseAlumno = miPersistencia.getClasesAlumno();
+        for (ClaseAlumno claseAlu : listaClaseAlumno) {
+            if (claseAlu.getAlumno().getIdalumno() == claseAlumno.getAlumno().getIdalumno()
+                    && claseAlu.getEstado().equalsIgnoreCase("ACTIVO")) {
+                throw new Notificaciones("Ya existe un registro de alumno en esa clase");
+            } else {
+                miPersistencia.persistirInstancia(claseAlumno);
+            }
         }
     }
     
     public void bajaClaseAlumno(ClaseAlumno claseAlumno) throws Notificaciones{
+        claseAlumno.setEstado("INACTIVO");
         miPersistencia.persistirInstancia(claseAlumno);
         this.listaClaseAlumno = miPersistencia.getClasesAlumno();
     }

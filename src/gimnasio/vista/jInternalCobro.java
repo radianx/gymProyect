@@ -397,35 +397,23 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                         saldarAnterior();
                     }
 
+                    CobroCuota unCobroCuota = null;
+                    
                     if (nuevoSaldo > 0) {
                         cuota.setEstado("SALDO");
                     } else {
                         cuota.setEstado("PAGADO");
+                        unCobroCuota = generarCobroCuota(cuota, cuota.getMonto(), fecha);
                     }
-
-                    CobroCuota unCobroCuota = generarCobroCuota(cuota, abono, fecha);
 
                     if (nuevoSaldo > 0) {
                         generarNuevoSaldo(unCobroCuota, nuevoSaldo);
                     }
-                    
-                    int select = JOptionPane.showOptionDialog(null, "¿Generar proxima Cuota?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
-                    if(select==0){
-                        jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono);
-                        nuevaCuota.setVisible(true);
-                    }
-                    if(select==1){
-                        int sel = JOptionPane.showOptionDialog(null, "¿Desinscribir al alumno de la clase?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
-                        if(sel==0){
-                            ClaseProfesor cp = cuota.getClaseProfesor();
-                            for(ClaseAlumno ca:cp.getClaseAlumnos()){
-                                if(ca.getAlumno().equals(elAlumno)){
-                                    controlador.bajaClaseAlumno(ca);
-                                    System.out.println("Dando de baja al alumno de la clase: "+ ca);
-                                }
-                            }
-                        }
-                    }
+
+                    jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono);
+                    nuevaCuota.setVisible(true);
+
+                    MainMenu.nuevoMovimiento(elAlumno, cuota, abono);
 
                 } catch (Notificaciones ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());

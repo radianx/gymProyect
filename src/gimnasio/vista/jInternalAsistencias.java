@@ -20,10 +20,12 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -45,10 +47,6 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
     public jInternalAsistencias(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
-        cargarTablaProfesores();
-        cargarTablaAlumnos();
-        cargarTablaAsistencias();
-        cargarCombo(null);
         Locale locale = new Locale("es", "ES");
         DatePickerSettings settings = new DatePickerSettings(locale);
         settings.setFormatForDatesCommonEra("dd/MM/yyyy");
@@ -57,10 +55,12 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         dateTimePicker1.datePicker.setDateToToday();
 
         dateTimePicker1.timePicker.setTimeToNow();
-        rowSorterProfesor = new TableRowSorter<>(this.tablaProfesores.getModel());
-        tablaProfesores.setRowSorter(rowSorterProfesor);
-        rowSorterAlumno = new TableRowSorter<>(this.tablaProfesores.getModel());
-        tablaAlumnos.setRowSorter(rowSorterAlumno);
+        SwingUtilities.invokeLater(()->{
+            cargarTablaProfesores();
+            cargarTablaAsistencias();
+            cargarCombo(null);
+            cargarTablaAlumnos();
+        });
 
     }
 
@@ -106,48 +106,64 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                 }
             }
             this.tablaProfesores.setModel(modeloProfesor);
+            rowSorterProfesor = new TableRowSorter<>(this.tablaProfesores.getModel());
+            tablaProfesores.setRowSorter(rowSorterProfesor);
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
     public void cargarTablaAlumnos() {
+        System.out.println("Cargando Tabla de Alumnos...");
         modeloAlumno = new DefaultTableModel();
         modeloAlumno.addColumn("Nombre");
         modeloAlumno.addColumn("Apellido");
-        Object[] fila = new Object[2];
+        modeloAlumno.addColumn("Usuario");
+        Object[] fila = new Object[3];
         try {
             for (Alumno miAlumno : miControlador.getListaAlumnos()) {
-                fila[0] = miAlumno;
-                fila[1] = miAlumno.getApellidoalumno();
-                modeloAlumno.addRow(fila);
+                if (miAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    fila[0] = miAlumno;
+                    fila[1] = miAlumno.getApellidoalumno();
+                    fila[2] = miAlumno.getUsuario().getNombreusuario();
+                    modeloAlumno.addRow(fila);
+                }
             }
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         this.tablaAlumnos.setModel(modeloAlumno);
+        rowSorterAlumno = new TableRowSorter<>(this.tablaAlumnos.getModel());
+        tablaAlumnos.setRowSorter(rowSorterAlumno);
     }
 
     public void cargarCombo(Object aluOprofe){
         modeloCombo = new DefaultComboBoxModel();
         if(aluOprofe instanceof Alumno){
             Alumno unAlumno = (Alumno) aluOprofe;
+            boolean tieneClase = false;
             if(unAlumno.getClaseAlumnos()!=null){
                 for (ClaseAlumno clase : unAlumno.getClaseAlumnos()) {
                     modeloCombo.addElement(clase);
+                    tieneClase=true;
                 }
-            }else{
+            }
+            if(!tieneClase){
                 modeloCombo.addElement("Alumno No inscrito a ninguna clase");
                 btnGuardar.setEnabled(false);
             }
         }
         if(aluOprofe instanceof Profesor){
             Profesor unProfesor = (Profesor) aluOprofe;
+            boolean tieneClase=false;
             if(unProfesor.getClaseProfesors()!=null){
                 for(ClaseProfesor clase: unProfesor.getClaseProfesors()){
                     modeloCombo.addElement(clase);
+                    tieneClase = true;
                 }
-            }else{
+            }
+            if(!tieneClase){
                 modeloCombo.addElement("Profesor sin clase asignada.");
                 btnGuardar.setEnabled(false);
             }
@@ -196,6 +212,11 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("ASISTENCIAS");
         setPreferredSize(new java.awt.Dimension(630, 500));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                formMouseEntered(evt);
+            }
+        });
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Asistencias del Dia"));
 
@@ -267,7 +288,12 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
             }
         });
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Alumnos"));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Alumnos"));
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseEntered(evt);
+            }
+        });
 
         tablaAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -296,15 +322,14 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                         .addComponent(txtBuscarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscar1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addContainerGap(21, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,6 +366,11 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                 tablaProfesoresMouseClicked(evt);
             }
         });
+        tablaProfesores.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tablaProfesoresKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaProfesores);
 
         jLabel1.setText("Nombre:");
@@ -362,11 +392,11 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBuscarProfesor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(5, 5, 5)
+                        .addComponent(txtBuscarProfesor, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscar)
-                        .addContainerGap())
+                        .addGap(14, 14, 14))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(11, 11, 11))))
@@ -374,28 +404,29 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscarProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
+                    .addComponent(txtBuscarProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel6.setBackground(new java.awt.Color(255, 153, 0));
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel4.setText("FECHA Y HORA DE ASISTENCIA");
+        jLabel4.setText("<html><b>FECHA Y HORA DE ASISTENCIA</b></html>");
 
-        jLabel3.setText("SELECCION:");
+        jLabel3.setText("<html><b>SELECCION:</b></html>");
 
         txtSeleccion.setEditable(false);
         txtSeleccion.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         cmbClases.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel5.setText("Clase:");
+        jLabel5.setText("<html><b>Clase:</b></html>");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -404,37 +435,36 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cmbClases, 0, 207, Short.MAX_VALUE)
                     .addComponent(txtSeleccion))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(50, 50, 50))
-                    .addComponent(dateTimePicker1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateTimePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dateTimePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtSeleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbClases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSeleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cmbClases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(dateTimePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -477,24 +507,13 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarProfesorKeyReleased
 
     private void txtBuscarAlumnoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarAlumnoKeyReleased
-        String text = this.txtBuscarProfesor.getText();
+        String text = this.txtBuscarAlumno.getText();
         if (text.trim().length() == 0) {
             rowSorterAlumno.setRowFilter(null);
         } else {
             rowSorterAlumno.setRowFilter(RowFilter.regexFilter("(?i)" + text));
         }
     }//GEN-LAST:event_txtBuscarAlumnoKeyReleased
-
-    private void tablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseClicked
-        if (!tablaAlumnos.getSelectionModel().isSelectionEmpty()) {
-            Alumno unAlumno = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
-            seleccion = unAlumno;
-            cargarCombo(seleccion);
-            btnGuardar.setEnabled(true);
-            tablaProfesores.getSelectionModel().clearSelection();
-            this.txtSeleccion.setText(unAlumno.getNombrealumno() + " " + unAlumno.getApellidoalumno());
-        }
-    }//GEN-LAST:event_tablaAlumnosMouseClicked
 
     private void tablaProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProfesoresMouseClicked
         if (!tablaProfesores.getSelectionModel().isSelectionEmpty()) {
@@ -515,11 +534,12 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
             Date fecha = Date.from(fechaJava.atZone(ZoneId.systemDefault()).toInstant());
             if (seleccion instanceof Alumno) {
                 Alumno unAlumno = (Alumno) seleccion;
-                ClaseAlumno claseAlumno = (ClaseAlumno) cmbClases.getSelectedItem();
                 try{
+                    ClaseAlumno claseAlumno = (ClaseAlumno) cmbClases.getSelectedItem();
                     miControlador.altaAsistenciaAlumno(claseAlumno ,fecha);
-                }catch(Notificaciones ex){
+                }catch(ClassCastException | Notificaciones ex){
                     JOptionPane.showMessageDialog(null, ex.getMessage());
+                    ex.printStackTrace();
                 }
             } else if (seleccion instanceof Profesor) {
                 Profesor unProfe = (Profesor) seleccion;
@@ -529,8 +549,12 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                     miControlador.altaAsistenciaProfesor(unaAsistenciaProfe);
                 }catch(Notificaciones ex){
                     JOptionPane.showMessageDialog(null, ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
+            SwingUtilities.invokeLater(()->{
+               this.cargarTablaAsistencias();
+            });
         } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un alumno o profesor para guardar asistencia.");
         }
@@ -539,6 +563,34 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void tablaProfesoresKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaProfesoresKeyReleased
+        String text = this.txtBuscarProfesor.getText();
+        if (text.trim().length() == 0) {
+            rowSorterProfesor.setRowFilter(null);
+        } else {
+            rowSorterProfesor.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        }
+    }//GEN-LAST:event_tablaProfesoresKeyReleased
+
+    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
+
+    }//GEN-LAST:event_formMouseEntered
+
+    private void jScrollPane1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseEntered
+
+    }//GEN-LAST:event_jScrollPane1MouseEntered
+
+    private void tablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseClicked
+        if(!tablaAlumnos.getSelectionModel().isSelectionEmpty()){
+            Alumno unAlumno = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+            seleccion = unAlumno;
+            cargarCombo(seleccion);
+            btnGuardar.setEnabled(true);
+            tablaProfesores.getSelectionModel().clearSelection();
+            this.txtSeleccion.setText(unAlumno.getNombrealumno() + " " + unAlumno.getApellidoalumno());
+        }
+    }//GEN-LAST:event_tablaAlumnosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

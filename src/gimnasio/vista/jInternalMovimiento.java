@@ -7,7 +7,9 @@ package gimnasio.vista;
 
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.Alumno;
 import gimnasio.modelo.Cajadiaria;
+import gimnasio.modelo.Cuota;
 import gimnasio.modelo.Movimiento;
 import gimnasio.modelo.Usuario;
 import java.time.LocalTime;
@@ -39,6 +41,24 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
             txtNumOperacion.setText("1");
         }
 
+    }
+
+    public jInternalMovimiento(ControladorPrincipal controlador, Alumno elAlumno, Cuota cuota, Double abono) {
+        this.miControlador = controlador;
+        initComponents();
+        txtFecha.setDateToToday();
+        try{
+            int cantidadMovimientos = miControlador.getListaMovimientos().size()+1;
+            txtNumOperacion.setText(String.valueOf(cantidadMovimientos));
+            this.txtDetalle.setText("Cobro de cuota de "+elAlumno.getNombrealumno() +" "+elAlumno.getApellidoalumno());
+            this.txtImporte.setText(String.valueOf(abono));
+            this.txtCobro.setText(String.valueOf(abono));
+            this.txtVuelto.setText("0.0");
+            
+        }catch(Notificaciones ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            txtNumOperacion.setText("1");
+        }
     }
 
     /**

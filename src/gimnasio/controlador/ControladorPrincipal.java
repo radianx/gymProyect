@@ -8,7 +8,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -191,6 +194,7 @@ public class ControladorPrincipal {
         System.out.println("ControladorPrincipal bajaClaseAlumno");
         Alumno unAlumno = unaClaseAlumno.getAlumno();
         System.out.println("Alumno detectado: "+ unAlumno);
+        
         for(HorarioAlumno horario:controladorHorarioAlumno.getListaHorariosAlumno(unaClaseAlumno)){
             System.out.println("For HorarioAlumno");
             if(horario.getClaseAlumno().toString().equalsIgnoreCase(unaClaseAlumno.toString())){
@@ -477,11 +481,11 @@ public class ControladorPrincipal {
         controladorIngresosPuerta.nuevoIngresoPuerta(ahora, miUsuario, modeloTabla, tabla);
     }
 
-    public void generarReporteIngresosEgresosHoy() {
+    public void generarReporteIngresosEgresosHoy() throws Notificaciones {
         controladorReporte.generarReporteAsistencias(LocalDate.now(), LocalDate.now(),controladorIngresosPuerta.getListaIngresosPuerta(LocalDate.now(),LocalDate.now()));
     }
     
-    public void generarReporteIngresosPorDia(LocalDate desde, LocalDate hasta){
+    public void generarReporteIngresosPorDia(LocalDate desde, LocalDate hasta) throws Notificaciones{
         controladorReporte.generarReporteAsistencias(desde, hasta, controladorIngresosPuerta.getListaIngresosPuerta(desde, hasta));
     }
 
@@ -508,6 +512,31 @@ public class ControladorPrincipal {
 
     public List<AsistenciaAlumno> getListaAsistenciaAlumno() throws Notificaciones {
        return this.controladorAsistenciaAlumno.getListaAsistenciaAlumno();
+    }
+
+    public void bajaCuotaAutomatica(Set<Cuota> cuotas, ClaseAlumno claseAlumno) throws Notificaciones{
+        List<Cuota> listaCuotas = new ArrayList<>();
+        listaCuotas.addAll(cuotas);
+        for(Cuota unaCuota:listaCuotas){
+            if(unaCuota.getClaseProfesor().getIdclaseprofesor()== claseAlumno.getClaseProfesor().getIdclaseprofesor()){
+                unaCuota.setEstado("BAJA");
+                miPersistencia.persistirInstancia(unaCuota);
+            }
+        }
+    }
+
+    public void actualizarHorariosDeAlumnos(ClaseProfesor claseProfesor) throws Notificaciones {
+        for(ClaseAlumno claseAlumno:claseProfesor.getClaseAlumnos()){
+            claseAlumno.getHorarios().clear();
+            Set<HorarioAlumno>listaHorarios = new HashSet<>();
+            for(HorarioProfesor horarioProfe:claseProfesor.getHorarios()){
+                HorarioAlumno horario = new HorarioAlumno(claseAlumno,horarioProfe.getInicio(),horarioProfe.getFin());
+                listaHorarios.add(horario);
+            }
+            claseAlumno.getHorarios().addAll(listaHorarios);
+            miPersistencia.persistirInstancia(claseAlumno);
+        }
+        miPersistencia.persistirInstancia(claseProfesor);   
     }
 
     

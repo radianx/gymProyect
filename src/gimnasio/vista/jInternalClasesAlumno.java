@@ -275,11 +275,14 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
             try {
                 ClaseAlumno claseAlumno = (ClaseAlumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0);
                 miControlador.bajaClaseAlumno(claseAlumno);
+                Alumno miAlumno = claseAlumno.getAlumno();
+                miControlador.bajaCuotaAutomatica(miAlumno.getCuotas(), claseAlumno);
                 SwingUtilities.invokeLater(new Runnable(){public void run(){
                     cargarTablaAlumnos((ClaseProfesor) tablaPrincipal.getValueAt(tablaPrincipal.getSelectedRow(),0));
                 }});
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
+                ex.printStackTrace();
             }
         }else{
             JOptionPane.showMessageDialog(null, "Debe seleccionar una clase para eliminarla");

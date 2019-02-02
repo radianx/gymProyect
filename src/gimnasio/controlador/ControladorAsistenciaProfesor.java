@@ -29,13 +29,8 @@ public class ControladorAsistenciaProfesor {
     }
     
     public void altaAsistenciaProfesor(AsistenciaProfesor asistencia) throws Notificaciones{
+        persistencia.persistirInstancia(asistencia);
         listaAsistenciasProfesor = persistencia.getAsistenciaProfesor();
-        if(listaAsistenciasProfesor.contains(asistencia)){
-            asistencia.setSalida(new Date());
-            persistencia.persistirInstancia(asistencia);
-        }else{
-            persistencia.persistirInstancia(asistencia);
-        }
     }
 
     public List<AsistenciaProfesor> getAsistenciasDeHoy() throws Notificaciones {

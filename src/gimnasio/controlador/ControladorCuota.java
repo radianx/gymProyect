@@ -38,7 +38,7 @@ public class ControladorCuota {
         LocalDate hoy = LocalDate.now(ZoneId.systemDefault());
         LocalDate semanaDespuesDeHoy = hoy.plusDays(7);
         for(Cuota unaCuota:this.listaCuotas){
-            LocalDate vencimiento = Instant.ofEpochMilli(unaCuota.getVencimiento().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate vencimiento = Instant.ofEpochMilli(unaCuota.getAltacuota().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             if((vencimiento.isAfter(hoy) || vencimiento.isEqual(hoy)) &&
                (vencimiento.isBefore(semanaDespuesDeHoy) || vencimiento.isEqual(semanaDespuesDeHoy)))
                 cuotasAVencer.add(unaCuota);
@@ -50,7 +50,7 @@ public class ControladorCuota {
         List<Cuota> cuotasVencidas = new ArrayList<>();
         LocalDate hoy = LocalDate.now(ZoneId.systemDefault());
         for(Cuota unaCuota:this.listaCuotas){
-            LocalDate vencimiento =Instant.ofEpochMilli(unaCuota.getVencimiento().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate vencimiento =Instant.ofEpochMilli(unaCuota.getAltacuota().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             if(vencimiento.isBefore(hoy)){
                 cuotasVencidas.add(unaCuota);
             }

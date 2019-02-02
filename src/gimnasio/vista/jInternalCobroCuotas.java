@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 /**
  *
@@ -41,6 +42,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
     DefaultTableModel modeloTablaCuotasDeAlumno;
     DefaultTableModel modeloTablaVencimientos;
     DefaultTableModel modeloTablaCuotasVencidas;
+    TableRowSorter<TableModel> rowSorter;
     
     Alumno alumnoSeleccionado;
     String text = "";
@@ -76,7 +78,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
             if(cuota.getEstado().equalsIgnoreCase("GENERADO") || cuota.getEstado().equalsIgnoreCase("SALDO")){
                 fila[0] = cuota.getAlumno();
                 fila[1] = cuota.getAlumno().getApellidoalumno();
-                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
+                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
                 fila[2] = time;
                 fila[3] = cuota.getMonto();
                 fila[4] = cuota.getAlumno().getContacto().getTelefono1();
@@ -98,7 +100,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
             if(cuota.getEstado().equalsIgnoreCase("GENERADO")){
                 fila[0] = cuota.getAlumno();
                 fila[1] = cuota.getAlumno().getApellidoalumno();
-                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
+                String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
                 fila[2] = time;
                 fila[3] = cuota.getMonto();
                 fila[4] = cuota.getAlumno().getContacto().getTelefono1();
@@ -163,7 +165,6 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         modeloTablaAlumnos = new DefaultTableModel();
         modeloTablaAlumnos.addColumn("Nombre");
         modeloTablaAlumnos.addColumn("Apellido");
-        this.tablaAlumnos.setModel(modeloTablaAlumnos);
         Object[] fila = new Object[2];
         try {
             for (Alumno unAlumno : miControlador.getListaAlumnos()) {
@@ -176,6 +177,9 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+        this.tablaAlumnos.setModel(modeloTablaAlumnos);
+        rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
+        tablaAlumnos.setRowSorter(rowSorter);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -377,7 +381,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "VENCIMIENTOS", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "PRÓXIMAS A VENCER", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(255, 102, 0))); // NOI18N
 
         tablaVencimientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -506,28 +510,16 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         text = this.txtBuscar.getText();
-        if (text.trim().length() == 0) {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
-            rowSorter.setRowFilter(null);
-            tablaAlumnos.setRowSorter(rowSorter);
-        } else {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
-            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            tablaAlumnos.setRowSorter(rowSorter);
-        } 
+        TableRowSorter rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
+        rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        tablaAlumnos.setRowSorter(rowSorter);
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         text = this.txtBuscar.getText();
-        if (text.trim().length() == 0) {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
-            rowSorter.setRowFilter(null);
-            tablaAlumnos.setRowSorter(rowSorter);
-        } else {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
-            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            tablaAlumnos.setRowSorter(rowSorter);
-        }
+        TableRowSorter rowSorter = new TableRowSorter<>(this.tablaAlumnos.getModel());
+        rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        tablaAlumnos.setRowSorter(rowSorter);
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void panelPrincipalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMouseEntered
@@ -543,7 +535,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
 
     private void tablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseClicked
         if(!tablaAlumnos.getSelectionModel().isSelectionEmpty()){
-            alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+            alumnoSeleccionado = (Alumno) this.tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
             this.txtAlumno.setText(alumnoSeleccionado.getNombrealumno() + " " + alumnoSeleccionado.getApellidoalumno());
             this.btnNuevaCuota.setEnabled(true);
             try{
@@ -599,7 +591,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCobrarActionPerformed
 
     private void tablaAlumnosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseEntered
-        this.cargarTablaAlumnos();
+
     }//GEN-LAST:event_tablaAlumnosMouseEntered
 
     private void btnNuevaCuotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaCuotaActionPerformed

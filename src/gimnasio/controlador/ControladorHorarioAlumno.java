@@ -61,7 +61,7 @@ public class ControladorHorarioAlumno {
     }
 
     public void bajaHorario(HorarioAlumno horario) throws Notificaciones {
-        horario.setEstado("INACTIVO");
+        horario.setEstado("BAJA");
         miPersistencia.persistirInstancia(horario);
     }
 }

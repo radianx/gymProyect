@@ -300,9 +300,9 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder justification="2" title="VENCIMIENTOS">
+                    <TitledBorder justification="2" title="PR&#xd3;XIMAS A VENCER">
                       <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                      <Color PropertyName="color" blue="0" green="0" red="cc" type="rgb"/>
+                      <Color PropertyName="color" blue="0" green="66" red="ff" type="rgb"/>
                     </TitledBorder>
                   </Border>
                 </Property>

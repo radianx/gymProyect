@@ -58,9 +58,7 @@ public class ControladorAlumno {
     }
 
     public List<Alumno> getListaAlumnos() throws Notificaciones {
-        miPersistencia.actualizarInstancias();
         listaAlumnos = miPersistencia.getAlumnos();
-        miPersistencia.actualizarInstancias();
         return this.listaAlumnos;
     }
 

@@ -388,16 +388,33 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaAlumnosMouseClicked
 
     private void btnNuevaCuotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaCuotaActionPerformed
-        if (!tablaAlumnos.getSelectionModel().isSelectionEmpty()) {
-            Alumno alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
-            jDialogCuota nuevaCuota = new jDialogCuota(null, true, miControlador, alumnoSeleccionado);
-            nuevaCuota.setVisible(true);
-                this.cargarTabla();
-                this.cargarTablaCuotas();
-                this.cargarTablaHorarios();
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un alumno para generar una cuota");
+        try{
+            if (!tablaAlumnos.getSelectionModel().isSelectionEmpty()) {
+                Alumno alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+                List<Cuota> cuotasAlu = miControlador.getCuotasDeAlumno(alumnoSeleccionado);
+                boolean tieneGenerado = false;
+                for (Cuota unaCuota : cuotasAlu) {
+                    if (unaCuota.getEstado().equalsIgnoreCase("GENERADO")) {
+                        JOptionPane.showMessageDialog(null, "El alumno ya tiene generada una cuota.");
+                        tieneGenerado = true;
+                        break;
+                    }
+                }
+
+                if (!tieneGenerado) {
+                    jDialogCuota nuevaCuota = new jDialogCuota(null, true, miControlador, alumnoSeleccionado);
+                    nuevaCuota.setVisible(true);
+                    this.cargarTabla();
+                    this.cargarTablaCuotas();
+                    this.cargarTablaHorarios();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un alumno para generar una cuota");
+            }
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+        
     }//GEN-LAST:event_btnNuevaCuotaActionPerformed
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained

@@ -42,6 +42,13 @@ public class ClaseProfesor  implements java.io.Serializable {
         this.estado = estado;
         this.horarios = horario;
     }
+
+    public ClaseProfesor(Clase unaClase, Modalidad unaModalidad, Profesor unProfesor, String activo) {
+        this.clase = unaClase;
+        this.modalidad = unaModalidad;
+        this.profesor = unProfesor;
+        this.estado = activo;
+    }
         
     public int getIdclaseprofesor() {
         return this.idclaseprofesor;

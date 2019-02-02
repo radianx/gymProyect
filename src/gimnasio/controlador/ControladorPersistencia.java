@@ -544,7 +544,7 @@ public class ControladorPersistencia {
     }
 
     public List<HorarioProfesor> getHorariosProfesor() throws Notificaciones {
-        String textoConsulta = "FROM HorarioProfesor";
+        String textoConsulta = "FROM HorarioProfesor WHERE estado like 'ACTIVO'";
         List<HorarioProfesor> lista = null;
 
         synchronized (this.sesion) {

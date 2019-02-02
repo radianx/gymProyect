@@ -10,6 +10,7 @@ import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.controlador.ControladorRele;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
+import gimnasio.modelo.Cuota;
 import gimnasio.modelo.Usuario;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -39,6 +40,12 @@ public class MainMenu extends javax.swing.JFrame {
 
     public static void detenerLector() {
         lector.stop();
+    }
+
+    public static void nuevoMovimiento(Alumno elAlumno, Cuota cuota, Double abono) {
+        jInternalMovimiento movimiento = new jInternalMovimiento(miControlador, elAlumno, cuota, abono);
+        jDesktopPane1.add(movimiento);
+        movimiento.setVisible(true);
     }
     
     public void abrirPromociones(){
