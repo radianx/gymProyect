@@ -93,7 +93,6 @@ public class ControladorReporte {
             tabla.addCell(celda2);
             tabla.addCell(celda3);
             
-
             IngresosPuerta primer = listaIngresos.get(0);
             
             LocalDate elDia = Instant.ofEpochMilli(primer.getHoraIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();

@@ -47,7 +47,8 @@ public class ControladorIngresosPuerta {
             for(IngresosPuerta ip:listaIngresosPuerta){
                 fechaIngreso = Instant.ofEpochMilli(ip.getHoraIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
                 if(fechaIngreso.isAfter(desde.minusDays(1)) && fechaIngreso.isBefore(hasta.plusDays(1))){
-                       retorno.add(ip);
+                    System.out.println(ip);   
+                    retorno.add(ip);
                 }
             }
         }
