@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 03-feb-2019 0:12:55 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Clase" table="clase" schema="public" optimistic-lock="version">
+    <class name="gimnasio.modelo.Clase" table="clase" schema="public">
         <id name="idclase" type="int">
             <column name="idclase" />
-            <generator class="increment" />
+            <generator class="increment"></generator>
         </id>
         <property name="tipoclase" type="string">
             <column name="tipoclase" not-null="true" />
@@ -20,13 +20,7 @@
         <property name="estado" type="string">
             <column name="estado" not-null="true" />
         </property>
-<!--        <set name="cuotas" table="cuota" fetch="select" cascade="all">
-            <key>
-                <column name="idclase" not-null="true" />
-            </key>
-            <one-to-many class="gimnasio.modelo.Cuota" />
-        </set>!-->
-        <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" fetch="select" cascade="all">
+        <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" cascade="all" fetch="select">
             <key>
                 <column name="idclase" not-null="true" />
             </key>

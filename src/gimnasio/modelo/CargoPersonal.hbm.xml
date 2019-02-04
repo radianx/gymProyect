@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 03-feb-2019 0:12:55 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.CargoPersonal" table="cargo_personal" schema="public" optimistic-lock="version">
+    <class name="gimnasio.modelo.CargoPersonal" table="cargo_personal" schema="public">
         <id name="idcargopersonal" type="int">
             <column name="idcargopersonal" />
-            <generator class="increment" />
+            <generator class="increment"></generator>
         </id>
         <many-to-one name="cargo" class="gimnasio.modelo.Cargo" fetch="select">
             <column name="idcargo" not-null="true" />

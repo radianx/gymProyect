@@ -1,46 +1,38 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 8, 2018 5:14:43 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 03-feb-2019 0:12:55 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="gimnasio.modelo.ClaseProfesor" table="clase_profesor" schema="public" optimistic-lock="version">
         <id name="idclaseprofesor" type="int">
             <column name="idclaseprofesor" />
-            <generator class="increment" />
+            <generator class="assigned" />
         </id>
-        <many-to-one name="clase" class="gimnasio.modelo.Clase" lazy="proxy" cascade="all">
+        <many-to-one name="clase" class="gimnasio.modelo.Clase" fetch="select">
             <column name="idclase" not-null="true" />
         </many-to-one>
-        <many-to-one name="modalidad" class="gimnasio.modelo.Modalidad" lazy="proxy" cascade="all">
+        <many-to-one name="modalidad" class="gimnasio.modelo.Modalidad" fetch="select">
             <column name="idmodalidad" not-null="true" />
         </many-to-one>
-        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" lazy="proxy" cascade="all">
+        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" fetch="select">
             <column name="idprofesor" not-null="true" />
         </many-to-one>
-
-        <set name="horarios" table="horario_profesor" inverse="true" lazy="true" cascade="all">
-            <key>
-                <column name="idHorario" not-null="true" />
-            </key>
-            <one-to-many class="gimnasio.modelo.HorarioProfesor" />
-        </set>
-
         <property name="estado" type="string">
             <column name="estado" not-null="true" />
         </property>
-        <set name="asistenciaProfesors" table="asistencia_profesor" inverse="true" lazy="true"  cascade="all">
+        <set name="asistenciaProfesors" table="asistencia_profesor" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idclaseprofesor" not-null="true" />
             </key>
             <one-to-many class="gimnasio.modelo.AsistenciaProfesor" />
         </set>
-        <set name="sectorClases" table="sector_clase" inverse="true" lazy="true"  cascade="all">
+        <set name="sectorClases" table="sector_clase" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idclaseprofesor" not-null="true" />
             </key>
             <one-to-many class="gimnasio.modelo.SectorClase" />
         </set>
-        <set name="claseAlumnos" table="clase_alumno" inverse="true" lazy="true" cascade="all">
+        <set name="claseAlumnos" table="clase_alumno" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idclaseprofesor" not-null="true" />
             </key>

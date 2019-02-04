@@ -7,10 +7,6 @@ package gimnasio.controlador;
 
 import com.sun.jna.Native;
 import gimnasio.interfaces.GestorRele;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 /**
  *

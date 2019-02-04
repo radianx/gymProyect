@@ -15,6 +15,7 @@ import java.util.Objects;
  * @author Family
  */
 public class HorarioProfesor {
+
     private int idHorario;
     private ClaseProfesor claseProfesor;
     private Date inicio;
@@ -37,15 +38,11 @@ public class HorarioProfesor {
         this.fin = fin;
     }
 
-    
-    
     public HorarioProfesor(ClaseProfesor claseProfesor, Date inicio, Date fin) {
         this.claseProfesor = claseProfesor;
         this.inicio = inicio;
         this.fin = fin;
     }
-    
-    
 
     public int getIdHorario() {
         return idHorario;
@@ -86,42 +83,9 @@ public class HorarioProfesor {
 
     @Override
     public String toString() {
-        SimpleDateFormat formato =  new SimpleDateFormat("EEEE", new Locale("es","ES"));
+        SimpleDateFormat formato = new SimpleDateFormat("EEEE", new Locale("es", "ES"));
         String fecha = formato.format(this.inicio);
         return fecha;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + this.idHorario;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final HorarioProfesor other = (HorarioProfesor) obj;
-        if (!Objects.equals(this.inicio, other.inicio)) {
-            return false;
-        }
-        if (!Objects.equals(this.fin, other.fin)) {
-            return false;
-        }
-        
-        if (this.inicio.after(other.inicio) && this.inicio.before(other.fin)){
-            return true;
-        }
-        
-        return true;
     }
 
     public String getEstado() {
@@ -145,8 +109,4 @@ public class HorarioProfesor {
         return text;
     }
 
-
-    
-    
-    
 }

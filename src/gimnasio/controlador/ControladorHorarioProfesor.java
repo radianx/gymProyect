@@ -17,16 +17,16 @@ public class ControladorHorarioProfesor {
 
     private ControladorPersistencia miPersistencia;
     private List<HorarioProfesor> listaHorariosProfesor;
-    
+
     public ControladorHorarioProfesor(ControladorPersistencia miPersistencia) throws Notificaciones {
         this.miPersistencia = miPersistencia;
         this.listaHorariosProfesor = this.miPersistencia.getHorariosProfesor();
     }
-    
-    public void altaHorarioProfesor(HorarioProfesor unHorarioProfesor) throws Notificaciones{
+
+    public void altaHorarioProfesor(HorarioProfesor unHorarioProfesor) throws Notificaciones {
         this.miPersistencia.persistirInstancia(unHorarioProfesor);
-        this.miPersistencia.actualizarInstancias();
         this.listaHorariosProfesor = miPersistencia.getHorariosProfesor();
+        this.miPersistencia.actualizarInstancias();
     }
 
     public List<HorarioProfesor> getListaHorarios() throws Notificaciones {
@@ -39,5 +39,5 @@ public class ControladorHorarioProfesor {
         horarioProfesor.setEstado("INACTIVO");
         miPersistencia.persistirInstancia(horarioProfesor);
     }
-    
+
 }

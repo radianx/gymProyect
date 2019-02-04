@@ -33,6 +33,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author adrian
@@ -46,12 +47,12 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     DefaultTableModel modeloTablaClaseProfesor;
     TableRowSorter<TableModel> rowSorter;
     String text = "";
-    
+
     public Profesor profesorSeleccionado;
     public Clase claseSeleccionada;
     public Modalidad modalidadSeleccionada;
     public ClaseProfesor claseProfesor;
-    
+
     public JInternalClasesProfesor(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
@@ -64,7 +65,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         this.add(panelNewClaseProfesor);
     }
 
-    public void cargarTablaHorarios(){
+    public void cargarTablaHorarios() {
         modeloTablaHorarios = new DefaultTableModel();
         modeloTablaHorarios.addColumn("Dia");
         modeloTablaHorarios.addColumn("Inicio");
@@ -72,26 +73,32 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         modeloTablaHorarios.addColumn("Es Promocion");
         this.tablaHorarios.setModel(modeloTablaHorarios);
     }
-    
-    public void cargarTablaHorarios(ClaseProfesor claseProfesor){
-        modeloTablaHorarios = new DefaultTableModel();
-        modeloTablaHorarios.addColumn("Dia");
-        modeloTablaHorarios.addColumn("Inicio");
-        modeloTablaHorarios.addColumn("Fin");
-        modeloTablaHorarios.addColumn("Es Promocion");
-        Object[] fila = new Object[4];
-        for(HorarioProfesor unHorario:claseProfesor.getHorarios()){
-            if(unHorario.getEstado().equalsIgnoreCase("ACTIVO")){
-                fila[0] = unHorario;
-                fila[1] = unHorario.getInicioString();
-                fila[2] = unHorario.getFinString();
-                fila[3] = unHorario.getPromocion();
-                modeloTablaHorarios.addRow(fila);
+
+    public void cargarTablaHorarios(ClaseProfesor claseProfesor) {
+        try {
+            modeloTablaHorarios = new DefaultTableModel();
+            modeloTablaHorarios.addColumn("Dia");
+            modeloTablaHorarios.addColumn("Inicio");
+            modeloTablaHorarios.addColumn("Fin");
+            modeloTablaHorarios.addColumn("Es Promocion");
+            Object[] fila = new Object[4];
+            for (HorarioProfesor unHorario : miControlador.getListaHorarios()) {
+                if (unHorario.getClaseProfesor().getIdclaseprofesor() == claseProfesor.getIdclaseprofesor()) {
+                    if (unHorario.getEstado().equalsIgnoreCase("ACTIVO")) {
+                        fila[0] = unHorario;
+                        fila[1] = unHorario.getInicioString();
+                        fila[2] = unHorario.getFinString();
+                        fila[3] = unHorario.getPromocion();
+                        modeloTablaHorarios.addRow(fila);
+                    }
+                }
             }
+            this.tablaHorarios.setModel(modeloTablaHorarios);
+        } catch (Notificaciones ex) {
+            ex.printStackTrace();
         }
-        this.tablaHorarios.setModel(modeloTablaHorarios);
     }
-    
+
     public void cargarTablaClaseProfesores() {
         try {
             modeloTablaClaseProfesor = new DefaultTableModel();
@@ -116,7 +123,6 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -368,33 +374,36 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
                 "¿La clase va a ser de Horario Libre?",
                 "Seleccione una opcion",
                 JOptionPane.YES_NO_OPTION,
-                JOptionPane.INFORMATION_MESSAGE
-                , null, opciones, opciones[0]);
-        if(seleccion==1){
+                JOptionPane.INFORMATION_MESSAGE,
+                null, opciones, opciones[0]);
+        if (seleccion == 1) {
             cambiarPanel(this.panelPrincipal, panelNewClaseProfesor);
         }
-        if(seleccion==0){
+        if (seleccion == 0) {
             panelNewClaseProfesor.cargarLibre();
             cambiarPanel(this.panelPrincipal, panelNewClaseProfesor);
         }
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClaseActionPerformed
-        if(!this.tablaClasesProfesores.getSelectionModel().isSelectionEmpty()){
+        if (!this.tablaClasesProfesores.getSelectionModel().isSelectionEmpty()) {
             try {
-                List<ClaseAlumno> alumnosSinClase = miControlador.bajaClaseProfesor((ClaseProfesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(),0));
-                for(ClaseAlumno alu:alumnosSinClase){
+                List<ClaseAlumno> alumnosSinClase = miControlador.bajaClaseProfesor((ClaseProfesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(), 0));
+                miControlador.actualizarHorariosDeAlumnos((ClaseProfesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(), 0));
+                for (ClaseAlumno alu : alumnosSinClase) {
                     System.out.println(alu);
                 }
-                SwingUtilities.invokeLater(new Runnable(){public void run(){
-                    cargarTablaClaseProfesores();
-                    cargarTablaHorarios();
-                }});
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        cargarTablaClaseProfesores();
+                        cargarTablaHorarios();
+                    }
+                });
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 ex.printStackTrace();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Horario para eliminar");
         }
     }//GEN-LAST:event_btnEliminarClaseActionPerformed
@@ -430,7 +439,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void panelPrincipalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMouseEntered
-        if(!panelNewClaseProfesor.isVisible()){
+        if (!panelNewClaseProfesor.isVisible()) {
             cambiarPanel(panelNewClaseProfesor, panelPrincipal);
             this.txtBuscar.grabFocus();
         }
@@ -441,10 +450,10 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_panelPrincipalComponentShown
 
     private void tablaClasesProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesProfesoresMouseClicked
-        if(!tablaClasesProfesores.getSelectionModel().isSelectionEmpty()){
-            claseProfesor = (ClaseProfesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(),0);
+        if (!tablaClasesProfesores.getSelectionModel().isSelectionEmpty()) {
+            claseProfesor = (ClaseProfesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(), 0);
             this.cargarTablaHorarios(claseProfesor);
-            profesorSeleccionado = (Profesor)tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(),1);
+            profesorSeleccionado = (Profesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(), 1);
             this.modalidadSeleccionada = claseProfesor.getModalidad();
             claseSeleccionada = claseProfesor.getClase();
         }
@@ -466,9 +475,9 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaClasesProfesoresMouseEntered
 
     private void btnEliminarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarHorarioActionPerformed
-        if(!tablaHorarios.getSelectionModel().isSelectionEmpty()){
+        if (!tablaHorarios.getSelectionModel().isSelectionEmpty()) {
             try {
-                miControlador.bajaHorarioProfesor((HorarioProfesor) tablaHorarios.getValueAt(tablaHorarios.getSelectedRow(),0));
+                miControlador.bajaHorarioProfesor((HorarioProfesor) tablaHorarios.getValueAt(tablaHorarios.getSelectedRow(), 0));
                 modeloTablaHorarios.removeRow(tablaHorarios.getSelectedRow());
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
@@ -478,18 +487,17 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEliminarHorarioActionPerformed
 
     private void btnNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevo1ActionPerformed
-        if(profesorSeleccionado != null && modalidadSeleccionada != null && claseSeleccionada != null){
-        cambiarPanel(panelPrincipal, panelClaseProfesorHorario);
-        List<HorarioProfesor> horarios = new ArrayList<>();
-        for(int i = 0; i<modeloTablaHorarios.getRowCount();i++){
-            horarios.add((HorarioProfesor) tablaHorarios.getValueAt(i, 0));
-        }
-        panelClaseProfesorHorario.recibirDatos(claseProfesor,profesorSeleccionado, modalidadSeleccionada, claseSeleccionada, horarios);
-        }else{
+        if (profesorSeleccionado != null && modalidadSeleccionada != null && claseSeleccionada != null) {
+            cambiarPanel(panelPrincipal, panelClaseProfesorHorario);
+            List<HorarioProfesor> horarios = new ArrayList<>();
+            for (int i = 0; i < modeloTablaHorarios.getRowCount(); i++) {
+                horarios.add((HorarioProfesor) tablaHorarios.getValueAt(i, 0));
+            }
+            panelClaseProfesorHorario.recibirDatos(claseProfesor, profesorSeleccionado, modalidadSeleccionada, claseSeleccionada, horarios);
+        } else {
             JOptionPane.showMessageDialog(null, "Seleccione una clase para agregar un horario");
         }
     }//GEN-LAST:event_btnNuevo1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -511,9 +519,9 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
     private void cambiarPanel(JPanel panelActual, JPanel panelCambio) {
-		panelActual.setVisible(false);
-                panelCambio.setVisible(true);
-		// this.pack();
+        panelActual.setVisible(false);
+        panelCambio.setVisible(true);
+        // this.pack();
     }
 
 }

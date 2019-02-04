@@ -28,12 +28,12 @@ public class MainMenu extends javax.swing.JFrame {
 
     public static Usuario usuarioLogueado;
     public static boolean cajaAbierta = false;
-    
+
     public static void iniciarEscaner() {
         lector.start();
     }
 
-    public static void loguearUsuario(Usuario unUsuario){
+    public static void loguearUsuario(Usuario unUsuario) {
         usuarioLogueado = unUsuario;
         jDesktopPane1.grabFocus();
     }
@@ -47,25 +47,25 @@ public class MainMenu extends javax.swing.JFrame {
         jDesktopPane1.add(movimiento);
         movimiento.setVisible(true);
     }
-    
-    public void abrirPromociones(){
+
+    public void abrirPromociones() {
         JInternalPromociones promo = new JInternalPromociones(miControlador);
         jDesktopPane1.add(promo);
         promo.setVisible(true);
     }
-    
-    public static Usuario getUsuario(){
+
+    public static Usuario getUsuario() {
         return usuarioLogueado;
     }
-    
-    public static boolean isUserAdmin(){
+
+    public static boolean isUserAdmin() {
         boolean retorno = false;
-        if(usuarioLogueado.getEstado().equalsIgnoreCase("ADMIN")){
+        if (usuarioLogueado.getEstado().equalsIgnoreCase("ADMIN")) {
             retorno = true;
         }
         return retorno;
     }
-    
+
     public static void abrirCobro(Alumno alumnoSeleccionado) {
         jInternalCobro cobro = new jInternalCobro(miControlador, alumnoSeleccionado);
         jDesktopPane1.add(cobro);
@@ -79,11 +79,10 @@ public class MainMenu extends javax.swing.JFrame {
 //    jInternalLogueo panelLogin = new jInternalLogueo();
 //    jInternalProductos panelProductos = new jInternalProductos();
 //    jInternalInformes panelInformes = new jInternalInformes();
-    
-    boolean mostrar = false;    
+    boolean mostrar = false;
     public static Boolean detenerEscaner = true;
-    
-    public void cerrarSesion(){
+
+    public void cerrarSesion() {
         allOptions(false);
         usuarioLogueado = null;
         jInternalLogueo login = new jInternalLogueo(miControlador);
@@ -91,15 +90,16 @@ public class MainMenu extends javax.swing.JFrame {
         login.setVisible(true);
         opcionesDefault();
     }
-    
+
     public static ControladorPrincipal miControlador;
     public static ControladorHuella lector;
     Thread thread_object;
+
     /**
      * Creates new form MainMenu
+     *
      * @param controlador
      */
-    
     public MainMenu(ControladorPrincipal controlador) {
         this.miControlador = controlador;
         initComponents();
@@ -108,23 +108,23 @@ public class MainMenu extends javax.swing.JFrame {
         this.btnUsuarios.setEnabled(mostrar);
         this.comprobarAperturaCaja();
 
-        lector = new ControladorHuella(miControlador, controlador.getMiPersistencia(),this.txtHabilitado,this.lblFoto, this.tablaAsistencias);
+        lector = new ControladorHuella(miControlador, controlador.getMiPersistencia(), this.txtHabilitado, this.lblFoto, this.tablaAsistencias);
         jScrollPane2.getVerticalScrollBar().setValue(jScrollPane2.getVerticalScrollBar().getMaximum());
-        thread_object =new Thread(lector);
+        thread_object = new Thread(lector);
         thread_object.start();
-        
+
         jInternalLogueo login = new jInternalLogueo(miControlador);
         this.jDesktopPane1.add(login);
         login.setVisible(true);
         login.grabFocus();
-        
+
         this.allOptions(false);
-        
+
         Dimension desktopSize = jDesktopPane1.getSize();
-        
+
         opcionesDefault();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -149,6 +149,7 @@ public class MainMenu extends javax.swing.JFrame {
         btnClaseALumno = new javax.swing.JButton();
         btnModalidadProfesor = new javax.swing.JButton();
         btnPromociones = new javax.swing.JButton();
+        btnSinCLases = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -331,6 +332,14 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnPromociones);
+
+        btnSinCLases.setText("<html><center>Alumnos<br>Sin Clases</center></html>");
+        btnSinCLases.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSinCLasesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnSinCLases);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.EAST);
 
@@ -671,7 +680,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIUsuariosMouseClicked
 
     private void btnAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlumnosActionPerformed
-        jInternalAlumno panelAlumnos =  new jInternalAlumno(miControlador);
+        jInternalAlumno panelAlumnos = new jInternalAlumno(miControlador);
         this.jDesktopPane1.add(panelAlumnos);
         panelAlumnos.setVisible(true);
     }//GEN-LAST:event_btnAlumnosActionPerformed
@@ -721,7 +730,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void jMISalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMISalirActionPerformed
         int seleccion = JOptionPane.showConfirmDialog(null, "¿Desea Cerrar el Sistema?", "Confirmacion", 2);
-        if(seleccion ==0){
+        if (seleccion == 0) {
             this.dispose();
         }
     }//GEN-LAST:event_jMISalirActionPerformed
@@ -742,21 +751,21 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIAperturaCajaActionPerformed
 
     private void jMICierreCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMICierreCajaActionPerformed
-        try{
+        try {
             miControlador.cerrarCaja();
             cajaAbierta = false;
             JOptionPane.showMessageDialog(null, "Caja cerrada");
-        }catch(Notificaciones ex){
+        } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_jMICierreCajaActionPerformed
 
     private void jMIMovimientosCobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIMovimientosCobroActionPerformed
-        if(cajaAbierta==true){
+        if (cajaAbierta == true) {
             jInternalMovimiento movimientos = new jInternalMovimiento(miControlador);
             jDesktopPane1.add(movimientos);
             movimientos.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "La caja se encuentra cerrada.");
         }
 
@@ -814,10 +823,15 @@ public class MainMenu extends javax.swing.JFrame {
         panelPuerta.setVisible(true);
     }//GEN-LAST:event_btnIngresosActionPerformed
 
+    private void btnSinCLasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSinCLasesActionPerformed
+        jInternalClasesAlumnosOff alumnos = new jInternalClasesAlumnosOff(this.miControlador);
+        this.jDesktopPane1.add(alumnos);
+        alumnos.setVisible(true);
+    }//GEN-LAST:event_btnSinCLasesActionPerformed
+
     /**
      * @param args the command line arguments
      */
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrirPuerta;
     private javax.swing.JButton btnAlumnos;
@@ -832,6 +846,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnModalidadProfesor;
     private javax.swing.JButton btnProfesores;
     private javax.swing.JButton btnPromociones;
+    private javax.swing.JButton btnSinCLases;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JMenuItem itemEliminarClase;
     private javax.swing.JMenuItem itemListarClases;
@@ -886,7 +901,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTable tablaAsistencias;
     private javax.swing.JTextField txtHabilitado;
     // End of variables declaration//GEN-END:variables
- 
+
     public void setAcceso() {
         if (usuarioLogueado != null) {
             if (usuarioLogueado.getEstado().equalsIgnoreCase("ADMIN")) {
@@ -902,28 +917,29 @@ public class MainMenu extends javax.swing.JFrame {
                 this.jDesktopPane1.add(login);
                 login.setVisible(true);
             }
-        }else{
+        } else {
             opcionesDefault();
-        } 
+        }
     }
-    
-    public void opcionesDefault(){
-            this.jMenuArchivo.setEnabled(true);  
-            this.jMIUsuarios.setEnabled(false);
-            this.jMIAlumnos.setEnabled(false);
-            this.jMIProfesores.setEnabled(false);
-            this.jMIClases.setEnabled(false);
-            this.jMIPersonal.setEnabled(false);
-            this.jMICerrarSesion.setEnabled(false);
-            this.jMISalir.setEnabled(true);
+
+    public void opcionesDefault() {
+        this.jMenuArchivo.setEnabled(true);
+        this.jMIUsuarios.setEnabled(false);
+        this.jMIAlumnos.setEnabled(false);
+        this.jMIProfesores.setEnabled(false);
+        this.jMIClases.setEnabled(false);
+        this.jMIPersonal.setEnabled(false);
+        this.jMICerrarSesion.setEnabled(false);
+        this.jMISalir.setEnabled(true);
     }
-    
-    public void operadorOptions(boolean estado){
+
+    public void operadorOptions(boolean estado) {
         allOptions(estado);
         this.jMenuCaja.setEnabled(false);
     }
-    
-    public void allOptions(boolean estado){
+
+    public void allOptions(boolean estado) {
+        this.btnSinCLases.setEnabled(estado);
         this.btnAbrirPuerta.setEnabled(estado);
         this.btnAlumnos.setEnabled(estado);
         this.btnAsistencia.setEnabled(estado);
@@ -976,14 +992,14 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     private void comprobarAperturaCaja() {
-        try{
-            if(miControlador.hayCajaAbiertaHoy()){
-            cajaAbierta = true;
+        try {
+            if (miControlador.hayCajaAbiertaHoy()) {
+                cajaAbierta = true;
             }
-        }catch(Notificaciones ex){
+        } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
         }
     }
-    
+
 }

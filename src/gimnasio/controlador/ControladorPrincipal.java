@@ -102,10 +102,10 @@ public class ControladorPrincipal {
         }
     }
 
-//  <-------------------------------------------------------------------------------------------------------------------------------------> 
-//          <---------------------------------------------------------------ABMs----------------------------------------------------> 
 //  <------------------------------------------------------------------------------------------------------------------------------------->
-//  <----------------------------------------------------ABM USUARIOS----------------------------------------------------> 
+//          <---------------------------------------------------------------ABMs---------------------------------------------------->
+//  <------------------------------------------------------------------------------------------------------------------------------------->
+//  <----------------------------------------------------ABM USUARIOS---------------------------------------------------->
     public List<Usuario> getListaUsuarios() throws Notificaciones {
         return this.controladorUsuario.getListaUsuarios();
     }
@@ -118,7 +118,7 @@ public class ControladorPrincipal {
         this.controladorUsuario.bajaUsuario(idUsuario);
     }
 
-//  <----------------------------------------------------ABM ALUMNOS----------------------------------------------------> 
+//  <----------------------------------------------------ABM ALUMNOS---------------------------------------------------->
     public List<Alumno> getListaAlumnos() throws Notificaciones {
         return this.controladorAlumno.getListaAlumnos();
     }
@@ -131,7 +131,7 @@ public class ControladorPrincipal {
         this.controladorAlumno.altaAlumno(unAlumno);
     }
 
-    //  <----------------------------------------------------ABM PROFESORES----------------------------------------------------> 
+    //  <----------------------------------------------------ABM PROFESORES---------------------------------------------------->
     public void altaProfesor(Profesor profesor) throws Notificaciones {
         this.controladorProfesor.altaProfesor(profesor);
     }
@@ -158,7 +158,7 @@ public class ControladorPrincipal {
         return this.controladorProfesor.buscarClasesPorProfesor(idProfesor);
     }
 
-//  <----------------------------------------------------ABM MODALIDADES----------------------------------------------------> 
+//  <----------------------------------------------------ABM MODALIDADES---------------------------------------------------->
     public void altaModalidad(Modalidad modalidad) throws Notificaciones {
         this.controladorModalidad.altaModalidad(modalidad);
     }
@@ -167,7 +167,7 @@ public class ControladorPrincipal {
         this.controladorModalidad.bajaModalidad(idModalidad);
     }
 
-//  <----------------------------------------------------ABM PROFESORES POR MODALIDADES----------------------------------------------------> 
+//  <----------------------------------------------------ABM PROFESORES POR MODALIDADES---------------------------------------------------->
     public void altaProfesorPorModalidad(Profesormodalidad profesorModalidad) throws Notificaciones {
         this.controladorProfesorModalidad.altaProfesorModalidad(profesorModalidad);
     }
@@ -176,7 +176,7 @@ public class ControladorPrincipal {
         this.controladorProfesorModalidad.bajaProfesorModalidad(unProfesorModalidad);
     }
 
-//  <----------------------------------------------------ABM CLASES ----------------------------------------------------> 
+//  <----------------------------------------------------ABM CLASES ---------------------------------------------------->
     public void altaClase(Clase clase) throws Notificaciones {
         this.controladorClase.altaClase(clase);
     }
@@ -185,7 +185,7 @@ public class ControladorPrincipal {
         this.controladorClase.bajaClase(unaClase);
     }
 
-//  <------------------------------------------------ABM CLASES ALUMNO------------------------------------------------> 
+//  <------------------------------------------------ABM CLASES ALUMNO------------------------------------------------>
     public void altaClaseAlumno(ClaseAlumno claseAlumno) throws Notificaciones {
         this.controladorClaseAlumno.altaClaseAlumno(claseAlumno);
     }
@@ -193,20 +193,20 @@ public class ControladorPrincipal {
     public void bajaClaseAlumno(ClaseAlumno unaClaseAlumno) throws Notificaciones {
         System.out.println("ControladorPrincipal bajaClaseAlumno");
         Alumno unAlumno = unaClaseAlumno.getAlumno();
-        System.out.println("Alumno detectado: "+ unAlumno);
-        
-        for(HorarioAlumno horario:controladorHorarioAlumno.getListaHorariosAlumno(unaClaseAlumno)){
+        System.out.println("Alumno detectado: " + unAlumno);
+
+        for (HorarioAlumno horario : controladorHorarioAlumno.getListaHorariosAlumno(unaClaseAlumno)) {
             System.out.println("For HorarioAlumno");
-            if(horario.getClaseAlumno().toString().equalsIgnoreCase(unaClaseAlumno.toString())){
+            if (horario.getClaseAlumno().toString().equalsIgnoreCase(unaClaseAlumno.toString())) {
                 controladorHorarioAlumno.bajaHorario(horario);
-                System.out.println("Dando de baja horario: "+horario);
+                System.out.println("Dando de baja horario: " + horario);
             }
         }
         this.controladorClaseAlumno.bajaClaseAlumno(unaClaseAlumno);
         this.miPersistencia.actualizarInstancias();
     }
 
-//  <----------------------------------------------------ABM CUOTAS ----------------------------------------------------> 
+//  <----------------------------------------------------ABM CUOTAS ---------------------------------------------------->
     public void altaCuota(Cuota unaCuota) throws Notificaciones {
         this.controladorCuota.altaCuota(unaCuota);
     }
@@ -223,10 +223,10 @@ public class ControladorPrincipal {
         Date vencimiento = parseDate("11/09/2001");
     }
 
-//  <----------------------------------------------------ABM COBROS----------------------------------------------------> 
-//  <----------------------------------------------------ABM PAGOS----------------------------------------------------> 
-//  <----------------------------------------------------ABM ASISTENCIAS----------------------------------------------------> 
-//  <----------------------------------------------------ABM CARGOS----------------------------------------------------> 
+//  <----------------------------------------------------ABM COBROS---------------------------------------------------->
+//  <----------------------------------------------------ABM PAGOS---------------------------------------------------->
+//  <----------------------------------------------------ABM ASISTENCIAS---------------------------------------------------->
+//  <----------------------------------------------------ABM CARGOS---------------------------------------------------->
     public void altaCargo(Cargo cargo) throws Notificaciones {
 //        String estado = "ACTIVO";
 //        Cargo unCargo = buscarCargo(cargo.getNombrecargo());
@@ -246,7 +246,7 @@ public class ControladorPrincipal {
     public void bajaCargo(Cargo unCargo) {
 
     }
-//  <----------------------------------------------------ABM SECTORES----------------------------------------------------> 
+//  <----------------------------------------------------ABM SECTORES---------------------------------------------------->
 
     public void altaSector(Sector sector) throws Notificaciones {
 //    String estado = "ACTIVO";
@@ -258,7 +258,7 @@ public class ControladorPrincipal {
 //        }
 //    }
     }
-//  <----------------------------------------------------ABM CONTACTO----------------------------------------------------> 
+//  <----------------------------------------------------ABM CONTACTO---------------------------------------------------->
 
     public void altaContacto(Contacto unContacto) throws Notificaciones {
         unContacto.setEstado("ACTIVO");
@@ -266,16 +266,16 @@ public class ControladorPrincipal {
 //    this.listaContactos.add(unContacto);
 //    this.miPersistencia.persistirInstancia(unContacto);
     }
-//  <----------------------------------------------------ABM ASISTENCIA PROFESOR----------------------------------------------------> 
+//  <----------------------------------------------------ABM ASISTENCIA PROFESOR---------------------------------------------------->
 
-//  <----------------------------------------------------ABM ASISTENCIA PERSONAL----------------------------------------------------> 
-//  <----------------------------------------------------ABM CAJA DIARIA----------------------------------------------------> 
-//  <----------------------------------------------------ABM PERSONAL----------------------------------------------------> 
+//  <----------------------------------------------------ABM ASISTENCIA PERSONAL---------------------------------------------------->
+//  <----------------------------------------------------ABM CAJA DIARIA---------------------------------------------------->
+//  <----------------------------------------------------ABM PERSONAL---------------------------------------------------->
     public void bajaPersonal() {
 
     }
 
-//  <----------------------------------------------------ABM OBRASOCIAL----------------------------------------------------> 
+//  <----------------------------------------------------ABM OBRASOCIAL---------------------------------------------------->
     public void altaObraSocial(Obrasocial obrasocial) throws Notificaciones {
         this.controladorObraSocial.altaObraSocial(obrasocial);
     }
@@ -288,7 +288,7 @@ public class ControladorPrincipal {
         this.controladorObraSocial.bajaObraSocial(nombreObra);
     }
 
-//  <------GETTERS DE LISTAS---------------------------------------------------> 
+//  <------GETTERS DE LISTAS--------------------------------------------------->
     public List<Clase> getListaClases() {
         return this.controladorClase.getListaClases();
     }
@@ -313,7 +313,6 @@ public class ControladorPrincipal {
         return this.controladorCuota.getListaCuotas();
     }
 
-
     public List<ClaseProfesor> getListaClaseProfesor() throws Notificaciones {
         return this.controladorClaseProfesor.getListaClaseProfesor();
     }
@@ -327,9 +326,11 @@ public class ControladorPrincipal {
         controladorClaseProfesor.bajaClaseProfesor(unaClase);
         for (ClaseAlumno claseAlu : this.controladorClaseAlumno.getListaClaseAlumno()) {
             System.out.println(claseAlu);
-            if(claseAlu.getClaseProfesor().getIdclaseprofesor() == unaClase.getIdclaseprofesor()){
+            if (claseAlu.getClaseProfesor().getIdclaseprofesor() == unaClase.getIdclaseprofesor()) {
+                claseAlu.setEstado("BAJA");
                 alumnosSinClase.add(claseAlu);
-                System.out.println("Agregado");
+                miPersistencia.persistirInstancia(claseAlu);
+                System.out.println("Agregado ClaseAlumno(lista sin clases): " + claseAlu);
             }
         }
         return alumnosSinClase;
@@ -360,6 +361,27 @@ public class ControladorPrincipal {
     }
 
     public void bajaHorarioProfesor(HorarioProfesor horarioProfesor) throws Notificaciones {
+        //Obtengo la claseProfesor correspondiente
+        for (ClaseProfesor claseProfesor : controladorClaseProfesor.getListaClaseProfesor()) {
+            if (claseProfesor.getIdclaseprofesor() == horarioProfesor.getClaseProfesor().getIdclaseprofesor()) {
+                //Obtengo todas las clasesAlumno de esa claseProfesor
+                for (ClaseAlumno claseAlumno : controladorClaseAlumno.getListaClaseAlumno()) {
+                    for (ClaseAlumno claseAlu : claseProfesor.getClaseAlumnos()) {
+                        if (claseAlumno.getIdclasealumno() == claseAlu.getIdclasealumno()) {
+                            //Obtengo los horarios de los alumnos
+                            for (HorarioAlumno horario : claseAlumno.getHorarios()) {
+                                if (horarioProfesor.getInicio().compareTo(horario.getInicio()) == 0) {
+                                    //si es el mismo horario, asumo que
+                                    //es el horarioAlumno correspondiente al horarioProfesor y lo pongo inactivo
+                                    horario.setEstado("INACTIVO");
+                                    this.miPersistencia.persistirInstancia(horario);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         controladorHorarioProfesor.bajaHorarioProfesor(horarioProfesor);
     }
 
@@ -370,7 +392,7 @@ public class ControladorPrincipal {
     public List<HorarioAlumno> getListaHorariosAlumno(ClaseAlumno clase) throws Notificaciones {
         List<HorarioAlumno> refrescar = controladorHorarioAlumno.getListaHorariosAlumno(clase);
         List<HorarioAlumno> retorno = new ArrayList<>();
-        for(HorarioAlumno horario:refrescar){
+        for (HorarioAlumno horario : refrescar) {
             miPersistencia.refrescar(horario);
             retorno.add(horario);
         }
@@ -378,7 +400,7 @@ public class ControladorPrincipal {
     }
 
     public void altaAsistenciaAlumno(ClaseAlumno asistencia, Date fecha) throws Notificaciones {
-        
+
         controladorAsistenciaAlumno.altaAsistenciaAlumno(asistencia, fecha);
     }
 
@@ -445,7 +467,7 @@ public class ControladorPrincipal {
         controladorMovimientos.altaMomiviento(unMovimiento);
     }
 
-    public void generarReporteDiario() throws Notificaciones, DocumentException {     
+    public void generarReporteDiario() throws Notificaciones, DocumentException {
         controladorReporte.generarReporte(false, controladorCaja.dameCaja(), controladorMovimientos.getListaMovimientosDeHoy());
     }
 
@@ -470,10 +492,10 @@ public class ControladorPrincipal {
     }
 
     public void cerrarPersistencia() {
-            miPersistencia.cerrarSesion();
+        miPersistencia.cerrarSesion();
     }
 
-    public Cajadiaria dameCajaActual() throws Notificaciones{
+    public Cajadiaria dameCajaActual() throws Notificaciones {
         return controladorCaja.dameCajaActual();
     }
 
@@ -482,10 +504,10 @@ public class ControladorPrincipal {
     }
 
     public void generarReporteIngresosEgresosHoy() throws Notificaciones {
-        controladorReporte.generarReporteAsistencias(LocalDate.now(), LocalDate.now(),controladorIngresosPuerta.getListaIngresosPuerta(LocalDate.now(),LocalDate.now()));
+        controladorReporte.generarReporteAsistencias(LocalDate.now(), LocalDate.now(), controladorIngresosPuerta.getListaIngresosPuerta(LocalDate.now(), LocalDate.now()));
     }
-    
-    public void generarReporteIngresosPorDia(LocalDate desde, LocalDate hasta) throws Notificaciones{
+
+    public void generarReporteIngresosPorDia(LocalDate desde, LocalDate hasta) throws Notificaciones {
         controladorReporte.generarReporteAsistencias(desde, hasta, controladorIngresosPuerta.getListaIngresosPuerta(desde, hasta));
     }
 
@@ -493,16 +515,16 @@ public class ControladorPrincipal {
         controladorCaja.cerrarTodasLasCajas();
     }
 
-    public List<Cajadiaria> dameCajasSinCerrar() throws Notificaciones{
+    public List<Cajadiaria> dameCajasSinCerrar() throws Notificaciones {
         return controladorCaja.dameCajasSinCerrar();
     }
 
-    public List<ClaseProfesor> dameClaseProfesor(String text) throws Notificaciones{
+    public List<ClaseProfesor> dameClaseProfesor(String text) throws Notificaciones {
         return controladorClaseProfesor.dameClaseProfesor(text);
     }
-    
-    public void actualizarInstancia(Object o) throws Notificaciones{
-        
+
+    public void actualizarInstancia(Object o) throws Notificaciones {
+
         miPersistencia.actualizarInstancias(o);
     }
 
@@ -511,14 +533,14 @@ public class ControladorPrincipal {
     }
 
     public List<AsistenciaAlumno> getListaAsistenciaAlumno() throws Notificaciones {
-       return this.controladorAsistenciaAlumno.getListaAsistenciaAlumno();
+        return this.controladorAsistenciaAlumno.getListaAsistenciaAlumno();
     }
 
-    public void bajaCuotaAutomatica(Set<Cuota> cuotas, ClaseAlumno claseAlumno) throws Notificaciones{
+    public void bajaCuotaAutomatica(Set<Cuota> cuotas, ClaseAlumno claseAlumno) throws Notificaciones {
         List<Cuota> listaCuotas = new ArrayList<>();
         listaCuotas.addAll(cuotas);
-        for(Cuota unaCuota:listaCuotas){
-            if(unaCuota.getClaseProfesor().getIdclaseprofesor()== claseAlumno.getClaseProfesor().getIdclaseprofesor()){
+        for (Cuota unaCuota : listaCuotas) {
+            if (unaCuota.getClaseProfesor().getIdclaseprofesor() == claseAlumno.getClaseProfesor().getIdclaseprofesor()) {
                 unaCuota.setEstado("BAJA");
                 miPersistencia.persistirInstancia(unaCuota);
             }
@@ -526,22 +548,36 @@ public class ControladorPrincipal {
     }
 
     public void actualizarHorariosDeAlumnos(ClaseProfesor claseProfesor) throws Notificaciones {
-        for(ClaseAlumno claseAlumno:claseProfesor.getClaseAlumnos()){
+        for (ClaseAlumno claseAlumno : claseProfesor.getClaseAlumnos()) {
+            List<ClaseAlumno> listaClasesAlumnos = controladorClaseAlumno.getListaClaseAlumno();
+            for (ClaseAlumno claseAlu : listaClasesAlumnos) {
+                if (claseAlu.getIdclasealumno() == claseAlumno.getIdclasealumno()) {
+                    System.out.println("se encontro la claseAlumno en la base de datos");
+                    claseAlumno = claseAlu;
+                    break;
+                }
+            }
+
             claseAlumno.getHorarios().clear();
-            Set<HorarioAlumno>listaHorarios = new HashSet<>();
-            for(HorarioProfesor horarioProfe:claseProfesor.getHorarios()){
-                HorarioAlumno horario = new HorarioAlumno(claseAlumno,horarioProfe.getInicio(),horarioProfe.getFin());
-                listaHorarios.add(horario);
+            Set<HorarioAlumno> listaHorarios = new HashSet<>();
+
+            for (HorarioProfesor horarioProfe : claseProfesor.getHorarios()) {
+                if (horarioProfe.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    HorarioAlumno horario = new HorarioAlumno(claseAlumno, horarioProfe.getInicio(), horarioProfe.getFin());
+                    horario.setEstado("ACTIVO");
+                    System.out.println("Agregando nuevo horario y persistiendio....");
+                    miPersistencia.persistirInstancia(horario);
+                    listaHorarios.add(horario);
+                }
             }
             claseAlumno.getHorarios().addAll(listaHorarios);
             miPersistencia.persistirInstancia(claseAlumno);
         }
-        miPersistencia.persistirInstancia(claseProfesor);   
+        miPersistencia.persistirInstancia(claseProfesor);
     }
 
     public List<IngresosPuerta> getListaIngresosPuertaHoy() throws Notificaciones {
-        return controladorIngresosPuerta.getListaIngresosPuerta(LocalDate.now(),LocalDate.now());
+        return controladorIngresosPuerta.getListaIngresosPuerta(LocalDate.now(), LocalDate.now());
     }
 
-    
 }

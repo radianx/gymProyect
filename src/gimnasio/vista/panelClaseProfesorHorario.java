@@ -49,20 +49,20 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
     ControladorPrincipal miControlador;
     int horariosRecibidos = 0;
     boolean seRecibieronDatos = false;
-    
+
     ClaseProfesor claseProfesor;
     Profesor profesorSeleccionado;
     Modalidad modalidadSeleccionada;
     Clase claseSeleccionada;
-    
+
     public panelClaseProfesorHorario(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
         cargarTablaDiasClases();
 
     }
-    
-    public void cargarTablaDiasClases(){
+
+    public void cargarTablaDiasClases() {
         this.modeloTablaDias = new DefaultTableModel();
         modeloTablaDias.addColumn("Clase");
         modeloTablaDias.addColumn("Dia");
@@ -73,8 +73,8 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
         this.tablaDiasClase.setModel(modeloTablaDias);
 
     }
-    
-    public void cargarTablaDiasClases(List<HorarioProfesor>horarios){
+
+    public void cargarTablaDiasClases(List<HorarioProfesor> horarios) {
         this.modeloTablaDias = new DefaultTableModel();
         modeloTablaDias.addColumn("Clase");
         modeloTablaDias.addColumn("Dia");
@@ -82,7 +82,7 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
         modeloTablaDias.addColumn("Fin");
         modeloTablaDias.addColumn("Promocion");
         Object[] fila = new Object[5];
-        for(HorarioProfesor unHorario:horarios){
+        for (HorarioProfesor unHorario : horarios) {
             fila[0] = claseSeleccionada;
             fila[1] = unHorario;
             fila[2] = unHorario.getInicioString();
@@ -92,6 +92,7 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
         }
         tablaDiasClase.setModel(modeloTablaDias);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -387,47 +388,45 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-            Profesor unProfesor = profesorSeleccionado;
-            Modalidad unaModalidad = modalidadSeleccionada;
-            Clase unaClase = claseSeleccionada;
-            
+        Profesor unProfesor = profesorSeleccionado;
+        Modalidad unaModalidad = modalidadSeleccionada;
+        Clase unaClase = claseSeleccionada;
+
         boolean seRompio = false;
         try {
             if (claseProfesor == null) {
                 claseProfesor = new ClaseProfesor(unaClase, unaModalidad, unProfesor, "ACTIVO");
             }
-            
 
-            
             for (int i = modeloTablaDias.getRowCount() - 1; i >= 0; i--) {
                 HorarioProfesor unHorarioProfesor = (HorarioProfesor) modeloTablaDias.getValueAt(i, 1);
                 unHorarioProfesor.setEstado("ACTIVO");
-                unHorarioProfesor.setClaseProfesor(claseProfesor);
-                System.out.println("Id de horarioProfesor: "+ unHorarioProfesor.getIdHorario());
-                if(unHorarioProfesor.getIdHorario()==0){
+                //Si es un nuevo horario
+                if (unHorarioProfesor.getIdHorario() == 0) {
+                    System.out.println("voy por el if");
                     claseProfesor.addHorarioProfesor(unHorarioProfesor);
+                    unHorarioProfesor.setClaseProfesor(claseProfesor);
+                    miControlador.altaClaseProfesor(claseProfesor);
+                    miControlador.altaHorarioProfesor(unHorarioProfesor);
+                    //Si es un horario existente;
+                } else {
+                    System.out.println("Voy por el else");
+                    unHorarioProfesor.setClaseProfesor(claseProfesor);
+                    miControlador.altaHorarioProfesor(unHorarioProfesor);
                     miControlador.altaClaseProfesor(claseProfesor);
                 }
-                System.out.println("Id de horarioProfesor: "+ unHorarioProfesor.getIdHorario());
-                miControlador.altaHorarioProfesor(unHorarioProfesor);
             }
             //EN CASO DE QUE SEA UNA MODIFICACION DE HORARIO NO MAS
-            if(horariosRecibidos==modeloTablaDias.getRowCount() && seRecibieronDatos){
+            if (horariosRecibidos == modeloTablaDias.getRowCount() && seRecibieronDatos) {
+                System.out.println("actualizando horarios de alumnos ya que el profesor cambio de horarios");
                 miControlador.actualizarHorariosDeAlumnos(claseProfesor);
             }
             //EN CASO DE QUE SE AGREGA UN HORARIO NUEVO
-            if(horariosRecibidos!=modeloTablaDias.getRowCount() && seRecibieronDatos){
-                String[] opciones = {"SI", "NO"};
-                int seleccion = JOptionPane.showOptionDialog(null, "Se detecto un nuevo horario\n¿Desea actualizar la cuota de los alumnos inscriptos a esta clase?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
-                if(seleccion==0){
-                    
-                }
-            }
+            //miControlador.actualizarHorariosDeAlumnos(claseProfesor);
             //
-            
             profesorSeleccionado.getClaseProfesors().add(claseProfesor);
             miControlador.altaProfesor(profesorSeleccionado);
-            JInternalClasesProfesor internal = (JInternalClasesProfesor)this.getParent().getParent().getParent().getParent();
+            JInternalClasesProfesor internal = (JInternalClasesProfesor) this.getParent().getParent().getParent().getParent();
             internal.cargarTablaClaseProfesores();
             internal.cargarTablaHorarios();
         } catch (Notificaciones ex) {
@@ -435,11 +434,11 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
             ex.printStackTrace();
             seRompio = true;
         }
-            if(!seRompio){
-                JOptionPane.showMessageDialog(null, "Guardado con exito");
-                this.setVisible(false);
-                seRecibieronDatos = false;
-            }
+        if (!seRompio) {
+            JOptionPane.showMessageDialog(null, "Guardado con exito");
+            this.setVisible(false);
+            seRecibieronDatos = false;
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -455,13 +454,27 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
 
         String diaSeleccionado = (String) cmbDia.getSelectedItem();
         LocalDate dia = LocalDate.now();
-        if(diaSeleccionado.equalsIgnoreCase("Lunes")) dia = LocalDate.now().with(DayOfWeek.MONDAY);
-        if(diaSeleccionado.equalsIgnoreCase("Martes"))dia = LocalDate.now().with(DayOfWeek.TUESDAY);
-        if(diaSeleccionado.equalsIgnoreCase("Miercoles"))dia = LocalDate.now().with(DayOfWeek.WEDNESDAY);
-        if(diaSeleccionado.equalsIgnoreCase("Jueves"))dia = LocalDate.now().with(DayOfWeek.THURSDAY);
-        if(diaSeleccionado.equalsIgnoreCase("Viernes"))dia = LocalDate.now().with(DayOfWeek.FRIDAY);
-        if(diaSeleccionado.equalsIgnoreCase("Sabado"))dia = LocalDate.now().with(DayOfWeek.SATURDAY);
-        if(diaSeleccionado.equalsIgnoreCase("Domingo"))dia = LocalDate.now().with(DayOfWeek.SUNDAY);
+        if (diaSeleccionado.equalsIgnoreCase("Lunes")) {
+            dia = LocalDate.now().with(DayOfWeek.MONDAY);
+        }
+        if (diaSeleccionado.equalsIgnoreCase("Martes")) {
+            dia = LocalDate.now().with(DayOfWeek.TUESDAY);
+        }
+        if (diaSeleccionado.equalsIgnoreCase("Miercoles")) {
+            dia = LocalDate.now().with(DayOfWeek.WEDNESDAY);
+        }
+        if (diaSeleccionado.equalsIgnoreCase("Jueves")) {
+            dia = LocalDate.now().with(DayOfWeek.THURSDAY);
+        }
+        if (diaSeleccionado.equalsIgnoreCase("Viernes")) {
+            dia = LocalDate.now().with(DayOfWeek.FRIDAY);
+        }
+        if (diaSeleccionado.equalsIgnoreCase("Sabado")) {
+            dia = LocalDate.now().with(DayOfWeek.SATURDAY);
+        }
+        if (diaSeleccionado.equalsIgnoreCase("Domingo")) {
+            dia = LocalDate.now().with(DayOfWeek.SUNDAY);
+        }
         LocalTime horaInicio = timePicker1.getTime();
         LocalTime horaFin = timePicker2.getTime();
         Instant instanteInicio = horaInicio.atDate(dia).atZone(ZoneId.systemDefault()).toInstant();
@@ -469,15 +482,15 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
 
         Date inicio = Date.from(instanteInicio);
         Date fin = Date.from(instanteFin);
-        
+
         HorarioProfesor horarioProfesor = new HorarioProfesor(inicio, fin);
 
-        if(jCheckBox1.isSelected()){
+        if (jCheckBox1.isSelected()) {
             horarioProfesor.setPromocion("SI");
-        }else{
+        } else {
             horarioProfesor.setPromocion("NO");
         }
-        
+
         if (!isHorarioProfesorHere(horarioProfesor) && inicio.before(fin)) {
             Object[] fila = new Object[5];
             fila[0] = unaClase;
@@ -486,11 +499,11 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
             fila[3] = horarioProfesor.getFinString();
             fila[4] = horarioProfesor.getPromocion();
             this.modeloTablaDias.addRow(fila);
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "Se esta intentando ingresar un horario invalido");
         }
 
-        if(this.jCheckBox1.isSelected()){
+        if (this.jCheckBox1.isSelected()) {
             jCheckBox1.setSelected(false);
         }
         //AlCubierreDrive.engageHyperSpaceTravel(Destination.ANDROMEDA);
@@ -501,20 +514,19 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
     }//GEN-LAST:event_tablaDiasClaseMouseClicked
 
     private void btnAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregar1ActionPerformed
-        try{
-            if(!tablaDiasClase.getSelectionModel().isSelectionEmpty()){
-            HorarioProfesor horario = (HorarioProfesor)tablaDiasClase.getValueAt(this.tablaDiasClase.getSelectedRow(),1);
-            miControlador.bajaHorarioProfesor(horario);
-            this.modeloTablaDias.removeRow(this.tablaDiasClase.getSelectedRow());
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe selecionar un Horario para Quitarlo");
-        }
-        }catch(Notificaciones ex){
+        try {
+            if (!tablaDiasClase.getSelectionModel().isSelectionEmpty()) {
+                HorarioProfesor horario = (HorarioProfesor) tablaDiasClase.getValueAt(this.tablaDiasClase.getSelectedRow(), 1);
+                miControlador.bajaHorarioProfesor(horario);
+                this.modeloTablaDias.removeRow(this.tablaDiasClase.getSelectedRow());
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe selecionar un Horario para Quitarlo");
+            }
+        } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnAgregar1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -547,19 +559,22 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
 
     private boolean isHorarioProfesorHere(HorarioProfesor unHorarioProfesor) {
         boolean respuesta = false;
-        for(int i=modeloTablaDias.getRowCount()-1;i>=0;i--){
-                if(unHorarioProfesor.equals((HorarioProfesor)modeloTablaDias.getValueAt(i,1)))
-                    respuesta = true;
+        for (int i = modeloTablaDias.getRowCount() - 1; i >= 0; i--) {
+            if (unHorarioProfesor.equals((HorarioProfesor) modeloTablaDias.getValueAt(i, 1))) {
+                respuesta = true;
+            }
         }
         return respuesta;
     }
-  
-    public void recibirDatos(ClaseProfesor claseProfe, Profesor unProfe, Modalidad unaMod, Clase unaClase, List<HorarioProfesor> horarios){
+
+    public void recibirDatos(ClaseProfesor claseProfe, Profesor unProfe, Modalidad unaMod, Clase unaClase, List<HorarioProfesor> horarios) {
         claseProfesor = claseProfe;
         profesorSeleccionado = unProfe;
         modalidadSeleccionada = unaMod;
         claseSeleccionada = unaClase;
-        if(claseProfe!=null) seRecibieronDatos = true;
+        if (claseProfe != null) {
+            seRecibieronDatos = true;
+        }
         this.jCheckBox1.setSelected(false);
         this.txtProfesor.setText(unProfe.getNombreprofesor() + " " + unProfe.getApellidoprofesor());
         this.txtModalidad.setText(unaMod.getNombremodalidad());

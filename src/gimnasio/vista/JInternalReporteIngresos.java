@@ -6,6 +6,7 @@
 package gimnasio.vista;
 
 import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.herramientas.excepciones.Notificaciones;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
 
@@ -131,10 +132,16 @@ public class JInternalReporteIngresos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnIngresosEgresosHoyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresosEgresosHoyActionPerformed
+        try{
         this.miControlador.generarReporteIngresosEgresosHoy();
+        }catch(Notificaciones ex){
+            JOptionPane.showMessageDialog(null,ex.getMessage());
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnIngresosEgresosHoyActionPerformed
 
     private void btnReporteDiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteDiasActionPerformed
+        try{
         if (pickerDesde.getDate() != null && pickerHasta.getDate() != null) {
             LocalDate desde = pickerDesde.getDate();
             LocalDate hasta = pickerHasta.getDate();
@@ -146,6 +153,10 @@ public class JInternalReporteIngresos extends javax.swing.JInternalFrame {
             }
         }else{
             JOptionPane.showMessageDialog(null, "Debe ingresar un rango de fechas.");
+        }
+        }catch(Notificaciones ex){
+            JOptionPane.showMessageDialog(null,ex.getMessage());
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_btnReporteDiasActionPerformed
 

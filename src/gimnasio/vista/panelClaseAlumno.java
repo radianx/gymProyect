@@ -54,7 +54,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     DefaultTableModel modeloTablaAlumnos;
     DefaultTableModel modeloTablaHorarios;
     DefaultTableModel modeloTablaHorarioClase;
-    
+
     ControladorPrincipal miControlador;
     TableRowSorter<TableModel> rowSorterClases;
     TableRowSorter<TableModel> rowSorterAlumnos;
@@ -62,23 +62,23 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     Alumno alumnoSeleccionado;
 
     public panelClaseAlumno(ControladorPrincipal controlador) {
-            miControlador = controlador;
-            initComponents();
-            cargarAlumnos();
-            cargarTablaHorariosAlumno();
-            cargarTablaHorarios();
-            cargarComboClaseProfesor();
-            rowSorterAlumnos = new TableRowSorter<>(this.tablaAlumnos.getModel());
-            tablaAlumnos.setRowSorter(rowSorterClases);
+        miControlador = controlador;
+        initComponents();
+        cargarAlumnos();
+        cargarTablaHorariosAlumno();
+        cargarTablaHorarios();
+        cargarComboClaseProfesor();
+        rowSorterAlumnos = new TableRowSorter<>(this.tablaAlumnos.getModel());
+        tablaAlumnos.setRowSorter(rowSorterClases);
     }
 
-    public void cargarAlumnos(){
+    public void cargarAlumnos() {
         try {
             DefaultTableModel modeloTabla = new DefaultTableModel();
             modeloTabla.addColumn("Nombre");
             modeloTabla.addColumn("Apellido");
             Object[] fila = new Object[2];
-            
+
             for (Alumno miAlumno : miControlador.getListaAlumnos()) {
                 if (miAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
                     fila[0] = miAlumno;
@@ -86,7 +86,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                     modeloTabla.addRow(fila);
                 }
             }
-            
+
             this.tablaAlumnos.setModel(modeloTabla);
             TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tablaAlumnos.getModel());
             this.tablaAlumnos.setRowSorter(rowSorter);
@@ -95,15 +95,17 @@ public class panelClaseAlumno extends javax.swing.JPanel {
             ex.printStackTrace();
         }
     }
-    
-    public void cargarComboClaseProfesor(){
+
+    public void cargarComboClaseProfesor() {
         cmbClases.addItem("--Seleccionar--");
         try {
-            for(ClaseProfesor clase:miControlador.getListaClaseProfesor()){
-                if(clase.getClase().getTipoclase().equalsIgnoreCase("LIBRE")){
-                    cmbClases.addItem(clase.toString()+ "-Libre-");
-                }else{
-                    cmbClases.addItem(clase.toString());
+            for (ClaseProfesor clase : miControlador.getListaClaseProfesor()) {
+                if (clase.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    if (clase.getClase().getTipoclase().equalsIgnoreCase("LIBRE")) {
+                        cmbClases.addItem(clase.toString() + "-Libre-");
+                    } else {
+                        cmbClases.addItem(clase.toString());
+                    }
                 }
             }
         } catch (Notificaciones ex) {
@@ -147,11 +149,10 @@ public class panelClaseAlumno extends javax.swing.JPanel {
             fila[0] = horarioProfesor;
             fila[1] = horarioProfesor.getInicioString();
 
-
             fila[2] = horarioProfesor.getFinString();
 
-            fila[3] = horarioProfesor.getClaseProfesor().getProfesor().getNombreprofesor() + " " +
-                      horarioProfesor.getClaseProfesor().getProfesor().getApellidoprofesor();
+            fila[3] = horarioProfesor.getClaseProfesor().getProfesor().getNombreprofesor() + " "
+                    + horarioProfesor.getClaseProfesor().getProfesor().getApellidoprofesor();
             fila[4] = horarioProfesor.getPromocion();
             this.modeloTablaHorarioClase.addRow(fila);
         }
@@ -546,7 +547,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     }//GEN-LAST:event_tablaAlumnosMouseClicked
 
     private void btnInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirActionPerformed
-        if (alumnoSeleccionado!=null && claseSeleccionada !=null) {
+        if (alumnoSeleccionado != null && claseSeleccionada != null) {
             try {
                 Double precio = Double.valueOf(this.txtPrecio.getText());
                 int dias = 1;
@@ -556,7 +557,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                 } else {
                     dias = modeloTablaHorarios.getRowCount();
                 }
-                
+
 //Seccion de clasesAlumno
                 ClaseAlumno claseAlumno = new ClaseAlumno(alumnoSeleccionado, claseSeleccionada, precio, dias, "ACTIVO");
                 miControlador.altaClaseAlumno(claseAlumno);
@@ -564,7 +565,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                 alumnoSeleccionado.getClaseAlumnos().add(claseAlumno);
                 miControlador.actualizarClaseProfesor(claseSeleccionada);
                 int rows = this.tablaHorariosAlu.getRowCount();
-                
+
 //Seccion de horarioAlumno
                 for (int i = 0; i < rows; i++) {
                     HorarioProfesor horario = (HorarioProfesor) this.modeloTablaHorarios.getValueAt(i, 0);
@@ -603,13 +604,13 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                 this.cargarComboClaseProfesor();
                 this.cargarTablaHorarios();
                 this.cargarTablaHorariosAlumno();
-            } catch(NumberFormatException ex){
+            } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un precio valido.");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Faltan completar datos para la inscripcion.");
         }
-            cargarAlumnos();
+        cargarAlumnos();
 
     }//GEN-LAST:event_btnInscribirActionPerformed
 
@@ -642,16 +643,16 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         if (!this.tablaSuperiorHorarios.getSelectionModel().isSelectionEmpty()) {
             HorarioProfesor horario = (HorarioProfesor) this.modeloTablaHorarioClase.getValueAt(tablaSuperiorHorarios.getSelectedRow(), 0);
             modeloTablaHorarioClase.removeRow(tablaSuperiorHorarios.getSelectedRow());
-            
+
             Object[] rowData = new Object[5];
 
             rowData[0] = horario;
             rowData[1] = horario.getInicioString();
             rowData[2] = horario.getFinString();
 
-            rowData[3] = horario.getClaseProfesor().getProfesor().getNombreprofesor() + " " +
-                         horario.getClaseProfesor().getProfesor().getApellidoprofesor();
-            
+            rowData[3] = horario.getClaseProfesor().getProfesor().getNombreprofesor() + " "
+                    + horario.getClaseProfesor().getProfesor().getApellidoprofesor();
+
             rowData[4] = horario.getPromocion();
             modeloTablaHorarios.addRow(rowData);
             this.tablaHorariosAlu.setModel(modeloTablaHorarios);
@@ -670,10 +671,10 @@ public class panelClaseAlumno extends javax.swing.JPanel {
             rowData[1] = horario.getInicioString();
             rowData[2] = horario.getFinString();
 
-            rowData[3] = horario.getClaseProfesor().getProfesor().getNombreprofesor() + " " +
-                         horario.getClaseProfesor().getProfesor().getApellidoprofesor();
+            rowData[3] = horario.getClaseProfesor().getProfesor().getNombreprofesor() + " "
+                    + horario.getClaseProfesor().getProfesor().getApellidoprofesor();
             rowData[4] = horario.getPromocion();
-            
+
             modeloTablaHorarios.addRow(rowData);
             this.tablaSuperiorHorarios.setModel(modeloTablaHorarios);
         }
@@ -713,8 +714,8 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         System.out.println("Seleccionando: " + text);
         if (text.equalsIgnoreCase("--Seleccionar--")) {
             this.modeloTablaHorarioClase.setRowCount(0);
-        } 
-        if(text.contains("-Libre-")){
+        }
+        if (text.contains("-Libre-")) {
             this.cmbDiasPorSemana.setEnabled(true);
             text = text.replace("-Libre-", "");
             System.out.println(text);
@@ -738,7 +739,6 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         MainMenu menu = (MainMenu) SwingUtilities.getWindowAncestor(this);
         menu.abrirPromociones();
     }//GEN-LAST:event_btnPromocionesActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

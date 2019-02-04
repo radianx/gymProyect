@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 03/12/2018 19:24:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated 03-feb-2019 0:12:55 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="gimnasio.modelo.Profesormodalidad" table="profesor_modalidad" schema="public" optimistic-lock="version">
+    <class name="gimnasio.modelo.Profesormodalidad" table="profesor_modalidad" schema="public">
         <id name="idprofesormodalidad" type="int">
             <column name="idprofesormodalidad" />
-            <generator class="increment" />
+            <generator class="increment"></generator>
         </id>
-        <many-to-one name="modalidad" class="gimnasio.modelo.Modalidad" fetch="select" cascade="all">
+        <many-to-one name="modalidad" class="gimnasio.modelo.Modalidad" cascade="all" fetch="select">
             <column name="idmodalidad" not-null="true" />
         </many-to-one>
-        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" fetch="select" cascade="all">
+        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" cascade="all" fetch="select">
             <column name="idprofesor" not-null="true" />
         </many-to-one>
         <property name="preciohora" type="java.lang.Double">
