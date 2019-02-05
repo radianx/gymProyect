@@ -158,18 +158,27 @@ public class jInternalReportes extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(null, "Debe ingresar un rango de fechas valido.");
                     }
                 }else{
-                    String[] opciones ={"SI","CERRAR MANUALMENTE","CANCELAR"};
+                    String[] opciones ={"SI","CERRAR MANUALMENTE","MOSTRAR DE TODAS FORMAS"};
                     int seleccion = JOptionPane.showOptionDialog(null,"Hay Cajas abiertas, ¿Desea cerrarlas automáticamente?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
                     switch (seleccion){
                         case 0:
                             miControlador.cerrarTodasLasCajas();
                             miControlador.generarReporteDias(desde, hasta);
                             break;
-                        case 1: //salio por el no
+                        case 1: //Cerrar Manualmente
                             JOptionCajasAbiertas cajasAbiertas = new JOptionCajasAbiertas(null, true, miControlador);
                             cajasAbiertas.setVisible(true);
                             break;
-                        case 3: //no hacer nada --> hacer algo?
+                        case 3: //Mostrar de todas formas
+                            if (desde.isBefore(hasta)) {
+                                try {
+                                    miControlador.generarReporteDias(desde, hasta);
+                                } catch (Notificaciones ex) {
+                                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Debe ingresar un rango de fechas valido.");
+                            }
                             break;
                     }
                 }

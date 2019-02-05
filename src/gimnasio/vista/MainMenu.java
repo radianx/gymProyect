@@ -111,6 +111,7 @@ public class MainMenu extends javax.swing.JFrame {
         lector = new ControladorHuella(miControlador, controlador.getMiPersistencia(), this.txtHabilitado, this.lblFoto, this.tablaAsistencias);
         jScrollPane2.getVerticalScrollBar().setValue(jScrollPane2.getVerticalScrollBar().getMaximum());
         thread_object = new Thread(lector);
+        thread_object.setDaemon(true);
         thread_object.start();
 
         jInternalLogueo login = new jInternalLogueo(miControlador);
@@ -642,11 +643,8 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     private void btnAbrirPuertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirPuertaActionPerformed
-        try {
-            ControladorRele.abrirPuerta();
-        } catch (InterruptedException ex) {
-            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
-        }
+        Thread hilo = new Thread(new ControladorRele());
+        hilo.start();
     }//GEN-LAST:event_btnAbrirPuertaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -654,11 +652,8 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
-        try {
-            ControladorRele.abrirPuerta();
-        } catch (InterruptedException ex) {
-            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
-        }
+        Thread hilo = new Thread(new ControladorRele());
+        hilo.start();
     }//GEN-LAST:event_jMenuItem24ActionPerformed
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed

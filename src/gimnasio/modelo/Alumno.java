@@ -56,6 +56,20 @@ public class Alumno  implements java.io.Serializable {
        this.cuotas = cuotas;
        this.inscripcions = inscripcions;
     }
+
+    public Alumno(Contacto unContacto, Usuario usuarioSeleccionado, String nombre, String apellido, Double peso, Double altura, Date fecha, String activo) {
+       this.contacto = unContacto;
+       this.usuario = usuarioSeleccionado;
+       this.nombrealumno = nombre;
+       this.apellidoalumno = apellido;
+       this.peso = peso;
+       this.altura = altura;
+       this.fechanacimiento = fecha;
+       this.estado = activo;
+       this.claseAlumnos = claseAlumnos;
+       this.cuotas = cuotas;
+       this.inscripcions = inscripcions;
+    }
    
     public int getIdalumno() {
         return this.idalumno;

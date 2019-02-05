@@ -208,13 +208,14 @@ public class ControladorAcceso {
                 acceso = true;
             }
             if(acceso){
-                ControladorRele.abrirPuerta();
+                Thread hilo = new Thread(new ControladorRele());
+                hilo.start();
             }else{
                 JOptionPane.showMessageDialog(null, textoMostrar);
                 texto.setText(textoMostrar);
             }
             
-        } catch (InterruptedException | Notificaciones ex) {
+        } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
         }

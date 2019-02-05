@@ -24,19 +24,9 @@ public class ControladorObraSocial {
     }
     
     public void altaObraSocial(Obrasocial obrasocial) throws Notificaciones {
-        String estado = "ACTIVO";
-        Obrasocial unaObrasocial = buscarObraSocial(obrasocial.getNombreobrasocial());
-        if (unaObrasocial != null) {
-            unaObrasocial.setNombreobrasocial(obrasocial.getNombreobrasocial());
-            unaObrasocial.setContacto(obrasocial.getContacto());
-            unaObrasocial.setEstado(estado);
-            this.miPersistencia.persistirInstancia(unaObrasocial);
-            this.listaObraSociales = miPersistencia.getObraSociales();
-        } else {
-            obrasocial.setEstado(estado);
+        obrasocial.setEstado("ACTIVO");
             this.miPersistencia.persistirInstancia(obrasocial);
             this.listaObraSociales.add(obrasocial);
-        }
     }
 
     public Obrasocial buscarObraSocial(String nombreObrasocial){

@@ -75,7 +75,6 @@ public class ControladorPersistencia {
                 /*
 				 * Se comprueba que se haya persistido la instancia.
                  */
-                resultado = this.sesion.contains(instancia);
                 sesion.close();
 
             } catch (Exception e) {

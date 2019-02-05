@@ -514,24 +514,7 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
                 jInternalProfesores usuarios = (jInternalProfesores) this.getParent().getParent().getParent().getParent().getParent();
                 usuarios.cargarTabla();
                 
-                String[] opciones ={"SI","NO","CANCELAR"};
-                int seleccion = JOptionPane.showOptionDialog(null, "¿Asignar clase al Profesor?", "Seleccione una opcion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
-                switch (seleccion){
-                    case 0: 
-                        JInternalClasesProfesor clases = new JInternalClasesProfesor(this.miControlador);
-                        clases.setVisible(true);
-                        this.getParent().getParent().getParent().getParent().getParent().getParent().add(clases);
-                        this.setVisible(false);
-                        this.limpiarCampos();
-                        clases.toFront();
-                        break;
-                    case 1: //salio por el no
-                        this.setVisible(false);
-                        this.limpiarCampos();
-                        break;
-                    case 3: //no hacer nada --> hacer algo?
-                        break;
-                }
+                this.limpiarCampos();
             } else {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario.");
             }

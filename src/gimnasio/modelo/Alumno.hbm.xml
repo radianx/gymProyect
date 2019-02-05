@@ -8,11 +8,11 @@
             <column name="idalumno" />
             <generator class="increment"></generator>
         </id>
-        <many-to-one name="contacto" class="gimnasio.modelo.Contacto" fetch="select">
+        <many-to-one name="contacto" class="gimnasio.modelo.Contacto" fetch="select" cascade="all">
             <column name="idcontacto" not-null="true" />
         </many-to-one>
-        <many-to-one name="obrasocial" class="gimnasio.modelo.Obrasocial" fetch="select">
-            <column name="idobrasocial" not-null="true" />
+        <many-to-one name="obrasocial" class="gimnasio.modelo.Obrasocial" fetch="select" cascade="all">
+            <column name="idobrasocial" />
         </many-to-one>
         <many-to-one name="usuario" class="gimnasio.modelo.Usuario" fetch="select">
             <column name="idusuario" not-null="true" />

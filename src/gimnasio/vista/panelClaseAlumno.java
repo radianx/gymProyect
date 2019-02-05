@@ -134,8 +134,11 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         this.tablaHorariosAlu.setModel(modeloTablaHorarios);
     }
 
-    public void cargarTablaHorarios(Set<HorarioProfesor> horariosProfe) {
-        this.modeloTablaHorarioClase.setRowCount(0);
+    public void cargarTablaHorarios(boolean limpiar,ClaseProfesor claseProfesor) {
+        try {
+            if(limpiar){
+                this.modeloTablaHorarioClase.setRowCount(0);
+            }
 //        modeloTablaHorarios = new DefaultTableModel();
 //        modeloTablaHorarios.addColumn("Dia");
 //        modeloTablaHorarios.addColumn("Inicio");
@@ -143,18 +146,20 @@ public class panelClaseAlumno extends javax.swing.JPanel {
 //        modeloTablaHorarios.addColumn("Profesor");
 //        modeloTablaHorarios.addColumn("Es Promocion");
 //        this.tablaSuperiorHorarios.setModel(modeloTablaHorarios);
-        Object[] fila = new Object[5];
-        for (HorarioProfesor horarioProfesor : horariosProfe) {
-
-            fila[0] = horarioProfesor;
-            fila[1] = horarioProfesor.getInicioString();
-
-            fila[2] = horarioProfesor.getFinString();
-
-            fila[3] = horarioProfesor.getClaseProfesor().getProfesor().getNombreprofesor() + " "
-                    + horarioProfesor.getClaseProfesor().getProfesor().getApellidoprofesor();
-            fila[4] = horarioProfesor.getPromocion();
-            this.modeloTablaHorarioClase.addRow(fila);
+            Object[] fila = new Object[5];
+            for (HorarioProfesor unHorario : miControlador.getListaHorarios()) {
+                if (unHorario.getClaseProfesor().getIdclaseprofesor() == claseProfesor.getIdclaseprofesor()) {
+                    if (unHorario.getEstado().equalsIgnoreCase("ACTIVO")) {
+                        fila[0] = unHorario;
+                        fila[1] = unHorario.getInicioString();
+                        fila[2] = unHorario.getFinString();
+                        fila[3] = unHorario.getPromocion();
+                        modeloTablaHorarioClase.addRow(fila);
+                    }
+                }
+            }
+        } catch (Notificaciones ex) {
+            ex.printStackTrace();
         }
 
     }
@@ -724,7 +729,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         try {
             List<ClaseProfesor> clase = miControlador.dameClaseProfesor(text);
             for (ClaseProfesor claseProf : clase) {
-                this.cargarTablaHorarios(claseProf.getHorarios());
+                this.cargarTablaHorarios(false,claseProf);
                 claseSeleccionada = claseProf;
                 this.txtClase.setText(claseSeleccionada.toString());
             }

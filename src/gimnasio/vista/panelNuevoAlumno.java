@@ -511,7 +511,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                 Obrasocial unaOS = (Obrasocial) this.modeloCombo.getSelectedItem();
                 miControlador.altaContacto(unContacto);
                 if(alumnoSeleccionado==null){
-                Alumno unAlumno = new Alumno(unContacto, unaOS,usuarioSeleccionado, nombre, apellido, peso, altura, fecha, "ACTIVO");
+                Alumno unAlumno = new Alumno(unContacto,unaOS,usuarioSeleccionado, nombre, apellido, peso, altura, fecha, "ACTIVO");
                 miControlador.altaAlumno(unAlumno);
                 }else{
                     alumnoSeleccionado.setAltura(altura);
