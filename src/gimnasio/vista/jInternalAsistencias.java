@@ -188,17 +188,21 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         btnCerrar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        btnBuscar1 = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtBuscarAlumno = new javax.swing.JTextField();
+        btnBuscar1 = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAlumnos = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        btnBuscar = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaProfesores = new javax.swing.JTable();
+        jPanel9 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtBuscarProfesor = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        jPanel10 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaProfesores = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         dateTimePicker1 = new com.github.lgooddatepicker.components.DateTimePicker();
         jLabel4 = new javax.swing.JLabel();
@@ -211,7 +215,7 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("ASISTENCIAS");
-        setPreferredSize(new java.awt.Dimension(630, 500));
+        setPreferredSize(new java.awt.Dimension(650, 520));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);
@@ -239,7 +243,7 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -275,10 +279,10 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("ASISTENCIA MANUAL"));
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        btnBuscar1.setText("Buscar");
+        jPanel4.setLayout(new java.awt.BorderLayout());
 
         jLabel2.setText("Nombre:");
+        jPanel7.add(jLabel2);
 
         txtBuscarAlumno.setMinimumSize(new java.awt.Dimension(109, 20));
         txtBuscarAlumno.setPreferredSize(new java.awt.Dimension(150, 20));
@@ -287,8 +291,17 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                 txtBuscarAlumnoKeyReleased(evt);
             }
         });
+        jPanel7.add(txtBuscarAlumno);
+
+        btnBuscar1.setText("Buscar");
+        jPanel7.add(btnBuscar1);
+
+        jPanel4.add(jPanel7, java.awt.BorderLayout.NORTH);
+
+        jPanel8.setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Alumnos"));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 100));
         jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jScrollPane1MouseEntered(evt);
@@ -306,6 +319,7 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaAlumnos.setPreferredSize(new java.awt.Dimension(200, 64));
         tablaAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaAlumnosMouseClicked(evt);
@@ -313,42 +327,34 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tablaAlumnos);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                        .addComponent(txtBuscarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar1)
-                        .addContainerGap(21, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtBuscarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        jPanel8.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel8, java.awt.BorderLayout.CENTER);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setText("Nombre:");
+        jPanel9.add(jLabel1);
+
+        txtBuscarProfesor.setMinimumSize(new java.awt.Dimension(109, 20));
+        txtBuscarProfesor.setPreferredSize(new java.awt.Dimension(150, 20));
+        txtBuscarProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarProfesorKeyReleased(evt);
+            }
+        });
+        jPanel9.add(txtBuscarProfesor);
 
         btnBuscar.setText("Buscar");
+        jPanel9.add(btnBuscar);
+
+        jPanel5.add(jPanel9, java.awt.BorderLayout.NORTH);
+
+        jPanel10.setLayout(new java.awt.BorderLayout());
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Profesores"));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(200, 100));
 
         tablaProfesores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -373,46 +379,9 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tablaProfesores);
 
-        jLabel1.setText("Nombre:");
+        jPanel10.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-        txtBuscarProfesor.setMinimumSize(new java.awt.Dimension(109, 20));
-        txtBuscarProfesor.setPreferredSize(new java.awt.Dimension(150, 20));
-        txtBuscarProfesor.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtBuscarProfesorKeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(5, 5, 5)
-                        .addComponent(txtBuscarProfesor, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar)
-                        .addGap(14, 14, 14))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(11, 11, 11))))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtBuscarProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel5.add(jPanel10, java.awt.BorderLayout.CENTER);
 
         jPanel6.setBackground(new java.awt.Color(255, 153, 0));
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -478,7 +447,7 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -486,7 +455,7 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -607,11 +576,15 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

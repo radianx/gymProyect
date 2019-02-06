@@ -27,7 +27,7 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
     public jInternalLogueo(ControladorPrincipal controlador) {
         this.controlador = controlador;
         initComponents();
-        this.grabFocus();
+        this.txtUsuario.grabFocus();
     }
     
     /**
@@ -126,6 +126,7 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
                 this.txtUsuario.setText("");
                 this.txtContrasena.setText("");
+                this.txtUsuario.requestFocusInWindow();
             }else{
                 MainMenu.loguearUsuario(unUsuario);
                 JOptionPane.showMessageDialog(null, "Logueado con exito");
@@ -141,6 +142,7 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
                     this.txtUsuario.setText("");
                     this.txtContrasena.setText("");
+                    this.txtUsuario.requestFocusInWindow();
                 } else {
                     MainMenu.loguearUsuario(unUsuario);
                     JOptionPane.showMessageDialog(null, "Logueado con exito");
