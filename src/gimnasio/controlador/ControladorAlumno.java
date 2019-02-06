@@ -24,8 +24,13 @@ public class ControladorAlumno {
     }
 
     public void altaAlumno(Alumno alumno) throws Notificaciones {
-        this.miPersistencia.persistirInstancia(alumno);
         listaAlumnos = miPersistencia.getAlumnos();
+        for(Alumno unAlumno:listaAlumnos){
+            if(unAlumno.getUsuario().getIdusuario()==alumno.getUsuario().getIdusuario()){
+                throw new Notificaciones("El alumno "+unAlumno+" ya tiene el usuario: "+alumno.getUsuario().getNombreusuario());
+            }
+        }
+        this.miPersistencia.persistirInstancia(alumno);
     }
 
     public void bajaAlumno(Alumno miAlumno) throws Notificaciones {

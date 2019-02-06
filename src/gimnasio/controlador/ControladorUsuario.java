@@ -57,8 +57,7 @@ public class ControladorUsuario {
     }
 
     public Usuario buscarUsuarioAlta(String nombreUsuario) {
-        Usuario unUsuario = new Usuario();
-        unUsuario = null;
+        Usuario unUsuario = null;
         for (Usuario miUsuario : this.listaUsuarios) {
             if (miUsuario.getNombreusuario().equalsIgnoreCase(nombreUsuario)) {
                 unUsuario = miUsuario;

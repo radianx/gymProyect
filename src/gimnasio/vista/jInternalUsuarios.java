@@ -342,6 +342,9 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
             Usuario unUsuario = (Usuario) this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
             tablaUsuarios.clearSelection();
             try {
+                if(unUsuario.getIdusuario()==MainMenu.getUsuario().getIdusuario()){
+                    throw new Notificaciones("OPERACION DENEGADA\nSe esta intentando eliminar el usuario que esta activo en el sistema actualmente");
+                }
                 this.miControlador.bajaUsuario(unUsuario.getIdusuario());
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
