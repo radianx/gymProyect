@@ -486,10 +486,6 @@ public class ControladorPrincipal {
         }
     }
 
-    public void cerrarPersistencia() {
-        miPersistencia.cerrarSesion();
-    }
-
     public Cajadiaria dameCajaActual() throws Notificaciones {
         return controladorCaja.dameCajaActual();
     }

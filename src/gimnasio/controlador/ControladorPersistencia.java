@@ -28,16 +28,16 @@ import org.hibernate.service.ServiceRegistry;
  */
 public class ControladorPersistencia {
 
-    private SessionFactory sessionFactory;
-    private Session sesion;
     private ServiceRegistry serviceRegistry;
     private Configuration configuration;
+    private SessionFactory sessionFactory;
     
     public ControladorPersistencia(){
         try {
             configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
             serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
         } catch (HibernateException ex) {
             // Log the exception. 
@@ -46,10 +46,6 @@ public class ControladorPersistencia {
         }
     }
     
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
 
     public boolean persistirInstancia(Object instancia) throws Notificaciones {
         boolean resultado = false;
@@ -61,15 +57,14 @@ public class ControladorPersistencia {
 			 * Se comprueba la conexión.
              */
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             
-            Transaction t = this.sesion.getTransaction();
+            Transaction t = sesion.getTransaction();
 
             try {
                 t.begin();
-                this.sesion.saveOrUpdate(instancia);
-                this.sesion.flush();
+                sesion.saveOrUpdate(instancia);
+                sesion.flush();
                 t.commit();
 
 
@@ -99,13 +94,13 @@ public class ControladorPersistencia {
 			 * Se comprueba la conexión.
              */
             
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
-            Transaction t = this.sesion.getTransaction();
+            Session sesion = sessionFactory.openSession();
+            
+            Transaction t = sesion.getTransaction();
 
             try {
                 t.begin();
-                this.sesion.delete(instancia);
+                sesion.delete(instancia);
                 t.commit();
 
                 resultado = true;
@@ -123,13 +118,13 @@ public class ControladorPersistencia {
     
     public void refrescar(Object o) throws Notificaciones{
  
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
-            Transaction t = this.sesion.getTransaction();
+            Session sesion = sessionFactory.openSession();
+            
+            Transaction t = sesion.getTransaction();
 
             try {
                 t.begin();
-                this.sesion.refresh(o);
+                sesion.refresh(o);
                 sesion.flush();
                 t.commit();
 
@@ -157,14 +152,13 @@ public class ControladorPersistencia {
             /*
 			 * Se comprueba la conexión.
              */
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
-
-            Transaction t = this.sesion.getTransaction();
+            Session sesion = sessionFactory.openSession();
+            
+            Transaction t = sesion.getTransaction();
 
             try {
                 t.begin();
-                this.sesion.flush();
+                sesion.flush();
                 t.commit();
 
                 resultado = true;
@@ -177,33 +171,16 @@ public class ControladorPersistencia {
         
         return resultado;
     }
-
-    /**
-     * Permite cerrar la sesión de la base de datos.
-     */
-    public void cerrarSesion() {
-
-        /*
-		 * Se sincroniza la sesión.
-         */
-
-            if (this.sesion != null && this.sesion.isConnected()) {
-                this.sesion.close();
-            }
-            if (this.sesion != null && this.sesion.isOpen()) {
-                this.sesion.close();
-            }
-    }
+    
 
     public List<Alumno> getAlumnos() throws Notificaciones {
 
         String textoConsulta = "FROM Alumno";
         List<Alumno> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
@@ -218,10 +195,10 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM AsistenciaAlumno";
         List<AsistenciaAlumno> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
+            
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
 
             } catch (Exception e) {
@@ -238,10 +215,10 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM AsistenciaProfesor";
         List<AsistenciaProfesor> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
+            
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
@@ -255,10 +232,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Cargo";
         List<Cargo> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
@@ -273,10 +249,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Clase";
         List<Clase> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
@@ -291,10 +266,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Cuota";
         List<Cuota> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
@@ -309,10 +283,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM CobroCuota";
         List<CobroCuota> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -328,10 +301,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Modalidad";
         List<Modalidad> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -347,10 +319,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Modulo";
         List<Modulo> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -367,10 +338,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM PagoProfesor";
         List<PagoProfesor> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -386,10 +356,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Profesor";
         List<Profesor> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -405,10 +374,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Profesormodalidad";
         List<Profesormodalidad> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -424,10 +392,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM SaldoCuota";
         List<SaldoCuota> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -443,10 +410,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Saldopagoprofesor";
         List<Saldopagoprofesor> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
 
             } catch (Exception e) {
@@ -463,10 +429,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Sector";
         List<Sector> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -482,10 +447,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Usuario";
         List<Usuario> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -503,10 +467,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Obrasocial";
         List<Obrasocial> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -523,10 +486,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM ClaseProfesor";
         List<ClaseProfesor> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -543,10 +505,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM ClaseAlumno";
         List<ClaseAlumno> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -562,10 +523,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM HorarioProfesor WHERE estado like 'ACTIVO'";
         List<HorarioProfesor> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -580,10 +540,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM HorarioAlumno";
         List<HorarioAlumno> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -598,10 +557,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Personal";
         List<Personal> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -616,10 +574,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Cajadiaria";
         List<Cajadiaria> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -634,10 +591,9 @@ public class ControladorPersistencia {
         String textoConsulta = "FROM Movimiento";
         List<Movimiento> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery(textoConsulta);
+                Query consulta = sesion.createQuery(textoConsulta);
                 lista = consulta.list();
                 
             } catch (Exception e) {
@@ -656,10 +612,9 @@ public class ControladorPersistencia {
         
         List<IngresosPuerta> lista = null;
 
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
             try {
-                Query consulta = this.sesion.createQuery("SELECT a FROM IngresosPuerta a WHERE a.horaIngreso > :param")
+                Query consulta = sesion.createQuery("SELECT a FROM IngresosPuerta a WHERE a.horaIngreso > :param")
                         .setParameter("param", d);
                 lista = consulta.list();
                 
@@ -680,38 +635,37 @@ public class ControladorPersistencia {
             /*
 			 * Se comprueba la conexión.
              */
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
 
-            Transaction t = this.sesion.getTransaction();
+            Transaction t = sesion.getTransaction();
 
             try {
                 t.begin();
-                this.sesion.evict(o);
-                this.sesion.update(o);
-                this.sesion.flush();
+                sesion.evict(o);
+                sesion.update(o);
+                sesion.flush();
                 t.commit();
 
                 resultado = true;
-                sesion.close();
 
             } catch (Exception e) {
                 t.rollback();
                 throw new Notificaciones(e.getMessage());
+            } finally{
+                sesion.close();
             }
 
     }
 
     public void actualizarInstancia(Object objeto) throws Notificaciones {
-        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-        sesion = sessionFactory.openSession();
+            Session sesion = sessionFactory.openSession();
 
-        Transaction t = this.sesion.getTransaction();
+        Transaction t = sesion.getTransaction();
 
         try {
             t.begin();
             
-            this.sesion.merge(objeto);
+            sesion.merge(objeto);
             t.commit();
 
         } catch (Exception e) {
