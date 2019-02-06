@@ -191,6 +191,7 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenuItem18 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        JMIIniciarSesion = new javax.swing.JMenuItem();
         jMICerrarSesion = new javax.swing.JMenuItem();
         jMISalir = new javax.swing.JMenuItem();
         jMenuEdicion = new javax.swing.JMenu();
@@ -530,6 +531,9 @@ public class MainMenu extends javax.swing.JFrame {
 
         jMenuArchivo.add(jMIPersonal);
         jMenuArchivo.add(jSeparator1);
+
+        JMIIniciarSesion.setText("Iniciar Sesion");
+        jMenuArchivo.add(JMIIniciarSesion);
 
         jMICerrarSesion.setText("Cerrar Sesion");
         jMICerrarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -943,6 +947,7 @@ public class MainMenu extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem JMIIniciarSesion;
     private javax.swing.JButton btnAbrirPuerta;
     private javax.swing.JButton btnAlumnos;
     private javax.swing.JButton btnAlumnosCuotas;
@@ -1040,6 +1045,7 @@ public class MainMenu extends javax.swing.JFrame {
         this.jMIProfesores.setEnabled(false);
         this.jMIClases.setEnabled(false);
         this.jMIPersonal.setEnabled(false);
+        this.JMIIniciarSesion.setEnabled(true);
         this.jMICerrarSesion.setEnabled(false);
         this.jMISalir.setEnabled(true);
     }
@@ -1050,6 +1056,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     public void allOptions(boolean estado) {
+        this.JMIIniciarSesion.setEnabled(!estado);
         this.jMIClases.setEnabled(estado);
         this.jMIUsuarios.setEnabled(estado);
         this.btnSinCLases.setEnabled(estado);

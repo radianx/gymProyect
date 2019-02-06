@@ -139,6 +139,11 @@
             </Menu>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="JMIIniciarSesion">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Iniciar Sesion"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMICerrarSesion">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cerrar Sesion"/>
