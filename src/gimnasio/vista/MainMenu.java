@@ -18,7 +18,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -29,7 +32,7 @@ public class MainMenu extends javax.swing.JFrame {
     public static Usuario usuarioLogueado;
     public static boolean cajaAbierta = false;
 
-    public void iniciarEscaner() {
+    public static void iniciarEscaner() {
         synchronized(lector){
             lector.start();
         }
@@ -40,7 +43,7 @@ public class MainMenu extends javax.swing.JFrame {
         jDesktopPane1.grabFocus();
     }
 
-    public void detenerLector() {
+    public static void detenerLector() {
         synchronized (lector) {
             lector.stop();
         }
@@ -96,7 +99,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     public static ControladorPrincipal miControlador;
-    public volatile ControladorHuella lector;
+    public static volatile ControladorHuella lector;
 
     /**
      * Creates new form MainMenu
@@ -193,6 +196,7 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuEdicion = new javax.swing.JMenu();
         jMIMovimientosCobro = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem25 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
@@ -391,9 +395,12 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel5.add(txtHabilitado, java.awt.BorderLayout.SOUTH);
 
         btnAbrirPuerta.setBackground(new java.awt.Color(255, 153, 0));
+        btnAbrirPuerta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/Icons/payments.png"))); // NOI18N
         btnAbrirPuerta.setText("<HTML><CENTER>ABRIR<BR>PUERTA</CENTER></HTML>");
+        btnAbrirPuerta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAbrirPuerta.setMaximumSize(new java.awt.Dimension(73, 20));
         btnAbrirPuerta.setMinimumSize(new java.awt.Dimension(73, 20));
+        btnAbrirPuerta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnAbrirPuerta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAbrirPuertaActionPerformed(evt);
@@ -560,6 +567,14 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jMenuEdicion.add(jMenuItem10);
 
+        jMenuItem11.setText("Listado de Cuotas Cobradas");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItem11);
+
         jMenuBar1.add(jMenuEdicion);
 
         jMenu5.setText("Asistencia");
@@ -577,6 +592,11 @@ public class MainMenu extends javax.swing.JFrame {
         jMenu6.setText("Horarios");
 
         jMenuItem28.setText("Planilla de Horarios");
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
         jMenu6.add(jMenuItem28);
 
         jMenuBar1.add(jMenu6);
@@ -584,6 +604,11 @@ public class MainMenu extends javax.swing.JFrame {
         jMenu7.setText("Cuotas");
 
         jMenuItem29.setText("Listar Cuotas");
+        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem29ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem29);
 
         jMenuBar1.add(jMenu7);
@@ -638,26 +663,36 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMICerrarSesionActionPerformed
 
     private void btnCuotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuotasActionPerformed
-        jInternalCobroCuotas panelCuotas = new jInternalCobroCuotas(this.miControlador);
-        this.jDesktopPane1.add(panelCuotas);
-        panelCuotas.setVisible(true);
+         if (!existeFrame(jInternalCobroCuotas.class)) {
+            jInternalCobroCuotas panelCuotas = new jInternalCobroCuotas(this.miControlador);
+            this.jDesktopPane1.add(panelCuotas);
+            panelCuotas.setVisible(true);
+        }
     }//GEN-LAST:event_btnCuotasActionPerformed
 
     private void btnAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciaActionPerformed
-        jInternalAsistencias asistencias = new jInternalAsistencias(this.miControlador);
-        this.jDesktopPane1.add(asistencias);
-        asistencias.setVisible(true);
+        if (!existeFrame(jInternalAsistencias.class)) {
+            jInternalAsistencias asistencias = new jInternalAsistencias(this.miControlador);
+            this.jDesktopPane1.add(asistencias);
+            asistencias.setVisible(true);
+        }
     }//GEN-LAST:event_btnAsistenciaActionPerformed
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
-        jInternalUsuarios panelUsuarios = new jInternalUsuarios(this.miControlador);
-        panelUsuarios.setVisible(true);
-        this.jDesktopPane1.add(panelUsuarios);
+        if (!existeFrame(jInternalUsuarios.class)) {
+            jInternalUsuarios panelUsuarios = new jInternalUsuarios(this.miControlador);
+            panelUsuarios.setVisible(true);
+            this.jDesktopPane1.add(panelUsuarios);
+        }
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     private void btnAbrirPuertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirPuertaActionPerformed
-        Thread hilo = new Thread(new ControladorRele());
-        hilo.start();
+        try {
+            ControladorRele rele = new ControladorRele();
+            rele.abrirPuerta();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnAbrirPuertaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -665,12 +700,18 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
-        Thread hilo = new Thread(new ControladorRele());
-        hilo.start();
+        try {
+            ControladorRele rele = new ControladorRele();
+            rele.abrirPuerta();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jMenuItem24ActionPerformed
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
-        // TODO add your handling code here:
+        synchronized(lector){
+            this.txtHabilitado.setText(lector.getEstado());
+        }
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
     private void jMIUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIUsuariosActionPerformed
@@ -678,27 +719,36 @@ public class MainMenu extends javax.swing.JFrame {
             lector.stop();
         }
         this.detenerEscaner = false;
-        jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
-        this.jDesktopPane1.add(panelUsuarios);
-        panelUsuarios.setVisible(true);
+        if (!existeFrame(jInternalUsuarios.class)) {
+            jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
+
+            this.jDesktopPane1.add(panelUsuarios);
+            panelUsuarios.setVisible(true);
+        }
     }//GEN-LAST:event_jMIUsuariosActionPerformed
 
     private void jMIUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMIUsuariosMouseClicked
-        jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
-        this.jDesktopPane1.add(panelUsuarios);
-        panelUsuarios.setVisible(true);
+        if (!existeFrame(jInternalUsuarios.class)) {
+            jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
+            this.jDesktopPane1.add(panelUsuarios);
+            panelUsuarios.setVisible(true);
+        }
     }//GEN-LAST:event_jMIUsuariosMouseClicked
 
     private void btnAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlumnosActionPerformed
-        jInternalAlumno panelAlumnos = new jInternalAlumno(miControlador);
-        this.jDesktopPane1.add(panelAlumnos);
-        panelAlumnos.setVisible(true);
+        if (!existeFrame(jInternalAlumno.class)) {
+            jInternalAlumno panelAlumnos = new jInternalAlumno(miControlador);
+            this.jDesktopPane1.add(panelAlumnos);
+            panelAlumnos.setVisible(true);
+        }
     }//GEN-LAST:event_btnAlumnosActionPerformed
 
     private void btnProfesoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfesoresActionPerformed
-        jInternalProfesores panelProfesores = new jInternalProfesores(miControlador);
-        this.jDesktopPane1.add(panelProfesores);
-        panelProfesores.setVisible(true);
+        if (!existeFrame(jInternalProfesores.class)) {
+            jInternalProfesores panelProfesores = new jInternalProfesores(miControlador);
+            this.jDesktopPane1.add(panelProfesores);
+            panelProfesores.setVisible(true);
+        }
     }//GEN-LAST:event_btnProfesoresActionPerformed
 
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
@@ -706,27 +756,35 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_formMouseMoved
 
     private void itemNuevaClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNuevaClaseActionPerformed
-        JInternalClasesProfesor panelClases = new JInternalClasesProfesor(this.miControlador);
-        this.jDesktopPane1.add(panelClases);
-        panelClases.setVisible(true);
+        if (!existeFrame(JInternalClasesProfesor.class)) {
+            JInternalClasesProfesor panelClases = new JInternalClasesProfesor(this.miControlador);
+            this.jDesktopPane1.add(panelClases);
+            panelClases.setVisible(true);
+        }
     }//GEN-LAST:event_itemNuevaClaseActionPerformed
 
     private void btnClasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasesActionPerformed
-        jInternalClases panelClases = new jInternalClases(this.miControlador);
-        this.jDesktopPane1.add(panelClases);
-        panelClases.setVisible(true);
+        if (!existeFrame(jInternalClases.class)) {
+            jInternalClases panelClases = new jInternalClases(this.miControlador);
+            this.jDesktopPane1.add(panelClases);
+            panelClases.setVisible(true);
+        }
     }//GEN-LAST:event_btnClasesActionPerformed
 
     private void btnClasesProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasesProfesorActionPerformed
-        JInternalClasesProfesor panelClaseProfesor = new JInternalClasesProfesor(this.miControlador);
-        this.jDesktopPane1.add(panelClaseProfesor);
-        panelClaseProfesor.setVisible(true);
+        if (!existeFrame(JInternalClasesProfesor.class)) {
+            JInternalClasesProfesor panelClaseProfesor = new JInternalClasesProfesor(this.miControlador);
+            this.jDesktopPane1.add(panelClaseProfesor);
+            panelClaseProfesor.setVisible(true);
+        }
     }//GEN-LAST:event_btnClasesProfesorActionPerformed
 
     private void btnClaseALumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaseALumnoActionPerformed
-        jInternalClasesAlumno ventanaClaseAlumn = new jInternalClasesAlumno(this.miControlador);
-        this.jDesktopPane1.add(ventanaClaseAlumn);
-        ventanaClaseAlumn.setVisible(true);
+        if (!existeFrame(jInternalClasesAlumno.class)) {
+            jInternalClasesAlumno ventanaClaseAlumn = new jInternalClasesAlumno(this.miControlador);
+            this.jDesktopPane1.add(ventanaClaseAlumn);
+            ventanaClaseAlumn.setVisible(true);
+        }
     }//GEN-LAST:event_btnClaseALumnoActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -782,9 +840,11 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIMovimientosCobroActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        jInternalReportes reportes = new jInternalReportes(miControlador);
-        jDesktopPane1.add(reportes);
-        reportes.setVisible(true);
+        if (!existeFrame(jInternalReportes.class)) {
+            jInternalReportes reportes = new jInternalReportes(miControlador);
+            jDesktopPane1.add(reportes);
+            reportes.setVisible(true);
+        }
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -792,52 +852,92 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
-        JInternalReporteIngresos reporteIngreso = new JInternalReporteIngresos(miControlador);
-        jDesktopPane1.add(reporteIngreso);
-        reporteIngreso.setVisible(true);
+        if (!existeFrame(jInternalAsistencias.class)) {
+            jInternalAsistencias asistencias = new jInternalAsistencias(this.miControlador);
+            this.jDesktopPane1.add(asistencias);
+            asistencias.setVisible(true);
+        }
     }//GEN-LAST:event_jMenuItem25ActionPerformed
 
     private void btnPromocionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromocionesActionPerformed
-        JInternalPromociones promos = new JInternalPromociones(miControlador);
-        jDesktopPane1.add(promos);
-        promos.setVisible(true);
+        if (!existeFrame(JInternalPromociones.class)) {
+            JInternalPromociones promos = new JInternalPromociones(miControlador);
+            jDesktopPane1.add(promos);
+            promos.setVisible(true);
+        }
     }//GEN-LAST:event_btnPromocionesActionPerformed
 
     private void btnAlumnosCuotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlumnosCuotasActionPerformed
-        JInternalAlumnosCuotas alumnoCuota = new JInternalAlumnosCuotas(miControlador);
-        jDesktopPane1.add(alumnoCuota);
-        alumnoCuota.setVisible(true);
+        if (!existeFrame(JInternalAlumnosCuotas.class)) {
+            JInternalAlumnosCuotas alumnoCuota = new JInternalAlumnosCuotas(miControlador);
+            jDesktopPane1.add(alumnoCuota);
+            alumnoCuota.setVisible(true);
+        }
     }//GEN-LAST:event_btnAlumnosCuotasActionPerformed
 
     private void btnModalidadProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModalidadProfesorActionPerformed
-        jInternalProfesorModalidad panelProfeMod = new jInternalProfesorModalidad(this.miControlador);
-        this.jDesktopPane1.add(panelProfeMod);
-        panelProfeMod.setVisible(true);
+        if (!existeFrame(jInternalProfesorModalidad.class)) {
+            jInternalProfesorModalidad panelProfeMod = new jInternalProfesorModalidad(this.miControlador);
+            this.jDesktopPane1.add(panelProfeMod);
+            panelProfeMod.setVisible(true);
+        }
     }//GEN-LAST:event_btnModalidadProfesorActionPerformed
 
     private void btnModalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModalidadActionPerformed
-        jInternalModalidades panelModalidad = new jInternalModalidades(this.miControlador);
-        this.jDesktopPane1.add(panelModalidad);
-        panelModalidad.setVisible(true);
+        if (!existeFrame(jInternalModalidades.class)) {
+            jInternalModalidades panelModalidad = new jInternalModalidades(this.miControlador);
+            this.jDesktopPane1.add(panelModalidad);
+            panelModalidad.setVisible(true);
+        }
     }//GEN-LAST:event_btnModalidadActionPerformed
 
     private void jmiModalidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiModalidadesActionPerformed
-        jInternalModalidades panelModalidad = new jInternalModalidades(this.miControlador);
-        this.jDesktopPane1.add(panelModalidad);
-        panelModalidad.setVisible(true);
+        if (!existeFrame(jInternalModalidades.class)) {
+            jInternalModalidades panelModalidad = new jInternalModalidades(this.miControlador);
+            this.jDesktopPane1.add(panelModalidad);
+            panelModalidad.setVisible(true);
+        }
     }//GEN-LAST:event_jmiModalidadesActionPerformed
 
     private void btnIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresosActionPerformed
-        JInternalPuerta panelPuerta = new JInternalPuerta(this.miControlador);
-        this.jDesktopPane1.add(panelPuerta);
-        panelPuerta.setVisible(true);
+        if (!existeFrame(JInternalPuerta.class)) {
+            JInternalPuerta panelPuerta = new JInternalPuerta(this.miControlador);
+            this.jDesktopPane1.add(panelPuerta);
+            panelPuerta.setVisible(true);
+        }
     }//GEN-LAST:event_btnIngresosActionPerformed
 
     private void btnSinCLasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSinCLasesActionPerformed
-        jInternalClasesAlumnosOff alumnos = new jInternalClasesAlumnosOff(this.miControlador);
-        this.jDesktopPane1.add(alumnos);
-        alumnos.setVisible(true);
+        if (!existeFrame(jInternalClasesAlumnosOff.class)) {
+            jInternalClasesAlumnosOff alumnos = new jInternalClasesAlumnosOff(this.miControlador);
+            this.jDesktopPane1.add(alumnos);
+            alumnos.setVisible(true);
+        }
     }//GEN-LAST:event_btnSinCLasesActionPerformed
+
+    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
+        if (!existeFrame(JInternalAlumnosCuotas.class)) {
+            JInternalAlumnosCuotas alumnoCuota = new JInternalAlumnosCuotas(miControlador);
+            jDesktopPane1.add(alumnoCuota);
+            alumnoCuota.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem29ActionPerformed
+
+    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
+        if (!existeFrame(JInternalClasesProfesor.class)) {
+            JInternalClasesProfesor panelClaseProfesor = new JInternalClasesProfesor(this.miControlador);
+            this.jDesktopPane1.add(panelClaseProfesor);
+            panelClaseProfesor.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem28ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        if (!existeFrame(JInternalCuotasCobradas.class)) {
+            JInternalCuotasCobradas panelCuotas = new JInternalCuotasCobradas(this.miControlador);
+            this.jDesktopPane1.add(panelCuotas);
+            panelCuotas.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -882,6 +982,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuEdicion;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
@@ -949,6 +1050,8 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     public void allOptions(boolean estado) {
+        this.jMIClases.setEnabled(estado);
+        this.jMIUsuarios.setEnabled(estado);
         this.btnSinCLases.setEnabled(estado);
         this.btnAbrirPuerta.setEnabled(estado);
         this.btnAlumnos.setEnabled(estado);
@@ -1010,6 +1113,22 @@ public class MainMenu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
         }
+    }
+    
+    public boolean existeFrame(Class c){
+        Object[] frames = this.jDesktopPane1.getAllFrames();
+        boolean yaExiste = false;
+        for (Object frame : frames) {
+            if (c.isInstance(frame)) {
+                yaExiste = true;
+
+                JInternalFrame internal = (JInternalFrame) frame;
+                internal.toFront();
+
+                break;
+            }
+        }
+        return yaExiste;
     }
 
 }
