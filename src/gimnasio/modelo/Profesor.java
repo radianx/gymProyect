@@ -4,6 +4,7 @@ package gimnasio.modelo;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -146,5 +147,44 @@ public class Profesor  implements java.io.Serializable {
     public String toString() {
         return this.nombreprofesor;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this.idprofesor;
+        hash = 97 * hash + Objects.hashCode(this.usuario);
+        hash = 97 * hash + Objects.hashCode(this.nombreprofesor);
+        hash = 97 * hash + Objects.hashCode(this.apellidoprofesor);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Profesor other = (Profesor) obj;
+        if (this.idprofesor != other.idprofesor) {
+            return false;
+        }
+        if (!Objects.equals(this.nombreprofesor, other.nombreprofesor)) {
+            return false;
+        }
+        if (!Objects.equals(this.apellidoprofesor, other.apellidoprofesor)) {
+            return false;
+        }
+        if (!Objects.equals(this.usuario, other.usuario)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
 

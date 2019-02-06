@@ -72,14 +72,12 @@ public class ControladorPersistencia {
                 this.sesion.flush();
                 t.commit();
 
-                /*
-				 * Se comprueba que se haya persistido la instancia.
-                 */
-                sesion.close();
 
             } catch (Exception e) {
                 t.rollback();
                 throw new Notificaciones(e.getLocalizedMessage());
+            } finally{
+                sesion.close();
             }
 
         return resultado;
@@ -111,10 +109,12 @@ public class ControladorPersistencia {
                 t.commit();
 
                 resultado = true;
-                sesion.close();
+
             } catch (Exception e) {
                 t.rollback();
                 throw new Notificaciones(e.getMessage());
+            } finally{
+                                sesion.close();
             }
 
         return resultado;
@@ -136,6 +136,8 @@ public class ControladorPersistencia {
             } catch (Exception e) {
                 t.rollback();
                 throw new Notificaciones(e.getMessage());
+            } finally{
+                sesion.close();
             }
     }
 
@@ -166,13 +168,13 @@ public class ControladorPersistencia {
                 t.commit();
 
                 resultado = true;
-                sesion.close();
-
             } catch (Exception e) {
                 t.rollback();
                 throw new Notificaciones(e.getMessage());
+            } finally{
+                sesion.close();
             }
-
+        
         return resultado;
     }
 
@@ -203,9 +205,10 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            } finally{
+                 sesion.close();
             }
         return lista;
     }
@@ -220,9 +223,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            } finally{
+                sesion.close();
             }
         
         return lista;
@@ -238,9 +243,10 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            } finally{
+                                sesion.close();
             }
         return lista;
     }
@@ -254,9 +260,10 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            } finally{
+                sesion.close();
             }
         return lista;
     }
@@ -271,9 +278,10 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            } finally{
+                                sesion.close();
             }
         
         return lista;
@@ -288,9 +296,10 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            } finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -305,9 +314,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -322,9 +333,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -339,9 +352,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         
         return lista;
@@ -357,9 +372,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -374,9 +391,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -391,9 +410,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -408,9 +429,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -425,9 +448,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         
         return lista;
@@ -443,9 +468,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -460,9 +487,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -479,9 +508,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         
         return lista;
@@ -497,9 +528,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         
         return lista;
@@ -515,9 +548,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
        
         return lista;
@@ -532,9 +567,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -548,9 +585,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -564,9 +603,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -580,9 +621,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -596,9 +639,11 @@ public class ControladorPersistencia {
             try {
                 Query consulta = this.sesion.createQuery(textoConsulta);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
 
         return lista;
@@ -617,9 +662,11 @@ public class ControladorPersistencia {
                 Query consulta = this.sesion.createQuery("SELECT a FROM IngresosPuerta a WHERE a.horaIngreso > :param")
                         .setParameter("param", d);
                 lista = consulta.list();
-                sesion.close();
+                
             } catch (Exception e) {
                 throw new Notificaciones(e.getMessage());
+            }finally{
+                            sesion.close();
             }
         return lista;
     }
@@ -654,4 +701,25 @@ public class ControladorPersistencia {
             }
 
     }
+
+    public void actualizarInstancia(Object objeto) throws Notificaciones {
+        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+        sesion = sessionFactory.openSession();
+
+        Transaction t = this.sesion.getTransaction();
+
+        try {
+            t.begin();
+            
+            this.sesion.merge(objeto);
+            t.commit();
+
+        } catch (Exception e) {
+            t.rollback();
+            throw new Notificaciones(e.getLocalizedMessage());
+        } finally {
+            sesion.close();
+        }
+    }
+    
 }

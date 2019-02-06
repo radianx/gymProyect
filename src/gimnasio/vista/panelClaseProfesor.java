@@ -62,10 +62,14 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         List<Clase> listaClasesProfe = new ArrayList<>();
         List<Clase> listaRetorno = new ArrayList<>();
         
-        for(ClaseProfesor unaClaseProfesor:unProfesor.getClaseProfesors()){
-            if(unaClaseProfesor.getEstado().equalsIgnoreCase("ACTIVO")){
-                listaClasesProfe.add(unaClaseProfesor.getClase());
+        try {
+            for (ClaseProfesor unaClaseProfesor : unProfesor.getClaseProfesors()) {
+                if (unaClaseProfesor.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    listaClasesProfe.add(unaClaseProfesor.getClase());
+                }
             }
+        } catch (NullPointerException e) {
+            System.out.println("Valor null en cargarComboClases de PanelClaseProfesor" + e);
         }
         boolean bandera = false;
         for (Clase unaClase : miControlador.getListaClases()) {
@@ -92,13 +96,18 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     public void cargarComboModalidades(Profesor unProfesor){
         List<Modalidad> listaModalidades = new ArrayList<>();
         Modalidad unaModalidad;
-        for(Profesormodalidad profeModa:unProfesor.getProfesorModalidads()){
-            unaModalidad = profeModa.getModalidad();
-            if(unaModalidad.getEstado().equalsIgnoreCase("ACTIVO")){
-                listaModalidades.add(unaModalidad);
+        try{
+            for (Profesormodalidad profeModa : unProfesor.getProfesorModalidads()) {
+                if (profeModa.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    unaModalidad = profeModa.getModalidad();
+                    if (unaModalidad.getEstado().equalsIgnoreCase("ACTIVO")) {
+                        listaModalidades.add(unaModalidad);
+                    }
+                }
             }
+        }catch(NullPointerException e){
+            System.out.println("CargarComboModalidades: valor nulo para unProfesor: "+e);
         }
-        
         DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel(listaModalidades.toArray());
         this.cmbModalidad.setModel(modeloCombo);
     }

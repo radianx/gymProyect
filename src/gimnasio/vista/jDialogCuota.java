@@ -109,7 +109,6 @@ public class jDialogCuota extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtAlumno = new javax.swing.JTextField();
@@ -133,14 +132,6 @@ public class jDialogCuota extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btnGuardar);
-
-        btnCancelar.setText("CANCELAR");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnCancelar);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
 
@@ -258,10 +249,6 @@ public class jDialogCuota extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
     private void txtMontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyReleased
         try{
             double numero = Double.valueOf(this.txtMonto.getText());
@@ -272,7 +259,6 @@ public class jDialogCuota extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
     private javax.swing.JLabel jLabel1;

@@ -6,7 +6,7 @@
     <class name="gimnasio.modelo.Modulo" table="modulo" schema="public">
         <id name="idmodulo" type="int">
             <column name="idmodulo" />
-            <generator class="assigned"></generator>
+            <generator class="increment"></generator>
         </id>
         <many-to-one name="sistema" class="gimnasio.modelo.Sistema" fetch="select">
             <column name="idsistema" not-null="true" />

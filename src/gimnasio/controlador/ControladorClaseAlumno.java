@@ -26,7 +26,8 @@ public class ControladorClaseAlumno {
     public void altaClaseAlumno(ClaseAlumno claseAlumno) throws Notificaciones {
         listaClaseAlumno = miPersistencia.getClasesAlumno();
         for (ClaseAlumno claseAlu : listaClaseAlumno) {
-            if (claseAlu.getAlumno().getIdalumno() == claseAlumno.getAlumno().getIdalumno()
+            if (claseAlu.getClaseProfesor().getIdclaseprofesor() == claseAlumno.getClaseProfesor().getIdclaseprofesor()
+                    && claseAlu.getAlumno().getIdalumno() == claseAlumno.getAlumno().getIdalumno()
                     && claseAlu.getEstado().equalsIgnoreCase("ACTIVO")) {
                 throw new Notificaciones("Ya existe un registro de alumno en esa clase");
             } else {
@@ -37,7 +38,8 @@ public class ControladorClaseAlumno {
     
     public void bajaClaseAlumno(ClaseAlumno claseAlumno) throws Notificaciones{
         claseAlumno.setEstado("INACTIVO");
-        miPersistencia.persistirInstancia(claseAlumno);
+        miPersistencia.actualizarInstancia(claseAlumno);
+//        miPersistencia.persistirInstancia(claseAlumno);
         this.listaClaseAlumno = miPersistencia.getClasesAlumno();
     }
     

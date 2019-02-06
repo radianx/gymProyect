@@ -419,7 +419,7 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
             //EN CASO DE QUE SEA UNA MODIFICACION DE HORARIO NO MAS
             if (horariosRecibidos == modeloTablaDias.getRowCount() && seRecibieronDatos) {
                 System.out.println("actualizando horarios de alumnos ya que el profesor cambio de horarios");
-                miControlador.actualizarHorariosDeAlumnos(claseProfesor);
+                miControlador.actualizarHorariosDeAlumnos(false, claseProfesor);
             }
             //EN CASO DE QUE SE AGREGA UN HORARIO NUEVO
             //miControlador.actualizarHorariosDeAlumnos(claseProfesor);

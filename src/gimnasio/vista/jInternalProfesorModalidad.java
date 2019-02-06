@@ -384,9 +384,11 @@ public class jInternalProfesorModalidad extends javax.swing.JInternalFrame {
             double precio = Double.valueOf(txtPrecio.getText());
             Modalidad unaModalidad = (Modalidad)cmbModalidad.getSelectedItem();
             Profesormodalidad profeMod = new Profesormodalidad(profesorSeleccionado, unaModalidad, precio, "ACTIVO");
+            profesorSeleccionado.getProfesorModalidads().add(profeMod);
             this.miControlador.altaProfesorPorModalidad(profeMod);
-            cargarTabla();
-            this.cargarTablaModalidad(profesorSeleccionado);
+            SwingUtilities.invokeLater(()->{
+                cargarTablaModalidad(profesorSeleccionado);            
+            });
             }else{
                 JOptionPane.showMessageDialog(null, "Debe ingresar un precio de sugerencia\n(puede ser 0)");
             }

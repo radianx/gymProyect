@@ -123,8 +123,10 @@ public class ClaseAlumno  implements java.io.Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 11 * hash + this.idclasealumno;
+        int hash = 7;
+        hash = 67 * hash + this.idclasealumno;
+        hash = 67 * hash + Objects.hashCode(this.alumno);
+        hash = 67 * hash + Objects.hashCode(this.claseProfesor);
         return hash;
     }
 
@@ -140,6 +142,9 @@ public class ClaseAlumno  implements java.io.Serializable {
             return false;
         }
         final ClaseAlumno other = (ClaseAlumno) obj;
+        if (this.idclasealumno != other.idclasealumno) {
+            return false;
+        }
         if (!Objects.equals(this.alumno, other.alumno)) {
             return false;
         }
@@ -148,6 +153,8 @@ public class ClaseAlumno  implements java.io.Serializable {
         }
         return true;
     }
+
+
 
     public List<AsistenciaAlumno> getAsistenciasPorSemana() {
         LocalDate lunes = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.MONDAY));

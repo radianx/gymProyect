@@ -97,6 +97,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     }
 
     public void cargarComboClaseProfesor() {
+        cmbClases.removeAllItems();
         cmbClases.addItem("--Seleccionar--");
         try {
             for (ClaseProfesor clase : miControlador.getListaClaseProfesor()) {
@@ -153,7 +154,8 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                         fila[0] = unHorario;
                         fila[1] = unHorario.getInicioString();
                         fila[2] = unHorario.getFinString();
-                        fila[3] = unHorario.getPromocion();
+                        fila[3] = unHorario.getClaseProfesor().getProfesor();
+                        fila[4] = unHorario.getPromocion();
                         modeloTablaHorarioClase.addRow(fila);
                     }
                 }
@@ -587,19 +589,12 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                 }
 //Generacion de Cuotas
                 String[] opciones = {"SI", "NO"};
-                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea generar una Cuota?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
-                switch (seleccion) {
-                    case 0:
-                        jInternalCuotas cuotas = new jInternalCuotas(this.miControlador, claseAlumno.getAlumno(), claseAlumno.getClaseProfesor(), precio);
-                        cuotas.setVisible(true);
-                        this.getParent().getParent().getParent().getParent().getParent().add(cuotas);
-                        this.setVisible(false);
-                        cuotas.toFront();
-                        break;
-                    case 1: //salio por el no
-                        this.setVisible(false);
-                        break;
-                }
+                JOptionPane.showMessageDialog(null,"Cuota generada para el alumno " + claseAlumno.getAlumno());
+                jInternalCuotas cuotas = new jInternalCuotas(this.miControlador, claseAlumno.getAlumno(), claseAlumno.getClaseProfesor(), precio);
+                cuotas.setVisible(true);
+                this.getParent().getParent().getParent().getParent().getParent().add(cuotas);
+                this.setVisible(false);
+                cuotas.toFront();
 //Manejo de errores
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());

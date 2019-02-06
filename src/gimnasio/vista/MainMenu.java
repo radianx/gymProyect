@@ -29,8 +29,10 @@ public class MainMenu extends javax.swing.JFrame {
     public static Usuario usuarioLogueado;
     public static boolean cajaAbierta = false;
 
-    public static void iniciarEscaner() {
-        lector.start();
+    public void iniciarEscaner() {
+        synchronized(lector){
+            lector.start();
+        }
     }
 
     public static void loguearUsuario(Usuario unUsuario) {
@@ -38,8 +40,10 @@ public class MainMenu extends javax.swing.JFrame {
         jDesktopPane1.grabFocus();
     }
 
-    public static void detenerLector() {
-        lector.stop();
+    public void detenerLector() {
+        synchronized (lector) {
+            lector.stop();
+        }
     }
 
     public static void nuevoMovimiento(Alumno elAlumno, Cuota cuota, Double abono) {
@@ -66,8 +70,8 @@ public class MainMenu extends javax.swing.JFrame {
         return retorno;
     }
 
-    public static void abrirCobro(Alumno alumnoSeleccionado) {
-        jInternalCobro cobro = new jInternalCobro(miControlador, alumnoSeleccionado);
+    public static void abrirCobro(Alumno alumnoSeleccionado, Cuota cuota) {
+        jInternalCobro cobro = new jInternalCobro(miControlador, alumnoSeleccionado, cuota);
         jDesktopPane1.add(cobro);
         cobro.setVisible(true);
     }
@@ -92,8 +96,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     public static ControladorPrincipal miControlador;
-    public static ControladorHuella lector;
-    Thread thread_object;
+    public volatile ControladorHuella lector;
 
     /**
      * Creates new form MainMenu
@@ -110,7 +113,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         lector = new ControladorHuella(miControlador, controlador.getMiPersistencia(), this.txtHabilitado, this.lblFoto, this.tablaAsistencias);
         jScrollPane2.getVerticalScrollBar().setValue(jScrollPane2.getVerticalScrollBar().getMaximum());
-        thread_object = new Thread(lector);
+        Thread thread_object = new Thread(lector);
         thread_object.setDaemon(true);
         thread_object.start();
 
@@ -138,18 +141,18 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnUsuarios = new javax.swing.JButton();
+        btnPromociones = new javax.swing.JButton();
+        btnAsistencia = new javax.swing.JButton();
         btnAlumnos = new javax.swing.JButton();
         btnProfesores = new javax.swing.JButton();
+        btnModalidad = new javax.swing.JButton();
+        btnModalidadProfesor = new javax.swing.JButton();
+        btnIngresos = new javax.swing.JButton();
+        btnCuotas = new javax.swing.JButton();
+        btnAlumnosCuotas = new javax.swing.JButton();
+        btnClaseALumno = new javax.swing.JButton();
         btnClases = new javax.swing.JButton();
         btnClasesProfesor = new javax.swing.JButton();
-        btnModalidad = new javax.swing.JButton();
-        btnAsistencia = new javax.swing.JButton();
-        btnIngresos = new javax.swing.JButton();
-        btnAlumnosCuotas = new javax.swing.JButton();
-        btnCuotas = new javax.swing.JButton();
-        btnClaseALumno = new javax.swing.JButton();
-        btnModalidadProfesor = new javax.swing.JButton();
-        btnPromociones = new javax.swing.JButton();
         btnSinCLases = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -230,6 +233,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(2, 2));
 
+        btnUsuarios.setBackground(new java.awt.Color(255, 153, 0));
         btnUsuarios.setText("Usuarios");
         btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,6 +241,24 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnUsuarios);
+
+        btnPromociones.setBackground(new java.awt.Color(255, 153, 0));
+        btnPromociones.setText("Promociones");
+        btnPromociones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPromocionesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnPromociones);
+
+        btnAsistencia.setBackground(new java.awt.Color(255, 153, 0));
+        btnAsistencia.setText("Asistencia");
+        btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsistenciaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnAsistencia);
 
         btnAlumnos.setText("Alumnos");
         btnAlumnos.addActionListener(new java.awt.event.ActionListener() {
@@ -254,6 +276,57 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(btnProfesores);
 
+        btnModalidad.setText("Modalidades");
+        btnModalidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModalidadActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnModalidad);
+
+        btnModalidadProfesor.setText("<HTML><center>Modalidades<br>por Profesor</center></HTML>");
+        btnModalidadProfesor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModalidadProfesorActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnModalidadProfesor);
+
+        btnIngresos.setBackground(new java.awt.Color(255, 153, 0));
+        btnIngresos.setText("<html><center>Ingresos<br>por Puerta</center></html>");
+        btnIngresos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresosActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnIngresos);
+
+        btnCuotas.setBackground(new java.awt.Color(255, 153, 0));
+        btnCuotas.setText("<html><center>Cobro<br>de Cuotas</center></html>");
+        btnCuotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCuotasActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnCuotas);
+
+        btnAlumnosCuotas.setBackground(new java.awt.Color(255, 153, 0));
+        btnAlumnosCuotas.setText("<HTML><CENTER>Clases y Cuotas<BR>de Alumnos</CENTER></HTML>");
+        btnAlumnosCuotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlumnosCuotasActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnAlumnosCuotas);
+
+        btnClaseALumno.setText("Inscripciones");
+        btnClaseALumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClaseALumnoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnClaseALumno);
+
         btnClases.setText("Clases");
         btnClases.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,70 +343,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jPanel2.add(btnClasesProfesor);
 
-        btnModalidad.setText("Modalidades");
-        btnModalidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModalidadActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnModalidad);
-
-        btnAsistencia.setText("Asistencia");
-        btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAsistenciaActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnAsistencia);
-
-        btnIngresos.setText("<html><center>Ingresos<br>por Puerta</center></html>");
-        btnIngresos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresosActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnIngresos);
-
-        btnAlumnosCuotas.setText("<HTML><CENTER>Clases y Cuotas<BR>de Alumnos</CENTER></HTML>");
-        btnAlumnosCuotas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlumnosCuotasActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnAlumnosCuotas);
-
-        btnCuotas.setText("<html><center>Cobro<br>de Cuotas</center></html>");
-        btnCuotas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCuotasActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnCuotas);
-
-        btnClaseALumno.setText("Inscripciones");
-        btnClaseALumno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClaseALumnoActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnClaseALumno);
-
-        btnModalidadProfesor.setText("<HTML><center>Modalidades<br>por Profesor</center></HTML>");
-        btnModalidadProfesor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModalidadProfesorActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnModalidadProfesor);
-
-        btnPromociones.setText("Promociones");
-        btnPromociones.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPromocionesActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnPromociones);
-
+        btnSinCLases.setBackground(new java.awt.Color(0, 0, 0));
         btnSinCLases.setText("<html><center>Alumnos<br>Sin Clases</center></html>");
         btnSinCLases.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -376,8 +386,11 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel5.add(lblFoto, java.awt.BorderLayout.CENTER);
 
         txtHabilitado.setEditable(false);
+        txtHabilitado.setBackground(new java.awt.Color(255, 204, 0));
+        txtHabilitado.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jPanel5.add(txtHabilitado, java.awt.BorderLayout.SOUTH);
 
+        btnAbrirPuerta.setBackground(new java.awt.Color(255, 153, 0));
         btnAbrirPuerta.setText("<HTML><CENTER>ABRIR<BR>PUERTA</CENTER></HTML>");
         btnAbrirPuerta.setMaximumSize(new java.awt.Dimension(73, 20));
         btnAbrirPuerta.setMinimumSize(new java.awt.Dimension(73, 20));
@@ -661,7 +674,9 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
     private void jMIUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIUsuariosActionPerformed
-        lector.stop();
+        synchronized(lector){
+            lector.stop();
+        }
         this.detenerEscaner = false;
         jInternalUsuarios panelUsuarios = new jInternalUsuarios(miControlador);
         this.jDesktopPane1.add(panelUsuarios);

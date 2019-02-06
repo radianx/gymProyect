@@ -6,7 +6,7 @@
     <class name="gimnasio.modelo.Saldopagoprofesor" table="saldopagoprofesor" schema="public">
         <id name="idsaldopago" type="int">
             <column name="idsaldopago" />
-            <generator class="assigned"></generator>
+            <generator class="increment"></generator>
         </id>
         <property name="montosaldo" type="double">
             <column name="montosaldo" precision="17" scale="17" not-null="true" />

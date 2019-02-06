@@ -39,7 +39,8 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
     /**
      * Creates new form jInternalCobro
      */
-    public jInternalCobro(ControladorPrincipal miControlador, Alumno unAlumno) {
+    public jInternalCobro(ControladorPrincipal miControlador, Alumno unAlumno, Cuota cuota) {
+        Cuota otro = cuota;
         this.controlador = miControlador;
         elAlumno = unAlumno;
         initComponents();
@@ -50,11 +51,86 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
         datePicker.setSettings(settings);
         datePicker.setDateToToday();
         this.txtNombreAlumno.setText(elAlumno.getNombrealumno() + " " + elAlumno.getApellidoalumno());
-        try{
-            cargarTablaCuotas(elAlumno);
-        }catch(Notificaciones ex){
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+        if(otro == null) {
+            try {
+                cargarTablaCuotas(elAlumno);
+            } catch (Notificaciones ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        } else {
+            try {
+                cargarTablaCuota(elAlumno, otro);
+            } catch (Notificaciones ex) {
+                ex.printStackTrace();
+            }
         }
+    }
+
+    public void cargarTablaCuota(Alumno unAlumno, Cuota otro) throws Notificaciones {
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Clase");
+        modeloTabla.addColumn("Fecha Emision");
+        modeloTabla.addColumn("Vencimiento");
+        modeloTabla.addColumn("Monto");
+        this.tablaCuotasDeAlumno.setModel(modeloTabla);
+        Object[] fila = new Object[4];
+        total = 0.0;
+        if (otro.getEstado().equalsIgnoreCase("GENERADO")) {
+            fila[0] = otro.getClaseProfesor().getClase();
+            fila[1] = otro;
+            String time = new SimpleDateFormat("dd/MM/yyyy").format(otro.getVencimiento());
+            fila[2] = time;
+            fila[3] = otro.getMonto();
+            total += otro.getMonto();
+            modeloTabla.addRow(fila);
+        }
+        this.cuota = otro;
+        if (cuota.getCobroCuotas() != null) {
+            for (CobroCuota cobroCuota : cuota.getCobroCuotas()) {
+                if (cobroCuota.getSaldoCuotas() != null) {
+                    for (SaldoCuota saldoCuota : cobroCuota.getSaldoCuotas()) {
+                        saldoAnterior = saldoCuota;
+                        total = saldoAnterior.getMontosaldo();
+                    }
+                }
+
+            }
+        }
+
+        if (otro.getEstado()
+                .equalsIgnoreCase("SALDO")) {
+            fila[0] = otro.getClaseProfesor().getClase();
+            fila[1] = otro;
+            String time = new SimpleDateFormat("dd/MM/yyyy").format(otro.getVencimiento());
+            fila[2] = time;
+            this.cuota = otro;
+            if (otro.getCobroCuotas() != null) {
+                for (CobroCuota cobro : otro.getCobroCuotas()) {
+                    if (cobro.getSaldoCuotas() != null) {
+                        for (SaldoCuota saldo : cobro.getSaldoCuotas()) {
+                            if (saldo.getEstado().equalsIgnoreCase("GENERADO")) {
+                                saldoAnterior = saldo;
+                                total = saldoAnterior.getMontosaldo();
+                                fila[3] = "DEUDA: " + saldoAnterior.getMontosaldo();
+                            }
+                        }
+                    }
+                }
+            }
+            modeloTabla.addRow(fila);
+        }
+    if(cuota!=null){
+            this.txtCuota.setText(cuota.getMonto().toString());
+        }else{
+            this.txtCuota.setText("0.0");
+        }
+        
+        if(saldoAnterior !=null){
+            this.txtSaldoAnterior.setText(String.valueOf(saldoAnterior.getMontosaldo()));
+        }else{
+            this.txtSaldoAnterior.setText("0.0");
+        }
+        this.txtMontoTotal.setText(total.toString());
     }
 
     public void cargarTablaCuotas(Alumno unAlumno) throws Notificaciones{
@@ -403,9 +479,10 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                         cuota.setEstado("SALDO");
                     } else {
                         cuota.setEstado("PAGADO");
-                        unCobroCuota = generarCobroCuota(cuota, cuota.getMonto(), fecha);
                     }
-
+                    
+                    unCobroCuota = generarCobroCuota(cuota, cuota.getMonto(), fecha);
+                    
                     if (nuevoSaldo > 0) {
                         generarNuevoSaldo(unCobroCuota, nuevoSaldo);
                     }
@@ -417,6 +494,7 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
 
                 } catch (Notificaciones ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
+                    ex.printStackTrace();
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar el monto para registrar el pago");

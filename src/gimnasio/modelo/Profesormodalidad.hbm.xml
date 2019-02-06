@@ -8,10 +8,10 @@
             <column name="idprofesormodalidad" />
             <generator class="increment"></generator>
         </id>
-        <many-to-one name="modalidad" class="gimnasio.modelo.Modalidad" cascade="all" fetch="select">
+        <many-to-one name="modalidad" class="gimnasio.modelo.Modalidad" cascade="persist" fetch="select">
             <column name="idmodalidad" not-null="true" />
         </many-to-one>
-        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" cascade="all" fetch="select">
+        <many-to-one name="profesor" class="gimnasio.modelo.Profesor" cascade="persist" fetch="select">
             <column name="idprofesor" not-null="true" />
         </many-to-one>
         <property name="preciohora" type="java.lang.Double">

@@ -76,13 +76,22 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
         modeloTablaAlumnos.addColumn("Apellido");
         this.tablaAlumnos.setModel(modeloTablaAlumnos);
         Object[] fila = new Object[3];
+        try{
         for (ClaseAlumno claseAlumno : claseProfe.getClaseAlumnos()) {
-            if (claseAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
-                fila[0] = claseAlumno;
-                fila[1] = claseAlumno.getAlumno();
-                fila[2] = claseAlumno.getAlumno().getApellidoalumno();
-                modeloTablaAlumnos.addRow(fila);
+            for(ClaseAlumno claseAlu:miControlador.getListaClasesAlumnos()){
+                if(claseAlu.getIdclasealumno()==claseAlumno.getIdclasealumno()){
+                    if (claseAlu.getEstado().equalsIgnoreCase("ACTIVO")) {
+                        fila[0] = claseAlu;
+                        fila[1] = claseAlu.getAlumno();
+                        fila[2] = claseAlu.getAlumno().getApellidoalumno();
+                        modeloTablaAlumnos.addRow(fila);       
+                    }
+                    break;
+                }
             }
+        }
+        }catch(Notificaciones ex){
+            ex.printStackTrace();
         }
     }
     
@@ -273,10 +282,10 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
     private void btnDesinscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesinscribirActionPerformed
         if(!this.tablaAlumnos.getSelectionModel().isSelectionEmpty()){
             try {
-                ClaseAlumno claseAlumno = (ClaseAlumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0);
-                miControlador.bajaClaseAlumno(claseAlumno);
-                Alumno miAlumno = claseAlumno.getAlumno();
-                miControlador.bajaCuotaAutomatica(miAlumno.getCuotas(), claseAlumno);
+                miControlador.bajaClaseAlumno((ClaseAlumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0));
+                
+                Alumno miAlumno = ((ClaseAlumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0)).getAlumno();
+                miControlador.bajaCuotaAutomatica(miAlumno.getCuotas(), (ClaseAlumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0));
                 SwingUtilities.invokeLater(new Runnable(){public void run(){
                     cargarTablaAlumnos((ClaseProfesor) tablaPrincipal.getValueAt(tablaPrincipal.getSelectedRow(),0));
                 }});

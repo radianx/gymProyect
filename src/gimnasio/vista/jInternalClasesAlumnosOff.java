@@ -597,7 +597,8 @@ public class jInternalClasesAlumnosOff extends javax.swing.JInternalFrame {
 
     private void tablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseClicked
         if (!tablaAlumnos.getSelectionModel().isSelectionEmpty()) {
-            alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+            ClaseAlumno clase = (ClaseAlumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+            alumnoSeleccionado = clase.getAlumno();
             this.txtAlumno.setText(alumnoSeleccionado.getNombrealumno() + " " + alumnoSeleccionado.getApellidoalumno());
         }
     }//GEN-LAST:event_tablaAlumnosMouseClicked

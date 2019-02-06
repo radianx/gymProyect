@@ -196,14 +196,13 @@ public class ControladorPrincipal {
         System.out.println("Alumno detectado: " + unAlumno);
 
         for (HorarioAlumno horario : controladorHorarioAlumno.getListaHorariosAlumno(unaClaseAlumno)) {
-            System.out.println("For HorarioAlumno");
+            System.out.println("For HorarioAlumno en ControladorPrincipal");
             if (horario.getClaseAlumno().toString().equalsIgnoreCase(unaClaseAlumno.toString())) {
                 controladorHorarioAlumno.bajaHorario(horario);
                 System.out.println("Dando de baja horario: " + horario);
             }
         }
         this.controladorClaseAlumno.bajaClaseAlumno(unaClaseAlumno);
-        this.miPersistencia.actualizarInstancias();
     }
 
 //  <----------------------------------------------------ABM CUOTAS ---------------------------------------------------->
@@ -218,10 +217,6 @@ public class ControladorPrincipal {
 //    this.miPersistencia.persistirInstancia(nuevaCuota);
     }
 
-    public void bajaCuota(ClaseAlumno unaClaseAlumno, Date altaCuota) {
-        String estado = "BAJA";
-        Date vencimiento = parseDate("11/09/2001");
-    }
 
 //  <----------------------------------------------------ABM COBROS---------------------------------------------------->
 //  <----------------------------------------------------ABM PAGOS---------------------------------------------------->
@@ -373,6 +368,7 @@ public class ControladorPrincipal {
                                 if (horarioProfesor.getInicio().compareTo(horario.getInicio()) == 0) {
                                     //si es el mismo horario, asumo que
                                     //es el horarioAlumno correspondiente al horarioProfesor y lo pongo inactivo
+                                    System.out.println("dando de baja horario alumno: "+horario);
                                     horario.setEstado("INACTIVO");
                                     this.miPersistencia.persistirInstancia(horario);
                                 }
@@ -393,7 +389,6 @@ public class ControladorPrincipal {
         List<HorarioAlumno> refrescar = controladorHorarioAlumno.getListaHorariosAlumno(clase);
         List<HorarioAlumno> retorno = new ArrayList<>();
         for (HorarioAlumno horario : refrescar) {
-            miPersistencia.refrescar(horario);
             retorno.add(horario);
         }
         return retorno;
@@ -404,8 +399,8 @@ public class ControladorPrincipal {
         controladorAsistenciaAlumno.altaAsistenciaAlumno(asistencia, fecha);
     }
 
-    public void altaAsistenciaProfesor(AsistenciaProfesor asistencia) throws Notificaciones {
-        controladorAsistenciaProfesor.altaAsistenciaProfesor(asistencia);
+    public void altaAsistenciaProfesor(ClaseProfesor claseProfesor, Date fecha) throws Notificaciones {
+        controladorAsistenciaProfesor.altaAsistenciaProfesor(claseProfesor, fecha);
     }
 
     public void guardarSaldoAnterior(SaldoCuota saldoAnterior) throws Notificaciones {
@@ -547,7 +542,15 @@ public class ControladorPrincipal {
         }
     }
 
-    public void actualizarHorariosDeAlumnos(ClaseProfesor claseProfesor) throws Notificaciones {
+    public void actualizarHorariosDeAlumnos(boolean eliminar,ClaseProfesor claseProfesor) throws Notificaciones {
+        if(eliminar){
+            for (ClaseAlumno claseAlumno : claseProfesor.getClaseAlumnos()) {
+                this.bajaClaseAlumno(claseAlumno);
+                Set<Cuota>cuotas = new HashSet<>();
+                cuotas.addAll(this.getCuotasDeAlumno(claseAlumno.getAlumno()));
+                this.bajaCuotaAutomatica(cuotas, claseAlumno);
+            }
+        }
         for (ClaseAlumno claseAlumno : claseProfesor.getClaseAlumnos()) {
             List<ClaseAlumno> listaClasesAlumnos = controladorClaseAlumno.getListaClaseAlumno();
             for (ClaseAlumno claseAlu : listaClasesAlumnos) {
@@ -558,7 +561,17 @@ public class ControladorPrincipal {
                 }
             }
 
-            claseAlumno.getHorarios().clear();
+            for(HorarioAlumno horario: claseAlumno.getHorarios()){
+                for(HorarioAlumno horarioBD: miPersistencia.getHorariosAlumnos()){
+                    if (horarioBD.getIdHorarioAlumno() == horario.getIdHorarioAlumno()) {
+                        System.out.println("Dando de baja el horario de un alumno desde el controlador principal");
+                        horario.setEstado("BAJA");
+                        miPersistencia.persistirInstancia(horario);
+                        break;
+                    }
+                }
+            }
+            
             Set<HorarioAlumno> listaHorarios = new HashSet<>();
 
             for (HorarioProfesor horarioProfe : claseProfesor.getHorarios()) {

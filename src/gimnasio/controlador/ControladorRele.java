@@ -23,8 +23,10 @@ public class ControladorRele implements Runnable{
 
     public void abrirPuerta() throws InterruptedException {
         res = gestorRele.usb_relay_device_open_one_relay_channel(handle, 1);
+        System.out.println("Abriendo puerta...");
         Thread.sleep(3000);
         res = gestorRele.usb_relay_device_close_one_relay_channel(handle, 1);
+        System.out.println("Puerta Abierta.");
     }
 
     public ControladorRele() {

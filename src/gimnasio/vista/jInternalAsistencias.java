@@ -546,7 +546,7 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                 ClaseProfesor claseProfe = (ClaseProfesor) cmbClases.getSelectedItem();
                 AsistenciaProfesor unaAsistenciaProfe = new AsistenciaProfesor(claseProfe, fecha, "ACTIVO");
                 try{
-                    miControlador.altaAsistenciaProfesor(unaAsistenciaProfe);
+                    miControlador.altaAsistenciaProfesor(claseProfe, fecha);
                 }catch(Notificaciones ex){
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                     ex.printStackTrace();

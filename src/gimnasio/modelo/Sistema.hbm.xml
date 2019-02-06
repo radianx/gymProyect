@@ -6,7 +6,7 @@
     <class name="gimnasio.modelo.Sistema" table="sistema" schema="public">
         <id name="idsistema" type="string">
             <column name="idsistema" />
-            <generator class="assigned"></generator>
+            <generator class="increment"></generator>
         </id>
         <property name="propietario" type="string">
             <column name="propietario" not-null="true" />

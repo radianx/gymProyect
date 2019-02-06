@@ -331,10 +331,35 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="btnUsuarios">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="99" red="ff" type="rgb"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Usuarios"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUsuariosActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnPromociones">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="99" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Promociones"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPromocionesActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnAsistencia">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="99" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Asistencia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAsistenciaActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAlumnos">
@@ -353,6 +378,63 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProfesoresActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JButton" name="btnModalidad">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Modalidades"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModalidadActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnModalidadProfesor">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&lt;HTML&gt;&lt;center&gt;Modalidades&lt;br&gt;por Profesor&lt;/center&gt;&lt;/HTML&gt;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModalidadProfesorActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnIngresos">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="99" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;Ingresos&lt;br&gt;por Puerta&lt;/center&gt;&lt;/html&gt;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIngresosActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnCuotas">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="99" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;Cobro&lt;br&gt;de Cuotas&lt;/center&gt;&lt;/html&gt;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCuotasActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnAlumnosCuotas">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="99" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="&lt;HTML&gt;&lt;CENTER&gt;Clases y Cuotas&lt;BR&gt;de Alumnos&lt;/CENTER&gt;&lt;/HTML&gt;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlumnosCuotasActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnClaseALumno">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Inscripciones"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClaseALumnoActionPerformed"/>
+              </Events>
+            </Component>
             <Component class="javax.swing.JButton" name="btnClases">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Clases"/>
@@ -369,72 +451,11 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClasesProfesorActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnModalidad">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Modalidades"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModalidadActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnAsistencia">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Asistencia"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAsistenciaActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnIngresos">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;Ingresos&lt;br&gt;por Puerta&lt;/center&gt;&lt;/html&gt;"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIngresosActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnAlumnosCuotas">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;HTML&gt;&lt;CENTER&gt;Clases y Cuotas&lt;BR&gt;de Alumnos&lt;/CENTER&gt;&lt;/HTML&gt;"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlumnosCuotasActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnCuotas">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;Cobro&lt;br&gt;de Cuotas&lt;/center&gt;&lt;/html&gt;"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCuotasActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnClaseALumno">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Inscripciones"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClaseALumnoActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnModalidadProfesor">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;HTML&gt;&lt;center&gt;Modalidades&lt;br&gt;por Profesor&lt;/center&gt;&lt;/HTML&gt;"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModalidadProfesorActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnPromociones">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Promociones"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPromocionesActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="btnSinCLases">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="0" type="rgb"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;center&gt;Alumnos&lt;br&gt;Sin Clases&lt;/center&gt;&lt;/html&gt;"/>
               </Properties>
               <Events>
@@ -527,6 +548,12 @@
                 <Component class="javax.swing.JTextField" name="txtHabilitado">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="cc" red="ff" type="rgb"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="11" style="1"/>
+                    </Property>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -536,6 +563,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnAbrirPuerta">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="99" red="ff" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="&lt;HTML&gt;&lt;CENTER&gt;ABRIR&lt;BR&gt;PUERTA&lt;/CENTER&gt;&lt;/HTML&gt;"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[73, 20]"/>

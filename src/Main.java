@@ -149,13 +149,14 @@ public class Main {
         splashText("Inicializando Programa");
         splashProgress(10);
         ModeloPrincipal miModelo = new ModeloPrincipal();
-        ControladorRele miRele = new ControladorRele();
+//        ControladorRele miRele = new ControladorRele();
         splashText("Conectando con base de datos...");
         splashProgress(30);
         ControladorPrincipal miControlador = new ControladorPrincipal(miModelo);
         splashText("Verificando registros");
         splashProgress(70);
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        
         MainMenu menuPrincipal = new MainMenu(miControlador);
         splashText("Finalizado. Bienvenido");
         splashProgress(100);

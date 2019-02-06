@@ -20,7 +20,7 @@
         <property name="estado" type="string">
             <column name="estado" not-null="true" />
         </property>
-        <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" cascade="all" fetch="select">
+        <set name="claseProfesors" table="clase_profesor" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idclase" not-null="true" />
             </key>

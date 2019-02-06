@@ -30,6 +30,7 @@ public class ControladorCobroCuota {
         Date fechaCobro = Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
         CobroCuota cobroCuota = new CobroCuota(cuota, abono, fechaCobro, "ACTIVO");
         miPersistencia.persistirInstancia(cobroCuota);
+        miPersistencia.actualizarInstancias(cobroCuota);
         return cobroCuota;
     }
     

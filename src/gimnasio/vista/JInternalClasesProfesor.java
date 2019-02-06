@@ -389,7 +389,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         if (!this.tablaClasesProfesores.getSelectionModel().isSelectionEmpty()) {
             try {
                 List<ClaseAlumno> alumnosSinClase = miControlador.bajaClaseProfesor((ClaseProfesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(), 0));
-                miControlador.actualizarHorariosDeAlumnos((ClaseProfesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(), 0));
+                miControlador.actualizarHorariosDeAlumnos(true, (ClaseProfesor) tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(), 0));
                 for (ClaseAlumno alu : alumnosSinClase) {
                     System.out.println(alu);
                 }

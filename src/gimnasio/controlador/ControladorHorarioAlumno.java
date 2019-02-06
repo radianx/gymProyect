@@ -27,9 +27,11 @@ public class ControladorHorarioAlumno {
     }
     
     public void altaHorarioAlumno(HorarioAlumno unHorario) throws Notificaciones{
+        unHorario.getClaseAlumno().getHorarios().add(unHorario);
+        miPersistencia.persistirInstancia(unHorario.getClaseAlumno());
         this.miPersistencia.persistirInstancia(unHorario);
-        this.listaHorariosAlumnos = miPersistencia.getHorariosAlumnos();
         this.miPersistencia.actualizarInstancias();
+        this.listaHorariosAlumnos.add(unHorario);
     }
 
     public List<HorarioAlumno> getListaHorariosAlumno(ClaseAlumno clase) throws Notificaciones {

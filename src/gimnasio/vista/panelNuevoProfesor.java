@@ -513,7 +513,7 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
                 }
                 jInternalProfesores usuarios = (jInternalProfesores) this.getParent().getParent().getParent().getParent().getParent();
                 usuarios.cargarTabla();
-                
+                JOptionPane.showMessageDialog(null, "Profesor dado de alta correctamente");
                 this.limpiarCampos();
             } else {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario.");

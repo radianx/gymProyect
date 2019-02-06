@@ -120,10 +120,9 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         SaldoCuota saldoCuota = null;
             for(Cuota cuota:miControlador.getCuotasDeAlumno(unAlumno)){
                 if(cuota.getEstado().equalsIgnoreCase("GENERADO")){
-                    fila[0] = cuota.getClaseProfesor().getClase();
-                    String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
-                    fila[1] = time;
-                    time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
+                    fila[0] = cuota.getClaseProfesor().getClase();                
+                    fila[1] = cuota;
+                    String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
                     fila[2] = time;
                     fila[3] = cuota.getMonto();
                     if(cuota.getCobroCuotas()!=null){
@@ -138,9 +137,8 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
                     modeloTablaCuotasDeAlumno.addRow(fila);
                  }if(cuota.getEstado().equalsIgnoreCase("SALDO")){
                     fila[0] = cuota.getClaseProfesor().getClase();
-                    String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
-                    fila[1] = time;
-                    time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
+                    fila[1] = cuota;
+                    String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
                     fila[2] = time;
                     if(cuota.getCobroCuotas()!=null){
                         for(CobroCuota cobro:cuota.getCobroCuotas()){
@@ -586,8 +584,12 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jScrollPane2MouseClicked
 
     private void btnCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCobrarActionPerformed
-        
-        MainMenu.abrirCobro(alumnoSeleccionado);
+        if(!tablaCuotasDeAlumno.getSelectionModel().isSelectionEmpty()){
+            Cuota cuota = (Cuota) tablaCuotasDeAlumno.getValueAt(tablaCuotasDeAlumno.getSelectedRow(),1);
+            MainMenu.abrirCobro(alumnoSeleccionado, cuota);
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar el item a pagar.");
+        }
     }//GEN-LAST:event_btnCobrarActionPerformed
 
     private void tablaAlumnosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseEntered

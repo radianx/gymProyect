@@ -208,8 +208,15 @@ public class ControladorAcceso {
                 acceso = true;
             }
             if(acceso){
-                Thread hilo = new Thread(new ControladorRele());
-                hilo.start();
+                ControladorRele rele = new ControladorRele();
+                try{
+                    rele.abrirPuerta();
+                }catch(InterruptedException e){
+                    JOptionPane.showMessageDialog(null,"Excepcion de rele: "+e.getMessage());
+                    e.printStackTrace();
+                }
+//                Thread hilo = new Thread(new ControladorRele());
+//                hilo.start();
             }else{
                 JOptionPane.showMessageDialog(null, textoMostrar);
                 texto.setText(textoMostrar);
