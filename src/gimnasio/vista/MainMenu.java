@@ -14,6 +14,7 @@ import gimnasio.modelo.Cuota;
 import gimnasio.modelo.Usuario;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.beans.PropertyVetoException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import java.io.File;
@@ -1131,7 +1132,12 @@ public class MainMenu extends javax.swing.JFrame {
 
                 JInternalFrame internal = (JInternalFrame) frame;
                 internal.toFront();
-
+                internal.grabFocus();
+                try {
+                    internal.setSelected(true);
+                } catch (PropertyVetoException ex) {
+                    ex.printStackTrace();
+                }
                 break;
             }
         }

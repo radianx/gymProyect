@@ -58,6 +58,7 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
     public panelClaseProfesorHorario(ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
+        this.timePicker2.setTime(timePicker1.getTime().plusHours(1));
         cargarTablaDiasClases();
 
     }
@@ -425,7 +426,7 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
             //miControlador.actualizarHorariosDeAlumnos(claseProfesor);
             //
             profesorSeleccionado.getClaseProfesors().add(claseProfesor);
-            miControlador.altaProfesor(profesorSeleccionado);
+//            miControlador.altaProfesor(profesorSeleccionado);
             JInternalClasesProfesor internal = (JInternalClasesProfesor) this.getParent().getParent().getParent().getParent();
             internal.cargarTablaClaseProfesores();
             internal.cargarTablaHorarios();

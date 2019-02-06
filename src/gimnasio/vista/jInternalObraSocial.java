@@ -279,21 +279,11 @@ public class jInternalObraSocial extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        if(!panelNewOS.isVisible()){
-            cambiarPanel(panelNewOS, panelPrincipal);
-            this.cargarTabla();
-            this.modeloTabla.fireTableDataChanged();
-            this.txtBuscar.grabFocus();
-        }
+
     }//GEN-LAST:event_formMouseEntered
 
     private void panelPrincipalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMouseEntered
-        if(!panelNewOS.isVisible()){
-            cambiarPanel(panelNewOS, panelPrincipal);
-            this.cargarTabla();
-            this.modeloTabla.fireTableDataChanged();
-            this.txtBuscar.grabFocus();
-        }
+
     }//GEN-LAST:event_panelPrincipalMouseEntered
 
 
