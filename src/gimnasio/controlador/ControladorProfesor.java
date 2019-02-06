@@ -28,8 +28,13 @@ public class ControladorProfesor {
     }
     
     public void altaProfesor(Profesor profesor) throws Notificaciones {
-            this.miPersistencia.persistirInstancia(profesor);
-            this.listaProfesores = this.miPersistencia.getProfesores();
+        this.listaProfesores = this.miPersistencia.getProfesores();
+        for(Profesor profe:listaProfesores){
+            if(profe.getUsuario().getIdusuario()==profesor.getUsuario().getIdusuario()){
+                throw new Notificaciones("El usuario "+profesor.getUsuario().getNombreusuario() +" ya tiene asignado un profesor");
+            }
+        }
+        this.miPersistencia.persistirInstancia(profesor);
     }
 
     public Profesor buscarProfesor(String nombreProfesor, String apellidoProfesor){
