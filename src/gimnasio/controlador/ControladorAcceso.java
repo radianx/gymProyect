@@ -142,7 +142,7 @@ public class ControladorAcceso {
                                     try{
                                         cuota = listaCuotas.get(selector - 2);
                                     }catch(ArrayIndexOutOfBoundsException e){
-                                        JOptionPane.showMessageDialog(null, "Alumno no posee cuotas en condiciones, acceso denegado.");
+                                        textoMostrar="Alumno no posee cuotas en condiciones, acceso denegado.";
                                         break;
                                     }
                                     System.out.println("id de la cuota seleccionada: "+cuota.getIdcuota());
@@ -170,12 +170,11 @@ public class ControladorAcceso {
                                         break;
                                     }
                                     if(cuota.getEstado().equalsIgnoreCase("GENERADO")){
-                                        JOptionPane.showMessageDialog(null, "Alumno adeuda cuota, acceso denegado.");
+                                        textoMostrar="Alumno adeuda cuota, acceso denegado.";
                                         break;
                                     }
                                 }else{
-                                    textoMostrar = "Alumno Fuera de Horario";
-                                    JOptionPane.showMessageDialog(null, "Alumno fuera de horario, acceso denegado.");
+                                    textoMostrar ="Alumno fuera de horario, acceso denegado.";
                                     break;
                                 }
                             }
