@@ -17,6 +17,7 @@ import gimnasio.modelo.HorarioProfesor;
 import gimnasio.modelo.Personal;
 import gimnasio.modelo.Profesor;
 import gimnasio.modelo.Usuario;
+import gimnasio.vista.MainMenu;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.Instant;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -134,7 +137,16 @@ public class ControladorAcceso {
 
                                     listaCuotas = miControlador.getCuotasDeAlumno(claseAlu.getAlumno());
                                     int selector = listaCuotas.size();
-                                    Cuota cuota = listaCuotas.get(selector - 2);
+                                    System.out.println("cantiadad de cuotas del alumno: "+selector);
+                                    Cuota cuota = null;
+                                    try{
+                                        cuota = listaCuotas.get(selector - 2);
+                                    }catch(ArrayIndexOutOfBoundsException e){
+                                        JOptionPane.showMessageDialog(null, "Alumno no posee cuotas en condiciones, acceso denegado.");
+                                        break;
+                                    }
+                                    System.out.println("id de la cuota seleccionada: "+cuota.getIdcuota());
+                                    System.out.println("estado de la cuota: "+cuota.getEstado());
                                     LocalDate fecha = LocalDate.now();
                                     LocalDate vencimiento = Instant.ofEpochMilli(cuota.getVencimiento().getTime())
                                             .atZone(ZoneId.systemDefault())
@@ -157,8 +169,14 @@ public class ControladorAcceso {
                                         miControlador.altaAsistenciaAlumno(claseAlu, new Date());
                                         break;
                                     }
+                                    if(cuota.getEstado().equalsIgnoreCase("GENERADO")){
+                                        JOptionPane.showMessageDialog(null, "Alumno adeuda cuota, acceso denegado.");
+                                        break;
+                                    }
                                 }else{
                                     textoMostrar = "Alumno Fuera de Horario";
+                                    JOptionPane.showMessageDialog(null, "Alumno fuera de horario, acceso denegado.");
+                                    break;
                                 }
                             }
                         }
@@ -189,9 +207,30 @@ public class ControladorAcceso {
                 fila[1] = sdf.format(ahorag);
                 fila[2] = miUsuario.getEstado();
                 modeloTabla.insertRow(0, fila);
-                miControlador.nuevoIngresoPuerta(ahorag, miUsuario, modeloTabla, tabla);
+                miControlador.nuevoIngresoPuerta(ahorag, miUsuario, modeloTabla, tabla);   
                 acceso = true;
                 //       "BUSCAR CLASE Y MARCAR ASISTENCIA"
+                Set<Profesor> setProfesor = miUsuario.getProfesors();
+                Profesor profesor = null;
+                for(Profesor profeDB:miControlador.getListaProfesores()){
+                    for(Profesor profe:setProfesor){
+                        if(profeDB.getIdprofesor()==profe.getIdprofesor()){
+                            profesor = profeDB;
+                            break;
+                        }
+                    }
+                }
+                ClaseProfesor claseProfesor = null;
+                Set<ClaseProfesor> setClases = profesor.getClaseProfesors();
+                for(ClaseProfesor claseProfeDB:miControlador.getListaClaseProfesor()){
+                    for(ClaseProfesor claseProfe:setClases){
+                        if(claseProfeDB.getIdclaseprofesor()==claseProfe.getIdclaseprofesor()){
+                            claseProfesor = claseProfeDB;
+                        }
+                    }
+                }
+                
+                miControlador.altaAsistenciaProfesor(false,claseProfesor, new Date());
             }
             if (miUsuario.getEstado().equalsIgnoreCase("ADMIN")
                     || miUsuario.getEstado().equalsIgnoreCase("OPERADOR")
@@ -208,15 +247,12 @@ public class ControladorAcceso {
                 acceso = true;
             }
             if(acceso){
-                ControladorRele rele = new ControladorRele();
-                try{
-                    rele.abrirPuerta();
-                }catch(InterruptedException e){
-                    JOptionPane.showMessageDialog(null,"Excepcion de rele: "+e.getMessage());
-                    e.printStackTrace();
+                try {
+                    MainMenu.rele.abrirPuerta();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
                 }
-//                Thread hilo = new Thread(new ControladorRele());
-//                hilo.start();
+
             }else{
                 JOptionPane.showMessageDialog(null, textoMostrar);
                 texto.setText(textoMostrar);

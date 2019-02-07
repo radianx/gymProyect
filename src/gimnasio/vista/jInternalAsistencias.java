@@ -6,6 +6,7 @@
 package gimnasio.vista;
 
 import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.sun.glass.ui.Window;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
@@ -65,24 +67,44 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
     }
 
     public void cargarTablaAsistencias() {
-        modeloAsistencias = new DefaultTableModel();
+        modeloAsistencias = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         modeloAsistencias.addColumn("Nombre");
         modeloAsistencias.addColumn("Apellido");
         modeloAsistencias.addColumn("Hora Ingreso");
-        Object[] fila = new Object[3];
+        modeloAsistencias.addColumn("Hora Egreso");
+        Object[] fila = new Object[4];
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         try {
             for (AsistenciaAlumno asistAlumno : miControlador.getAsistenciasAlumnoDeHoy()) {
-                fila[0] = asistAlumno.getClaseAlumno().getAlumno().getNombrealumno();
-                fila[1] = asistAlumno.getClaseAlumno().getAlumno().getApellidoalumno();
-                fila[2] = sdf.format(asistAlumno.getIngreso());
-                modeloAsistencias.addRow(fila);
+                if (asistAlumno.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    fila[0] = asistAlumno.getClaseAlumno().getAlumno().getNombrealumno();
+                    fila[1] = asistAlumno.getClaseAlumno().getAlumno().getApellidoalumno();
+                    fila[2] = asistAlumno;
+                    if (asistAlumno.getSalida() != null) {
+                        fila[3] = sdf.format(asistAlumno.getSalida());
+                    } else {
+                        fila[3] = "Salida no registrada";
+                    }
+                    modeloAsistencias.insertRow(0, fila);
+                }
             }
             for (AsistenciaProfesor asistProfe : miControlador.getAsistenciasProfesorDeHoy()) {
-                fila[0] = asistProfe.getClaseProfesor().getProfesor().getNombreprofesor();
-                fila[1] = asistProfe.getClaseProfesor().getProfesor().getApellidoprofesor();
-                fila[2] = sdf.format(asistProfe.getIngreso());
-                modeloAsistencias.addRow(fila);
+                if (asistProfe.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    fila[0] = asistProfe.getClaseProfesor().getProfesor().getNombreprofesor();
+                    fila[1] = asistProfe.getClaseProfesor().getProfesor().getApellidoprofesor();
+                    fila[2] = asistProfe;
+                    if (asistProfe.getSalida() != null) {
+                        fila[3] = sdf.format(asistProfe.getSalida());
+                    } else {
+                        fila[3] = "Salida no registrada";
+                    }
+                    modeloAsistencias.insertRow(0, fila);
+                }
             }
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -179,10 +201,11 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaAsistencias = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
@@ -211,8 +234,6 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         cmbClases = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
 
-        jButton1.setText("jButton1");
-
         setClosable(true);
         setTitle("ASISTENCIAS");
         setPreferredSize(new java.awt.Dimension(650, 520));
@@ -237,20 +258,43 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         ));
         jScrollPane3.setViewportView(tablaAsistencias);
 
+        jButton2.setText("<html><center>Marcar<br>Egreso</center></html>");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("<html><center>Eliminar<br>Asistencia</center></html>");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -447,7 +491,7 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -513,9 +557,10 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
             } else if (seleccion instanceof Profesor) {
                 Profesor unProfe = (Profesor) seleccion;
                 ClaseProfesor claseProfe = (ClaseProfesor) cmbClases.getSelectedItem();
+                System.out.println("INTERNAL ASISTENCIAS: ClaseProfesor id: "+claseProfe.getIdclaseprofesor());
                 AsistenciaProfesor unaAsistenciaProfe = new AsistenciaProfesor(claseProfe, fecha, "ACTIVO");
                 try{
-                    miControlador.altaAsistenciaProfesor(claseProfe, fecha);
+                    miControlador.altaAsistenciaProfesor(true,claseProfe, fecha);
                 }catch(Notificaciones ex){
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                     ex.printStackTrace();
@@ -561,6 +606,57 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tablaAlumnosMouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       if(!this.tablaAsistencias.getSelectionModel().isSelectionEmpty()){
+           JDialogFecha dialog = new JDialogFecha((JFrame)SwingUtilities.getWindowAncestor(this), true);
+           dialog.setLocationRelativeTo(null);
+           Date fecha = dialog.dameFecha();
+           Object o = tablaAsistencias.getValueAt(tablaAsistencias.getSelectedRow(),2);
+           try{
+               if (o instanceof AsistenciaAlumno) {
+                   AsistenciaAlumno asist = (AsistenciaAlumno) o;
+                   asist.setSalida(fecha);
+                   miControlador.getMiPersistencia().persistirInstancia(asist);
+               }
+               if(o instanceof AsistenciaProfesor){
+                   AsistenciaProfesor asist = (AsistenciaProfesor) o;
+                   asist.setSalida(fecha);
+                   miControlador.getMiPersistencia().persistirInstancia(asist);
+               }
+           }catch(Notificaciones ex){
+               ex.printStackTrace();
+           }finally{
+               SwingUtilities.invokeLater(() -> {
+                   this.cargarTablaAsistencias();
+               });
+           }
+       }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       if(!this.tablaAsistencias.getSelectionModel().isSelectionEmpty()){
+           Object o = tablaAsistencias.getValueAt(tablaAsistencias.getSelectedRow(),2);
+           try{
+               if (o instanceof AsistenciaAlumno) {
+                   AsistenciaAlumno asist = (AsistenciaAlumno) o;
+                   asist.setEstado("BAJA");
+                   miControlador.getMiPersistencia().persistirInstancia(asist);
+               }
+               if(o instanceof AsistenciaProfesor){
+                   AsistenciaProfesor asist = (AsistenciaProfesor) o;
+                   asist.setEstado("BAJA");
+                   miControlador.getMiPersistencia().persistirInstancia(asist);
+               }
+           }catch(Notificaciones ex){
+               ex.printStackTrace();
+           }finally{
+               SwingUtilities.invokeLater(() -> {
+                   this.cargarTablaAsistencias();
+               });
+           }
+       }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -570,6 +666,7 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cmbClases;
     private com.github.lgooddatepicker.components.DateTimePicker dateTimePicker1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

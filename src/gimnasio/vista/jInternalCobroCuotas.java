@@ -59,9 +59,9 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
     public void cargarTablaCuotasAlumno(){
         modeloTablaCuotasDeAlumno = new DefaultTableModel();
         modeloTablaCuotasDeAlumno.addColumn("Clase");
-        modeloTablaCuotasDeAlumno.addColumn("Fecha Emision");
         modeloTablaCuotasDeAlumno.addColumn("Vencimiento");
-        modeloTablaCuotasDeAlumno.addColumn("Monto");
+        modeloTablaCuotasDeAlumno.addColumn("Prox. Vencimiento");
+        modeloTablaCuotasDeAlumno.addColumn("Monto a Pagar");
         this.tablaCuotasDeAlumno.setModel(modeloTablaCuotasDeAlumno);
     }
     
@@ -70,7 +70,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         modeloTablaVencimientos.addColumn("Nombre");
         modeloTablaVencimientos.addColumn("Apellido");
         modeloTablaVencimientos.addColumn("Vencimiento");
-        modeloTablaVencimientos.addColumn("Monto");
+        modeloTablaVencimientos.addColumn("Monto a pagar");
         modeloTablaVencimientos.addColumn("Telefono");
         this.tablaVencimientos.setModel(modeloTablaVencimientos);
         Object[]fila = new Object[5];
@@ -92,7 +92,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         modeloTablaCuotasVencidas.addColumn("Nombre");
         modeloTablaCuotasVencidas.addColumn("Apellido");
         modeloTablaCuotasVencidas.addColumn("Vencimiento");
-        modeloTablaCuotasVencidas.addColumn("Monto");
+        modeloTablaCuotasVencidas.addColumn("Monto a pagar");
         modeloTablaCuotasVencidas.addColumn("Telefono");
         this.tablaCuotasVencidas.setModel(modeloTablaCuotasVencidas);
         Object[]fila = new Object[5];
@@ -112,9 +112,9 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
     public void cargarTablaCuotasAlumno(Alumno unAlumno) throws Notificaciones{
         modeloTablaCuotasDeAlumno = new DefaultTableModel();
         modeloTablaCuotasDeAlumno.addColumn("Clase");
-        modeloTablaCuotasDeAlumno.addColumn("Fecha Emision");
         modeloTablaCuotasDeAlumno.addColumn("Vencimiento");
-        modeloTablaCuotasDeAlumno.addColumn("Monto");
+        modeloTablaCuotasDeAlumno.addColumn("Prox. Vencimiento");
+        modeloTablaCuotasDeAlumno.addColumn("Monto a pagar");
         this.tablaCuotasDeAlumno.setModel(modeloTablaCuotasDeAlumno);
         Object[]fila = new Object[5];
         SaldoCuota saldoCuota = null;

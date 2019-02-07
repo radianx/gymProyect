@@ -8,7 +8,7 @@
             <column name="idAsistenciaProfesor" />
             <generator class="increment"></generator>
         </id>
-        <many-to-one name="claseProfesor" class="gimnasio.modelo.ClaseProfesor" update="false" insert="false" fetch="select">
+        <many-to-one name="claseProfesor" class="gimnasio.modelo.ClaseProfesor"  fetch="select">
             <column name="idclaseprofesor" not-null="true" />
         </many-to-one>
         <property name="ingreso" type="timestamp">

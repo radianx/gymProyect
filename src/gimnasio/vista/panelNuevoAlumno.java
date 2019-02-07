@@ -578,7 +578,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     }//GEN-LAST:event_btnActivarActionPerformed
 
     private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        jDialogSeleccionarUsuario seleccion = new jDialogSeleccionarUsuario(null, true,miControlador);
+        jDialogSeleccionarUsuario seleccion = new jDialogSeleccionarUsuario(null, false,miControlador);
         this.usuarioSeleccionado = seleccion.showDialog();
     }//GEN-LAST:event_btnUsuarioActionPerformed
 

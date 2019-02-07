@@ -396,11 +396,11 @@ public class ControladorPrincipal {
 
     public void altaAsistenciaAlumno(ClaseAlumno asistencia, Date fecha) throws Notificaciones {
 
-        controladorAsistenciaAlumno.altaAsistenciaAlumno(asistencia, fecha);
+        controladorAsistenciaAlumno.altaAsistenciaAlumno(false,asistencia, fecha);
     }
 
-    public void altaAsistenciaProfesor(ClaseProfesor claseProfesor, Date fecha) throws Notificaciones {
-        controladorAsistenciaProfesor.altaAsistenciaProfesor(claseProfesor, fecha);
+    public void altaAsistenciaProfesor(boolean manual,ClaseProfesor claseProfesor, Date fecha) throws Notificaciones {
+        controladorAsistenciaProfesor.altaAsistenciaProfesor(manual,claseProfesor, fecha);
     }
 
     public void guardarSaldoAnterior(SaldoCuota saldoAnterior) throws Notificaciones {

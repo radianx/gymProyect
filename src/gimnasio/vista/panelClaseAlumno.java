@@ -69,7 +69,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         cargarTablaHorarios();
         cargarComboClaseProfesor();
         rowSorterAlumnos = new TableRowSorter<>(this.tablaAlumnos.getModel());
-        tablaAlumnos.setRowSorter(rowSorterClases);
+        tablaAlumnos.setRowSorter(rowSorterAlumnos);
     }
 
     public void cargarAlumnos() {
@@ -88,8 +88,8 @@ public class panelClaseAlumno extends javax.swing.JPanel {
             }
 
             this.tablaAlumnos.setModel(modeloTabla);
-            TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tablaAlumnos.getModel());
-            this.tablaAlumnos.setRowSorter(rowSorter);
+            rowSorterAlumnos = new TableRowSorter<>(tablaAlumnos.getModel());
+            this.tablaAlumnos.setRowSorter(rowSorterAlumnos);
         } catch (Notificaciones ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();

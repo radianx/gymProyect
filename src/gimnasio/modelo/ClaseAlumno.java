@@ -163,7 +163,9 @@ public class ClaseAlumno  implements java.io.Serializable {
         for(AsistenciaAlumno asistenciaAlu:this.asistenciaAlumnos){
             LocalDate ingreso =  Instant.ofEpochMilli(asistenciaAlu.getIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             if(ingreso.isAfter(lunes.minusDays(1)) && ingreso.isBefore(domingo.plusDays(1))){
-                asistenciasPorSemana.add(asistenciaAlu);
+                if (asistenciaAlu.getEstado().equals("ACTIVO")) {
+                    asistenciasPorSemana.add(asistenciaAlu);
+                }
             }
         }
         return asistenciasPorSemana;

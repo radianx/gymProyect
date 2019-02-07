@@ -58,7 +58,7 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
     panelNuevoUsuario panelNewUser;
     String text = "";
     
-    public jInternalUsuarios(ControladorPrincipal controlador) {
+    public jInternalUsuarios(boolean cambiar, ControladorPrincipal controlador) {
         miControlador = controlador;
         initComponents();
         this.btnEliminar.setEnabled(false);
@@ -68,6 +68,9 @@ public class jInternalUsuarios extends javax.swing.JInternalFrame {
         this.jPanel1.add(panelNewUser);
         tablaUsuarios.clearSelection();
         this.cargarTabla();
+        if(cambiar){
+            cambiarPanel(panelPrincipal2,panelNewUser);
+        }
         
     }
     

@@ -239,9 +239,9 @@ public class jDialogCuota extends javax.swing.JDialog {
             alumno.getCuotas().add(unaCuota);
             try{
                 miControlador.altaCuota(unaCuota);
-                miControlador.altaAlumno(alumno);
             }catch(Notificaciones ex){
                 JOptionPane.showMessageDialog(null, ex.getMessage());
+                ex.printStackTrace();
             }
             this.dispose();
         }else{

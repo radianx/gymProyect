@@ -398,15 +398,15 @@ public class ControladorHuella implements Runnable {
                     boolean acceso = false;
 
                     if (miUsuario.getEstado().equalsIgnoreCase("INACTIVO")) {
-                        texto.setText(miUsuario.getNombreusuario() + " DESACTIVADO");
+                        SwingUtilities.invokeLater(() -> {
+                            texto.setText(miUsuario.getNombreusuario() + " DESACTIVADO");
+                        });
                     }
-                    
+
                     //Lee la plantilla de la base de datos
                     //Envia la plantilla creada al objeto contendor de Template del componente de huella digital
-
                     // Compara las caracteriticas de la huella recientemente capturda con 
                     // alguna plantilla guardada en la base de datos que coincide con ese tipo
-
                     //compara las plantilas (actual vs bd)
                     //Si encuentra correspondencia dibuja el mapa
                     //e indica el nombre de la persona que coincidió.
@@ -414,14 +414,18 @@ public class ControladorHuella implements Runnable {
                         //crea la imagen de los datos guardado de las huellas guardadas en la base de datos
                         //JOptionPane.showMessageDialog(null, "Las huella capturada es de " + nombre, "Verificacion de Huella", JOptionPane.INFORMATION_MESSAGE);                                              
                         if (miUsuario.getNombreusuario() != null) {
-                            texto.setText(miUsuario.getNombreusuario());
-                        }
-                        if (miUsuario.getFoto() != null) {
-                            drawPicture(createImageFromBytes(miUsuario.getFoto()));
-                        }
+                            SwingUtilities.invokeLater(() -> {
+                                texto.setText(miUsuario.getNombreusuario());
+                            });
+                            if (miUsuario.getFoto() != null) {
+                                SwingUtilities.invokeLater(() -> {
+                                    drawPicture(createImageFromBytes(miUsuario.getFoto()));
+                                });
+                            }
 
-                        controladorAcceso.verificarAcceso(texto, modeloTabla, tabla, miUsuario);
+                            controladorAcceso.verificarAcceso(texto, modeloTabla, tabla, miUsuario);
 
+                        }
                     }
                 }
             }

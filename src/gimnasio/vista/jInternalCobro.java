@@ -464,7 +464,7 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
         int seleccion = JOptionPane.showOptionDialog(null, "¿Confirma pago de Cuota?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
         if (seleccion == 0) {
             try {
-                Double abono = Double.valueOf(txtMontoAbonar.getText());
+                Double abono = Double.valueOf(this.txtMontoTotal.getText());
 
                 LocalDate fecha = datePicker.getDate();
 

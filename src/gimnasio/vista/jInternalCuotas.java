@@ -116,7 +116,11 @@ public class jInternalCuotas extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Alumno:");
 
+        txtAlumno.setEditable(false);
+
         jLabel3.setText("Clase:");
+
+        txtClase.setEditable(false);
 
         jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -175,7 +179,7 @@ public class jInternalCuotas extends javax.swing.JInternalFrame {
             cuota.setAlumno(alumno);
             alumno.getCuotas().add(cuota);
             miControlador.altaCuota(cuota);
-            miControlador.altaAlumno(alumno);
+            miControlador.getMiPersistencia().persistirInstancia(alumno);
         }catch(Notificaciones ex){
             JOptionPane.showMessageDialog(null,ex.getLocalizedMessage());
             ex.printStackTrace();

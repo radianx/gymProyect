@@ -85,7 +85,7 @@ public class JInternalCuotasCobradas extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         btnCerrar = new javax.swing.JButton();
 
-        setTitle("INGRESOS POR PUERTA");
+        setTitle("CUOTAS YA PAGADAS");
         setMinimumSize(new java.awt.Dimension(500, 400));
         setPreferredSize(new java.awt.Dimension(600, 450));
 

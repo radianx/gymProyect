@@ -169,8 +169,8 @@ public class jInternalReportes extends javax.swing.JInternalFrame {
                             JOptionCajasAbiertas cajasAbiertas = new JOptionCajasAbiertas(null, true, miControlador);
                             cajasAbiertas.setVisible(true);
                             break;
-                        case 3: //Mostrar de todas formas
-                            if (desde.isBefore(hasta)) {
+                        case 2: //Mostrar de todas formas
+                            if (desde.isBefore(hasta) || desde.isEqual(hasta)) {
                                 try {
                                     miControlador.generarReporteDias(desde, hasta);
                                 } catch (Notificaciones ex) {
