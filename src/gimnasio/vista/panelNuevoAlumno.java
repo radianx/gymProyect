@@ -13,6 +13,7 @@ import gimnasio.modelo.Alumno;
 import gimnasio.modelo.Contacto;
 import gimnasio.modelo.Obrasocial;
 import gimnasio.modelo.Usuario;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -549,8 +550,8 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario.");
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al guardar alumno: " + ex.getMessage());
+        } catch (Notificaciones | HeadlessException | NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una obra social");
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -578,7 +579,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     }//GEN-LAST:event_btnActivarActionPerformed
 
     private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        jDialogSeleccionarUsuario seleccion = new jDialogSeleccionarUsuario(null, true,miControlador);
+        jDialogSeleccionarUsuario seleccion = new jDialogSeleccionarUsuario(null, false,miControlador);
         this.usuarioSeleccionado = seleccion.showDialog();
     }//GEN-LAST:event_btnUsuarioActionPerformed
 

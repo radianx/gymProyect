@@ -93,18 +93,74 @@ public class ControladorReporte {
             tabla.addCell(celda2);
             tabla.addCell(celda3);
             
-            IngresosPuerta primer = listaIngresos.get(0);
-            
-            LocalDate elDia = Instant.ofEpochMilli(primer.getHoraIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-            
-            Paragraph fechaPrimer = new Paragraph(elDia.format(DateTimeFormatter.ofPattern("dd/MM/uuuu")));
-            document.add(fechaPrimer);
-            
+            IngresosPuerta primer = null;
+            if (!listaIngresos.isEmpty()) {
+                primer = listaIngresos.get(0);
+            }
+            LocalDate elDia = null;
+            Paragraph fechaPrimer = null;
+            if (primer != null) {
+                elDia = Instant.ofEpochMilli(primer.getHoraIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+
+                fechaPrimer = new Paragraph(elDia.format(DateTimeFormatter.ofPattern("dd/MM/uuuu")));
+                document.add(fechaPrimer);
+            }else{
+                JOptionPane.showMessageDialog(null, "No hay registros de puerta aun.");
+            }
             for (IngresosPuerta ingreso : listaIngresos) {
                 LocalDate fecha = Instant.ofEpochMilli(ingreso.getHoraIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-                
-                if (fecha.isEqual(elDia)) {
-                    if (fecha.isAfter(desde.minusDays(1)) && fecha.isBefore(hasta.plusDays(1))) {
+                if (elDia != null) {
+                    if (fecha.isEqual(elDia)) {
+                        if (fecha.isAfter(desde.minusDays(1)) && fecha.isBefore(hasta.plusDays(1))) {
+                            celda1 = new PdfPCell(new Paragraph(ingreso.getUsuario().getNombreusuario()));
+                            if (ingreso.getHoraIngreso() != null) {
+                                LocalTime hIngreso = Instant.ofEpochMilli(ingreso.getHoraIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalTime();
+                                celda2 = new PdfPCell(new Paragraph(hIngreso.format(DateTimeFormatter.ofPattern("HH:mm:ss"))));
+                            } else {
+                                celda2 = new PdfPCell(new Paragraph("Mal registro de ingreso"));
+                            }
+                            if (ingreso.getHoraEgreso() != null) {
+                                LocalTime hEgreso = Instant.ofEpochMilli(ingreso.getHoraEgreso().getTime()).atZone(ZoneId.systemDefault()).toLocalTime();
+                                celda3 = new PdfPCell(new Paragraph(hEgreso.format(DateTimeFormatter.ofPattern("HH:mm:ss"))));
+                            } else {
+                                celda3 = new PdfPCell(new Paragraph("egreso no registrado"));
+                            }
+
+                            tabla.addCell(celda1);
+                            tabla.addCell(celda2);
+                            tabla.addCell(celda3);
+                        }
+                    } else {
+                        document.add(tabla);
+                        tabla = new PdfPTable(3);
+                        tabla.setWidthPercentage(100);
+                        tabla.setSpacingBefore(10f);
+                        tabla.setSpacingAfter(10f);
+
+                        //Configura ancho de columnas
+                        tabla.setWidths(columnWidths);
+
+                        celda1 = new PdfPCell(new Paragraph("Usuario", fuenteNegrita));
+                        celda1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celda1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                        celda2 = new PdfPCell(new Paragraph("Hora Ingreso", fuenteNegrita));
+                        celda2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celda2.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                        celda3 = new PdfPCell(new Paragraph("Hora Egreso", fuenteNegrita));
+                        celda3.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celda3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                        tabla.addCell(celda1);
+                        tabla.addCell(celda2);
+                        tabla.addCell(celda3);
+
+                        elDia = Instant.ofEpochMilli(ingreso.getHoraIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+
+                        fechaPrimer = new Paragraph(elDia.format(DateTimeFormatter.ofPattern("dd/MM/uuuu")));
+                        document.add(fechaPrimer);
+
                         celda1 = new PdfPCell(new Paragraph(ingreso.getUsuario().getNombreusuario()));
                         if (ingreso.getHoraIngreso() != null) {
                             LocalTime hIngreso = Instant.ofEpochMilli(ingreso.getHoraIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalTime();
@@ -123,55 +179,6 @@ public class ControladorReporte {
                         tabla.addCell(celda2);
                         tabla.addCell(celda3);
                     }
-                }else{
-                    document.add(tabla);
-                    tabla = new PdfPTable(3);
-                    tabla.setWidthPercentage(100);
-                    tabla.setSpacingBefore(10f);
-                    tabla.setSpacingAfter(10f);
-
-                    //Configura ancho de columnas
-                    tabla.setWidths(columnWidths);
-
-                    celda1 = new PdfPCell(new Paragraph("Usuario", fuenteNegrita));
-                    celda1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    celda1.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-                    celda2 = new PdfPCell(new Paragraph("Hora Ingreso", fuenteNegrita));
-                    celda2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    celda2.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-                    celda3 = new PdfPCell(new Paragraph("Hora Egreso", fuenteNegrita));
-                    celda3.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    celda3.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-                    tabla.addCell(celda1);
-                    tabla.addCell(celda2);
-                    tabla.addCell(celda3);
-                    
-                    
-                    elDia = Instant.ofEpochMilli(ingreso.getHoraIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-
-                    fechaPrimer = new Paragraph(elDia.format(DateTimeFormatter.ofPattern("dd/MM/uuuu")));
-                    document.add(fechaPrimer);
-
-                    celda1 = new PdfPCell(new Paragraph(ingreso.getUsuario().getNombreusuario()));
-                    if (ingreso.getHoraIngreso() != null) {
-                        LocalTime hIngreso = Instant.ofEpochMilli(ingreso.getHoraIngreso().getTime()).atZone(ZoneId.systemDefault()).toLocalTime();
-                        celda2 = new PdfPCell(new Paragraph(hIngreso.format(DateTimeFormatter.ofPattern("HH:mm:ss"))));
-                    } else {
-                        celda2 = new PdfPCell(new Paragraph("Mal registro de ingreso"));
-                    }
-                    if (ingreso.getHoraEgreso() != null) {
-                        LocalTime hEgreso = Instant.ofEpochMilli(ingreso.getHoraEgreso().getTime()).atZone(ZoneId.systemDefault()).toLocalTime();
-                        celda3 = new PdfPCell(new Paragraph(hEgreso.format(DateTimeFormatter.ofPattern("HH:mm:ss"))));
-                    } else {
-                        celda3 = new PdfPCell(new Paragraph("egreso no registrado"));
-                    }
-
-                    tabla.addCell(celda1);
-                    tabla.addCell(celda2);
-                    tabla.addCell(celda3);
                 }
             }
             document.add(tabla);
@@ -188,8 +195,7 @@ public class ControladorReporte {
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         }
-}
- 
+    }
 
 
   

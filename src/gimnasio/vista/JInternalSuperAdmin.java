@@ -15,6 +15,7 @@ public class JInternalSuperAdmin extends javax.swing.JInternalFrame {
 
     ControladorPrincipal miControlador;
     PanelControlCajas panelCajas;
+    PanelControlMovimientos panelMovimientos;
     /**
      * Creates new form JInternalSuperAdmin
      */
@@ -22,6 +23,8 @@ public class JInternalSuperAdmin extends javax.swing.JInternalFrame {
         this.miControlador = miControlador;
         initComponents();
         panelCajas = new PanelControlCajas(this.miControlador);
+        panelMovimientos = new PanelControlMovimientos(this.miControlador);
+        this.add(panelMovimientos);
         this.add(panelCajas);
         
     }
@@ -43,7 +46,7 @@ public class JInternalSuperAdmin extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
 
         setTitle("Administracion avanzada de Cajas y Movimientos");
-        setPreferredSize(new java.awt.Dimension(560, 350));
+        setPreferredSize(new java.awt.Dimension(610, 350));
         getContentPane().setLayout(new java.awt.CardLayout());
 
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -51,6 +54,11 @@ public class JInternalSuperAdmin extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton3.setText("Cerrar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton3);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_END);
@@ -66,6 +74,11 @@ public class JInternalSuperAdmin extends javax.swing.JInternalFrame {
         jPanel3.add(jButton1, new java.awt.GridBagConstraints());
 
         jButton2.setText("Control de Movimientos");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel3.add(jButton2, new java.awt.GridBagConstraints());
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -79,6 +92,15 @@ public class JInternalSuperAdmin extends javax.swing.JInternalFrame {
         this.panelCajas.setVisible(true);
         this.jPanel1.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.panelMovimientos.setVisible(true);
+        this.jPanel1.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

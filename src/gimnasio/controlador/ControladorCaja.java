@@ -129,6 +129,7 @@ public class ControladorCaja {
 
     public List<Cajadiaria> dameCajas() throws Notificaciones{
        this.listaCajaDiaria = miPersistencia.getCajaDiarias();
+       Collections.reverse(listaCajaDiaria);
        return listaCajaDiaria;
     }
     

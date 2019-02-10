@@ -678,9 +678,9 @@ public class panelClaseAlumno extends javax.swing.JPanel {
 
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
         if (!this.tablaHorariosAlu.getSelectionModel().isSelectionEmpty()) {
-            HorarioProfesor horario = (HorarioProfesor) this.modeloTablaHorarioClase.getValueAt(tablaHorariosAlu.getSelectedRow(), 0);
+            HorarioProfesor horario = (HorarioProfesor) this.modeloTablaHorarios.getValueAt(tablaHorariosAlu.getSelectedRow(), 0);
 
-            modeloTablaHorarioClase.removeRow(tablaHorariosAlu.getSelectedRow());
+            modeloTablaHorarios.removeRow(tablaHorariosAlu.getSelectedRow());
             Object[] rowData = new Object[5];
 
             rowData[0] = horario;
@@ -691,8 +691,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                     + horario.getClaseProfesor().getProfesor().getApellidoprofesor();
             rowData[4] = horario.getPromocion();
 
-            modeloTablaHorarios.addRow(rowData);
-            this.tablaSuperiorHorarios.setModel(modeloTablaHorarios);
+            modeloTablaHorarioClase.addRow(rowData);
         }
     }//GEN-LAST:event_btnQuitarActionPerformed
 

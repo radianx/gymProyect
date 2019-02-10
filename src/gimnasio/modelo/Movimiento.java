@@ -6,6 +6,7 @@
 package gimnasio.modelo;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -170,7 +171,7 @@ public class Movimiento implements Serializable, Comparable {
 
     @Override
     public String toString() {
-        return "gimnasio.imagenes.Movimiento[ idmovimiento=" + idmovimiento + " ]";
+        return String.valueOf(idmovimiento);
     }
 
     @Override
@@ -186,6 +187,13 @@ public class Movimiento implements Serializable, Comparable {
             i = 1;
         }
         return i;
+    }
+
+    public String getHoraString() {
+        String text = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        text = sdf.format(this.hora);
+        return text;
     }
     
 }
