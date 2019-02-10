@@ -216,8 +216,9 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         btnAgregar = new javax.swing.JButton();
         btnQuitar = new javax.swing.JButton();
         btnPromociones = new javax.swing.JButton();
-        cmbDiasPorSemana = new javax.swing.JComboBox<>();
+        jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        cmbDiasPorSemana = new javax.swing.JComboBox<>();
 
         setMinimumSize(new java.awt.Dimension(600, 500));
         setPreferredSize(new java.awt.Dimension(600, 500));
@@ -482,7 +483,13 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         });
         jPanel5.add(btnPromociones);
 
+        jPanel6.setBackground(new java.awt.Color(255, 153, 0));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setText("Dias por Semana:");
+
         cmbDiasPorSemana.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7" }));
+        cmbDiasPorSemana.setSelectedIndex(4);
         cmbDiasPorSemana.setEnabled(false);
         cmbDiasPorSemana.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -490,34 +497,54 @@ public class panelClaseAlumno extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("Dias por Semana:");
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap(104, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmbDiasPorSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbDiasPorSemana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(txtBuscarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBuscarAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnBuscarAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                .addGap(77, 77, 77)
                                 .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(cmbClases, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbDiasPorSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -528,22 +555,18 @@ public class panelClaseAlumno extends javax.swing.JPanel {
                         .addGap(16, 16, 16)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtBuscarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscarAlumno)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cmbClases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel17)))
+                            .addComponent(btnBuscarAlumno)
+                            .addComponent(jLabel17)))
+                    .addComponent(cmbClases, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cmbDiasPorSemana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
         );
 
         add(jPanel4, java.awt.BorderLayout.PAGE_START);
@@ -552,22 +575,6 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_btnCerrarActionPerformed
-
-    private void txtBuscarAlumnoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarAlumnoKeyReleased
-        String text = this.txtBuscarAlumno.getText();
-        if (text.trim().length() == 0) {
-            rowSorterAlumnos.setRowFilter(null);
-        } else {
-            rowSorterAlumnos.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-        }
-    }//GEN-LAST:event_txtBuscarAlumnoKeyReleased
-
-    private void tablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseClicked
-        if (!tablaAlumnos.getSelectionModel().isSelectionEmpty()) {
-            alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
-            this.txtAlumno.setText(alumnoSeleccionado.getNombrealumno() + " " + alumnoSeleccionado.getApellidoalumno());
-        }
-    }//GEN-LAST:event_tablaAlumnosMouseClicked
 
     private void btnInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirActionPerformed
         if (alumnoSeleccionado != null && claseSeleccionada != null) {
@@ -634,70 +641,9 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecioActionPerformed
 
-    private void btnBuscarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarAlumnoActionPerformed
-        String text = this.txtBuscarAlumno.getText();
-        if (text.trim().length() == 0) {
-            rowSorterAlumnos.setRowFilter(null);
-        } else {
-            rowSorterAlumnos.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-        }
-    }//GEN-LAST:event_btnBuscarAlumnoActionPerformed
-
-    private void cmbDiasPorSemanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDiasPorSemanaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbDiasPorSemanaActionPerformed
-
     private void tablaHorariosAluMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaHorariosAluMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaHorariosAluMouseClicked
-
-    private void tablaSuperiorHorariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSuperiorHorariosMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaSuperiorHorariosMouseClicked
-
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (!this.tablaSuperiorHorarios.getSelectionModel().isSelectionEmpty()) {
-            HorarioProfesor horario = (HorarioProfesor) this.modeloTablaHorarioClase.getValueAt(tablaSuperiorHorarios.getSelectedRow(), 0);
-            modeloTablaHorarioClase.removeRow(tablaSuperiorHorarios.getSelectedRow());
-
-            Object[] rowData = new Object[5];
-
-            rowData[0] = horario;
-            rowData[1] = horario.getInicioString();
-            rowData[2] = horario.getFinString();
-
-            rowData[3] = horario.getClaseProfesor().getProfesor().getNombreprofesor() + " "
-                    + horario.getClaseProfesor().getProfesor().getApellidoprofesor();
-
-            rowData[4] = horario.getPromocion();
-            modeloTablaHorarios.addRow(rowData);
-            this.tablaHorariosAlu.setModel(modeloTablaHorarios);
-            this.cmbClases.setEnabled(false);
-        }
-    }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
-        if (!this.tablaHorariosAlu.getSelectionModel().isSelectionEmpty()) {
-            HorarioProfesor horario = (HorarioProfesor) this.modeloTablaHorarios.getValueAt(tablaHorariosAlu.getSelectedRow(), 0);
-
-            modeloTablaHorarios.removeRow(tablaHorariosAlu.getSelectedRow());
-            Object[] rowData = new Object[5];
-
-            rowData[0] = horario;
-            rowData[1] = horario.getInicioString();
-            rowData[2] = horario.getFinString();
-
-            rowData[3] = horario.getClaseProfesor().getProfesor().getNombreprofesor() + " "
-                    + horario.getClaseProfesor().getProfesor().getApellidoprofesor();
-            rowData[4] = horario.getPromocion();
-
-            modeloTablaHorarioClase.addRow(rowData);
-        }
-    }//GEN-LAST:event_btnQuitarActionPerformed
-
-    private void tablaAlumnosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseEntered
-
-    }//GEN-LAST:event_tablaAlumnosMouseEntered
 
     private void tablaHorariosAluMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaHorariosAluMouseEntered
         // TODO add your handling code here:
@@ -724,6 +670,55 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         this.jCheckBox1.setSelected(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void cmbDiasPorSemanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDiasPorSemanaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbDiasPorSemanaActionPerformed
+
+    private void btnPromocionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromocionesActionPerformed
+        MainMenu menu = (MainMenu) SwingUtilities.getWindowAncestor(this);
+        menu.abrirPromociones();
+    }//GEN-LAST:event_btnPromocionesActionPerformed
+
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        if (!this.tablaHorariosAlu.getSelectionModel().isSelectionEmpty()) {
+            HorarioProfesor horario = (HorarioProfesor) this.modeloTablaHorarios.getValueAt(tablaHorariosAlu.getSelectedRow(), 0);
+
+            modeloTablaHorarios.removeRow(tablaHorariosAlu.getSelectedRow());
+            Object[] rowData = new Object[5];
+
+            rowData[0] = horario;
+            rowData[1] = horario.getInicioString();
+            rowData[2] = horario.getFinString();
+
+            rowData[3] = horario.getClaseProfesor().getProfesor().getNombreprofesor() + " "
+            + horario.getClaseProfesor().getProfesor().getApellidoprofesor();
+            rowData[4] = horario.getPromocion();
+
+            modeloTablaHorarioClase.addRow(rowData);
+        }
+    }//GEN-LAST:event_btnQuitarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if (!this.tablaSuperiorHorarios.getSelectionModel().isSelectionEmpty()) {
+            HorarioProfesor horario = (HorarioProfesor) this.modeloTablaHorarioClase.getValueAt(tablaSuperiorHorarios.getSelectedRow(), 0);
+            modeloTablaHorarioClase.removeRow(tablaSuperiorHorarios.getSelectedRow());
+
+            Object[] rowData = new Object[5];
+
+            rowData[0] = horario;
+            rowData[1] = horario.getInicioString();
+            rowData[2] = horario.getFinString();
+
+            rowData[3] = horario.getClaseProfesor().getProfesor().getNombreprofesor() + " "
+            + horario.getClaseProfesor().getProfesor().getApellidoprofesor();
+
+            rowData[4] = horario.getPromocion();
+            modeloTablaHorarios.addRow(rowData);
+            this.tablaHorariosAlu.setModel(modeloTablaHorarios);
+            this.cmbClases.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
     private void cmbClasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbClasesActionPerformed
         String text = cmbClases.getSelectedItem().toString();
         System.out.println("Seleccionando: " + text);
@@ -747,16 +742,10 @@ public class panelClaseAlumno extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
         }
-
     }//GEN-LAST:event_cmbClasesActionPerformed
 
-    private void btnPromocionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromocionesActionPerformed
-        MainMenu menu = (MainMenu) SwingUtilities.getWindowAncestor(this);
-        menu.abrirPromociones();
-    }//GEN-LAST:event_btnPromocionesActionPerformed
-
     private void cmbClasesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbClasesItemStateChanged
-       String text = cmbClases.getSelectedItem().toString();
+        String text = cmbClases.getSelectedItem().toString();
         System.out.println("Seleccionando: " + text);
         if (text.equalsIgnoreCase("--Seleccionar--")) {
             this.modeloTablaHorarioClase.setRowCount(0);
@@ -778,8 +767,40 @@ public class panelClaseAlumno extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
         }
-
     }//GEN-LAST:event_cmbClasesItemStateChanged
+
+    private void tablaSuperiorHorariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSuperiorHorariosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaSuperiorHorariosMouseClicked
+
+    private void tablaAlumnosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseEntered
+
+    }//GEN-LAST:event_tablaAlumnosMouseEntered
+
+    private void tablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseClicked
+        if (!tablaAlumnos.getSelectionModel().isSelectionEmpty()) {
+            alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+            this.txtAlumno.setText(alumnoSeleccionado.getNombrealumno() + " " + alumnoSeleccionado.getApellidoalumno());
+        }
+    }//GEN-LAST:event_tablaAlumnosMouseClicked
+
+    private void btnBuscarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarAlumnoActionPerformed
+        String text = this.txtBuscarAlumno.getText();
+        if (text.trim().length() == 0) {
+            rowSorterAlumnos.setRowFilter(null);
+        } else {
+            rowSorterAlumnos.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        }
+    }//GEN-LAST:event_btnBuscarAlumnoActionPerformed
+
+    private void txtBuscarAlumnoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarAlumnoKeyReleased
+        String text = this.txtBuscarAlumno.getText();
+        if (text.trim().length() == 0) {
+            rowSorterAlumnos.setRowFilter(null);
+        } else {
+            rowSorterAlumnos.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        }
+    }//GEN-LAST:event_txtBuscarAlumnoKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -804,6 +825,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
