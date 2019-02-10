@@ -148,19 +148,12 @@ public class ClaseProfesor implements java.io.Serializable {
             return false;
         }
         final ClaseProfesor other = (ClaseProfesor) obj;
-        if (this.idclaseprofesor != other.idclaseprofesor) {
-            return false;
-        }
-        if (!Objects.equals(this.clase, other.clase)) {
-            return false;
-        }
-        if (!Objects.equals(this.modalidad, other.modalidad)) {
-            return false;
-        }
-        if (!Objects.equals(this.profesor, other.profesor)) {
+        if (!this.clase.getTipoclase().equalsIgnoreCase(other.clase.getTipoclase())) {
             return false;
         }
         return true;
     }
+
+
 
 }

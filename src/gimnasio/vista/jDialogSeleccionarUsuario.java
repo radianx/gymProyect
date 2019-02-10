@@ -36,7 +36,12 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
     }
     
     public void cargarTabla() {
-            modeloTabla = new DefaultTableModel();
+            modeloTabla = new DefaultTableModel(){
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             modeloTabla.addColumn("Nombre");
             Object[] fila = new Object[1];
 

@@ -112,9 +112,10 @@ public class Clase  implements java.io.Serializable {
             return false;
         }
         final Clase other = (Clase) obj;
-        if( this.idclase != other.idclase){
+        if(!this.tipoclase.equalsIgnoreCase(other.tipoclase)){
             return false;
         }
+        
         return true;
     }
     

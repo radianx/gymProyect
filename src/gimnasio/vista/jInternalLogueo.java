@@ -6,7 +6,9 @@
 package gimnasio.vista;
 
 import gimnasio.controlador.ControladorPrincipal;
+import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Usuario;
+import static gimnasio.vista.MainMenu.miControlador;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -23,13 +25,13 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
     private String usuario;
     private String pass;
     private ControladorPrincipal controlador;
-    
+
     public jInternalLogueo(ControladorPrincipal controlador) {
         this.controlador = controlador;
         initComponents();
         this.txtUsuario.grabFocus();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -120,39 +122,69 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAceptarActionPerformed
-        if(!this.txtUsuario.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()){
+        if (!this.txtUsuario.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
             Usuario unUsuario = controlador.buscarUsuario(txtUsuario.getText(), new String(txtContrasena.getPassword()));
-            if(unUsuario == null){
+            if (unUsuario == null) {
                 JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
                 this.txtUsuario.setText("");
                 this.txtContrasena.setText("");
                 this.txtUsuario.requestFocusInWindow();
-            }else{
+            } else {
                 MainMenu.loguearUsuario(unUsuario);
                 JOptionPane.showMessageDialog(null, "Logueado con exito");
+                String[] opciones = {"SI", "NO"};
+                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea marcar todas las salidas que no se registraron?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+                switch (seleccion) {
+                    case 0:
+                        try {
+                            miControlador.marcarTodasLasSalidas();
+                        } catch (Notificaciones ex) {
+                            JOptionPane.showMessageDialog(null, "Excepcion: Alguna salida no ha podido ser registrada");
+                            ex.printStackTrace();
+                        }
+                        break;
+                    case 1:
+                        System.out.println("Procediendo sin marcar salidas anteriores");
+                        break;
+                }
                 this.dispose();
             }
         }
     }//GEN-LAST:event_jBtnAceptarActionPerformed
 
     private void txtContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContrasenaActionPerformed
-            if (!this.txtUsuario.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
-                Usuario unUsuario = controlador.buscarUsuario(txtUsuario.getText(), new String(txtContrasena.getPassword()));
-                if (unUsuario == null) {
-                    JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
-                    this.txtUsuario.setText("");
-                    this.txtContrasena.setText("");
-                    this.txtUsuario.requestFocusInWindow();
-                } else {
-                    MainMenu.loguearUsuario(unUsuario);
-                    JOptionPane.showMessageDialog(null, "Logueado con exito");
-                    this.dispose();
+        if (!this.txtUsuario.getText().isEmpty() && !this.txtContrasena.getText().isEmpty()) {
+            Usuario unUsuario = controlador.buscarUsuario(txtUsuario.getText(), new String(txtContrasena.getPassword()));
+            if (unUsuario == null) {
+                JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
+                this.txtUsuario.setText("");
+                this.txtContrasena.setText("");
+                this.txtUsuario.requestFocusInWindow();
+            } else {
+                MainMenu.loguearUsuario(unUsuario);
+                JOptionPane.showMessageDialog(null, "Logueado con exito");
+                String[] opciones = {"SI", "NO"};
+                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea marcar todas las salidas que no se registraron?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+                switch (seleccion) {
+                    case 0:
+                        try {
+                            miControlador.marcarTodasLasSalidas();
+                        } catch (Notificaciones ex) {
+                            JOptionPane.showMessageDialog(null, "Excepcion: Alguna salida no ha podido ser registrada");
+                            ex.printStackTrace();
+                        }
+                        break;
+                    case 1:
+                        System.out.println("Procediendo sin marcar salidas anteriores");
+                        break;
                 }
+                this.dispose();
             }
+        }
     }//GEN-LAST:event_txtContrasenaActionPerformed
 
     private void txtContrasenaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContrasenaKeyTyped
-        if(evt.equals(KeyEvent.VK_ENTER)){
+        if (evt.equals(KeyEvent.VK_ENTER)) {
         }
     }//GEN-LAST:event_txtContrasenaKeyTyped
 

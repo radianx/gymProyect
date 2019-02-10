@@ -96,4 +96,14 @@ public class ControladorIngresosPuerta {
 
     }
 
+    public void marcarTodasLasSalidas() throws Notificaciones {
+        listaIngresosPuerta = miPersistencia.getIngresosPuerta();
+        for(IngresosPuerta ingreso:listaIngresosPuerta){
+            if(ingreso.getHoraEgreso()==null){
+                ingreso.setHoraEgreso(new Date());
+                miPersistencia.persistirInstancia(ingreso);
+            }
+        }
+    }
+
 }

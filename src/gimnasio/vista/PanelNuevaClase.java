@@ -306,6 +306,11 @@ public class PanelNuevaClase extends javax.swing.JPanel {
                     CargadorTabla.clasesInactivas(tablaClasesInactivas, miControlador);
                 }});
                 this.setVisible(false);
+                claseRecibida=null;
+                this.txtBuscar.setText("");
+                this.txtTipoClase.setText("");
+                this.txtNombreClase.setText("");
+                this.txtAlumnosMax.setText("");
                 this.btnActivar.setEnabled(false);
             } catch (Notificaciones ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());

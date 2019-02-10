@@ -111,9 +111,13 @@ public class Cajadiaria  implements java.io.Serializable, Comparable {
     }
 
     public String getCierreString() {
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        sdf.applyPattern("HH:mm");
-        return sdf.format(cierre);
+        String text = "Sin cierre";
+        if(cierre !=null){
+            SimpleDateFormat sdf = new SimpleDateFormat();
+            sdf.applyPattern("HH:mm");
+            text =sdf.format(cierre);
+        }
+        return text;
     }
     
     

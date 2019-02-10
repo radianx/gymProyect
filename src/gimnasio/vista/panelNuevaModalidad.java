@@ -282,9 +282,12 @@ public class panelNuevaModalidad extends javax.swing.JPanel {
             try {
                 Modalidad modalidad = new Modalidad(this.txtNombreModalidad1.getText(),this.txtDescripcion1.getText());
                 miControlador.altaModalidad(modalidad);
-                SwingUtilities.invokeLater(new Runnable(){public void run(){
+                SwingUtilities.invokeLater(() -> {
                     cargarTabla();
-                }});
+                });
+                this.txtBuscar1.setText("");
+                this.txtDescripcion1.setText("");
+                this.txtNombreModalidad1.setText("");
                 this.setVisible(false);
                 this.btnActivar.setEnabled(false);
             } catch (Notificaciones ex) {

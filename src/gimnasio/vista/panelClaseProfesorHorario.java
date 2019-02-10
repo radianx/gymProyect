@@ -517,9 +517,13 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
     private void btnAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregar1ActionPerformed
         try {
             if (!tablaDiasClase.getSelectionModel().isSelectionEmpty()) {
-                HorarioProfesor horario = (HorarioProfesor) tablaDiasClase.getValueAt(this.tablaDiasClase.getSelectedRow(), 1);
-                miControlador.bajaHorarioProfesor(horario);
-                this.modeloTablaDias.removeRow(this.tablaDiasClase.getSelectedRow());
+                if(!seRecibieronDatos){
+                    this.modeloTablaDias.removeRow(this.tablaDiasClase.getSelectedRow());
+                }else{
+                    HorarioProfesor horario = (HorarioProfesor) tablaDiasClase.getValueAt(this.tablaDiasClase.getSelectedRow(), 1);
+                    miControlador.bajaHorarioProfesor(horario);
+                    this.modeloTablaDias.removeRow(this.tablaDiasClase.getSelectedRow());
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Debe selecionar un Horario para Quitarlo");
             }

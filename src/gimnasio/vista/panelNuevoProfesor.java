@@ -629,7 +629,7 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
         this.txtTelefono2.setText("");
         this.txtTelefonoEmergencia.setText("");
         this.txtBuscar.setText("");
-        this.datePicker1.setText("");
+        this.datePicker1.setDateToToday();
         this.btnActivar.setEnabled(false);
         this.usuarioSeleccionado = null;
     }

@@ -486,9 +486,16 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                     if (nuevoSaldo > 0) {
                         generarNuevoSaldo(unCobroCuota, nuevoSaldo);
                     }
-
-                    jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono);
-                    nuevaCuota.setVisible(true);
+                    
+                    Double montoAbonar = Double.valueOf(this.txtMontoAbonar.getText());
+                    
+                    if (abono > montoAbonar) {
+                        jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, montoAbonar);
+                        nuevaCuota.setVisible(true);
+                    } else {
+                        jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono);
+                        nuevaCuota.setVisible(true);
+                    }
 
                     MainMenu.nuevoMovimiento(elAlumno, cuota, abono);
 

@@ -415,11 +415,11 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
+            rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
             rowSorter.setRowFilter(null);
             tablaClasesProfesores.setRowSorter(rowSorter);
         } else {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
+            rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
             tablaClasesProfesores.setRowSorter(rowSorter);
         }
@@ -428,11 +428,11 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         text = this.txtBuscar.getText();
         if (text.trim().length() == 0) {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
+            rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
             rowSorter.setRowFilter(null);
             tablaClasesProfesores.setRowSorter(rowSorter);
         } else {
-            TableRowSorter rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
+            rowSorter = new TableRowSorter<>(this.tablaClasesProfesores.getModel());
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
             tablaClasesProfesores.setRowSorter(rowSorter);
         }

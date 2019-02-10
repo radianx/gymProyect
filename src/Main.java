@@ -145,7 +145,7 @@ public class Main {
         
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, Notificaciones {
         //pruebaInicio();
-        try{
+//        try{
         splashInit();
         splashText("Inicializando Programa");
         splashProgress(10);
@@ -175,47 +175,47 @@ public class Main {
         menuPrincipal.setIconImage(image.getImage());
         menuPrincipal.setLocationByPlatform(true);
         menuPrincipal.setVisible(true);
-        Thread.setDefaultUncaughtExceptionHandler((Thread t, Throwable e) -> {
-            try {
-                LocalDateTime diahora = LocalDateTime.now();
-                String minuto = String.valueOf(diahora.getMinute());
-                String hora = String.valueOf(diahora.getHour());
-                String dia = String.valueOf(diahora.getDayOfMonth());
-                String mes = String.valueOf(diahora.getMonthValue());
-                String ano = String.valueOf(diahora.getYear());
-                String usuario = MainMenu.getUsuario().getNombreusuario();
-                FileWriter fw = new FileWriter("C:\\Users\\usuario_gym\\desktop\\Software\\dist\\registros\\" + ano + "_" + mes + "_"+dia+"_"+hora+"_"+minuto+"_"+usuario+".txt", true);
-                PrintWriter pw = new PrintWriter(fw);
-                e.printStackTrace(pw);
-                pw.close();
-                JOptionPane.showMessageDialog(null, "El sistema ha capturado un error para ser corregido.\nEl programa va a cerrarse, disculpe las molestias");
-                Thread.sleep(2000);
-                System.exit(0);
-            } catch (IOException | InterruptedException ex1) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-            });
-        }catch(Notificaciones | ClassNotFoundException | IllegalAccessException | IllegalStateException | InstantiationException | UnsupportedLookAndFeelException ex){
-            try {
-                LocalDateTime diahora = LocalDateTime.now();
-                String minuto = String.valueOf(diahora.getMinute());
-                String hora = String.valueOf(diahora.getHour());
-                String dia = String.valueOf(diahora.getDayOfMonth());
-                String mes = String.valueOf(diahora.getMonthValue());
-                String ano = String.valueOf(diahora.getYear());
-                String usuario = MainMenu.getUsuario().getNombreusuario();
-                FileWriter fw = new FileWriter("C:\\Users\\usuario_gym\\desktop\\Software\\dist\\registros\\" + ano + "_" + mes + "_"+dia+"_"+hora+"_"+minuto+"_"+usuario+".txt", true);
-                PrintWriter pw = new PrintWriter (fw);
-                ex.printStackTrace(pw);
-                pw.close();
-                JOptionPane.showMessageDialog(null, "El sistema ha capturado un error para ser corregido.\nEl programa va a cerrarse, disculpe las molestias");
-                Thread.sleep(2000);
-                System.exit(0);
-            } catch (IOException | InterruptedException ex1) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-
-        }
+//        Thread.setDefaultUncaughtExceptionHandler((Thread t, Throwable e) -> {
+//            try {
+//                LocalDateTime diahora = LocalDateTime.now();
+//                String minuto = String.valueOf(diahora.getMinute());
+//                String hora = String.valueOf(diahora.getHour());
+//                String dia = String.valueOf(diahora.getDayOfMonth());
+//                String mes = String.valueOf(diahora.getMonthValue());
+//                String ano = String.valueOf(diahora.getYear());
+//                String usuario = MainMenu.getUsuario().getNombreusuario();
+//                FileWriter fw = new FileWriter("C:\\Users\\usuario_gym\\desktop\\Software\\dist\\registros\\" + ano + "_" + mes + "_"+dia+"_"+hora+"_"+minuto+"_"+usuario+".txt", true);
+//                PrintWriter pw = new PrintWriter(fw);
+//                e.printStackTrace(pw);
+//                pw.close();
+//                JOptionPane.showMessageDialog(null, "El sistema ha capturado un error para ser corregido.\nEl programa va a cerrarse, disculpe las molestias");
+//                Thread.sleep(2000);
+//                System.exit(0);
+//            } catch (IOException | InterruptedException ex1) {
+//                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex1);
+//            }
+//            });
+//        }catch(Notificaciones | ClassNotFoundException | IllegalAccessException | IllegalStateException | InstantiationException | UnsupportedLookAndFeelException ex){
+//            try {
+//                LocalDateTime diahora = LocalDateTime.now();
+//                String minuto = String.valueOf(diahora.getMinute());
+//                String hora = String.valueOf(diahora.getHour());
+//                String dia = String.valueOf(diahora.getDayOfMonth());
+//                String mes = String.valueOf(diahora.getMonthValue());
+//                String ano = String.valueOf(diahora.getYear());
+//                String usuario = MainMenu.getUsuario().getNombreusuario();
+//                FileWriter fw = new FileWriter("C:\\Users\\usuario_gym\\desktop\\Software\\dist\\registros\\" + ano + "_" + mes + "_"+dia+"_"+hora+"_"+minuto+"_"+usuario+".txt", true);
+//                PrintWriter pw = new PrintWriter (fw);
+//                ex.printStackTrace(pw);
+//                pw.close();
+//                JOptionPane.showMessageDialog(null, "El sistema ha capturado un error para ser corregido.\nEl programa va a cerrarse, disculpe las molestias");
+//                Thread.sleep(2000);
+//                System.exit(0);
+//            } catch (IOException | InterruptedException ex1) {
+//                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex1);
+//            }
+//
+//        }
     }
     
 }

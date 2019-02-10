@@ -32,8 +32,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -96,11 +100,18 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         }
     }
 
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
+    }
+  
     public void cargarComboClaseProfesor() {
         cmbClases.removeAllItems();
         cmbClases.addItem("--Seleccionar--");
         try {
-            for (ClaseProfesor clase : miControlador.getListaClaseProfesor()) {
+            List<ClaseProfesor> listaClases = miControlador.getListaClaseProfesor();
+            listaClases = listaClases.stream().filter(distinctByKey(ClaseProfesor::getClase)).collect(Collectors.toList());            
+            for (ClaseProfesor clase : listaClases){
                 if (clase.getEstado().equalsIgnoreCase("ACTIVO")) {
                     if (clase.getClase().getTipoclase().equalsIgnoreCase("LIBRE")) {
                         cmbClases.addItem(clase.toString() + "-Libre-");
@@ -431,6 +442,11 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         });
         jScrollPane7.setViewportView(tablaSuperiorHorarios);
 
+        cmbClases.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbClasesItemStateChanged(evt);
+            }
+        });
         cmbClases.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbClasesActionPerformed(evt);
@@ -724,7 +740,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         try {
             List<ClaseProfesor> clase = miControlador.dameClaseProfesor(text);
             for (ClaseProfesor claseProf : clase) {
-                this.cargarTablaHorarios(false,claseProf);
+                this.cargarTablaHorarios(true,claseProf);
                 claseSeleccionada = claseProf;
                 this.txtClase.setText(claseSeleccionada.toString());
             }
@@ -739,6 +755,32 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         MainMenu menu = (MainMenu) SwingUtilities.getWindowAncestor(this);
         menu.abrirPromociones();
     }//GEN-LAST:event_btnPromocionesActionPerformed
+
+    private void cmbClasesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbClasesItemStateChanged
+       String text = cmbClases.getSelectedItem().toString();
+        System.out.println("Seleccionando: " + text);
+        if (text.equalsIgnoreCase("--Seleccionar--")) {
+            this.modeloTablaHorarioClase.setRowCount(0);
+        }
+        if (text.contains("-Libre-")) {
+            this.cmbDiasPorSemana.setEnabled(true);
+            text = text.replace("-Libre-", "");
+            System.out.println(text);
+        }
+
+        try {
+            List<ClaseProfesor> clase = miControlador.dameClaseProfesor(text);
+            for (ClaseProfesor claseProf : clase) {
+                this.cargarTablaHorarios(true,claseProf);
+                claseSeleccionada = claseProf;
+                this.txtClase.setText(claseSeleccionada.toString());
+            }
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            ex.printStackTrace();
+        }
+
+    }//GEN-LAST:event_cmbClasesItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

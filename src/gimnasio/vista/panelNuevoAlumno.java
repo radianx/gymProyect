@@ -578,7 +578,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     }//GEN-LAST:event_btnActivarActionPerformed
 
     private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        jDialogSeleccionarUsuario seleccion = new jDialogSeleccionarUsuario(null, false,miControlador);
+        jDialogSeleccionarUsuario seleccion = new jDialogSeleccionarUsuario(null, true,miControlador);
         this.usuarioSeleccionado = seleccion.showDialog();
     }//GEN-LAST:event_btnUsuarioActionPerformed
 
@@ -670,7 +670,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         this.txtTelefono2.setText("");
         this.txtTelefonoEmergencia.setText("");
         this.txtBuscar.setText("");
-        this.datePicker1.setText("");
+        this.datePicker1.setDateToToday();
         this.btnActivar.setEnabled(false);
     }
 }

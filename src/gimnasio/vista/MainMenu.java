@@ -48,12 +48,12 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu(ControladorPrincipal controlador) {
         this.miControlador = controlador;
-        initComponents();
+        initComponents();     
         this.btnAsistencia.setEnabled(mostrar);
         this.btnCuotas.setEnabled(mostrar);
         this.btnUsuarios.setEnabled(mostrar);
         this.comprobarAperturaCaja();
-
+        
         lector = new ControladorHuella(miControlador, controlador.getMiPersistencia(), this.txtHabilitado, this.lblFoto, this.tablaAsistencias);
         jScrollPane2.getVerticalScrollBar().setValue(jScrollPane2.getVerticalScrollBar().getMaximum());
         Thread thread_object = new Thread(lector);
@@ -71,7 +71,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         opcionesDefault();
     }
-
+    
 
     public static void iniciarEscaner() {
         synchronized(lector){
@@ -215,6 +215,8 @@ public class MainMenu extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenuItem25 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem14 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem28 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -226,6 +228,8 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuCaja = new javax.swing.JMenu();
         jMIAperturaCaja = new javax.swing.JMenuItem();
         jMICierreCaja = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMIModificarCajas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISTEMA DE GESTION COUNTRYGYM");
@@ -599,7 +603,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         jMenu5.setText("Asistencia");
 
-        jMenuItem25.setText("Reporte Asistencias");
+        jMenuItem25.setText("Abrir Asistencias");
         jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem25ActionPerformed(evt);
@@ -609,6 +613,15 @@ public class MainMenu extends javax.swing.JFrame {
 
         jMenuItem12.setText("Listar Asistencias sin Egresos");
         jMenu5.add(jMenuItem12);
+        jMenu5.add(jSeparator2);
+
+        jMenuItem14.setText("Reporte de Ingresos por Puerta");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem14);
 
         jMenuBar1.add(jMenu5);
 
@@ -681,6 +694,15 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         jMenuCaja.add(jMICierreCaja);
+        jMenuCaja.add(jSeparator3);
+
+        jMIModificarCajas.setText("Opciones de Supervisor");
+        jMIModificarCajas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIModificarCajasActionPerformed(evt);
+            }
+        });
+        jMenuCaja.add(jMIModificarCajas);
 
         jMenuBar1.add(jMenuCaja);
 
@@ -999,6 +1021,24 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        if (!existeFrame(JInternalCuotasCobradas.class)) {
+            JInternalReporteIngresos panelIngresos = new JInternalReporteIngresos(this.miControlador);
+            this.jDesktopPane1.add(panelIngresos);
+            panelIngresos.setVisible(true);
+            panelIngresos.toFront();
+        }
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    private void jMIModificarCajasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIModificarCajasActionPerformed
+        if (!existeFrame(JInternalCuotasCobradas.class)) {
+            JInternalSuperAdmin admin = new JInternalSuperAdmin(this.miControlador);
+            this.jDesktopPane1.add(admin);
+            admin.setVisible(true);
+            admin.toFront();
+        }
+    }//GEN-LAST:event_jMIModificarCajasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1028,6 +1068,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMICerrarSesion;
     private javax.swing.JMenuItem jMICierreCaja;
     private javax.swing.JMenu jMIClases;
+    private javax.swing.JMenuItem jMIModificarCajas;
     private javax.swing.JMenuItem jMIMovimientosCobro;
     private javax.swing.JMenu jMIPersonal;
     private javax.swing.JMenu jMIProfesores;
@@ -1046,6 +1087,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
@@ -1070,6 +1112,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenuItem jmiModalidades;
     private javax.swing.JLabel lblFoto;
     private javax.swing.JTable tablaAsistencias;
@@ -1078,6 +1122,11 @@ public class MainMenu extends javax.swing.JFrame {
 
     public void setAcceso() {
         if (usuarioLogueado != null) {
+            if(usuarioLogueado.getEstado().equalsIgnoreCase("SUPER")){
+                allOptions(true);
+                this.jMIModificarCajas.setEnabled(true);
+            }
+            
             if (usuarioLogueado.getEstado().equalsIgnoreCase("ADMIN")) {
                 allOptions(true);
             }
@@ -1114,6 +1163,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     public void allOptions(boolean estado) {
+        this.jMIModificarCajas.setEnabled(false);
         this.JMIIniciarSesion.setEnabled(!estado);
         this.jMIClases.setEnabled(estado);
         this.jMIUsuarios.setEnabled(estado);

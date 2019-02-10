@@ -589,4 +589,12 @@ public class ControladorPrincipal {
         return controladorIngresosPuerta.getListaIngresosPuerta(LocalDate.now(), LocalDate.now());
     }
 
+    public List<Cajadiaria> getListaCajas() throws Notificaciones{
+        return this.controladorCaja.dameCajas();
+    }
+
+    public void marcarTodasLasSalidas() throws Notificaciones{
+        controladorIngresosPuerta.marcarTodasLasSalidas();
+    }
+
 }

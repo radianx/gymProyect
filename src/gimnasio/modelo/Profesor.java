@@ -145,7 +145,7 @@ public class Profesor  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return this.nombreprofesor;
+        return this.nombreprofesor + " " + this.apellidoprofesor;
     }
 
     @Override

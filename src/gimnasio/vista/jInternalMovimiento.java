@@ -50,9 +50,10 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
         try{
             int cantidadMovimientos = miControlador.getListaMovimientos().size()+1;
             txtNumOperacion.setText(String.valueOf(cantidadMovimientos));
-            this.txtDetalle.setText("Cobro de cuota de "+elAlumno.getNombrealumno() +" "+elAlumno.getApellidoalumno());
+            this.txtDetalle.setText("Cobro de cuota de "+elAlumno.getNombrealumno() +" "+elAlumno.getApellidoalumno() + " "+ cuota.getClaseProfesor());
             this.txtImporte.setText(String.valueOf(abono));
             this.txtCobro.setText(String.valueOf(abono));
+            this.txtCobro.setEditable(false);
             this.txtVuelto.setText("0.0");
             
         }catch(Notificaciones ex){

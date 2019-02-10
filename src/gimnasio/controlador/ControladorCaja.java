@@ -126,5 +126,10 @@ public class ControladorCaja {
         }
         return retorno;
     }
+
+    public List<Cajadiaria> dameCajas() throws Notificaciones{
+       this.listaCajaDiaria = miPersistencia.getCajaDiarias();
+       return listaCajaDiaria;
+    }
     
 }
