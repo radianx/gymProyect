@@ -488,16 +488,24 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                     }
                     
                     Double montoAbonar = Double.valueOf(this.txtMontoAbonar.getText());
-                    
-                    if (abono > montoAbonar) {
-                        jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, montoAbonar);
-                        nuevaCuota.setVisible(true);
-                    } else {
-                        jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono);
-                        nuevaCuota.setVisible(true);
+                    String texto = (String)this.tablaCuotasDeAlumno.getValueAt(0, 3);
+                    if (!texto.contains("DEUDA")) {
+                        if (abono > montoAbonar) {
+                            jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, montoAbonar);
+                            nuevaCuota.setVisible(true);
+                        } else {
+                            jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono);
+                            nuevaCuota.setVisible(true);
+                        }
                     }
 
-                    MainMenu.nuevoMovimiento(elAlumno, cuota, abono);
+                    if(abono >montoAbonar){
+                        boolean esSaldo = true;
+                        MainMenu.nuevoMovimiento(elAlumno, cuota, montoAbonar, esSaldo);
+                    }else{
+                        boolean esSaldo = false;
+                        MainMenu.nuevoMovimiento(elAlumno, cuota, abono, esSaldo);
+                    }
 
                 } catch (Notificaciones ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());

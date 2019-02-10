@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 public class jInternalMovimiento extends javax.swing.JInternalFrame {
 
     ControladorPrincipal miControlador;
+    boolean cerrate = false;
     /**
      * Creates new form jInternalMovimiento
      */
@@ -43,14 +44,21 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
 
     }
 
-    public jInternalMovimiento(ControladorPrincipal controlador, Alumno elAlumno, Cuota cuota, Double abono) {
+    public jInternalMovimiento(ControladorPrincipal controlador, Alumno elAlumno, Cuota cuota, Double abono,boolean esSaldo) {
         this.miControlador = controlador;
         initComponents();
         txtFecha.setDateToToday();
+        this.txtImporte.setEditable(false);
+        this.txtCobro.setEditable(false);
+        this.cerrate = esSaldo;
         try{
             int cantidadMovimientos = miControlador.getListaMovimientos().size()+1;
             txtNumOperacion.setText(String.valueOf(cantidadMovimientos));
-            this.txtDetalle.setText("Cobro de cuota de "+elAlumno.getNombrealumno() +" "+elAlumno.getApellidoalumno() + " "+ cuota.getClaseProfesor());
+            if(!esSaldo){
+                this.txtDetalle.setText("Cobro de cuota de "+elAlumno.getNombrealumno() +" "+elAlumno.getApellidoalumno() + " "+ cuota.getClaseProfesor());
+            }else{
+                this.txtDetalle.setText("Cobro de saldo de cuota de "+elAlumno.getNombrealumno() +" "+elAlumno.getApellidoalumno() + " "+ cuota.getClaseProfesor());    
+            }
             this.txtImporte.setText(String.valueOf(abono));
             this.txtCobro.setText(String.valueOf(abono));
             this.txtCobro.setEditable(false);
@@ -312,6 +320,9 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos");
             }            
+        }
+        if(cerrate){
+            this.dispose();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
