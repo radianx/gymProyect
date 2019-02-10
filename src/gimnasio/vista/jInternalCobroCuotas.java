@@ -219,6 +219,23 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/gimnasio/imagenes/countryIcon.png"))); // NOI18N
         setMinimumSize(new java.awt.Dimension(600, 400));
         setPreferredSize(new java.awt.Dimension(750, 521));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
         getContentPane().setLayout(new java.awt.CardLayout());
 
         panelPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -299,9 +316,9 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tablaAlumnos);
 
+        jLabel2.setText("SALDO:");
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel2.setText("SALDO:");
 
         txtSaldo.setEditable(false);
         txtSaldo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -314,7 +331,7 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
 
         jLabel3.setText("<html><b>$</html>");
 
-        btnCobrar.setText("COBRAR CUOTA");
+        btnCobrar.setText("COBRAR");
         btnCobrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCobrarActionPerformed(evt);
@@ -604,6 +621,13 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
     private void btnCuotasVencidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuotasVencidasActionPerformed
         miControlador.generarReporteMorosos();
     }//GEN-LAST:event_btnCuotasVencidasActionPerformed
+
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        this.cargarTablaAlumnos();
+        this.cargarTablaCuotasAlumno();
+        this.cargarTablaCuotasVencidas();
+        this.cargarTablaVencimientos();
+    }//GEN-LAST:event_formInternalFrameActivated
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

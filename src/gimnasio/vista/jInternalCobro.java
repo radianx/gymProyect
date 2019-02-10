@@ -464,6 +464,7 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
         int seleccion = JOptionPane.showOptionDialog(null, "¿Confirma pago de Cuota?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
         if (seleccion == 0) {
             try {
+                System.out.println("Pagando cuota");
                 Double abono = Double.valueOf(this.txtMontoTotal.getText());
 
                 LocalDate fecha = datePicker.getDate();
@@ -488,8 +489,13 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                     }
                     
                     Double montoAbonar = Double.valueOf(this.txtMontoAbonar.getText());
-                    String texto = (String)this.tablaCuotasDeAlumno.getValueAt(0, 3);
-                    if (!texto.contains("DEUDA")) {
+                    String texto = null;
+                    try{
+                        texto = (String)this.tablaCuotasDeAlumno.getValueAt(0, 3);
+                    }catch(ClassCastException e){
+                        e.printStackTrace();
+                    }
+                    if (texto !=null && !texto.contains("DEUDA")) {
                         if (abono > montoAbonar) {
                             jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, montoAbonar);
                             nuevaCuota.setVisible(true);
@@ -504,11 +510,11 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                     if(abono >montoAbonar){
                         boolean esSaldo = true;
                         MainMenu.nuevoMovimiento(elAlumno, cuota, montoAbonar, esSaldo);
-                        System.out.println("ABONO > MONTOABONAR");
+                        System.out.println("TOTAL > MONTOABONADO");
                     }else{
                         boolean esSaldo = false;
                         MainMenu.nuevoMovimiento(elAlumno, cuota, abono, esSaldo);
-                        System.out.println("ABONO <= MONTOABONAR");
+                        System.out.println("TOTAL <= MONTOABONADO");
                     }
 
                 } catch (Notificaciones ex) {
