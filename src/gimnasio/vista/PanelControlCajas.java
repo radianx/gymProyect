@@ -250,6 +250,7 @@ public class PanelControlCajas extends javax.swing.JPanel {
             }finally{
                 limpiarCampos();
             }
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
 
