@@ -493,18 +493,22 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                         if (abono > montoAbonar) {
                             jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, montoAbonar);
                             nuevaCuota.setVisible(true);
+                            System.out.println("ES SALDO");
                         } else {
                             jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono);
                             nuevaCuota.setVisible(true);
+                            System.out.println("PAGANDO EN FORMA");
                         }
                     }
 
                     if(abono >montoAbonar){
                         boolean esSaldo = true;
                         MainMenu.nuevoMovimiento(elAlumno, cuota, montoAbonar, esSaldo);
+                        System.out.println("ABONO > MONTOABONAR");
                     }else{
                         boolean esSaldo = false;
                         MainMenu.nuevoMovimiento(elAlumno, cuota, abono, esSaldo);
+                        System.out.println("ABONO <= MONTOABONAR");
                     }
 
                 } catch (Notificaciones ex) {
