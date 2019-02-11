@@ -74,13 +74,10 @@ public class jDialogCuota extends javax.swing.JDialog {
         settings.setFormatForDatesBeforeCommonEra("dd/MM/uuuu");
         datePicker1.setSettings(settings);
         LocalDate fecha;
-        try {
-            cuota = unAlumno.getUltimaCuota();
+//            cuota = unAlumno.getUltimaCuota();
             Date fechaVencimiento = cuota.getVencimiento();
             fecha = Instant.ofEpochMilli(fechaVencimiento.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-        }catch(Notificaciones ex){
-            fecha = LocalDate.now();
-        }
+
         this.datePicker1.setDate(fecha);
         cargarTabla(alumno);
     }

@@ -482,12 +482,6 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                         cuota.setEstado("PAGADO");
                     }
                     
-                    unCobroCuota = generarCobroCuota(cuota, cuota.getMonto(), fecha);
-                    
-                    if (nuevoSaldo > 0) {
-                        generarNuevoSaldo(unCobroCuota, nuevoSaldo);
-                    }
-                    
                     Double montoAbonar = Double.valueOf(this.txtMontoAbonar.getText());
                     String texto = null;
                     try{
@@ -509,14 +503,20 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                         }
                     }else if(texto.contains("DEUDA")){
                         if (abono > montoAbonar) {
-                            MainMenu.nuevoMovimiento(elAlumno, cuota, montoAbonar, false);
                             System.out.println("ES SALDO de deuda???");
+                            JOptionPane.showMessageDialog(null, "Los saldos pendientes deben ser abonados en su totalidad");
                         } else {
-                            MainMenu.nuevoMovimiento(elAlumno, cuota, abono, false);
+                            MainMenu.nuevoMovimiento(elAlumno, cuota, abono, true);
                             System.out.println("PAGANDO EN FORMA UN SALDO");
                         }
                     }
-
+                    
+                    unCobroCuota = generarCobroCuota(cuota, cuota.getMonto(), fecha);
+                    
+                    if (nuevoSaldo > 0) {
+                        generarNuevoSaldo(unCobroCuota, nuevoSaldo);
+                    }
+                    
 
                 } catch (Notificaciones ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
