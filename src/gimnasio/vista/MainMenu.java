@@ -91,6 +91,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     public static void nuevoMovimiento(Alumno elAlumno, Cuota cuota, Double abono, boolean esSaldo) {
+        
         jInternalMovimiento movimiento = new jInternalMovimiento(miControlador, elAlumno, cuota, abono, esSaldo);
         jDesktopPane1.add(movimiento);
         movimiento.setVisible(true);

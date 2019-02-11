@@ -462,6 +462,7 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String[] opciones = {"SI", "NO"};
         int seleccion = JOptionPane.showOptionDialog(null, "¿Confirma pago de Cuota?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+        boolean pagoTotal = true;
         if (seleccion == 0) {
             try {
                 System.out.println("Pagando cuota");
@@ -504,19 +505,20 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                     }else if(texto.contains("DEUDA")){
                         if (abono > montoAbonar) {
                             System.out.println("ES SALDO de deuda???");
+                            pagoTotal = false;
                             JOptionPane.showMessageDialog(null, "Los saldos pendientes deben ser abonados en su totalidad");
                         } else {
                             MainMenu.nuevoMovimiento(elAlumno, cuota, abono, true);
                             System.out.println("PAGANDO EN FORMA UN SALDO");
                         }
                     }
-                    
-                    unCobroCuota = generarCobroCuota(cuota, cuota.getMonto(), fecha);
-                    
-                    if (nuevoSaldo > 0) {
-                        generarNuevoSaldo(unCobroCuota, nuevoSaldo);
+                    if (pagoTotal) {
+                        unCobroCuota = generarCobroCuota(cuota, cuota.getMonto(), fecha);
+
+                        if (nuevoSaldo > 0) {
+                            generarNuevoSaldo(unCobroCuota, nuevoSaldo);
+                        }
                     }
-                    
 
                 } catch (Notificaciones ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -525,7 +527,9 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar el monto para registrar el pago");
             }
-        this.dispose();
+            if (pagoTotal) {
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
