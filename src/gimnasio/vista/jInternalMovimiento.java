@@ -50,7 +50,7 @@ public class jInternalMovimiento extends javax.swing.JInternalFrame {
         txtFecha.setDateToToday();
         this.txtImporte.setEditable(false);
         this.txtCobro.setEditable(false);
-        this.cerrate = esSaldo;
+        this.cerrate = true;
         try{
             int cantidadMovimientos = miControlador.getListaMovimientos().size()+1;
             txtNumOperacion.setText(String.valueOf(cantidadMovimientos));
