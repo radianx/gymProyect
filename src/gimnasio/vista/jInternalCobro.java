@@ -495,27 +495,28 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                     }catch(ClassCastException e){
                         e.printStackTrace();
                     }
-                    if (texto !=null && !texto.contains("DEUDA")) {
+                    if (texto ==null) {
                         if (abono > montoAbonar) {
                             jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, montoAbonar);
+                            MainMenu.nuevoMovimiento(elAlumno, cuota, montoAbonar, false);
                             nuevaCuota.setVisible(true);
                             System.out.println("ES SALDO");
                         } else {
                             jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono);
+                            MainMenu.nuevoMovimiento(elAlumno, cuota, abono, false);
                             nuevaCuota.setVisible(true);
                             System.out.println("PAGANDO EN FORMA");
                         }
+                    }else if(texto.contains("DEUDA")){
+                        if (abono > montoAbonar) {
+                            MainMenu.nuevoMovimiento(elAlumno, cuota, montoAbonar, false);
+                            System.out.println("ES SALDO de deuda???");
+                        } else {
+                            MainMenu.nuevoMovimiento(elAlumno, cuota, abono, false);
+                            System.out.println("PAGANDO EN FORMA UN SALDO");
+                        }
                     }
 
-                    if(abono >montoAbonar){
-                        boolean esSaldo = true;
-                        MainMenu.nuevoMovimiento(elAlumno, cuota, montoAbonar, esSaldo);
-                        System.out.println("TOTAL > MONTOABONADO");
-                    }else{
-                        boolean esSaldo = false;
-                        MainMenu.nuevoMovimiento(elAlumno, cuota, abono, esSaldo);
-                        System.out.println("TOTAL <= MONTOABONADO");
-                    }
 
                 } catch (Notificaciones ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
