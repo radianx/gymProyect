@@ -117,6 +117,15 @@ public class ControladorAsistenciaAlumno {
         persistencia.actualizarInstancias();
         return listaAsistenciasAlumnos;
     }
+
+    public void marcarSalidas() throws Notificaciones {
+        listaAsistenciasAlumnos = persistencia.getAsistenciaAlumno();
+        for(AsistenciaAlumno asistencia:listaAsistenciasAlumnos){
+            if(asistencia.getSalida()==null){
+                asistencia.setSalida(new Date());
+            }
+        }
+    }
     
     
 }

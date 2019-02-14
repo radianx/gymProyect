@@ -460,6 +460,9 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtMontoAbonarKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(this.txtMontoAbonar.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe ingresar monto para asentar un pago");
+        }else{
         String[] opciones = {"SI", "NO"};
         int seleccion = JOptionPane.showOptionDialog(null, "¿Confirma pago de Cuota?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
         boolean pagoTotal = true;
@@ -492,14 +495,16 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                     }
                     if (texto ==null) {
                         if (abono > montoAbonar) {
-                            jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, montoAbonar);
+                            jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, montoAbonar, true);
                             MainMenu.nuevoMovimiento(elAlumno, cuota, montoAbonar, false);
                             nuevaCuota.setVisible(true);
+                            pagoTotal=true;
                             System.out.println("ES SALDO");
                         } else {
-                            jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono);
+                            jDialogCuota nuevaCuota = new jDialogCuota(null, true, controlador, elAlumno, cuota, abono, true);
                             MainMenu.nuevoMovimiento(elAlumno, cuota, abono, false);
                             nuevaCuota.setVisible(true);
+                            pagoTotal=true;
                             System.out.println("PAGANDO EN FORMA");
                         }
                     }else if(texto.contains("DEUDA")){
@@ -510,6 +515,7 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
                         } else {
                             MainMenu.nuevoMovimiento(elAlumno, cuota, abono, true);
                             System.out.println("PAGANDO EN FORMA UN SALDO");
+                            pagoTotal = true;
                         }
                     }
                     if (pagoTotal) {
@@ -527,9 +533,8 @@ public class jInternalCobro extends javax.swing.JInternalFrame {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar el monto para registrar el pago");
             }
-            if (pagoTotal) {
-                this.dispose();
-            }
+        }
+        this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

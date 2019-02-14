@@ -363,7 +363,6 @@ public class jInternalAsistencias extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tablaAlumnos.setPreferredSize(new java.awt.Dimension(200, 64));
         tablaAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaAlumnosMouseClicked(evt);

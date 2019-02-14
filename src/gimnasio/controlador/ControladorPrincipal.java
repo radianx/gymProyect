@@ -533,6 +533,7 @@ public class ControladorPrincipal {
         for (Cuota unaCuota : listaCuotas) {
             if (unaCuota.getClaseProfesor().getIdclaseprofesor() == claseAlumno.getClaseProfesor().getIdclaseprofesor()) {
                 unaCuota.setEstado("BAJA");
+                System.out.println("Dando de baja cuota: "+unaCuota.getClaseProfesor());
                 miPersistencia.persistirInstancia(unaCuota);
             }
         }
@@ -595,6 +596,15 @@ public class ControladorPrincipal {
 
     public void marcarTodasLasSalidas() throws Notificaciones{
         controladorIngresosPuerta.marcarTodasLasSalidas();
+    }
+
+    public Clase dameClase(String valueOf) throws Notificaciones {
+        return controladorClase.dameClase(valueOf);
+    }
+
+    public void marcarTodasLasAsistenciasSinSalida() throws Notificaciones {
+        this.controladorAsistenciaAlumno.marcarSalidas();
+        this.controladorAsistenciaProfesor.marcarSalidas();
     }
 
 }

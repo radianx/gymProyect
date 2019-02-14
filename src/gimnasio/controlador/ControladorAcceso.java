@@ -75,6 +75,7 @@ public class ControladorAcceso {
             Set<Profesor> listaProfesorUsuario = miUsuario.getProfesors();
             List<ClaseAlumno> listaBuscarClaseAlumno = new ArrayList<>();
             boolean acceso = false;
+            boolean asistenciaManual = false;
             String textoMostrar = "USUARIO NO REGISTRADO";
             if(listaAlumnosUsuario.isEmpty()){
                 System.out.println("ALUMNO SIN CLASES DETECTADO");
@@ -118,15 +119,19 @@ public class ControladorAcceso {
                                         .atZone(ZoneId.systemDefault())
                                         .toLocalTime();
                                 horarioFin.plusMinutes(15);
-
+                                System.out.println("HORARIO ACTUAL: "+ahora);
+                                System.out.println("HORARIO INICIO CLASE: "+horarioInicio);
+                                System.out.println("HORARIO FIN CLASE: "+horarioFin);
                                 if (horarioInicio.isBefore(ahora)
                                         && horarioFin.isAfter(ahora)) {
                                     System.out.println("Correcto\n Verificando cantidad de asistencias...");
                                     int contador = 0;
 
                                     for (AsistenciaAlumno asistencia : listaAsistenciasAlumnos) {
-                                        if (asistencia.getClaseAlumno().getIdclasealumno() == claseAlu.getIdclasealumno()) {
-                                            contador++;
+                                        if (asistencia.getEstado().equalsIgnoreCase("ACTIVO")) {
+                                            if (asistencia.getClaseAlumno().getIdclasealumno() == claseAlu.getIdclasealumno()) {
+                                                contador++;
+                                            }
                                         }
                                     }
                                     if (contador > claseAlu.getDiasPorSemana()) {
@@ -137,7 +142,7 @@ public class ControladorAcceso {
 
                                     listaCuotas = miControlador.getCuotasDeAlumno(claseAlu.getAlumno());
                                     int selector = listaCuotas.size();
-                                    System.out.println("cantiadad de cuotas del alumno: "+selector);
+                                    System.out.println("cantidad de cuotas del alumno: "+selector);
                                     Cuota cuota = null;
                                     try{
                                         cuota = listaCuotas.get(selector - 2);
@@ -191,10 +196,48 @@ public class ControladorAcceso {
                     fila[1] = sdf.format(ahorag);
                     fila[2] = miUsuario.getEstado();
                     modeloTabla.insertRow(0, fila);
-                    miControlador.nuevoIngresoPuerta(ahorag, miUsuario, modeloTabla, tabla);
+                    for(ClaseAlumno claseAlumno:listaBuscarClaseAlumno){
+                        Alumno unAlu = claseAlumno.getAlumno();
+                        ClaseProfesor claseProf = claseAlumno.getClaseProfesor();
+                        listaCuotas = miControlador.getCuotasDeAlumno(unAlu);
+                        List<Cuota>cuotasClaseProfesor =new ArrayList<>();
+                        for(Cuota cuota:listaCuotas){
+                            if(cuota.getClaseProfesor().getIdclaseprofesor()==claseProf.getIdclaseprofesor()){
+                                cuotasClaseProfesor.add(cuota);
+                            }
+                        }
+                        int selector = cuotasClaseProfesor.size();
+                        System.out.println("cantidad de cuotas del alumno: " + selector + "en la clase: " + claseProf.getClase());
+                        Cuota cuota = null;
+                        try {
+                            cuota = listaCuotas.get(selector - 2);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            textoMostrar = "Alumno no posee cuotas en condiciones, acceso denegado.";
+                            break;
+                        }          
+                        System.out.println("id de la cuota seleccionada: " + cuota.getIdcuota());
+                        System.out.println("estado de la cuota: " + cuota.getEstado());
+                        LocalDate fecha = LocalDate.now();
+                        LocalDate vencimiento = Instant.ofEpochMilli(cuota.getVencimiento().getTime())
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate();
+                        if (cuota.getEstado().equalsIgnoreCase("PAGADO")
+                                && fecha.isBefore(vencimiento.plusDays(3)
+                                        .with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY)))) {
+                            acceso = true;
 
-                    JOptionPane.showMessageDialog(null, "El alumno tiene varias clases,"
-                            + "\n debe registrarse manualmente a una de ellas");
+                            miControlador.nuevoIngresoPuerta(ahorag, miUsuario, modeloTabla, tabla);
+                            break;
+                        }
+                        if (cuota.getEstado().equalsIgnoreCase("GENERADO")) {
+                            textoMostrar = "Alumno adeuda cuota, acceso denegado.";
+                            break;
+                        }                 
+                        
+                        
+                    }
+                    miControlador.nuevoIngresoPuerta(ahorag, miUsuario, modeloTabla, tabla);
+                    asistenciaManual= true;
                 }
             }
             if (listaProfesorUsuario.size()==1) {
@@ -248,6 +291,11 @@ public class ControladorAcceso {
             if(acceso){
                 try {
                     MainMenu.rele.abrirPuerta();
+                    if(asistenciaManual){
+                                            
+                    JOptionPane.showMessageDialog(null, "El alumno con usuario: "+miUsuario.getNombreusuario()+" tiene varias clases,"
+                            + "\n debe registrarse manualmente a una de ellas");
+                    }
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }

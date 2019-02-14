@@ -143,4 +143,13 @@ public class ControladorAsistenciaProfesor {
         }
         return retorno;
     }
+
+    public void marcarSalidas()throws Notificaciones {
+        listaAsistenciasProfesor = persistencia.getAsistenciaProfesor();
+        for (AsistenciaProfesor asistencia : listaAsistenciasProfesor) {
+            if (asistencia.getSalida() == null) {
+                asistencia.setSalida(new Date());
+            }
+        }
+    }
 }

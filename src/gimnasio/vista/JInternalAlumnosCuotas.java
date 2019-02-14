@@ -9,6 +9,7 @@ import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;
 import gimnasio.modelo.ClaseAlumno;
+import gimnasio.modelo.ClaseProfesor;
 import gimnasio.modelo.CobroCuota;
 import gimnasio.modelo.Cuota;
 import gimnasio.modelo.HorarioAlumno;
@@ -35,6 +36,8 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
     DefaultTableModel modeloTablaCuotas;
     DefaultTableModel modeloTablaHorarios;
     TableRowSorter<TableModel> rowSorter;
+    Alumno alumnoSeleccionado = null;
+    Cuota cuotaSeleccionada = null;
     /**
      * Creates new form JInternalAlumnosCuotas
      */
@@ -116,8 +119,8 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
     public void cargarTablaCuotas(){
         modeloTablaCuotas = new DefaultTableModel();
         modeloTablaCuotas.addColumn("Clase");
-        modeloTablaCuotas.addColumn("Alta Cuota");
         modeloTablaCuotas.addColumn("Vencimiento");
+        modeloTablaCuotas.addColumn("Prox. Vencimiento");
         modeloTablaCuotas.addColumn("Monto");
         this.tablaCuotas.setModel(modeloTablaCuotas);
     }
@@ -125,8 +128,8 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
     public void cargarTablaCuotas(Alumno unAlumno){
         modeloTablaCuotas = new DefaultTableModel();
         modeloTablaCuotas.addColumn("Clase");
-        modeloTablaCuotas.addColumn("Alta Cuota");
         modeloTablaCuotas.addColumn("Vencimiento");
+        modeloTablaCuotas.addColumn("Prox. Vencimiento");
         modeloTablaCuotas.addColumn("Monto");
         Object[] fila = new Object[5];
         boolean tieneCuotasPagadas = false;
@@ -143,7 +146,7 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
                     if (cuota.getEstado().equalsIgnoreCase("GENERADO")) {
                         fila[0] = cuota.getClaseProfesor().getClase();
                         String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
-                        fila[1] = time;
+                        fila[1] = cuota;
                         time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
                         fila[2] = time;
                         fila[3] = cuota.getMonto();
@@ -154,7 +157,7 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
                     if (cuota.getEstado().equalsIgnoreCase("SALDO")) {
                         fila[0] = cuota.getClaseProfesor().getClase();
                         String time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getAltacuota());
-                        fila[1] = time;
+                        fila[1] = cuota;
                         time = new SimpleDateFormat("dd/MM/yyyy").format(cuota.getVencimiento());
                         fila[2] = time;
                         if (cuota.getCobroCuotas() != null) {
@@ -300,9 +303,14 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaCuotas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaCuotasMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaCuotas);
 
-        btnNuevaCuota.setText("CARGAR CUOTA MANUALMENTE");
+        btnNuevaCuota.setText("NUEVA CUOTA");
         btnNuevaCuota.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevaCuotaActionPerformed(evt);
@@ -394,6 +402,7 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
     private void tablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseClicked
         if(!tablaAlumnos.getSelectionModel().isSelectionEmpty()){
             Alumno unAlu = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+            alumnoSeleccionado = unAlu;
                 cargarTablaCuotas(unAlu);
                 cargarTablaHorarios(unAlu);
 
@@ -403,19 +412,45 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
     private void btnNuevaCuotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaCuotaActionPerformed
         try{
             if (!tablaAlumnos.getSelectionModel().isSelectionEmpty()) {
-                Alumno alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+                alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
                 List<Cuota> cuotasAlu = miControlador.getCuotasDeAlumno(alumnoSeleccionado);
                 boolean tieneGenerado = false;
-                for (Cuota unaCuota : cuotasAlu) {
-                    if (unaCuota.getEstado().equalsIgnoreCase("GENERADO")) {
-                        JOptionPane.showMessageDialog(null, "El alumno ya tiene generada una cuota.");
-                        tieneGenerado = true;
-                        break;
+                if(alumnoSeleccionado.getClaseAlumnos().size()>1){
+                    int contadorDeClases = alumnoSeleccionado.getClaseAlumnos().size();
+                    int contadorGenerados = 0;
+                    for(ClaseAlumno claseAlumno:alumnoSeleccionado.getClaseAlumnos()){
+                        contadorGenerados = 0;
+                        ClaseProfesor claseProf = claseAlumno.getClaseProfesor();
+                        List<Cuota>cuotasClaseProfesor =new ArrayList<>();
+                        for(Cuota cuota:cuotasAlu){
+                            if(cuota.getClaseProfesor().getIdclaseprofesor()==claseProf.getIdclaseprofesor()){
+                                cuotasClaseProfesor.add(cuota);
+                            }
+                        }
+                        int selector = cuotasClaseProfesor.size();
+                        System.out.println("cantidad de cuotas del alumno: " + selector + "en la clase: " + claseProf.getClase());
+                        for(Cuota unaCuota:cuotasClaseProfesor){
+                            if(unaCuota.getEstado().equalsIgnoreCase("GENERADO")){
+                                contadorGenerados++;
+                            }
+                        }
+                    }
+                    if(contadorDeClases==contadorGenerados){
+                        JOptionPane.showMessageDialog(null, "El alumno ya tiene generadas todas sus cuotas");
+                        tieneGenerado= true;
+                    }
+                }else {
+                    for (Cuota unaCuota : cuotasAlu) {
+                        if (unaCuota.getEstado().equalsIgnoreCase("GENERADO")) {
+                            JOptionPane.showMessageDialog(null, "El alumno ya tiene generada una cuota.");
+                            tieneGenerado = true;
+                            break;
+                        }
                     }
                 }
 
                 if (!tieneGenerado) {
-                    jDialogCuota nuevaCuota = new jDialogCuota(null, true, miControlador, alumnoSeleccionado);
+                    jDialogCuota nuevaCuota = new jDialogCuota(null, true, miControlador, alumnoSeleccionado, null, null, false);
                     nuevaCuota.setVisible(true);
                     this.cargarTabla();
                     this.cargarTablaCuotas();
@@ -439,8 +474,18 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formFocusGained
 
     private void btnNuevaCuota1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaCuota1ActionPerformed
-        // TODO add your handling code here:
+        if(alumnoSeleccionado !=null){
+            MainMenu.cobrarCuota(alumnoSeleccionado);
+        }else{
+            JOptionPane.showMessageDialog(null,"Debe seleccionar el alumno y la cuota para cobrar");
+        }
     }//GEN-LAST:event_btnNuevaCuota1ActionPerformed
+
+    private void tablaCuotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCuotasMouseClicked
+        if(!this.tablaCuotas.getSelectionModel().isSelectionEmpty()){
+            cuotaSeleccionada = (Cuota) tablaCuotas.getValueAt(tablaCuotas.getSelectedRow(),1);
+        }
+    }//GEN-LAST:event_tablaCuotasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -58,4 +58,20 @@ public class ControladorClase {
     public List<Clase> getListaClases(){
         return this.listaClases;
     }
+
+    public Clase dameClase(String valueOf) throws Notificaciones {
+        listaClases = miPersistencia.getClases();
+        Clase retorno = null;
+        for(Clase unaClase:listaClases){
+            if(unaClase.getDescripcionclase().equalsIgnoreCase(valueOf)){
+                retorno = unaClase;
+                break;
+            }
+        }
+        if(retorno !=null){
+            return retorno;
+        }else{
+            throw new Notificaciones("No se encontro la clase");
+        }
+    }
 }

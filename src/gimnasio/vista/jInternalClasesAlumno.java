@@ -283,7 +283,8 @@ public class jInternalClasesAlumno extends javax.swing.JInternalFrame {
         if(!this.tablaAlumnos.getSelectionModel().isSelectionEmpty()){
             try {
                 miControlador.bajaClaseAlumno((ClaseAlumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0));
-                
+                System.out.println("ID de clasealumno seleccionado: "+ 
+                        ((ClaseAlumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0)).getIdclasealumno());
                 Alumno miAlumno = ((ClaseAlumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0)).getAlumno();
                 miControlador.bajaCuotaAutomatica(miAlumno.getCuotas(), (ClaseAlumno) this.tablaAlumnos.getValueAt(this.tablaAlumnos.getSelectedRow(), 0));
                 SwingUtilities.invokeLater(new Runnable(){public void run(){

@@ -185,7 +185,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace pref="112" max="32767" attributes="0"/>
-                              <Component id="btnNuevo1" min="-2" pref="93" max="-2" attributes="0"/>
+                              <Component id="btnModificarHorario" min="-2" pref="93" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnEliminarHorario" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -204,7 +204,7 @@
                               <Component id="jScrollPane1" pref="154" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnNuevo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnModificarHorario" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnEliminarHorario" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
@@ -245,12 +245,12 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Component class="javax.swing.JButton" name="btnNuevo1">
+                    <Component class="javax.swing.JButton" name="btnModificarHorario">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="&lt;HTML&gt;&lt;CENTER&gt;MODIFICAR&lt;BR&gt;HORARIO&lt;/CENTER&gt;&lt;/HTML&gt;"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevo1ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarHorarioActionPerformed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnEliminarHorario">

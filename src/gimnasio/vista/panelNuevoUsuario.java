@@ -441,6 +441,13 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Debe ingresar todos los datos. ");
             }
         }
+        usuarioModificar = null;
+        datosHuella = null;
+        foto = null;
+        this.txtBuscar.setText("");
+        this.txtContrasena.setText("");
+        this.txtNombre.setText("");
+        this.txtHuella.setText("SIN CARGAR");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed

@@ -126,7 +126,7 @@ public class ClaseProfesor implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return clase.toString();
+        return clase.toString()+" - "+this.profesor.toString();
     }
 
     @Override

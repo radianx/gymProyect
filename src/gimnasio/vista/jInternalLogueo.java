@@ -133,11 +133,12 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
                 MainMenu.loguearUsuario(unUsuario);
                 JOptionPane.showMessageDialog(null, "Logueado con exito");
                 String[] opciones = {"SI", "NO"};
-                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea marcar todas las salidas que no se registraron?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea marcar todas las salidas y asistencias que no se registraron?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
                 switch (seleccion) {
                     case 0:
                         try {
                             miControlador.marcarTodasLasSalidas();
+                            miControlador.marcarTodasLasAsistenciasSinSalida();
                         } catch (Notificaciones ex) {
                             JOptionPane.showMessageDialog(null, "Excepcion: Alguna salida no ha podido ser registrada");
                             ex.printStackTrace();
@@ -164,11 +165,12 @@ public class jInternalLogueo extends javax.swing.JInternalFrame {
                 MainMenu.loguearUsuario(unUsuario);
                 JOptionPane.showMessageDialog(null, "Logueado con exito");
                 String[] opciones = {"SI", "NO"};
-                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea marcar todas las salidas que no se registraron?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea marcar todas las salidas y asistencias que no se registraron?", "Seleccione una opcion", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
                 switch (seleccion) {
                     case 0:
                         try {
                             miControlador.marcarTodasLasSalidas();
+                            miControlador.marcarTodasLasAsistenciasSinSalida();
                         } catch (Notificaciones ex) {
                             JOptionPane.showMessageDialog(null, "Excepcion: Alguna salida no ha podido ser registrada");
                             ex.printStackTrace();

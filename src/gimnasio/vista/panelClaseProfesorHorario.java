@@ -7,6 +7,8 @@ package gimnasio.vista;
 
 import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
+import com.github.lgooddatepicker.optionalusertools.TimeChangeListener;
+import com.github.lgooddatepicker.zinternaltools.TimeChangeEvent;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Clase;
@@ -60,7 +62,12 @@ public class panelClaseProfesorHorario extends javax.swing.JPanel {
         initComponents();
         this.timePicker2.setTime(timePicker1.getTime().plusHours(1));
         cargarTablaDiasClases();
-
+        timePicker1.addTimeChangeListener(new TimeChangeListener(){
+            @Override
+            public void timeChanged(TimeChangeEvent tce) {
+                timePicker2.setTime(timePicker1.getTime().plusHours(1));
+            }          
+        });
     }
 
     public void cargarTablaDiasClases() {

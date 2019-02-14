@@ -16,8 +16,14 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -54,20 +60,21 @@ public class jDialogCuota extends javax.swing.JDialog {
             fecha = LocalDate.now();
         }
         this.datePicker1.setDate(fecha);
-        cargarTabla(alumno);
+        cargarTabla(alumno, true);
     }
     
     
     
     
-    public jDialogCuota(java.awt.Frame parent, boolean modal, ControladorPrincipal controlador, Alumno unAlumno, Cuota cuota, Double monto){
+    public jDialogCuota(java.awt.Frame parent, boolean modal, ControladorPrincipal controlador, Alumno unAlumno, Cuota cuota, Double monto, boolean mostrarTodas){
         super(parent, modal);
         miControlador = controlador;
         alumno = unAlumno;
         initComponents();
         this.txtAlumno.setText(alumno.getNombrealumno() + " " + alumno.getApellidoalumno());
-        this.txtMonto.setText(String.valueOf(monto));
-        
+        if(monto!=null){
+            this.txtMonto.setText(String.valueOf(monto));
+        }
         Locale locale = new Locale("es", "ES");
         DatePickerSettings settings = new DatePickerSettings(locale);
         settings.setFormatForDatesCommonEra("dd/MM/yyyy");
@@ -75,22 +82,51 @@ public class jDialogCuota extends javax.swing.JDialog {
         datePicker1.setSettings(settings);
         LocalDate fecha;
 //            cuota = unAlumno.getUltimaCuota();
-            Date fechaVencimiento = cuota.getVencimiento();
+        if(cuota!=null){    Date fechaVencimiento = cuota.getVencimiento();
             fecha = Instant.ofEpochMilli(fechaVencimiento.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 
         this.datePicker1.setDate(fecha);
-        cargarTabla(alumno);
+        }else{
+            datePicker1.setDateToToday();
+        }
+        cargarTabla(alumno, mostrarTodas);
     }
 
-    public void cargarTabla(Alumno unAlumno){
+    public void cargarTabla(Alumno unAlumno, boolean mostrarTodas){
         modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("Clase");
         modeloTabla.addColumn("Precio");
         Object[] fila = new Object[2];
-        for(ClaseAlumno claseAlu:unAlumno.getClaseAlumnos()){
-            fila[0] = claseAlu;
-            fila[1] = claseAlu.getPrecio();
-            modeloTabla.addRow(fila);
+        try {
+            List<ClaseAlumno>noMostrar = new ArrayList<>();
+            Set<ClaseAlumno>setAlumno = unAlumno.getClaseAlumnos();
+            List<ClaseAlumno>listaClasesDelAlumno = new ArrayList<>();
+            listaClasesDelAlumno.addAll(setAlumno);
+            if(mostrarTodas){
+                for(ClaseAlumno claseAlu: unAlumno.getClaseAlumnos()){
+                    fila[0] = claseAlu;
+                    fila[1] = claseAlu.getPrecio();
+                    modeloTabla.addRow(fila);
+                }
+            }else{
+            for (Cuota cuota : miControlador.getCuotasDeAlumno(unAlumno)) {
+                    for (ClaseAlumno claseAlu : unAlumno.getClaseAlumnos()) {
+                        if (cuota.getClaseProfesor().getIdclaseprofesor() == claseAlu.getClaseProfesor().getIdclaseprofesor()
+                                && cuota.getEstado().equalsIgnoreCase("GENERADO")) {
+                            noMostrar.add(claseAlu);
+                            break;
+                        }
+                    }
+                }
+                listaClasesDelAlumno.removeAll(noMostrar);
+                for (ClaseAlumno claseAlu : listaClasesDelAlumno) {
+                    fila[0] = claseAlu;
+                    fila[1] = claseAlu.getPrecio();
+                    modeloTabla.addRow(fila);
+                }
+            }
+        } catch (Notificaciones ex) {
+            ex.printStackTrace();
         }
         this.tablaClasesAlumno.setModel(modeloTabla);
     }

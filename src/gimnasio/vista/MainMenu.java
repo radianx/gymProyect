@@ -37,6 +37,13 @@ public class MainMenu extends javax.swing.JFrame {
     public static ControladorPrincipal miControlador;
     public static volatile ControladorHuella lector;
 
+    public static void cobrarCuota(Alumno alumnoSeleccionado) {
+            jInternalCobroCuotas panelCuotas = new jInternalCobroCuotas(miControlador,alumnoSeleccionado);
+            jDesktopPane1.add(panelCuotas);
+            panelCuotas.setVisible(true);
+            panelCuotas.toFront();        
+    }
+
     boolean mostrar = false;
     public static Boolean detenerEscaner = true;
 
@@ -1032,11 +1039,15 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void jMIModificarCajasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIModificarCajasActionPerformed
-        if (!existeFrame(JInternalCuotasCobradas.class)) {
-            JInternalSuperAdmin admin = new JInternalSuperAdmin(this.miControlador);
-            this.jDesktopPane1.add(admin);
-            admin.setVisible(true);
-            admin.toFront();
+        if (!usuarioLogueado.getEstado().equalsIgnoreCase("SUPER")) {
+            JOptionPane.showMessageDialog(null, "Este usuario no posee Superpoderes");
+        } else {
+            if (!existeFrame(JInternalCuotasCobradas.class)) {
+                JInternalSuperAdmin admin = new JInternalSuperAdmin(this.miControlador);
+                this.jDesktopPane1.add(admin);
+                admin.setVisible(true);
+                admin.toFront();
+            }
         }
     }//GEN-LAST:event_jMIModificarCajasActionPerformed
 

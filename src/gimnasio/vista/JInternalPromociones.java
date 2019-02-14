@@ -7,6 +7,7 @@ package gimnasio.vista;
 
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
+import gimnasio.modelo.ClaseAlumno;
 import gimnasio.modelo.HorarioProfesor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,8 +44,8 @@ public class JInternalPromociones extends javax.swing.JInternalFrame {
         modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("Clase");
         modeloTabla.addColumn("Dia");
-        modeloTabla.addColumn("Hora Inicio");
-        modeloTabla.addColumn("Hora Fin");
+        modeloTabla.addColumn("Hora");
+        modeloTabla.addColumn("Precio");
         Object[] fila = new Object[4];
         for(HorarioProfesor horario : miControlador.getListaHorarios()) {
             if (horario.getPromocion() != null) {
@@ -54,7 +55,12 @@ public class JInternalPromociones extends javax.swing.JInternalFrame {
                     fila[0] = horario.getClaseProfesor();
                     fila[1] = horario;
                     fila[2] = horario.getInicioString();
-                    fila[3] = horario.getFinString();
+                    Double precio = 0.0;
+                    for(ClaseAlumno claseAlu:horario.getClaseProfesor().getClaseAlumnos()){
+                        precio = claseAlu.getPrecio();
+                        break;
+                    }
+                    fila[3] = precio;
                     modeloTabla.addRow(fila);
                 }
             }
@@ -188,13 +194,11 @@ public class JInternalPromociones extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 ex.printStackTrace();
             }
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    try {
-                        cargarTablaPromociones();
-                    } catch (Notificaciones ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage());
-                    }
+            SwingUtilities.invokeLater(() -> {
+                try {
+                    cargarTablaPromociones();
+                } catch (Notificaciones ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
             });
         }else{

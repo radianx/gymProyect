@@ -236,6 +236,7 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
         try {
             miUsuario = (Usuario) this.tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0);
             this.btnOk.setEnabled(true);
+            System.out.println("se selecciono usuario: "+miUsuario);
         } catch (NullPointerException ex) {
             System.err.println("seleccion nula");
         }

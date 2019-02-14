@@ -461,8 +461,13 @@ public class panelNuevoProfesor extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        jDialogSeleccionarUsuario seleccion = new jDialogSeleccionarUsuario(null, false,miControlador);
+        jDialogSeleccionarUsuario seleccion = new jDialogSeleccionarUsuario(null, true,miControlador);
         this.usuarioSeleccionado = seleccion.showDialog();
+        if (usuarioSeleccionado == null) {
+            this.txtUsuario.setText("SIN CARGAR");
+        } else {
+            this.txtUsuario.setText(usuarioSeleccionado.getNombreusuario());
+        }
     }//GEN-LAST:event_btnUsuarioActionPerformed
 
     private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered

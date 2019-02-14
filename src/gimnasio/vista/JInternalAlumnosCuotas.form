@@ -218,12 +218,15 @@
                   </Table>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaCuotasMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
         <Component class="javax.swing.JButton" name="btnNuevaCuota">
           <Properties>
-            <Property name="text" type="java.lang.String" value="CARGAR CUOTA MANUALMENTE"/>
+            <Property name="text" type="java.lang.String" value="NUEVA CUOTA"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevaCuotaActionPerformed"/>

@@ -20,7 +20,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,6 +58,22 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
         cargarTablaCuotasVencidas();
     }
 
+    public jInternalCobroCuotas(ControladorPrincipal controlador, Alumno unAlu){
+        miControlador = controlador;
+        initComponents();
+        cargarTablaAlumnos();
+        cargarTablaCuotasAlumno();
+        cargarTablaVencimientos();
+        cargarTablaCuotasVencidas();
+        alumnoSeleccionado = unAlu;
+        this.txtAlumno.setText(unAlu.getNombrealumno() + " " + unAlu.getApellidoalumno());
+        try {
+            cargarTablaCuotasAlumno(alumnoSeleccionado);
+        } catch (Notificaciones ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     public void cargarTablaCuotasAlumno(){
         modeloTablaCuotasDeAlumno = new DefaultTableModel();
         modeloTablaCuotasDeAlumno.addColumn("Clase");
@@ -614,8 +632,55 @@ public class jInternalCobroCuotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaAlumnosMouseEntered
 
     private void btnNuevaCuotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaCuotaActionPerformed
-        jDialogCuota nuevaCuota = new jDialogCuota(null, true, miControlador, alumnoSeleccionado);
-        nuevaCuota.setVisible(true);
+        try{
+            if (!tablaAlumnos.getSelectionModel().isSelectionEmpty()) {
+                alumnoSeleccionado = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+                List<Cuota> cuotasAlu = miControlador.getCuotasDeAlumno(alumnoSeleccionado);
+                boolean tieneGenerado = false;
+                if(alumnoSeleccionado.getClaseAlumnos().size()>1){
+                    int contadorDeClases = alumnoSeleccionado.getClaseAlumnos().size();
+                    int contadorGenerados = 0;
+                    for(ClaseAlumno claseAlumno:alumnoSeleccionado.getClaseAlumnos()){
+                        contadorGenerados = 0;
+                        ClaseProfesor claseProf = claseAlumno.getClaseProfesor();
+                        List<Cuota>cuotasClaseProfesor =new ArrayList<>();
+                        for(Cuota cuota:cuotasAlu){
+                            if(cuota.getClaseProfesor().getIdclaseprofesor()==claseProf.getIdclaseprofesor()){
+                                cuotasClaseProfesor.add(cuota);
+                            }
+                        }
+                        int selector = cuotasClaseProfesor.size();
+                        System.out.println("cantidad de cuotas del alumno: " + selector + "en la clase: " + claseProf.getClase());
+                        for(Cuota unaCuota:cuotasClaseProfesor){
+                            if(unaCuota.getEstado().equalsIgnoreCase("GENERADO")){
+                                contadorGenerados++;
+                            }
+                        }
+                    }
+                    if(contadorDeClases==contadorGenerados){
+                        JOptionPane.showMessageDialog(null, "El alumno ya tiene generadas todas sus cuotas");
+                        tieneGenerado= true;
+                    }
+                }else {
+                    for (Cuota unaCuota : cuotasAlu) {
+                        if (unaCuota.getEstado().equalsIgnoreCase("GENERADO")) {
+                            JOptionPane.showMessageDialog(null, "El alumno ya tiene generada una cuota.");
+                            tieneGenerado = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!tieneGenerado) {
+                    jDialogCuota nuevaCuota = new jDialogCuota(null, true, miControlador, alumnoSeleccionado,null,null,false);
+                    nuevaCuota.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un alumno para generar una cuota");
+            }
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_btnNuevaCuotaActionPerformed
 
     private void btnCuotasVencidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuotasVencidasActionPerformed

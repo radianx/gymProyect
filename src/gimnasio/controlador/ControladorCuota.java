@@ -34,16 +34,23 @@ public class ControladorCuota {
     }
 
     public List<Cuota> getListaCuotasAVencer() {
-        List<Cuota> cuotasAVencer = new ArrayList<>();
-        LocalDate hoy = LocalDate.now(ZoneId.systemDefault());
-        LocalDate semanaDespuesDeHoy = hoy.plusDays(7);
-        for(Cuota unaCuota:this.listaCuotas){
-            LocalDate vencimiento = Instant.ofEpochMilli(unaCuota.getAltacuota().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-            if((vencimiento.isAfter(hoy) || vencimiento.isEqual(hoy)) &&
-               (vencimiento.isBefore(semanaDespuesDeHoy) || vencimiento.isEqual(semanaDespuesDeHoy)))
-                cuotasAVencer.add(unaCuota);
+        List<Cuota> cuotasAVencer = new ArrayList<>();    
+        try {
+            listaCuotas = miPersistencia.getCuotas();
+            LocalDate hoy = LocalDate.now(ZoneId.systemDefault());
+            LocalDate semanaDespuesDeHoy = hoy.plusDays(7);
+            for (Cuota unaCuota : this.listaCuotas) {
+                LocalDate vencimiento = Instant.ofEpochMilli(unaCuota.getAltacuota().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                if ((vencimiento.isAfter(hoy) || vencimiento.isEqual(hoy))
+                        && (vencimiento.isBefore(semanaDespuesDeHoy) || vencimiento.isEqual(semanaDespuesDeHoy))) {
+                    cuotasAVencer.add(unaCuota);
+                }
+            }
+        } catch (Notificaciones e) {
+            e.printStackTrace();
+        } finally{
+            return cuotasAVencer;
         }
-        return cuotasAVencer;
     }
 
     public List<Cuota> getListaCuotasVencidas() {
@@ -73,7 +80,11 @@ public class ControladorCuota {
         for(Cuota unaCuota: listaCuotas){
             System.out.println("For Cuotas of Alumno");
             if(unAlumno.getNombrealumno().equalsIgnoreCase(unaCuota.getAlumno().getNombrealumno())
-                && unAlumno.getApellidoalumno().equalsIgnoreCase(unaCuota.getAlumno().getApellidoalumno())){
+                && unAlumno.getApellidoalumno().equalsIgnoreCase(unaCuota.getAlumno().getApellidoalumno())
+                && 
+                    (unaCuota.getEstado().equalsIgnoreCase("GENERADO")
+                    || unaCuota.getEstado().equalsIgnoreCase("SALDO")))
+            {
                     retorno.add(unaCuota);
                     System.out.println("Cuota agregada");
             }

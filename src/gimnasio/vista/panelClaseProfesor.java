@@ -82,15 +82,13 @@ public class panelClaseProfesor extends javax.swing.JPanel {
                 }
                 if (bandera == false) {
                     if(!unaClase.getTipoclase().equalsIgnoreCase("LIBRE")){
-                        listaRetorno.add(unaClase);
+                        cmbClase.addItem(unaClase.toString());
                     }
                 } else {
                     bandera = false;
                 }
             }
         }
-        DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel(listaRetorno.toArray());
-        this.cmbClase.setModel(modeloCombo);
     }
     
     public void cargarComboModalidades(Profesor unProfesor){
@@ -155,6 +153,12 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         });
 
         jLabel12.setText("Clase:");
+
+        cmbClase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbClaseActionPerformed(evt);
+            }
+        });
 
         jLabel17.setText("Modalidad:");
 
@@ -284,6 +288,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
         }else{
             this.cargarComboModalidades((Profesor) cmbProfesores.getSelectedItem());
         }
+        System.out.println("pasando");
     }//GEN-LAST:event_cmbProfesoresActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -294,7 +299,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
        try{
            Profesor unProfe = (Profesor) cmbProfesores.getSelectedItem();
            Modalidad unaModalidad = (Modalidad) cmbModalidad.getSelectedItem();
-           Clase unaClase = (Clase) cmbClase.getSelectedItem();
+           Clase unaClase = miControlador.dameClase(String.valueOf(cmbClase.getSelectedItem()));
            List<HorarioProfesor> horarios = new ArrayList<>();
            otroPanel.recibirDatos(null,unProfe, unaModalidad, unaClase, horarios);
            this.setVisible(false);
@@ -307,6 +312,10 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
 
     }//GEN-LAST:event_formComponentShown
+
+    private void cmbClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbClaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbClaseActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -349,14 +358,11 @@ public class panelClaseProfesor extends javax.swing.JPanel {
 
     public void cargarComboClasesLibres() {
         libre = true;
-        List<Clase> listaClasesProfe = new ArrayList<>();
 
         for (Clase unaClase : miControlador.getListaClases()) {
             if(unaClase.getTipoclase().equalsIgnoreCase("LIBRE")){
-                listaClasesProfe.add(unaClase);
+                cmbClase.addItem(unaClase.toString());
             }
         }
-        DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel(listaClasesProfe.toArray());
-        this.cmbClase.setModel(modeloCombo);
     }
 }

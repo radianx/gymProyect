@@ -109,14 +109,15 @@ public class panelClaseAlumno extends javax.swing.JPanel {
         cmbClases.removeAllItems();
         cmbClases.addItem("--Seleccionar--");
         try {
-            List<ClaseProfesor> listaClases = miControlador.getListaClaseProfesor();
-            listaClases = listaClases.stream().filter(distinctByKey(ClaseProfesor::getClase)).collect(Collectors.toList());            
+            List<ClaseProfesor> listaClases = miControlador.getListaClaseProfesor();;            
             for (ClaseProfesor clase : listaClases){
                 if (clase.getEstado().equalsIgnoreCase("ACTIVO")) {
                     if (clase.getClase().getTipoclase().equalsIgnoreCase("LIBRE")) {
                         cmbClases.addItem(clase.toString() + "-Libre-");
+                        System.out.println(clase.toString() + "-Libre-");
                     } else {
                         cmbClases.addItem(clase.toString());
+                        System.out.println(clase.toString());
                     }
                 }
             }
@@ -634,6 +635,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Faltan completar datos para la inscripcion.");
         }
         cargarAlumnos();
+        this.limpiarCampos();
 
     }//GEN-LAST:event_btnInscribirActionPerformed
 
@@ -658,16 +660,7 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     }//GEN-LAST:event_btnInscribir1ActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.cmbClases.setEnabled(true);
-        this.tablaAlumnos.getSelectionModel().clearSelection();
-        this.cargarTablaHorarios();
-        this.cargarTablaHorariosAlumno();
-        this.txtAlumno.setText("");
-        this.txtBuscarAlumno.setText("");
-        this.txtClase.setText("");
-        this.txtPrecio.setText("");
-        this.alumnoSeleccionado = null;
-        this.jCheckBox1.setSelected(false);
+        this.limpiarCampos();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void cmbDiasPorSemanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDiasPorSemanaActionPerformed
@@ -837,4 +830,17 @@ public class panelClaseAlumno extends javax.swing.JPanel {
     private javax.swing.JTextField txtClase;
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
+
+    private void limpiarCampos() {
+                this.cmbClases.setEnabled(true);
+        this.tablaAlumnos.getSelectionModel().clearSelection();
+        this.cargarTablaHorarios();
+        this.cargarTablaHorariosAlumno();
+        this.txtAlumno.setText("");
+        this.txtBuscarAlumno.setText("");
+        this.txtClase.setText("");
+        this.txtPrecio.setText("");
+        this.alumnoSeleccionado = null;
+        this.jCheckBox1.setSelected(false);
+    }
 }

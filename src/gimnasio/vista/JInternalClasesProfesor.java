@@ -103,15 +103,11 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         try {
             modeloTablaClaseProfesor = new DefaultTableModel();
             modeloTablaClaseProfesor.addColumn("Clase");
-            modeloTablaClaseProfesor.addColumn("Nombre");
-            modeloTablaClaseProfesor.addColumn("Apellido");
-            Object[] fila = new Object[3];
+            Object[] fila = new Object[1];
 
             for (ClaseProfesor claseProfe : miControlador.getListaClaseProfesor()) {
                 if (claseProfe.getEstado().equalsIgnoreCase("ACTIVO")) {
-                    fila[0] = claseProfe;
-                    fila[1] = claseProfe.getProfesor();
-                    fila[2] = claseProfe.getProfesor().getApellidoprofesor();
+                    fila[0] = claseProfe;                    
                     modeloTablaClaseProfesor.addRow(fila);
                 }
             }
@@ -143,7 +139,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaHorarios = new javax.swing.JTable();
-        btnNuevo1 = new javax.swing.JButton();
+        btnModificarHorario = new javax.swing.JButton();
         btnEliminarHorario = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnCerrar = new javax.swing.JButton();
@@ -238,10 +234,10 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tablaHorarios);
 
-        btnNuevo1.setText("<HTML><CENTER>MODIFICAR<BR>HORARIO</CENTER></HTML>");
-        btnNuevo1.addActionListener(new java.awt.event.ActionListener() {
+        btnModificarHorario.setText("<HTML><CENTER>MODIFICAR<BR>HORARIO</CENTER></HTML>");
+        btnModificarHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevo1ActionPerformed(evt);
+                btnModificarHorarioActionPerformed(evt);
             }
         });
 
@@ -258,7 +254,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(112, Short.MAX_VALUE)
-                .addComponent(btnNuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnModificarHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEliminarHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
@@ -274,7 +270,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificarHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminarHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21))
         );
@@ -486,26 +482,27 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnEliminarHorarioActionPerformed
 
-    private void btnNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevo1ActionPerformed
-        if (profesorSeleccionado != null && modalidadSeleccionada != null && claseSeleccionada != null) {
+    private void btnModificarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarHorarioActionPerformed
+        if(!tablaClasesProfesores.getSelectionModel().isSelectionEmpty()){
             cambiarPanel(panelPrincipal, panelClaseProfesorHorario);
             List<HorarioProfesor> horarios = new ArrayList<>();
             for (int i = 0; i < modeloTablaHorarios.getRowCount(); i++) {
                 horarios.add((HorarioProfesor) tablaHorarios.getValueAt(i, 0));
             }
+            claseProfesor = (ClaseProfesor)tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(),0);
             panelClaseProfesorHorario.recibirDatos(claseProfesor, profesorSeleccionado, modalidadSeleccionada, claseSeleccionada, horarios);
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione una clase para agregar un horario");
         }
-    }//GEN-LAST:event_btnNuevo1ActionPerformed
+    }//GEN-LAST:event_btnModificarHorarioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnEliminarClase;
     private javax.swing.JButton btnEliminarHorario;
+    private javax.swing.JButton btnModificarHorario;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnNuevo1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
