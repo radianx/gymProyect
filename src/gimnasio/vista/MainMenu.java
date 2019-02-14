@@ -148,6 +148,10 @@ public class MainMenu extends javax.swing.JFrame {
     public void cerrarSesion() {
         allOptions(false);
         usuarioLogueado = null;
+        JInternalFrame[] frames = jDesktopPane1.getAllFrames();
+        for(JInternalFrame fr:frames){
+            fr.dispose();
+        }
         jInternalLogueo login = new jInternalLogueo(miControlador);
         jDesktopPane1.add(login);
         login.setVisible(true);

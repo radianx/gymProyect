@@ -79,4 +79,9 @@ public class ControladorAlumno {
         return retorno;
     }
 
+    public void activarAlumno(Alumno unAlumno) throws Notificaciones{
+        unAlumno.setEstado("ACTIVO");
+        miPersistencia.actualizarInstancia(unAlumno);
+    }
+
 }

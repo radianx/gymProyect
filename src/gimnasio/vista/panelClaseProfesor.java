@@ -92,22 +92,19 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     }
     
     public void cargarComboModalidades(Profesor unProfesor){
-        List<Modalidad> listaModalidades = new ArrayList<>();
         Modalidad unaModalidad;
         try{
             for (Profesormodalidad profeModa : unProfesor.getProfesorModalidads()) {
                 if (profeModa.getEstado().equalsIgnoreCase("ACTIVO")) {
                     unaModalidad = profeModa.getModalidad();
                     if (unaModalidad.getEstado().equalsIgnoreCase("ACTIVO")) {
-                        listaModalidades.add(unaModalidad);
+                        cmbModalidad.addItem(unaModalidad.getNombremodalidad());
                     }
                 }
             }
         }catch(NullPointerException e){
             System.out.println("CargarComboModalidades: valor nulo para unProfesor: "+e);
         }
-        DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel(listaModalidades.toArray());
-        this.cmbModalidad.setModel(modeloCombo);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -298,7 +295,7 @@ public class panelClaseProfesor extends javax.swing.JPanel {
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
        try{
            Profesor unProfe = (Profesor) cmbProfesores.getSelectedItem();
-           Modalidad unaModalidad = (Modalidad) cmbModalidad.getSelectedItem();
+           Modalidad unaModalidad = miControlador.dameModalidad(String.valueOf(cmbModalidad.getSelectedItem()));
            Clase unaClase = miControlador.dameClase(String.valueOf(cmbClase.getSelectedItem()));
            List<HorarioProfesor> horarios = new ArrayList<>();
            otroPanel.recibirDatos(null,unProfe, unaModalidad, unaClase, horarios);

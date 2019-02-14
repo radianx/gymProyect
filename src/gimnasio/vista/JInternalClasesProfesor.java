@@ -442,7 +442,8 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_panelPrincipalMouseEntered
 
     private void panelPrincipalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelPrincipalComponentShown
-
+        this.cargarTablaClaseProfesores();
+        this.cargarTablaHorarios();
     }//GEN-LAST:event_panelPrincipalComponentShown
 
     private void tablaClasesProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesProfesoresMouseClicked
@@ -467,7 +468,7 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaHorariosMouseClicked
 
     private void tablaClasesProfesoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClasesProfesoresMouseEntered
-        cargarTablaClaseProfesores();
+
     }//GEN-LAST:event_tablaClasesProfesoresMouseEntered
 
     private void btnEliminarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarHorarioActionPerformed
@@ -490,6 +491,9 @@ public class JInternalClasesProfesor extends javax.swing.JInternalFrame {
                 horarios.add((HorarioProfesor) tablaHorarios.getValueAt(i, 0));
             }
             claseProfesor = (ClaseProfesor)tablaClasesProfesores.getValueAt(tablaClasesProfesores.getSelectedRow(),0);
+            profesorSeleccionado = claseProfesor.getProfesor();
+            modalidadSeleccionada = claseProfesor.getModalidad();
+            claseSeleccionada = claseProfesor.getClase();
             panelClaseProfesorHorario.recibirDatos(claseProfesor, profesorSeleccionado, modalidadSeleccionada, claseSeleccionada, horarios);
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione una clase para agregar un horario");

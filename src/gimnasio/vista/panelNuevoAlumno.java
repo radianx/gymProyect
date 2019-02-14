@@ -5,7 +5,6 @@
  */
 package gimnasio.vista;
 
-import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
@@ -14,22 +13,12 @@ import gimnasio.modelo.Contacto;
 import gimnasio.modelo.Obrasocial;
 import gimnasio.modelo.Usuario;
 import java.awt.HeadlessException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -51,14 +40,17 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     ControladorPrincipal miControlador;
     String text = "";
     Usuario usuarioSeleccionado;
+    boolean recibido = false;
     
     public panelNuevoAlumno(ControladorPrincipal controlador) {
         this.miControlador =controlador;
         
         initComponents();
         this.btnActivar.setEnabled(false);
-        cargarTabla();
-        cargarCombo();
+        SwingUtilities.invokeLater(()->{
+            cargarTabla();
+            cargarCombo();
+        });
         Locale locale = new Locale("es", "ES");
         DatePickerSettings settings = new DatePickerSettings(locale);
         settings.setFormatForDatesCommonEra("dd/MM/yyyy");
@@ -69,6 +61,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
     }
 
     public void recibirDatos(Alumno unAlumno) throws IOException{
+        recibido = true;
         alumnoSeleccionado = unAlumno;
         LocalDate fecha = Instant.ofEpochMilli(unAlumno.getFechanacimiento().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         this.datePicker1.setDate(fecha);
@@ -141,6 +134,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             rowSorter = new TableRowSorter<>(this.tablaAlumnosInactivos.getModel());
             tablaAlumnosInactivos.setRowSorter(rowSorter);
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -406,7 +400,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -459,7 +453,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -491,6 +485,10 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
+            if(recibido == true){
+                System.out.println("Se actualizo un registro de alumno");
+                recibido = false;
+            }
             if (usuarioSeleccionado != null) {
                 Date fecha = Date.from(this.datePicker1.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 String nombre = txtNombre.getText();
@@ -522,7 +520,8 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                     alumnoSeleccionado.setNombrealumno(nombre);
                     alumnoSeleccionado.setObrasocial(unaOS);
                     alumnoSeleccionado.setPeso(peso);
-                    miControlador.altaAlumno(alumnoSeleccionado);
+                    alumnoSeleccionado.setUsuario(usuarioSeleccionado);
+                    miControlador.activarAlumno(alumnoSeleccionado);
                 }
                 
                 jInternalAlumno usuarios = (jInternalAlumno) this.getParent().getParent().getParent().getParent().getParent();
@@ -551,7 +550,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario.");
             }
         } catch (Notificaciones | HeadlessException | NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar una obra social");
+            JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -568,7 +567,7 @@ public class panelNuevoAlumno extends javax.swing.JPanel {
         try {
             Alumno unAlumno = (Alumno) this.tablaAlumnosInactivos.getValueAt(this.tablaAlumnosInactivos.getSelectedRow(), 0);
             unAlumno.setEstado("ACTIVO");
-            miControlador.altaAlumno(unAlumno);
+            miControlador.activarAlumno(unAlumno);
             SwingUtilities.invokeLater(new Runnable(){public void run(){
                            cargarTabla(); 
             }});

@@ -43,7 +43,7 @@ public class ControladorModalidad {
         return this.listaModalidades;
     }
     
-    public Modalidad buscarModalidad (String nombreModalidad){
+    public Modalidad buscarModalidad (String nombreModalidad) throws Notificaciones{
         Modalidad unaModalidad = null;
         for(Modalidad miModalidad : this.listaModalidades){
             if(miModalidad.getNombremodalidad().equalsIgnoreCase(nombreModalidad)){
@@ -51,7 +51,11 @@ public class ControladorModalidad {
                 break;
             }
         }
-        return unaModalidad;
+        if(unaModalidad != null){
+            return unaModalidad;
+        }else{
+            throw new Notificaciones("No se encontro la modalidad");
+        }
     }
     
     public Modalidad buscarModalidad(int idModalidad){

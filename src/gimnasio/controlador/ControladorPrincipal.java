@@ -607,4 +607,12 @@ public class ControladorPrincipal {
         this.controladorAsistenciaProfesor.marcarSalidas();
     }
 
+    public Modalidad dameModalidad(String valueOf) throws Notificaciones{
+        return this.controladorModalidad.buscarModalidad(valueOf);
+    }
+
+    public void activarAlumno(Alumno unAlumno) throws Notificaciones {
+        this.controladorAlumno.activarAlumno(unAlumno);
+    }
+
 }
