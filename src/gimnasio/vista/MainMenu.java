@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -1137,27 +1138,32 @@ public class MainMenu extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void setAcceso() {
-        if (usuarioLogueado != null) {
-            if(usuarioLogueado.getEstado().equalsIgnoreCase("SUPER")){
-                allOptions(true);
-                this.jMIModificarCajas.setEnabled(true);
-            }
-            
-            if (usuarioLogueado.getEstado().equalsIgnoreCase("ADMIN")) {
-                allOptions(true);
-            }
-            if (usuarioLogueado.getEstado().equalsIgnoreCase("OPERADOR")) {
-                operadorOptions(true);
-            }
-            if (usuarioLogueado.getEstado().equalsIgnoreCase("ACTIVO")) {
-                allOptions(false);
-                JOptionPane.showMessageDialog(null, "Usuario sin permisos operativos");
-                jInternalLogueo login = new jInternalLogueo(miControlador);
-                this.jDesktopPane1.add(login);
-                login.setVisible(true);
+        LocalDate caucacion = LocalDate.of(2019, 03, 18);
+        if (LocalDate.now().isBefore(caucacion)) {
+            if (usuarioLogueado != null) {
+                if (usuarioLogueado.getEstado().equalsIgnoreCase("SUPER")) {
+                    allOptions(true);
+                    this.jMIModificarCajas.setEnabled(true);
+                }
+
+                if (usuarioLogueado.getEstado().equalsIgnoreCase("ADMIN")) {
+                    allOptions(true);
+                }
+                if (usuarioLogueado.getEstado().equalsIgnoreCase("OPERADOR")) {
+                    operadorOptions(true);
+                }
+                if (usuarioLogueado.getEstado().equalsIgnoreCase("ACTIVO")) {
+                    allOptions(false);
+                    JOptionPane.showMessageDialog(null, "Usuario sin permisos operativos");
+                    jInternalLogueo login = new jInternalLogueo(miControlador);
+                    this.jDesktopPane1.add(login);
+                    login.setVisible(true);
+                }
+            } else {
+                opcionesDefault();
             }
         } else {
-            opcionesDefault();
+            JOptionPane.showMessageDialog(null, "Se agoto el modo de prueba");
         }
     }
 
