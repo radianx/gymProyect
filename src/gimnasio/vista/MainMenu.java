@@ -1138,8 +1138,8 @@ public class MainMenu extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void setAcceso() {
-        LocalDate caucacion = LocalDate.of(2019, 03, 18);
-        if (LocalDate.now().isBefore(caucacion)) {
+        LocalDate caducacion = LocalDate.of(2019, 03, 18);
+        if (LocalDate.now().isBefore(caducacion)) {
             if (usuarioLogueado != null) {
                 if (usuarioLogueado.getEstado().equalsIgnoreCase("SUPER")) {
                     allOptions(true);
