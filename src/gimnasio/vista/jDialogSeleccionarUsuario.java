@@ -114,6 +114,11 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tablaUsuarios);
 
+        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarActionPerformed(evt);
+            }
+        });
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarKeyReleased(evt);
@@ -256,6 +261,10 @@ public class jDialogSeleccionarUsuario extends javax.swing.JDialog {
             cargarTabla();
         });
     }//GEN-LAST:event_formFocusGained
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

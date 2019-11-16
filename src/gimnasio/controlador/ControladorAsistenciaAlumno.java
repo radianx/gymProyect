@@ -35,7 +35,6 @@ public class ControladorAsistenciaAlumno {
     
     public void altaAsistenciaAlumno(boolean manual,ClaseAlumno claseAlumno, Date fecha) throws Notificaciones{
 //       listaAsistenciasAlumnos = persistencia.getAsistenciaAlumno();
-        persistencia.actualizarInstancias();
         //ver si no existe una Asistencia entrada dentro del rango de 2 horas en el pasado
         //y si existe pero esta fuera del rango entonces marcar salida
         persistencia.actualizarInstancias();

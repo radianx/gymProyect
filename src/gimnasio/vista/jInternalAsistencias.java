@@ -6,7 +6,6 @@
 package gimnasio.vista;
 
 import com.github.lgooddatepicker.components.DatePickerSettings;
-import com.sun.glass.ui.Window;
 import gimnasio.controlador.ControladorPrincipal;
 import gimnasio.herramientas.excepciones.Notificaciones;
 import gimnasio.modelo.Alumno;

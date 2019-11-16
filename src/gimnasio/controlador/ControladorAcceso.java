@@ -55,18 +55,24 @@ public class ControladorAcceso {
     List<Cuota> listaCuotas;
 
     public ControladorAcceso(ControladorPrincipal miControlador) {
-        this.miControlador = miControlador;
-    }
-
-    public void verificarAcceso(JTextField texto, DefaultTableModel modeloTabla, JTable tabla, Usuario miUsuario) {
         try {
-            System.out.println("Verificando acceso: ");
+            this.miControlador = miControlador;
             listaAlumnos = miControlador.getListaAlumnos();
             listaProfesores = miControlador.getListaProfesores();
             listaClasesAlumnos = miControlador.getListaClasesAlumnos();
             listaClasesProfesores = miControlador.getListaClaseProfesor();
             listaHorariosProfesores = miControlador.getListaHorarios();
             listaAsistenciasAlumnos = miControlador.getListaAsistenciaAlumno();
+        } catch (Notificaciones ex) {
+            JOptionPane.showMessageDialog(null, "Excepcion de inicializacion del controlador de acceso");
+            ex.printStackTrace();
+        }
+    }
+
+    public void verificarAcceso(JTextField texto, DefaultTableModel modeloTabla, JTable tabla, Usuario miUsuario) {
+        try {
+            System.out.println("Verificando acceso: ");
+
             //       listaAsistenciasProfesores = miControlador.getListaAsistenciaProfesor();
 
             LocalTime ahora = LocalTime.now();
@@ -85,15 +91,9 @@ public class ControladorAcceso {
                 System.out.println("ALUMNO DETECTADO");
                 for (Alumno unAlu : listaAlumnosUsuario) {
                     System.out.println("For alumno: "+unAlu.getNombrealumno());
-                    for (ClaseAlumno claseAlu : listaClasesAlumnos) {
-                        System.out.println("For ClaseAlumno: "+claseAlu);
-                        System.out.println("Alumno de claseAlumno: "+claseAlu.getAlumno().getNombrealumno());
-                        System.out.println("Id del alumno: "+claseAlu.getAlumno().getIdalumno());
-                        System.out.println("Id del ALUMNO DETECTADO: "+unAlu.getIdalumno());
-                        if (claseAlu.getAlumno().getIdalumno() == unAlu.getIdalumno()) {
-                            System.out.println("Correcto, agregando a listaBuscarClaseAlumno");
-                            listaBuscarClaseAlumno.add(claseAlu);
-                        }
+                    for (ClaseAlumno claseAlu : unAlu.getClaseAlumnos()) {
+                        System.out.println("Correcto, agregando a listaBuscarClaseAlumno");
+                        listaBuscarClaseAlumno.add(claseAlu);
                     }
                 }
                 if(listaBuscarClaseAlumno.isEmpty()){
@@ -104,84 +104,81 @@ public class ControladorAcceso {
                     for (ClaseAlumno claseAlu : listaBuscarClaseAlumno) {
                         listaHorariosAlumnos = miControlador.getListaHorariosAlumno(claseAlu);
                         for (HorarioAlumno horario : listaHorariosAlumnos) {
-                            if (horario.getClaseAlumno().getIdclasealumno() == claseAlu.getIdclasealumno()) {
-                                System.out.println("Verificando horario de clase...");
-                                LocalTime horarioInicio = Instant.ofEpochMilli(horario
-                                        .getInicio()
-                                        .getTime())
-                                        .atZone(ZoneId.systemDefault())
-                                        .toLocalTime();
-                                horarioInicio.minusMinutes(15);
+                            System.out.println("Verificando horario de clase...");
+                            LocalTime horarioInicio = Instant.ofEpochMilli(horario
+                                    .getInicio()
+                                    .getTime())
+                                    .atZone(ZoneId.systemDefault())
+                                    .toLocalTime();
+                            horarioInicio.minusMinutes(15);
 
-                                LocalTime horarioFin = Instant.ofEpochMilli(horario
-                                        .getFin()
-                                        .getTime())
-                                        .atZone(ZoneId.systemDefault())
-                                        .toLocalTime();
-                                horarioFin.plusMinutes(15);
-                                System.out.println("HORARIO ACTUAL: "+ahora);
-                                System.out.println("HORARIO INICIO CLASE: "+horarioInicio);
-                                System.out.println("HORARIO FIN CLASE: "+horarioFin);
-                                if (horarioInicio.isBefore(ahora)
-                                        && horarioFin.isAfter(ahora)) {
-                                    System.out.println("Correcto\n Verificando cantidad de asistencias...");
-                                    int contador = 0;
+                            LocalTime horarioFin = Instant.ofEpochMilli(horario
+                                    .getFin()
+                                    .getTime())
+                                    .atZone(ZoneId.systemDefault())
+                                    .toLocalTime();
+                            horarioFin.plusMinutes(15);
+                            System.out.println("HORARIO ACTUAL: " + ahora);
+                            System.out.println("HORARIO INICIO CLASE: " + horarioInicio);
+                            System.out.println("HORARIO FIN CLASE: " + horarioFin);
+                            if (horarioInicio.isBefore(ahora)
+                                    && horarioFin.isAfter(ahora)) {
+                                System.out.println("Correcto\n Verificando cantidad de asistencias...");
+                                int contador = 0;
 
-                                    for (AsistenciaAlumno asistencia : listaAsistenciasAlumnos) {
-                                        if (asistencia.getEstado().equalsIgnoreCase("ACTIVO")) {
-                                            if (asistencia.getClaseAlumno().getIdclasealumno() == claseAlu.getIdclasealumno()) {
-                                                contador++;
-                                            }
+                                for (AsistenciaAlumno asistencia : listaAsistenciasAlumnos) {
+                                    if (asistencia.getEstado().equalsIgnoreCase("ACTIVO")) {
+                                        if (asistencia.getClaseAlumno().getIdclasealumno() == claseAlu.getIdclasealumno()) {
+                                            contador++;
                                         }
                                     }
-                                    if (contador > claseAlu.getDiasPorSemana()) {
-                                        JOptionPane.showMessageDialog(null, "El alumno supero la cantidad de clases habilitadas"
-                                                + "\nDebe registrar una asistencia manual.");
-                                        System.out.println("Supera asistencias maximas");
-                                    }
+                                }
+                                if (contador > claseAlu.getDiasPorSemana()) {
+                                    JOptionPane.showMessageDialog(null, "El alumno supero la cantidad de clases habilitadas"
+                                            + "\nDebe registrar una asistencia manual.");
+                                    System.out.println("Supera asistencias maximas");
+                                }
 
-                                    listaCuotas = miControlador.getCuotasDeAlumno(claseAlu.getAlumno());
-                                    int selector = listaCuotas.size();
-                                    System.out.println("cantidad de cuotas del alumno: "+selector);
-                                    Cuota cuota = null;
-                                    try{
-                                        cuota = listaCuotas.get(selector - 2);
-                                    }catch(ArrayIndexOutOfBoundsException e){
-                                        textoMostrar="Alumno no posee cuotas en condiciones, acceso denegado.";
-                                        break;
-                                    }
-                                    System.out.println("id de la cuota seleccionada: "+cuota.getIdcuota());
-                                    System.out.println("estado de la cuota: "+cuota.getEstado());
-                                    LocalDate fecha = LocalDate.now();
-                                    LocalDate vencimiento = Instant.ofEpochMilli(cuota.getVencimiento().getTime())
-                                            .atZone(ZoneId.systemDefault())
-                                            .toLocalDate();
-                                    if (cuota.getEstado().equalsIgnoreCase("PAGADO")
-                                            && fecha.isBefore(vencimiento.plusDays(3)
-                                                    .with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY)))) {
-                                        acceso = true;
-
-                                        Object[] fila = new Object[3];
-                                        fila[0] = miUsuario;
-                                        Date ahorag = new Date();
-                                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-                                        fila[1] = sdf.format(ahorag);
-                                        fila[2] = miUsuario.getEstado();
-                                        modeloTabla.insertRow(0, fila);
-                                        miControlador.nuevoIngresoPuerta(ahorag, miUsuario, modeloTabla, tabla);
-                                        
-
-                                        miControlador.altaAsistenciaAlumno(claseAlu, new Date());
-                                        break;
-                                    }
-                                    if(cuota.getEstado().equalsIgnoreCase("GENERADO")){
-                                        textoMostrar="Alumno adeuda cuota, acceso denegado.";
-                                        break;
-                                    }
-                                }else{
-                                    textoMostrar ="Alumno fuera de horario, acceso denegado.";
+                                listaCuotas = miControlador.getCuotasDeAlumno(claseAlu.getAlumno());
+                                int selector = listaCuotas.size();
+                                System.out.println("cantidad de cuotas del alumno: " + selector);
+                                Cuota cuota = null;
+                                try {
+                                    cuota = listaCuotas.get(selector - 2);
+                                } catch (ArrayIndexOutOfBoundsException e) {
+                                    textoMostrar = "Alumno no posee cuotas en condiciones, acceso denegado.";
                                     break;
                                 }
+                                System.out.println("id de la cuota seleccionada: " + cuota.getIdcuota());
+                                System.out.println("estado de la cuota: " + cuota.getEstado());
+                                LocalDate fecha = LocalDate.now();
+                                LocalDate vencimiento = Instant.ofEpochMilli(cuota.getVencimiento().getTime())
+                                        .atZone(ZoneId.systemDefault())
+                                        .toLocalDate();
+                                if (cuota.getEstado().equalsIgnoreCase("PAGADO")
+                                        && fecha.isBefore(vencimiento.plusDays(3)
+                                                .with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY)))) {
+                                    acceso = true;
+
+                                    Object[] fila = new Object[3];
+                                    fila[0] = miUsuario;
+                                    Date ahorag = new Date();
+                                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+                                    fila[1] = sdf.format(ahorag);
+                                    fila[2] = miUsuario.getEstado();
+                                    modeloTabla.insertRow(0, fila);
+                                    miControlador.nuevoIngresoPuerta(ahorag, miUsuario, modeloTabla, tabla);
+
+                                    miControlador.altaAsistenciaAlumno(claseAlu, new Date());
+                                    break;
+                                }
+                                if (cuota.getEstado().equalsIgnoreCase("GENERADO")) {
+                                    textoMostrar = "Alumno adeuda cuota, acceso denegado.";
+                                    break;
+                                }
+                            } else {
+                                textoMostrar = "Alumno fuera de horario, acceso denegado.";
+                                break;
                             }
                         }
                     }

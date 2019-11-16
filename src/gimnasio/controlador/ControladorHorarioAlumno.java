@@ -35,7 +35,7 @@ public class ControladorHorarioAlumno {
     }
 
     public List<HorarioAlumno> getListaHorariosAlumno(ClaseAlumno clase) throws Notificaciones {
-        listaHorariosAlumnos = miPersistencia.getHorariosAlumnos();
+        listaHorariosAlumnos = miPersistencia.getHorarioClaseAlumno(clase);
         List<HorarioAlumno> retorno = new ArrayList<>();
         System.out.println("ControladorHorarioAlumno getListaHorariosAlumno");
         System.out.println("For claseAlumno: " + clase);

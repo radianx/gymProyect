@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
@@ -133,13 +134,8 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
         modeloTablaCuotas.addColumn("Monto");
         Object[] fila = new Object[5];
         boolean tieneCuotasPagadas = false;
-        List<Cuota>cuotasAlu = null;
-        try{
-            cuotasAlu = miControlador.getCuotasDeAlumno(unAlumno);
-        }catch(Notificaciones ex){
-            JOptionPane.showMessageDialog(null,ex.getMessage());
-            ex.printStackTrace();
-        }
+        Set<Cuota>cuotasAlu = null;
+        cuotasAlu = unAlumno.getCuotas();
         if (unAlumno.getCuotas() != null) {
             if (unAlumno.getCuotas().size() >= 1) {
                 for (Cuota cuota : cuotasAlu) {
@@ -178,7 +174,7 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
                 modeloTablaCuotas = new DefaultTableModel();
                 modeloTablaCuotas.addColumn("Mensaje");
                 Object[] rowData = new Object[1];
-                rowData[0] = "El alumno Seleccionado no esta inscripto a ninunga clase actualmente.";
+                rowData[0] = "El alumno Seleccionado no esta inscripto a ninguna clase actualmente.";
                 modeloTablaCuotas.addRow(rowData);
             }
         } else {
@@ -287,6 +283,9 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaAlumnosMouseClicked(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaAlumnosMouseReleased(evt);
+            }
         });
         jScrollPane1.setViewportView(tablaAlumnos);
 
@@ -306,6 +305,9 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
         tablaCuotas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaCuotasMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaCuotasMouseReleased(evt);
             }
         });
         jScrollPane2.setViewportView(tablaCuotas);
@@ -400,13 +402,7 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void tablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseClicked
-        if(!tablaAlumnos.getSelectionModel().isSelectionEmpty()){
-            Alumno unAlu = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
-            alumnoSeleccionado = unAlu;
-                cargarTablaCuotas(unAlu);
-                cargarTablaHorarios(unAlu);
 
-        }
     }//GEN-LAST:event_tablaAlumnosMouseClicked
 
     private void btnNuevaCuotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaCuotaActionPerformed
@@ -482,10 +478,26 @@ public class JInternalAlumnosCuotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNuevaCuota1ActionPerformed
 
     private void tablaCuotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCuotasMouseClicked
+
+    }//GEN-LAST:event_tablaCuotasMouseClicked
+
+    private void tablaAlumnosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAlumnosMouseReleased
+        if(!tablaAlumnos.getSelectionModel().isSelectionEmpty()){
+            Alumno unAlu = (Alumno) tablaAlumnos.getValueAt(tablaAlumnos.getSelectedRow(), 0);
+            System.out.println("Alumno seleccionado: "+unAlu.getNombrealumno() + " " + unAlu.getApellidoalumno());
+            System.out.println("Id del alumno: "+unAlu.getIdalumno());
+            alumnoSeleccionado = unAlu;
+                cargarTablaCuotas(unAlu);
+                cargarTablaHorarios(unAlu);
+
+        }
+    }//GEN-LAST:event_tablaAlumnosMouseReleased
+
+    private void tablaCuotasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCuotasMouseReleased
         if(!this.tablaCuotas.getSelectionModel().isSelectionEmpty()){
             cuotaSeleccionada = (Cuota) tablaCuotas.getValueAt(tablaCuotas.getSelectedRow(),1);
         }
-    }//GEN-LAST:event_tablaCuotasMouseClicked
+    }//GEN-LAST:event_tablaCuotasMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

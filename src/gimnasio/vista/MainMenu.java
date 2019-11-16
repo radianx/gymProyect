@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -34,34 +35,38 @@ public class MainMenu extends javax.swing.JFrame {
     public static Usuario usuarioLogueado;
     public static boolean cajaAbierta = false;
     public static final ControladorRele rele = new ControladorRele();
-    
+    public boolean notificado = false;
+
     public static ControladorPrincipal miControlador;
     public static volatile ControladorHuella lector;
 
     public static void cobrarCuota(Alumno alumnoSeleccionado) {
-            jInternalCobroCuotas panelCuotas = new jInternalCobroCuotas(miControlador,alumnoSeleccionado);
-            jDesktopPane1.add(panelCuotas);
-            panelCuotas.setVisible(true);
-            panelCuotas.toFront();        
+        jInternalCobroCuotas panelCuotas = new jInternalCobroCuotas(miControlador, alumnoSeleccionado);
+        jDesktopPane1.add(panelCuotas);
+        panelCuotas.setVisible(true);
+        panelCuotas.toFront();
+    }
+    
+    public static void actualizarListaDeUsuarios() throws Notificaciones{
+        lector.recargarUsuarios();
     }
 
     boolean mostrar = false;
     public static Boolean detenerEscaner = true;
-
 
     /**
      * Creates new form MainMenu
      *
      * @param controlador
      */
-    public MainMenu(ControladorPrincipal controlador) {
+    public MainMenu(ControladorPrincipal controlador) throws Notificaciones {
         this.miControlador = controlador;
-        initComponents();     
+        initComponents();
         this.btnAsistencia.setEnabled(mostrar);
         this.btnCuotas.setEnabled(mostrar);
         this.btnUsuarios.setEnabled(mostrar);
         this.comprobarAperturaCaja();
-        
+
         lector = new ControladorHuella(miControlador, controlador.getMiPersistencia(), this.txtHabilitado, this.lblFoto, this.tablaAsistencias);
         jScrollPane2.getVerticalScrollBar().setValue(jScrollPane2.getVerticalScrollBar().getMaximum());
         Thread thread_object = new Thread(lector);
@@ -79,10 +84,9 @@ public class MainMenu extends javax.swing.JFrame {
 
         opcionesDefault();
     }
-    
 
     public static void iniciarEscaner() {
-        synchronized(lector){
+        synchronized (lector) {
             lector.start();
         }
     }
@@ -99,7 +103,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     public static void nuevoMovimiento(Alumno elAlumno, Cuota cuota, Double abono, boolean esSaldo) {
-        
+
         jInternalMovimiento movimiento = new jInternalMovimiento(miControlador, elAlumno, cuota, abono, esSaldo);
         jDesktopPane1.add(movimiento);
         movimiento.setVisible(true);
@@ -145,20 +149,19 @@ public class MainMenu extends javax.swing.JFrame {
         cajaAbierta = b;
     }
 
-
     public void cerrarSesion() {
         allOptions(false);
         usuarioLogueado = null;
         JInternalFrame[] frames = jDesktopPane1.getAllFrames();
-        for(JInternalFrame fr:frames){
+        for (JInternalFrame fr : frames) {
             fr.dispose();
         }
         jInternalLogueo login = new jInternalLogueo(miControlador);
         jDesktopPane1.add(login);
         login.setVisible(true);
         opcionesDefault();
-    }    
-    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -729,7 +732,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMICerrarSesionActionPerformed
 
     private void btnCuotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuotasActionPerformed
-         if (!existeFrame(jInternalCobroCuotas.class)) {
+        if (!existeFrame(jInternalCobroCuotas.class)) {
             jInternalCobroCuotas panelCuotas = new jInternalCobroCuotas(this.miControlador);
             this.jDesktopPane1.add(panelCuotas);
             panelCuotas.setVisible(true);
@@ -756,7 +759,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     private void btnAbrirPuertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirPuertaActionPerformed
-        synchronized(rele){
+        synchronized (rele) {
             try {
                 rele.abrirPuerta();
             } catch (InterruptedException ex) {
@@ -770,7 +773,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
-        synchronized(rele){
+        synchronized (rele) {
             try {
                 rele.abrirPuerta();
             } catch (InterruptedException ex) {
@@ -780,18 +783,18 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem24ActionPerformed
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
-        synchronized(lector){
+        synchronized (lector) {
             this.txtHabilitado.setText(lector.getEstado());
         }
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
     private void jMIUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIUsuariosActionPerformed
-        synchronized(lector){
+        synchronized (lector) {
             lector.stop();
         }
         this.detenerEscaner = false;
         if (!existeFrame(jInternalUsuarios.class)) {
-            jInternalUsuarios panelUsuarios = new jInternalUsuarios(false,miControlador);
+            jInternalUsuarios panelUsuarios = new jInternalUsuarios(false, miControlador);
 
             this.jDesktopPane1.add(panelUsuarios);
             panelUsuarios.setVisible(true);
@@ -800,7 +803,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void jMIUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMIUsuariosMouseClicked
         if (!existeFrame(jInternalUsuarios.class)) {
-            jInternalUsuarios panelUsuarios = new jInternalUsuarios(false,miControlador);
+            jInternalUsuarios panelUsuarios = new jInternalUsuarios(false, miControlador);
             this.jDesktopPane1.add(panelUsuarios);
             panelUsuarios.setVisible(true);
         }
@@ -1138,32 +1141,28 @@ public class MainMenu extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void setAcceso() {
-        LocalDate caducacion = LocalDate.of(2019, 03, 18);
-        if (LocalDate.now().isBefore(caducacion)) {
-            if (usuarioLogueado != null) {
-                if (usuarioLogueado.getEstado().equalsIgnoreCase("SUPER")) {
-                    allOptions(true);
-                    this.jMIModificarCajas.setEnabled(true);
-                }
-
-                if (usuarioLogueado.getEstado().equalsIgnoreCase("ADMIN")) {
-                    allOptions(true);
-                }
-                if (usuarioLogueado.getEstado().equalsIgnoreCase("OPERADOR")) {
-                    operadorOptions(true);
-                }
-                if (usuarioLogueado.getEstado().equalsIgnoreCase("ACTIVO")) {
-                    allOptions(false);
-                    JOptionPane.showMessageDialog(null, "Usuario sin permisos operativos");
-                    jInternalLogueo login = new jInternalLogueo(miControlador);
-                    this.jDesktopPane1.add(login);
-                    login.setVisible(true);
-                }
-            } else {
-                opcionesDefault();
+        if (usuarioLogueado != null) {
+            if (usuarioLogueado.getEstado().equalsIgnoreCase("SUPER")) {
+                allOptions(true);
+                this.jMIModificarCajas.setEnabled(true);
             }
+
+            if (usuarioLogueado.getEstado().equalsIgnoreCase("ADMIN")) {
+                allOptions(true);
+            }
+            if (usuarioLogueado.getEstado().equalsIgnoreCase("OPERADOR")) {
+                operadorOptions(true);
+            }
+            if (usuarioLogueado.getEstado().equalsIgnoreCase("ACTIVO")) {
+                allOptions(false);
+                JOptionPane.showMessageDialog(null, "Usuario sin permisos operativos");
+                jInternalLogueo login = new jInternalLogueo(miControlador);
+                this.jDesktopPane1.add(login);
+                login.setVisible(true);
+            }
+
         } else {
-            JOptionPane.showMessageDialog(null, "Se agoto el modo de prueba");
+            opcionesDefault();
         }
     }
 
@@ -1251,8 +1250,8 @@ public class MainMenu extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-    
-    public boolean existeFrame(Class c){
+
+    public boolean existeFrame(Class c) {
         Object[] frames = this.jDesktopPane1.getAllFrames();
         boolean yaExiste = false;
         for (Object frame : frames) {

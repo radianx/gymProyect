@@ -40,59 +40,58 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/gimnasio</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">postgres</property>
-        <property name="hibernate.enable_lazy_load_no_trans">true</property>
-        <property name="hibernate.connection.isolation">2</property>
-        
-                <!-- configuration pool via c3p0-->
-        <property name="hibernate.c3p0.acquire_increment">1</property>
-        <property name="hibernate.c3p0.idle_test_period">120</property> <!-- seconds -->
-        <property name="hibernate.c3p0.timeout">3600</property> <!-- seconds -->
-        <property name="hibernate.c3p0.max_size">50</property>
-        <property name="hibernate.c3p0.max_statements">0</property>
-        <property name="hibernate.c3p0.min_size">15</property>
-        
-        
-        <mapping resource="gimnasio/modelo/Saldopagoprofesor.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/SectorClase.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/UsuarioModulo.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/AsistenciaProfesor.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/CierreCajaDiaria.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/ClaseProfesor.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/SaldoCuota.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Cargo.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Cuota.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Clase.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Inscripcion.hbm.xml"/>
-        <mapping class="" file="" jar="" package="" resource="gimnasio/modelo/Cajadiaria.hbm.xml"/>
-        <mapping class="" file="" jar="" package="" resource="gimnasio/modelo/Profesormodalidad.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/PagoProfesor.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Contacto.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/ClaseAlumno.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Obrasocial.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Sector.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Profesor.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Alumno.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Modalidad.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/CobroCuota.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Modulo.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Sistema.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Personal.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/AperturaCajaDiaria.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Usuario.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/CargoPersonal.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/AsistenciaAlumno.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/HorarioProfesor.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/HorarioAlumno.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Movimiento.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Producto.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/Rubro.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/TipoMovimiento.hbm.xml"/>
-        <mapping resource="gimnasio/modelo/IngresosPuerta.hbm.xml"/>
-    </session-factory>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/gimnasio</property>
+    <property name="hibernate.connection.username">postgres</property>
+    <property name="hibernate.connection.password">C-bu464401</property>
+    <property name="hibernate.enable_lazy_load_no_trans">true</property>
+    <property name="hibernate.connection.isolation">2</property>
+    <!-- configuration pool via c3p0-->
+    <property name="hibernate.c3p0.acquire_increment">1</property>
+    <property name="hibernate.c3p0.idle_test_period">120</property>
+    <!-- seconds -->
+    <property name="hibernate.c3p0.timeout">3600</property>
+    <!-- seconds -->
+    <property name="hibernate.c3p0.max_size">50</property>
+    <property name="hibernate.c3p0.max_statements">0</property>
+    <property name="hibernate.c3p0.min_size">15</property>
+    <mapping resource="gimnasio/modelo/Saldopagoprofesor.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/SectorClase.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/UsuarioModulo.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/AsistenciaProfesor.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/CierreCajaDiaria.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/ClaseProfesor.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/SaldoCuota.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Cargo.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Cuota.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Clase.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Inscripcion.hbm.xml"/>
+    <mapping class="" file="" jar="" package="" resource="gimnasio/modelo/Cajadiaria.hbm.xml"/>
+    <mapping class="" file="" jar="" package="" resource="gimnasio/modelo/Profesormodalidad.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/PagoProfesor.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Contacto.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/ClaseAlumno.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Obrasocial.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Sector.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Profesor.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Alumno.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Modalidad.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/CobroCuota.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Modulo.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Sistema.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Personal.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/AperturaCajaDiaria.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Usuario.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/CargoPersonal.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/AsistenciaAlumno.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/HorarioProfesor.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/HorarioAlumno.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Movimiento.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Producto.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/Rubro.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/TipoMovimiento.hbm.xml"/>
+    <mapping resource="gimnasio/modelo/IngresosPuerta.hbm.xml"/>
+  </session-factory>
 </hibernate-configuration>

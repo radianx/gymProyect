@@ -448,6 +448,11 @@ public class panelNuevoUsuario extends javax.swing.JPanel {
         this.txtContrasena.setText("");
         this.txtNombre.setText("");
         this.txtHuella.setText("SIN CARGAR");
+        try {
+            MainMenu.actualizarListaDeUsuarios();
+        } catch (Notificaciones ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
